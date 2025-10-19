@@ -1,16 +1,95 @@
 {
-  "activities": [
+  "lessons": [
     {
-      "instruction": "Type the following sentence exactly as shown:",
-      "expected": "The quick brown fox jumps over the lazy dog."
+      "id": 1,
+      "title": "3-Letter Words — Set A",
+      "type": "typing",
+      "text": "cat dog pen man sun",
+      "minAccuracy": 98,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 1,
+      "timeLimitSec": 30,
+      "repeatPerSession": 3,
+      "hints": "Type slowly and accurately. Notice spacing.",
+      "nextId": 2
     },
     {
-      "instruction": "Type all home-row keys correctly:",
-      "expected": "asdf jkl;"
+      "id": 2,
+      "title": "4-Letter Words — Set A",
+      "type": "typing",
+      "text": "play jump walk gold lamp",
+      "minAccuracy": 97,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 2,
+      "timeLimitSec": 40,
+      "repeatPerSession": 3,
+      "hints": "Keep proper finger placement and watch punctuation.",
+      "nextId": 3
     },
     {
-      "instruction": "Type the alphabet in order:",
-      "expected": "abcdefghijklmnopqrstuvwxyz"
+      "id": 3,
+      "title": "Short Phrases",
+      "type": "typing",
+      "text": "go to school read the book",
+      "minAccuracy": 95,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 3,
+      "timeLimitSec": 60,
+      "repeatPerSession": 2,
+      "hints": "Pace yourself; include spaces and capitals.",
+      "nextId": 4
+    },
+    {
+      "id": 4,
+      "title": "Short Sentences",
+      "type": "typing",
+      "text": "The cat drinks milk. She runs fast.",
+      "minAccuracy": 95,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 4,
+      "timeLimitSec": 75,
+      "repeatPerSession": 2,
+      "hints": "Pay attention to punctuation and capitalization.",
+      "nextId": 5
+    },
+    {
+      "id": 5,
+      "title": "Rhymes & Repetitive Phrases",
+      "type": "typing",
+      "text": "Pat sat on a mat. Pat sat on a mat.",
+      "minAccuracy": 96,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 3,
+      "timeLimitSec": 60,
+      "repeatPerSession": 2,
+      "hints": "Rhythm helps — keep steady.",
+      "nextId": 6
+    },
+    {
+      "id": 6,
+      "title": "Small Paragraph",
+      "type": "typing",
+      "text": "Summer days are warm and bright. Children play in the park each morning.",
+      "minAccuracy": 95,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 6,
+      "timeLimitSec": 120,
+      "repeatPerSession": 1,
+      "hints": "Longer typing, keep focus on punctuation.",
+      "nextId": 7
+    },
+    {
+      "id": 7,
+      "title": "Idioms & Fixed Phrases",
+      "type": "typing",
+      "text": "Break the ice; hit the nail on the head; a piece of cake.",
+      "minAccuracy": 96,
+      "minConsecutivePasses": 2,
+      "maxErrorsAllowed": 4,
+      "timeLimitSec": 100,
+      "repeatPerSession": 1,
+      "hints": "Idioms have punctuation—type exactly.",
+      "nextId": null
     }
   ]
 }
