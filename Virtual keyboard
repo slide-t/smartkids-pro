@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Tutor | SmartKids Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .key {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin: 0.2rem;
+      background-color: #1e293b;
+      color: white;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .key.active {
+      background-color: #3b82f6;
+      transform: scale(1.05);
+    }
+    .key.correct {
+      background-color: #22c55e;
+    }
+    .key.wrong {
+      background-color: #ef4444;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-6">
+  <h1 class="text-2xl font-bold mb-4">Keyboard Tutor</h1>
+  
+  <div id="lessonTitle" class="text-lg mb-4 font-semibold"></div>
+  <div id="practiceText" class="text-xl mb-6 text-center tracking-widest"></div>
+  
+  <!-- Virtual Keyboard -->
+  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg">
+    <div class="flex justify-center">
+      <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">I</div><div class="key">O</div><div class="key">P</div>
+    </div>
+    <div class="flex justify-center">
+      <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key">L</div><div class="key">;</div>
+    </div>
+    <div class="flex justify-center">
+      <div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <button id="nextLessonBtn" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 hidden">Next Lesson</button>
+  </div>
+
+  <script src="keyboard.js"></script>
+</body>
+</html>
