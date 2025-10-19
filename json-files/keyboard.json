@@ -1,24 +1,19 @@
 {
-  "levels": [
+  "lessons": [
     {
-      "year": "Year 6",
-      "lessons": [
-        {
-          "title": "Three Letter Words",
-          "practice": ["cat", "dog", "sun", "pen", "fan"],
-          "keysNeeded": ["C","A","T","D","O","G","S","U","N","P","E","F"]
-        },
-        {
-          "title": "Short Sentences",
-          "practice": ["I can type.", "We play now.", "Go to bed."],
-          "keysNeeded": ["I","C","A","N","T","Y","P","E","W","L","O","B","D","SPACE","."]
-        },
-        {
-          "title": "Simple Rhymes",
-          "practice": ["Hop and stop.", "Run and fun.", "See the bee."],
-          "keysNeeded": ["H","O","P","A","N","D","S","T","R","U","F","E","B","SPACE","."]
-        }
-      ]
+      "title": "Lesson 1: Three-Letter Words",
+      "text": "cat dog sun",
+      "keys": ["C","A","T","D","O","G","S","U","N"," "]
+    },
+    {
+      "title": "Lesson 2: Short Sentences",
+      "text": "I can run fast",
+      "keys": ["I","C","A","N","R","U","F","S","T"," "]
+    },
+    {
+      "title": "Lesson 3: Rhymes and Phrases",
+      "text": "See the bee fly high",
+      "keys": ["S","E","T","H","B","F","L","Y","I","G"," ","E"]
     }
   ]
 }
