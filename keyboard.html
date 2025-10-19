@@ -6,17 +6,21 @@
   <title>Keyboard Tutor | SmartKids-Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Virtual key base style */
     .key {
-      @apply border rounded-lg p-2 w-8 h-8 flex items-center justify-center text-gray-700 bg-gray-100 shadow-sm transition;
+      @apply border rounded-lg p-2 w-10 h-10 flex items-center justify-center font-semibold transition-all duration-200 ease-in-out text-gray-700 bg-gray-100 opacity-20;
     }
-    .key.active {
-      @apply bg-blue-500 text-white scale-110;
+    .key.visible {
+      @apply opacity-100 bg-white shadow;
     }
     .key.correct {
       @apply bg-green-500 text-white;
     }
     .key.wrong {
       @apply bg-red-500 text-white;
+    }
+    .key.next {
+      @apply bg-blue-200 animate-pulse;
     }
     .highlighted {
       background-color: #dbeafe; /* blue-100 */
@@ -25,25 +29,23 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center py-10">
 
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center py-10">
   <h1 class="text-3xl font-bold text-blue-800 mb-6">Keyboard Tutor</h1>
 
-  <div id="activityContainer" class="w-full max-w-3xl bg-white rounded-2xl shadow-md p-6 space-y-6 text-center">
-    <p class="text-gray-600">Loading activities...</p>
+  <div id="activityContainer" class="w-full max-w-3xl bg-white rounded-2xl shadow-md p-6 text-center mb-10">
+    <p class="text-gray-600">Loading practice...</p>
   </div>
 
-  <!-- Virtual Keyboard -->
-  <div id="virtualKeyboard" class="mt-10 grid gap-1 text-sm font-semibold"></div>
+  <div id="virtualKeyboard" class="grid gap-1 text-sm font-semibold"></div>
 
   <script>
     const container = document.getElementById("activityContainer");
     const keyboardContainer = document.getElementById("virtualKeyboard");
-
     let activities = [];
     let currentIndex = 0;
-    let currentExpected = "";
-    let currentPos = 0;
+    let expected = "";
+    let pos = 0;
 
     fetch("json-files/keyboard.json")
       .then(res => res.json())
@@ -51,78 +53,33 @@
         activities = data.activities;
         loadActivity();
         buildKeyboard();
-      })
-      .catch(() => container.innerHTML = `<p class='text-red-500'>Error loading data</p>`);
+      });
 
-    // Load typing activity
     function loadActivity() {
       if (currentIndex >= activities.length) {
-        container.innerHTML = `
-          <h2 class='text-2xl font-semibold text-green-600'>🎉 Completed!</h2>
-          <p class='text-gray-700'>You’ve mastered all keyboard practices!</p>`;
+        container.innerHTML = `<h2 class='text-2xl text-green-600 font-bold'>🎉 All Done!</h2>`;
         return;
       }
-
-      currentExpected = activities[currentIndex].expected;
-      currentPos = 0;
-
+      expected = activities[currentIndex].expected;
+      pos = 0;
       container.innerHTML = `
         <h2 class="text-xl font-semibold text-blue-700 mb-2">Practice ${currentIndex + 1}</h2>
         <p class="text-gray-800 mb-3">${activities[currentIndex].instruction}</p>
         <div id="practiceText" class="font-mono text-lg bg-gray-100 p-4 rounded">${highlightText()}</div>
-        <textarea id="inputText" class="w-full border rounded-lg p-2 mt-3 focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Start typing..."></textarea>
         <p id="feedback" class="text-sm mt-2 font-semibold"></p>
       `;
-
-      const input = document.getElementById("inputText");
-      input.focus();
-
-      input.addEventListener("keydown", handleKeyPress);
+      updateNextKey();
     }
 
-    // Highlight typed letters
     function highlightText() {
       let output = "";
-      for (let i = 0; i < currentExpected.length; i++) {
-        if (i === currentPos) {
-          output += `<span class='highlighted'>${currentExpected[i]}</span>`;
-        } else {
-          output += currentExpected[i];
-        }
+      for (let i = 0; i < expected.length; i++) {
+        if (i === pos) output += `<span class="highlighted">${expected[i]}</span>`;
+        else output += expected[i];
       }
       return output;
     }
 
-    // Handle typing
-    function handleKeyPress(e) {
-      const key = e.key;
-
-      highlightVirtualKey(key);
-
-      if (key.length > 1 && key !== "Backspace" && key !== "Enter") return; // ignore non-character keys
-
-      if (key === "Backspace" && currentPos > 0) {
-        currentPos--;
-      } else if (key === currentExpected[currentPos]) {
-        currentPos++;
-      } else if (key !== currentExpected[currentPos] && key.length === 1) {
-        wrongKeyFlash(key);
-      }
-
-      // Update text display
-      document.getElementById("practiceText").innerHTML = highlightText();
-
-      // Check if done
-      if (currentPos >= currentExpected.length) {
-        document.getElementById("feedback").innerHTML = `<span class='text-green-600'>✅ Great job! Loading next...</span>`;
-        setTimeout(() => {
-          currentIndex++;
-          loadActivity();
-        }, 1500);
-      }
-    }
-
-    // Build visual keyboard
     function buildKeyboard() {
       const layout = [
         "1234567890",
@@ -130,7 +87,6 @@
         "asdfghjkl",
         "zxcvbnm"
       ];
-
       keyboardContainer.innerHTML = "";
       layout.forEach(row => {
         const div = document.createElement("div");
@@ -144,26 +100,45 @@
         }
         keyboardContainer.appendChild(div);
       });
+
+      document.addEventListener("keydown", handleKey);
     }
 
-    // Highlight key pressed
-    function highlightVirtualKey(key) {
-      const lowerKey = key.toLowerCase();
-      const keyDiv = document.getElementById(`key-${lowerKey}`);
+    function handleKey(e) {
+      const key = e.key.toLowerCase();
+      const keyDiv = document.getElementById(`key-${key}`);
       if (!keyDiv) return;
 
-      keyDiv.classList.add("active");
-      setTimeout(() => keyDiv.classList.remove("active"), 150);
+      keyDiv.classList.add("visible"); // fade in when used
+
+      if (key === expected[pos]?.toLowerCase()) {
+        flashKey(keyDiv, "correct");
+        pos++;
+        document.getElementById("practiceText").innerHTML = highlightText();
+        updateNextKey();
+
+        if (pos >= expected.length) {
+          document.getElementById("feedback").innerHTML = `<span class='text-green-600'>✅ Excellent! Next activity loading...</span>`;
+          setTimeout(() => {
+            currentIndex++;
+            loadActivity();
+          }, 1200);
+        }
+      } else {
+        flashKey(keyDiv, "wrong");
+      }
     }
 
-    // Wrong key animation
-    function wrongKeyFlash(key) {
-      const lowerKey = key.toLowerCase();
-      const keyDiv = document.getElementById(`key-${lowerKey}`);
-      if (keyDiv) {
-        keyDiv.classList.add("wrong");
-        setTimeout(() => keyDiv.classList.remove("wrong"), 300);
-      }
+    function flashKey(el, type) {
+      el.classList.add(type);
+      setTimeout(() => el.classList.remove(type), 250);
+    }
+
+    function updateNextKey() {
+      document.querySelectorAll(".key").forEach(k => k.classList.remove("next"));
+      const nextChar = expected[pos]?.toLowerCase();
+      const nextKey = document.getElementById(`key-${nextChar}`);
+      if (nextKey) nextKey.classList.add("next");
     }
   </script>
 </body>
