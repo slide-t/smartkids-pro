@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartKids-Pro | Classes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-blue-700 text-white p-4 text-center shadow-lg">
+    <h1 class="text-2xl font-bold">SmartKids-Pro Classes</h1>
+    <p class="text-sm opacity-80">Select your class to view available ICT topics</p>
+  </header>
+
+  <!-- Classes Section -->
+  <section class="max-w-6xl mx-auto py-10 px-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="classContainer">
+      <!-- Classes will be generated dynamically -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-700 text-white text-center py-4 text-sm">
+    © 2025 SmartKids-Pro | Interactive Learning Platform
+  </footer>
+
+  <script>
+    // 📘 Class and Topics Structure (Dynamic)
+    const classData = [
+      {
+        name: "Year 1",
+        topics: [
+          { title: "Introduction to the Mouse", link: "data/year1/mouse_basics.json" },
+          { title: "Keyboard Keys & Letters", link: "data/year1/keyboard_intro.json" },
+          { title: "Parts of a Computer", link: "data/year1/ict_parts.json" }
+        ]
+      },
+      {
+        name: "Year 2",
+        topics: [
+          { title: "Mouse Practice – Click & Drag", link: "data/year2/mouse_practice.json" },
+          { title: "Typing Home Row Keys", link: "data/year2/keyboard_home.json" },
+          { title: "Computer Uses in Daily Life", link: "data/year2/ict_uses.json" }
+        ]
+      },
+      {
+        name: "Year 3",
+        topics: [
+          { title: "Mouse Games for Accuracy", link: "data/year3/mouse_games.json" },
+          { title: "Typing Practice – Words & Sentences", link: "data/year3/keyboard_words.json" },
+          { title: "Storage Devices", link: "data/year3/ict_storage.json" }
+        ]
+      },
+      {
+        name: "Year 4",
+        topics: [
+          { title: "Mouse Art & Drawing", link: "data/year4/mouse_drawing.json" },
+          { title: "Typing Speed Challenge", link: "data/year4/keyboard_speed.json" },
+          { title: "Operating System Basics", link: "data/year4/ict_os.json" }
+        ]
+      },
+      {
+        name: "Year 5",
+        topics: [
+          { title: "Mouse Control Game", link: "data/year5/mouse_control.json" },
+          { title: "Advanced Typing Lessons", link: "data/year5/keyboard_advanced.json" },
+          { title: "Computer Network Basics", link: "data/year5/ict_network.json" }
+        ]
+      },
+      {
+        name: "Year 6",
+        topics: [
+          { title: "Mouse Accuracy Drills", link: "data/year6/mouse_accuracy.json" },
+          { title: "Typing Speed Race", link: "data/year6/keyboard_speedrace.json" },
+          { title: "Internet and Safety", link: "data/year6/ict_internet.json" }
+        ]
+      },
+      {
+        name: "Year 7",
+        topics: [
+          { title: "Precision Mouse Control", link: "data/year7/mouse_precision.json" },
+          { title: "Typing with Numbers & Symbols", link: "data/year7/keyboard_symbols.json" },
+          { title: "Intro to Data Processing", link: "data/year7/ict_data.json" }
+        ]
+      },
+      {
+        name: "Year 8",
+        topics: [
+          { title: "Mouse Navigation Skills", link: "data/year8/mouse_navigation.json" },
+          { title: "Typing Passages for Accuracy", link: "data/year8/keyboard_passages.json" },
+          { title: "Word Processing Basics", link: "data/year8/ict_word.json" }
+        ]
+      },
+      {
+        name: "Year 9",
+        topics: [
+          { title: "Mouse in Creative Drawing", link: "data/year9/mouse_creative.json" },
+          { title: "Typing Practice – Full Paragraphs", link: "data/year9/keyboard_paragraph.json" },
+          { title: "Spreadsheet Introduction", link: "data/year9/ict_spreadsheet.json" }
+        ]
+      },
+      {
+        name: "Year 10",
+        topics: [
+          { title: "Mouse Precision Challenges", link: "data/year10/mouse_challenge.json" },
+          { title: "Touch Typing Practice", link: "data/year10/keyboard_touch.json" },
+          { title: "Presentation Software", link: "data/year10/ict_presentation.json" }
+        ]
+      },
+      {
+        name: "Year 11",
+        topics: [
+          { title: "Advanced Mouse Games", link: "data/year11/mouse_advanced.json" },
+          { title: "Typing with Speed Accuracy", link: "data/year11/keyboard_accuracy.json" },
+          { title: "Database Basics", link: "data/year11/ict_database.json" }
+        ]
+      },
+      {
+        name: "Year 12",
+        topics: [
+          { title: "Mouse Simulation Projects", link: "data/year12/mouse_sim.json" },
+          { title: "Typing Tests & Certification", link: "data/year12/keyboard_cert.json" },
+          { title: "Computer Ethics & Security", link: "data/year12/ict_security.json" }
+        ]
+      }
+    ];
+
+    // 🎨 Generate HTML Dynamically
+    const container = document.getElementById('classContainer');
+
+    classData.forEach(cls => {
+      const card = document.createElement('div');
+      card.className = "bg-white shadow-lg rounded-xl p-5 hover:shadow-xl transition";
+
+      card.innerHTML = `
+        <h3 class="text-xl font-semibold text-blue-700 mb-3">${cls.name}</h3>
+        <ul class="space-y-2">
+          ${cls.topics.map(t =>
+            `<li class="flex justify-between items-center border-b pb-2">
+              <span>${t.title}</span>
+              <a href="${t.link}" class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md">Open</a>
+            </li>`
+          ).join('')}
+        </ul>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
