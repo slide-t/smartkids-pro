@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartKids-Pro | Learn ICT the Fun Way!</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#4f46e5" />
 </head>
 
@@ -13,10 +12,23 @@
 
   <!-- HEADER -->
   <header class="bg-indigo-600 text-white shadow-md sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">SmartKids<span class="text-yellow-300">Pro</span></h1>
-      <nav>
-        <ul class="flex gap-5 text-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold">
+        SmartKids<span class="text-yellow-300">Pro</span>
+      </h1>
+
+      <!-- MOBILE MENU BUTTON -->
+      <button id="menuBtn" class="sm:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- NAV -->
+      <nav id="navMenu" class="hidden sm:flex">
+        <ul class="flex flex-col sm:flex-row gap-4 sm:gap-6 text-sm sm:text-base">
           <li><a href="#keyboard" class="hover:text-yellow-300 transition">Keyboard Tutor</a></li>
           <li><a href="#mouse" class="hover:text-yellow-300 transition">Mouse Practice</a></li>
           <li><a href="#lessons" class="hover:text-yellow-300 transition">Lessons</a></li>
@@ -24,49 +36,77 @@
         </ul>
       </nav>
     </div>
+
+    <!-- MOBILE DROPDOWN -->
+    <div id="mobileMenu" class="sm:hidden hidden bg-indigo-700">
+      <ul class="flex flex-col items-center py-3 space-y-2 text-sm">
+        <li><a href="#keyboard" class="hover:text-yellow-300">Keyboard Tutor</a></li>
+        <li><a href="#mouse" class="hover:text-yellow-300">Mouse Practice</a></li>
+        <li><a href="#lessons" class="hover:text-yellow-300">Lessons</a></li>
+        <li><a href="#quiz" class="hover:text-yellow-300">Quiz Zone</a></li>
+      </ul>
+    </div>
   </header>
 
   <!-- HERO -->
-  <section class="text-center py-20 bg-gradient-to-r from-indigo-500 to-blue-500 text-white">
-    <h2 class="text-4xl font-bold mb-4 drop-shadow-md">Empower Young Minds with ICT Skills</h2>
-    <p class="text-lg mb-6 max-w-xl mx-auto">
-      Fun lessons, interactive games, and smart learning tools for pupils and teens.
-    </p>
-    <a href="#start" class="bg-yellow-400 hover:bg-yellow-300 text-indigo-800 font-semibold py-3 px-6 rounded-full transition transform hover:scale-105">
-      Get Started
-    </a>
+  <section class="text-center py-16 sm:py-20 bg-gradient-to-r from-indigo-500 to-blue-500 text-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-md">
+        Empower Young Minds with ICT Skills
+      </h2>
+      <p class="text-base sm:text-lg mb-6">
+        Fun lessons, interactive games, and smart learning tools for pupils and teens.
+      </p>
+      <a href="#start"
+        class="bg-yellow-400 hover:bg-yellow-300 text-indigo-800 font-semibold py-3 px-8 rounded-full transition transform hover:scale-105">
+        Get Started
+      </a>
+    </div>
   </section>
 
-  <!-- MAIN FEATURES -->
-  <main class="max-w-6xl mx-auto py-16 px-4 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 text-center">
-    <div id="keyboard" class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1">
-      <img src="assets/keyboard.png" class="mx-auto w-20 mb-3" alt="Keyboard Tutor" />
-      <h3 class="font-bold text-xl mb-2">Keyboard Tutor</h3>
-      <p class="text-gray-600">Interactive typing lessons to build speed and accuracy through fun challenges.</p>
+  <!-- FEATURES -->
+  <main class="max-w-7xl mx-auto py-14 px-5 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div id="keyboard"
+      class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1 text-center">
+      <img src="assets/keyboard.png" class="mx-auto w-16 sm:w-20 mb-4" alt="Keyboard Tutor" />
+      <h3 class="font-bold text-lg sm:text-xl mb-2">Keyboard Tutor</h3>
+      <p class="text-gray-600 text-sm sm:text-base">Interactive typing lessons to build speed and accuracy through fun challenges.</p>
     </div>
 
-    <div id="mouse" class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1">
-      <img src="assets/mouse.png" class="mx-auto w-20 mb-3" alt="Mouse Practice" />
-      <h3 class="font-bold text-xl mb-2">Mouse Practice</h3>
-      <p class="text-gray-600">Learn mouse control with engaging drag, click, and speed games designed for kids.</p>
+    <div id="mouse"
+      class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1 text-center">
+      <img src="assets/mouse.png" class="mx-auto w-16 sm:w-20 mb-4" alt="Mouse Practice" />
+      <h3 class="font-bold text-lg sm:text-xl mb-2">Mouse Practice</h3>
+      <p class="text-gray-600 text-sm sm:text-base">Learn mouse control with engaging drag, click, and speed games designed for kids.</p>
     </div>
 
-    <div id="lessons" class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1">
-      <img src="assets/lesson.png" class="mx-auto w-20 mb-3" alt="ICT Lessons" />
-      <h3 class="font-bold text-xl mb-2">ICT Lessons</h3>
-      <p class="text-gray-600">Simple and visual lessons about computer basics, internet safety, and digital skills.</p>
+    <div id="lessons"
+      class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1 text-center">
+      <img src="assets/lesson.png" class="mx-auto w-16 sm:w-20 mb-4" alt="ICT Lessons" />
+      <h3 class="font-bold text-lg sm:text-xl mb-2">ICT Lessons</h3>
+      <p class="text-gray-600 text-sm sm:text-base">Simple and visual lessons about computer basics, internet safety, and digital skills.</p>
     </div>
 
-    <div id="quiz" class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1">
-      <img src="assets/quiz.png" class="mx-auto w-20 mb-3" alt="Quiz Zone" />
-      <h3 class="font-bold text-xl mb-2">Quiz Zone</h3>
-      <p class="text-gray-600">Challenge yourself with fun multiple-choice quizzes to test what you’ve learned!</p>
+    <div id="quiz"
+      class="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition transform hover:-translate-y-1 text-center">
+      <img src="assets/quiz.png" class="mx-auto w-16 sm:w-20 mb-4" alt="Quiz Zone" />
+      <h3 class="font-bold text-lg sm:text-xl mb-2">Quiz Zone</h3>
+      <p class="text-gray-600 text-sm sm:text-base">Challenge yourself with fun multiple-choice quizzes to test what you’ve learned!</p>
     </div>
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-indigo-700 text-white text-center py-4 mt-10">
-    <p>&copy; 2025 SmartKids-Pro. All Rights Reserved.</p>
+  <footer class="bg-indigo-700 text-white text-center py-5">
+    <p class="text-sm sm:text-base">&copy; 2025 SmartKids-Pro. All Rights Reserved.</p>
   </footer>
+
+  <!-- JS for Mobile Menu -->
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  </script>
 </body>
 </html>
