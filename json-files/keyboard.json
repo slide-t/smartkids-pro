@@ -1,16 +1,16 @@
 {
   "activities": [
     {
-      "instruction": "Type this sentence exactly as shown:",
+      "instruction": "Type the following sentence exactly as shown:",
       "expected": "The quick brown fox jumps over the lazy dog."
     },
     {
-      "instruction": "Type all home-row letters correctly:",
+      "instruction": "Type all home-row keys correctly:",
       "expected": "asdf jkl;"
     },
     {
-      "instruction": "Type your name 3 times, separated by commas:",
-      "expected": "John Doe, John Doe, John Doe"
+      "instruction": "Type the alphabet in order:",
+      "expected": "abcdefghijklmnopqrstuvwxyz"
     }
   ]
 }
