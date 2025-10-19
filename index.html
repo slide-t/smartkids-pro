@@ -71,13 +71,113 @@
     <img src="https://raw.githubusercontent.com/slide-t/smartkids-pro/main/Images/mouse.jpg" alt="Mouse" class="float absolute w-14 sm:w-20 bottom-10 right-8 opacity-70" />
   </section>
 
-  <!-- FEATURES WITH ACCORDIONS -->
+<!-- Accordion Section -->
+<section id="activities" class="bg-gray-50 py-12">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+      Explore SmartKids Learning
+    </h2>
+
+    <div class="space-y-4">
+
+      <!-- Accordion Item -->
+      <div class="border rounded-lg bg-white shadow">
+        <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
+          onclick="toggleAccordion('mousePractice')">
+          🖱️ Mouse Practices
+          <svg id="mousePractice-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="mousePractice" class="hidden p-4 border-t text-gray-700 leading-relaxed">
+          Learn how to control and use a computer mouse — from simple clicks to drag-and-drop and target games.
+          <div class="mt-4">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">Play Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyboard Tutor -->
+      <div class="border rounded-lg bg-white shadow">
+        <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
+          onclick="toggleAccordion('keyboardTutor')">
+          🎹 Keyboard Tutor
+          <svg id="keyboardTutor-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="keyboardTutor" class="hidden p-4 border-t text-gray-700 leading-relaxed">
+          Practice typing skills with guided lessons — from home row keys to advanced speed challenges.
+          <div class="mt-4">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow">Start Tutor</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lessons -->
+      <div class="border rounded-lg bg-white shadow">
+        <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
+          onclick="toggleAccordion('ictLessons')">
+          📘 ICT Lessons
+          <svg id="ictLessons-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="ictLessons" class="hidden p-4 border-t text-gray-700 leading-relaxed">
+          Fun, easy-to-understand ICT lessons covering computer basics, parts, and safe internet use.
+          <div class="mt-4">
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Section -->
+      <div class="border rounded-lg bg-white shadow">
+        <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
+          onclick="toggleAccordion('quizZone')">
+          🧩 Quiz Zone
+          <svg id="quizZone-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="quizZone" class="hidden p-4 border-t text-gray-700 leading-relaxed">
+          Test your knowledge with interactive quizzes and see how well you understand ICT lessons.
+          <div class="mt-4">
+            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow">Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Accordion Script -->
+<script>
+  function toggleAccordion(id) {
+    const content = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    const isHidden = content.classList.contains('hidden');
+
+    // Close all accordions
+    document.querySelectorAll('[id$="-icon"]').forEach(ic => ic.classList.remove('rotate-180'));
+    document.querySelectorAll('#activities div[id]').forEach(el => el.classList.add('hidden'));
+
+    // Toggle the selected one
+    if (isHidden) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+    }
+  }
+</script>
+  
+  <!-- FEATURES WITH ACCORDIONS --
   <main class="max-w-5xl mx-auto py-14 px-4">
     <h2 class="text-2xl sm:text-3xl font-bold text-center text-indigo-700 mb-10">Explore SmartKids-Pro</h2>
 
     <div class="space-y-4">
 
-      <!-- Keyboard Tutor Accordion -->
+      <!-- Keyboard Tutor Accordion --
       <div id="keyboard" class="border border-indigo-200 rounded-xl overflow-hidden bg-white shadow-sm">
         <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-indigo-700 hover:bg-indigo-50 accordion-btn">
           <span>🎹 Keyboard Tutor</span>
@@ -93,7 +193,7 @@
         </div>
       </div>
 
-      <!-- Mouse Practice Accordion -->
+      <!-- Mouse Practice Accordion --
       <div id="mouse" class="border border-indigo-200 rounded-xl overflow-hidden bg-white shadow-sm">
         <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-indigo-700 hover:bg-indigo-50 accordion-btn">
           <span>🖱️ Mouse Practice</span>
@@ -109,7 +209,7 @@
         </div>
       </div>
 
-      <!-- ICT Lessons Accordion -->
+      <!-- ICT Lessons Accordion --
       <div id="lessons" class="border border-indigo-200 rounded-xl overflow-hidden bg-white shadow-sm">
         <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-indigo-700 hover:bg-indigo-50 accordion-btn">
           <span>💻 ICT Lessons</span>
@@ -125,7 +225,7 @@
         </div>
       </div>
 
-      <!-- Quiz Zone Accordion -->
+      <!-- Quiz Zone Accordion --
       <div id="quiz" class="border border-indigo-200 rounded-xl overflow-hidden bg-white shadow-sm">
         <button class="w-full flex justify-between items-center px-5 py-4 text-left font-semibold text-indigo-700 hover:bg-indigo-50 accordion-btn">
           <span>🧩 Quiz Zone</span>
@@ -142,7 +242,7 @@
       </div>
 
     </div>
-  </main>
+  </main>-->
 
   <!-- FOOTER -->
   <footer class="bg-indigo-700 text-white text-center py-5">
@@ -159,7 +259,7 @@
       mobileMenu.classList.toggle("hidden");
     });
 
-    // Accordion toggle
+   /* // Accordion toggle
     accordions.forEach(btn => {
       btn.addEventListener("click", () => {
         const content = btn.nextElementSibling;
@@ -168,7 +268,7 @@
         content.classList.toggle("hidden");
         icon.classList.toggle("rotate-180");
       });
-    });
+    });*/
   </script>
 </body>
 </html>
