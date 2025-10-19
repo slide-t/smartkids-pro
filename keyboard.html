@@ -6,6 +6,9 @@
   <title>Keyboard Tutor | SmartKids Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
     .key {
       width: 2.5rem;
       height: 2.5rem;
@@ -16,176 +19,151 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.15s ease-in-out;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       user-select: none;
     }
-    .key.active { background-color: #3b82f6; transform: scale(1.05); }
-    .key.correct { background-color: #22c55e; }
-    .key.wrong { background-color: #ef4444; }
+    .key.active {
+      background-color: #3b82f6;
+      transform: scale(1.1);
+    }
+    .key.correct {
+      background-color: #22c55e;
+    }
+    .key.wrong {
+      background-color: #ef4444;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
-
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-6">
-  <h1 class="text-2xl font-bold mb-4">Keyboard Tutor</h1>
-  <div id="lessonTitle" class="text-lg mb-4 font-semibold text-blue-300"></div>
+  <h1 class="text-3xl font-bold mb-4">Keyboard Tutor | SmartKids Pro</h1>
+  <div id="lessonTitle" class="text-lg mb-2 font-semibold"></div>
   <div id="practiceText" class="text-xl mb-6 text-center tracking-widest"></div>
 
-  <!-- Virtual Keyboard -->
-  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg"></div>
+  <!-- Keyboard -->
+  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg mb-6"></div>
 
-  <div class="mt-6">
-    <button id="nextLessonBtn" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 hidden">
-      Next Lesson
-    </button>
+  <div class="flex gap-4">
+    <button id="nextLessonBtn" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 hidden">Next Lesson</button>
+    <button id="retryBtn" class="bg-amber-600 px-4 py-2 rounded hover:bg-amber-500 hidden">Retry</button>
   </div>
 
   <script>
-    // ===============================
-    // Global Variables
-    // ===============================
+    const keyboardLayout = [
+      ['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'],
+      ['Tab','Q','W','E','R','T','Y','U','I','O','P','[',']','\\'],
+      ['CapsLock','A','S','D','F','G','H','J','K','L',';',"'",'Enter'],
+      ['Shift','Z','X','C','V','B','N','M',',','.','/','Shift'],
+      ['Space']
+    ];
+
     let lessons = [];
-    let currentLevel = 0;
-    let currentLesson = 0;
-    let currentPracticeIndex = 0;
-    let currentText = "";
-    let userProgress = "";
+    let currentLessonIndex = 0;
+    let currentCharIndex = 0;
+    let practiceText = '';
+    let activeLesson;
 
-    const lessonTitle = document.getElementById("lessonTitle");
-    const practiceText = document.getElementById("practiceText");
-    const keyboardContainer = document.getElementById("keyboard");
-    const nextLessonBtn = document.getElementById("nextLessonBtn");
+    const keyboardContainer = document.getElementById('keyboard');
+    const lessonTitle = document.getElementById('lessonTitle');
+    const practiceDisplay = document.getElementById('practiceText');
+    const nextLessonBtn = document.getElementById('nextLessonBtn');
+    const retryBtn = document.getElementById('retryBtn');
 
-    // ===============================
-    // Load JSON Lessons
-    // ===============================
-    fetch("json-files/keyboard.json")
-      .then(res => res.json())
-      .then(data => {
-        lessons = data.levels;
-        loadLesson();
-      })
-      .catch(err => {
-        practiceText.innerHTML = `<span class='text-red-400'>Failed to load lessons.</span>`;
-      });
-
-    // ===============================
-    // Load and Display Lesson
-    // ===============================
-    function loadLesson() {
-      const level = lessons[currentLevel];
-      const lesson = level.lessons[currentLesson];
-      const text = lesson.practice[currentPracticeIndex];
-
-      currentText = text;
-      userProgress = "";
-
-      lessonTitle.textContent = `${level.year} - ${lesson.title}`;
-      practiceText.innerHTML = highlightNextLetter();
-      renderKeyboard(lesson.keysNeeded);
-
-      nextLessonBtn.classList.add("hidden");
-    }
-
-    // ===============================
-    // Dynamic Keyboard Rendering
-    // ===============================
-    function renderKeyboard(keysNeeded) {
-      keyboardContainer.innerHTML = "";
-
-      const rows = [
-        ["Q","W","E","R","T","Y","U","I","O","P"],
-        ["A","S","D","F","G","H","J","K","L",";"],
-        ["Z","X","C","V","B","N","M","SPACE","ENTER","SHIFT"]
-      ];
-
-      rows.forEach(row => {
-        const rowDiv = document.createElement("div");
-        rowDiv.className = "flex justify-center mb-1";
-
-        row.forEach(key => {
-          if (keysNeeded.includes(key)) {
-            const keyDiv = document.createElement("div");
-            keyDiv.className = `key ${
-              key === "SPACE" ? "w-24" : key === "ENTER" ? "w-20" : "w-10"
-            }`;
-            keyDiv.textContent =
-              key === "SPACE" ? "␣" : key === "ENTER" ? "⏎" : key === "SHIFT" ? "⇧" : key;
-            keyDiv.dataset.key = key;
-            rowDiv.appendChild(keyDiv);
+    // Build keyboard dynamically
+    function renderKeyboard(keysToShow = null) {
+      keyboardContainer.innerHTML = '';
+      keyboardLayout.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'flex justify-center';
+        row.forEach(keyLabel => {
+          const keyDiv = document.createElement('div');
+          keyDiv.className = 'key';
+          keyDiv.textContent = keyLabel.length === 1 ? keyLabel.toUpperCase() : keyLabel;
+          keyDiv.dataset.key = keyLabel;
+          if (keysToShow && !keysToShow.includes(keyLabel.toUpperCase()) && !keysToShow.includes(keyLabel.toLowerCase())) {
+            keyDiv.classList.add('hidden');
           }
+          rowDiv.appendChild(keyDiv);
         });
-
         keyboardContainer.appendChild(rowDiv);
       });
     }
 
-    // ===============================
-    // Highlight Practice Text
-    // ===============================
-    function highlightNextLetter() {
-      let html = "";
-      for (let i = 0; i < currentText.length; i++) {
-        if (i < userProgress.length) html += `<span class='text-green-400'>${currentText[i]}</span>`;
-        else if (i === userProgress.length) html += `<span class='text-yellow-400 underline'>${currentText[i]}</span>`;
-        else html += `<span class='text-gray-400'>${currentText[i]}</span>`;
-      }
-      return html;
-    }
+    // Highlight keys on press
+    document.addEventListener('keydown', (e) => {
+      const key = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+      const keyDiv = document.querySelector(\`.key[data-key="\${key}"]\`);
+      if (keyDiv) keyDiv.classList.add('active');
 
-    // ===============================
-    // Handle Keyboard Input
-    // ===============================
-    document.addEventListener("keydown", (e) => {
-      const key = e.key.toUpperCase();
-      const match = Array.from(document.querySelectorAll(".key"))
-        .find(k => k.dataset.key === key || (k.dataset.key === "SPACE" && e.key === " ") || (k.dataset.key === "ENTER" && e.key === "Enter"));
-
-      if (match) {
-        match.classList.add("active");
-        setTimeout(() => match.classList.remove("active"), 150);
+      if (e.key === practiceText[currentCharIndex]) {
+        keyDiv?.classList.add('correct');
+        currentCharIndex++;
+        updatePracticeDisplay();
+      } else {
+        keyDiv?.classList.add('wrong');
       }
 
-      const expectedChar = currentText[userProgress.length];
-      const typedChar = e.key;
-
-      // Match case-insensitive except special keys
-      if (typedChar === expectedChar || typedChar === expectedChar.toLowerCase()) {
-        userProgress += expectedChar;
-      }
-
-      practiceText.innerHTML = highlightNextLetter();
-
-      if (userProgress === currentText) {
-        currentPracticeIndex++;
-        if (currentPracticeIndex < lessons[currentLevel].lessons[currentLesson].practice.length) {
-          setTimeout(loadLesson, 1000);
-        } else {
-          showNextButton();
-        }
+      if (currentCharIndex >= practiceText.length) {
+        nextLessonBtn.classList.remove('hidden');
+        retryBtn.classList.remove('hidden');
       }
     });
 
-    // ===============================
-    // Move to Next Lesson or Level
-    // ===============================
-    function showNextButton() {
-      nextLessonBtn.classList.remove("hidden");
-      nextLessonBtn.onclick = () => {
-        currentPracticeIndex = 0;
-        currentLesson++;
-        if (currentLesson >= lessons[currentLevel].lessons.length) {
-          currentLesson = 0;
-          currentLevel++;
-          if (currentLevel >= lessons.length) {
-            practiceText.innerHTML = "<span class='text-green-400'>🎉 All lessons completed!</span>";
-            nextLessonBtn.classList.add("hidden");
-            return;
-          }
-        }
-        loadLesson();
-      };
+    document.addEventListener('keyup', (e) => {
+      const key = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+      const keyDiv = document.querySelector(\`.key[data-key="\${key}"]\`);
+      if (keyDiv) keyDiv.classList.remove('active');
+    });
+
+    function updatePracticeDisplay() {
+      let displayText = '';
+      for (let i = 0; i < practiceText.length; i++) {
+        if (i < currentCharIndex) displayText += `<span class='text-green-400'>${practiceText[i]}</span>`;
+        else if (i === currentCharIndex) displayText += `<span class='text-yellow-400 underline'>${practiceText[i]}</span>`;
+        else displayText += `<span class='text-gray-400'>${practiceText[i]}</span>`;
+      }
+      practiceDisplay.innerHTML = displayText;
     }
+
+    function loadLesson(index) {
+      activeLesson = lessons[index];
+      lessonTitle.textContent = activeLesson.title;
+      practiceText = activeLesson.text;
+      currentCharIndex = 0;
+      updatePracticeDisplay();
+      renderKeyboard(activeLesson.keys);
+      nextLessonBtn.classList.add('hidden');
+      retryBtn.classList.add('hidden');
+    }
+
+    nextLessonBtn.addEventListener('click', () => {
+      currentLessonIndex++;
+      if (currentLessonIndex < lessons.length) {
+        loadLesson(currentLessonIndex);
+      } else {
+        lessonTitle.textContent = "🎉 Great job! You've completed all lessons.";
+        practiceDisplay.textContent = '';
+        keyboardContainer.innerHTML = '';
+        nextLessonBtn.classList.add('hidden');
+      }
+    });
+
+    retryBtn.addEventListener('click', () => loadLesson(currentLessonIndex));
+
+    // Fetch lessons from JSON
+    fetch('/json-files/keyboard.json')
+      .then(res => res.json())
+      .then(data => {
+        lessons = data.lessons;
+        loadLesson(0);
+      })
+      .catch(err => {
+        console.error('Error loading JSON:', err);
+        lessonTitle.textContent = "Error loading lessons.";
+      });
   </script>
 </body>
 </html>
