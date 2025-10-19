@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Keyboard Tutor | SmartKids Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Poppins', sans-serif; }
     .key {
-      width: 2.5rem;
-      height: 2.5rem;
-      margin: 0.2rem;
+      width: 2.6rem;
+      height: 2.6rem;
+      margin: 0.15rem;
       background-color: #1e293b;
       color: white;
-      border-radius: 0.5rem;
+      border-radius: 0.4rem;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease-in-out;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
       user-select: none;
       font-weight: 500;
     }
-    .key.active { background-color: #3b82f6; transform: scale(1.05); }
+    .key.active { background-color: #3b82f6; transform: scale(1.1); }
     .key.correct { background-color: #22c55e; }
     .key.wrong { background-color: #ef4444; }
-    .hidden { display: none; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-6">
-  <h1 class="text-3xl font-bold mb-4">Keyboard Tutor | SmartKids Pro</h1>
+  <h1 class="text-3xl font-bold mb-4 text-center">Keyboard Tutor | SmartKids Pro</h1>
+
   <div id="lessonTitle" class="text-lg mb-2 font-semibold"></div>
   <div id="practiceText" class="text-xl mb-6 text-center tracking-widest"></div>
 
   <!-- Virtual Keyboard -->
-  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg mb-6 w-full max-w-4xl"></div>
+  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg mb-6 w-full max-w-5xl"></div>
 
   <div class="flex gap-4">
     <button id="nextLessonBtn" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 hidden">Next Lesson</button>
@@ -42,130 +43,132 @@
   </div>
 
   <script>
-    // ✅ Full QWERTY layout
-    const keyboardLayout = [
-      ['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'],
-      ['Tab','Q','W','E','R','T','Y','U','I','O','P','[',']','\\'],
-      ['CapsLock','A','S','D','F','G','H','J','K','L',';',"'",'Enter'],
-      ['Shift','Z','X','C','V','B','N','M',',','.','/','Shift'],
-      ['Space']
-    ];
+    // Wait until DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
 
-    const keyboardContainer = document.getElementById('keyboard');
-    const lessonTitle = document.getElementById('lessonTitle');
-    const practiceDisplay = document.getElementById('practiceText');
-    const nextLessonBtn = document.getElementById('nextLessonBtn');
-    const retryBtn = document.getElementById('retryBtn');
+      const keyboardContainer = document.getElementById("keyboard");
+      const lessonTitle = document.getElementById("lessonTitle");
+      const practiceDisplay = document.getElementById("practiceText");
+      const nextLessonBtn = document.getElementById("nextLessonBtn");
+      const retryBtn = document.getElementById("retryBtn");
 
-    let lessons = [];
-    let currentLessonIndex = 0;
-    let currentCharIndex = 0;
-    let practiceText = '';
-    let activeLesson = null;
+      const keyboardLayout = [
+        ['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'],
+        ['Tab','Q','W','E','R','T','Y','U','I','O','P','[',']','\\'],
+        ['Caps','A','S','D','F','G','H','J','K','L',';',"'",'Enter'],
+        ['Shift','Z','X','C','V','B','N','M',',','.','/','Shift'],
+        ['Space']
+      ];
 
-    // ✅ Render keyboard (always visible initially)
-    function renderKeyboard(keysToShow = null) {
-      keyboardContainer.innerHTML = '';
-      keyboardLayout.forEach(row => {
-        const rowDiv = document.createElement('div');
-        rowDiv.className = 'flex justify-center';
-        row.forEach(keyLabel => {
-          const keyDiv = document.createElement('div');
-          keyDiv.className = 'key';
-          keyDiv.textContent = keyLabel.length === 1 ? keyLabel.toUpperCase() : keyLabel;
-          keyDiv.dataset.key = keyLabel;
-          if (keysToShow && !keysToShow.includes(keyLabel.toUpperCase()) && !keysToShow.includes(keyLabel.toLowerCase()) && !keysToShow.includes(keyLabel)) {
-            keyDiv.classList.add('hidden');
-          }
-          rowDiv.appendChild(keyDiv);
-        });
-        keyboardContainer.appendChild(rowDiv);
-      });
-    }
+      let lessons = [];
+      let currentLessonIndex = 0;
+      let currentCharIndex = 0;
+      let practiceText = '';
+      let activeLesson = null;
 
-    // ✅ Typing handling
-    document.addEventListener('keydown', (e) => {
-      const key = e.key.length === 1 ? e.key.toUpperCase() : e.key;
-      const keyDiv = document.querySelector(\`.key[data-key="\${e.key}"], .key[data-key="\${key}"]\`);
-      if (keyDiv) keyDiv.classList.add('active');
-
-      if (!practiceText) return;
-
-      const expected = practiceText[currentCharIndex];
-      if (e.key === expected || e.key.toUpperCase() === expected.toUpperCase()) {
-        keyDiv?.classList.add('correct');
-        currentCharIndex++;
-        updatePracticeDisplay();
-      } else {
-        keyDiv?.classList.add('wrong');
-      }
-
-      if (currentCharIndex >= practiceText.length) {
-        nextLessonBtn.classList.remove('hidden');
-        retryBtn.classList.remove('hidden');
-      }
-    });
-
-    document.addEventListener('keyup', (e) => {
-      const key = e.key.length === 1 ? e.key.toUpperCase() : e.key;
-      const keyDiv = document.querySelector(\`.key[data-key="\${e.key}"], .key[data-key="\${key}"]\`);
-      if (keyDiv) keyDiv.classList.remove('active');
-    });
-
-    // ✅ Display practice text with highlight
-    function updatePracticeDisplay() {
-      let displayText = '';
-      for (let i = 0; i < practiceText.length; i++) {
-        if (i < currentCharIndex) displayText += `<span class='text-green-400'>${practiceText[i]}</span>`;
-        else if (i === currentCharIndex) displayText += `<span class='text-yellow-400 underline'>${practiceText[i]}</span>`;
-        else displayText += `<span class='text-gray-400'>${practiceText[i]}</span>`;
-      }
-      practiceDisplay.innerHTML = displayText;
-    }
-
-    // ✅ Load a lesson
-    function loadLesson(index) {
-      activeLesson = lessons[index];
-      lessonTitle.textContent = activeLesson.title;
-      practiceText = activeLesson.text;
-      currentCharIndex = 0;
-      updatePracticeDisplay();
-      renderKeyboard(activeLesson.keys);
-      nextLessonBtn.classList.add('hidden');
-      retryBtn.classList.add('hidden');
-    }
-
-    nextLessonBtn.addEventListener('click', () => {
-      currentLessonIndex++;
-      if (currentLessonIndex < lessons.length) {
-        loadLesson(currentLessonIndex);
-      } else {
-        lessonTitle.textContent = "🎉 Great job! You've completed all lessons.";
-        practiceDisplay.textContent = '';
+      function renderKeyboard(keysToShow = null) {
         keyboardContainer.innerHTML = '';
-        nextLessonBtn.classList.add('hidden');
+        keyboardLayout.forEach(row => {
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'flex justify-center';
+          row.forEach(label => {
+            const div = document.createElement('div');
+            div.className = 'key';
+            div.textContent = label.length === 1 ? label.toUpperCase() : label;
+            div.dataset.key = label.toLowerCase();
+            if (keysToShow && !keysToShow.includes(label.toUpperCase()) && !keysToShow.includes(label.toLowerCase()) && !keysToShow.includes(label)) {
+              div.classList.add('hidden');
+            }
+            if (label === 'Space') div.style.width = '12rem';
+            if (label === 'Shift' || label === 'Enter' || label === 'Backspace' || label === 'Tab' || label === 'Caps') div.style.width = '5rem';
+            rowDiv.appendChild(div);
+          });
+          keyboardContainer.appendChild(rowDiv);
+        });
       }
-    });
 
-    retryBtn.addEventListener('click', () => loadLesson(currentLessonIndex));
+      function updatePracticeDisplay() {
+        let html = '';
+        for (let i = 0; i < practiceText.length; i++) {
+          const ch = practiceText[i];
+          if (i < currentCharIndex) html += `<span class='text-green-400'>${ch}</span>`;
+          else if (i === currentCharIndex) html += `<span class='text-yellow-400 underline'>${ch}</span>`;
+          else html += `<span class='text-gray-400'>${ch}</span>`;
+        }
+        practiceDisplay.innerHTML = html;
+      }
 
-    // ✅ Initialize with full keyboard until JSON loads
-    renderKeyboard();
+      function loadLesson(index) {
+        activeLesson = lessons[index];
+        if (!activeLesson) return;
+        lessonTitle.textContent = activeLesson.title;
+        practiceText = activeLesson.text;
+        currentCharIndex = 0;
+        updatePracticeDisplay();
+        renderKeyboard(activeLesson.keys);
+        nextLessonBtn.classList.add("hidden");
+        retryBtn.classList.add("hidden");
+      }
 
-    // ✅ Fetch external JSON file
-    fetch('/json-files/keyboard.json')
-      .then(res => {
-        if (!res.ok) throw new Error('JSON file not found.');
-        return res.json();
-      })
-      .then(data => {
-        lessons = data.lessons;
-        if (lessons.length > 0) loadLesson(0);
-      })
-      .catch(err => {
-        console.error('Error loading JSON:', err);
-        lessonTitle.textContent = "⚠️ Error loading lessons. Showing full keyboard.";
+      document.addEventListener('keydown', (e) => {
+        const key = e.key.toLowerCase();
+        const keyDiv = document.querySelector(`.key[data-key="${key}"]`);
+        if (keyDiv) keyDiv.classList.add('active');
+
+        if (!practiceText) return;
+
+        const expected = practiceText[currentCharIndex];
+        const pressed = e.key === ' ' ? ' ' : e.key;
+
+        if (pressed.toLowerCase() === expected.toLowerCase()) {
+          keyDiv?.classList.add('correct');
+          currentCharIndex++;
+          updatePracticeDisplay();
+        } else {
+          keyDiv?.classList.add('wrong');
+        }
+
+        if (currentCharIndex >= practiceText.length) {
+          nextLessonBtn.classList.remove('hidden');
+          retryBtn.classList.remove('hidden');
+        }
       });
+
+      document.addEventListener('keyup', (e) => {
+        const key = e.key.toLowerCase();
+        const keyDiv = document.querySelector(`.key[data-key="${key}"]`);
+        if (keyDiv) keyDiv.classList.remove('active');
+      });
+
+      nextLessonBtn.addEventListener('click', () => {
+        currentLessonIndex++;
+        if (currentLessonIndex < lessons.length) {
+          loadLesson(currentLessonIndex);
+        } else {
+          lessonTitle.textContent = "🎉 Great job! You’ve completed all lessons.";
+          practiceDisplay.textContent = "";
+          keyboardContainer.innerHTML = "";
+          nextLessonBtn.classList.add("hidden");
+        }
+      });
+
+      retryBtn.addEventListener('click', () => loadLesson(currentLessonIndex));
+
+      // Render immediately to show keyboard before JSON loads
+      renderKeyboard();
+
+      // Load lessons from JSON
+      fetch("./json-files/keyboard.json")
+        .then(res => res.json())
+        .then(data => {
+          lessons = data.lessons;
+          if (lessons.length > 0) loadLesson(0);
+        })
+        .catch(err => {
+          console.error("JSON load error:", err);
+          lessonTitle.textContent = "⚠️ Could not load lessons. Showing full keyboard.";
+        });
+    });
   </script>
 </body>
 </html>
