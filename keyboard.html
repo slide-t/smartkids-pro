@@ -1,506 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SmartKids-Pro — Word Formation Tutor</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartKids Pro | Keyboard Tutor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* small custom styles */
-    .tile { min-width: 2.2rem; min-height: 2.6rem; }
-    .tile:active { transform: translateY(1px); }
+    .fade-in { animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-sky-50 to-indigo-50 text-slate-900 p-6">
-  <div class="max-w-4xl mx-auto">
-    <header class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-extrabold">SmartKids-Pro — Word Formation Tutor</h1>
-      <div class="text-sm text-slate-600">Form words from a longer word • progressive by class</div>
-    </header>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-6">
 
-    <main class="bg-white rounded-2xl shadow p-6">
+  <h1 class="text-3xl font-bold mb-4 text-blue-400">SmartKids Pro Keyboard Tutor</h1>
 
-      <!-- Controls -->
-      <section class="mb-6 grid gap-3 md:grid-cols-3 md:items-center">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Select Class / Year</label>
-          <select id="yearSelect" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
-            <option value="">Loading years...</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Target words to find</label>
-          <input id="targetInput" type="number" min="3" max="50" value="8" class="mt-1 w-full rounded-md border-slate-300 p-2" />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">Lesson</label>
-          <div id="lessonInfo" class="mt-1 text-sm text-slate-700">Pick a class to start</div>
-        </div>
-      </section>
-
-      <!-- Root word / letter bank -->
-      <section class="mb-6">
-        <div class="flex items-center justify-between mb-2">
-          <div>
-            <h2 class="text-lg font-semibold" id="rootTitle">Root word</h2>
-            <div class="text-xs text-slate-500" id="rootHint">Root word shows letter bank below.</div>
-          </div>
-          <div class="text-sm text-slate-600">
-            <button id="shuffleRootBtn" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm hidden">Shuffle root</button>
-          </div>
-        </div>
-
-        <div id="rootBank" class="flex flex-wrap gap-2 items-center p-3 bg-slate-50 rounded border border-slate-100">
-          <!-- letter tiles inserted here -->
-        </div>
-      </section>
-
-      <!-- Input area -->
-      <section class="mb-6">
-        <label class="block text-sm font-medium text-slate-700 mb-2">Type a word (or tap letters)</label>
-        <div class="flex gap-2">
-          <input id="wordInput" type="text" inputmode="text" autocomplete="off"
-                 class="flex-1 rounded border border-slate-300 p-3" placeholder="Type a word and press Enter" />
-          <button id="submitBtn" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-500">Submit</button>
-          <button id="clearBtn" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-400">Clear</button>
-        </div>
-
-        <div id="feedback" class="mt-3 min-h-[1.25rem] text-sm"></div>
-      </section>
-
-      <!-- Progress and correct words -->
-      <section class="mb-6 grid gap-4 md:grid-cols-2">
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <div class="text-sm text-slate-600">Progress</div>
-            <div class="text-sm text-slate-600">Found: <span id="foundCount">0</span> / <span id="targetCount">8</span></div>
-          </div>
-          <div class="w-full bg-slate-100 rounded h-4 overflow-hidden">
-            <div id="progressBar" class="h-4 bg-indigo-500 w-0 transition-all"></div>
-          </div>
-        </div>
-
-        <div>
-          <div class="text-sm text-slate-600 mb-2">Stats</div>
-          <div class="flex gap-3 text-sm text-slate-700">
-            <div>Attempts: <span id="attempts">0</span></div>
-            <div>Correct: <span id="correct">0</span></div>
-            <div>Wrong: <span id="wrong">0</span></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Correct words list -->
-      <section class="mb-6">
-        <h3 class="font-semibold mb-2">Correct words</h3>
-        <div id="correctList" class="min-h-[4rem] p-3 bg-slate-50 rounded border border-slate-100 text-slate-700">
-          <!-- words appear here -->
-        </div>
-      </section>
-
-      <!-- Controls after completion -->
-      <section class="flex gap-3 items-center">
-        <button id="nextRootBtn" class="bg-indigo-600 text-white px-4 py-2 rounded hidden">Next root word</button>
-        <button id="restartBtn" class="bg-slate-200 px-4 py-2 rounded hidden">Restart same root</button>
-        <div id="completionMsg" class="text-green-600 font-semibold"></div>
-      </section>
-
-    </main>
-
-    <footer class="text-center text-sm text-slate-500 mt-5">
-      SmartKids-Pro — Word Formation Tutor
-    </footer>
+  <!-- Class Selector -->
+  <div class="mb-6">
+    <label for="classSelect" class="text-lg font-semibold mr-2">Select Class:</label>
+    <select id="classSelect" class="bg-slate-800 px-3 py-2 rounded text-white focus:ring-2 focus:ring-blue-400">
+      <option value="">Choose Class</option>
+    </select>
   </div>
 
-<script>
-/* ===============================
-   Word-formation typing tutor
-   External JSON: ./json-files/keyboard_lessons.json
-   JSON structure expected:
-   {
-     "Year 1": [
-       { "title":"...", "rootWord":"communication", "minLength":3 },
-       ...
-     ],
-     "Year 2": [ ... ]
-   }
-   =============================== */
+  <!-- Lesson Display -->
+  <div id="lessonBox" class="hidden flex flex-col items-center w-full max-w-lg bg-slate-800 p-6 rounded-xl shadow-lg fade-in">
+    <h2 id="lessonTitle" class="text-xl font-semibold mb-2"></h2>
+    <div id="rootWord" class="text-3xl font-bold text-blue-300 tracking-wider mb-4"></div>
 
-document.addEventListener('DOMContentLoaded', () => {
-  const JSON_PATH = './json-files/keyboard_lessons.json';
+    <input id="typedWord" type="text" placeholder="Type a word..." class="w-full px-4 py-2 rounded text-black focus:ring-2 focus:ring-blue-400 outline-none mb-4" />
 
-  // DOM nodes
-  const yearSelect = document.getElementById('yearSelect');
-  const rootBank = document.getElementById('rootBank');
-  const rootTitle = document.getElementById('rootTitle');
-  const rootHint = document.getElementById('rootHint');
-  const lessonInfo = document.getElementById('lessonInfo');
-  const shuffleRootBtn = document.getElementById('shuffleRootBtn');
-  const wordInput = document.getElementById('wordInput');
-  const submitBtn = document.getElementById('submitBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const feedback = document.getElementById('feedback');
-  const foundCountEl = document.getElementById('foundCount');
-  const targetCountEl = document.getElementById('targetCount');
-  const progressBar = document.getElementById('progressBar');
-  const correctList = document.getElementById('correctList');
-  const attemptsEl = document.getElementById('attempts');
-  const correctEl = document.getElementById('correct');
-  const wrongEl = document.getElementById('wrong');
-  const nextRootBtn = document.getElementById('nextRootBtn');
-  const restartBtn = document.getElementById('restartBtn');
-  const completionMsg = document.getElementById('completionMsg');
-  const targetInput = document.getElementById('targetInput');
+    <button id="submitWord" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded mb-4">Submit Word</button>
 
-  // state
-  let lessonsByYear = {};
-  let selectedYear = null;
-  let yearLessons = [];
-  let currentRootIndex = 0;    // index in yearLessons
-  let currentRootObj = null;   // {title, rootWord, minLength}
-  let rootLetters = {};        // letter -> count
-  let correctWords = new Set();
-  let attempts = 0, correct = 0, wrong = 0;
-  let targetCount = parseInt(targetInput.value) || 8;
+    <div class="flex justify-between w-full mb-4 text-sm">
+      <div>✅ Correct Words: <span id="score">0</span></div>
+      <div>🎯 Target: <span id="target">10</span></div>
+    </div>
 
-  // helper: normalize string -> letters only lower case
-  const normalize = s => (s||'').toLowerCase().normalize('NFC').replace(/[^a-z\s]/g,'');
+    <div id="message" class="h-6 text-center text-yellow-300 mb-2"></div>
 
-  // fetch JSON
-  fetch(JSON_PATH)
-    .then(r => {
-      if (!r.ok) throw new Error('Lessons JSON not found');
-      return r.json();
-    })
-    .then(json => {
-      lessonsByYear = json;
-      populateYearSelect(Object.keys(lessonsByYear));
-    })
-    .catch(err => {
-      console.error('Failed to load lessons JSON:', err);
-      yearSelect.innerHTML = '<option value="">Failed to load years</option>';
-      lessonInfo.textContent = 'Unable to load lessons. Please check json-files/keyboard_lessons.json';
-    });
+    <ul id="correctList" class="list-disc pl-6 text-left w-full text-green-400 max-h-48 overflow-y-auto"></ul>
 
-  // populate Year select
-  function populateYearSelect(years) {
-    yearSelect.innerHTML = '<option value="">-- Select Year --</option>';
-    years.forEach(y => {
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      yearSelect.appendChild(opt);
-    });
-    // optional: preselect first year
-    // yearSelect.selectedIndex = 1;
-  }
+    <button id="nextLesson" class="hidden mt-6 bg-green-600 hover:bg-green-500 px-4 py-2 rounded">Next Lesson</button>
+  </div>
 
-  yearSelect.addEventListener('change', () => {
-    selectedYear = yearSelect.value;
-    if (!selectedYear) return;
-    yearLessons = lessonsByYear[selectedYear] || [];
-    if (!Array.isArray(yearLessons) || yearLessons.length === 0) {
-      lessonInfo.textContent = 'No lessons for this year';
-      return;
-    }
-    // shuffle root order
-    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
-    loadRoot(currentRootIndex);
-    shuffleRootBtn.classList.remove('hidden');
-    lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root word(s) available (shuffles each new root).`;
-  });
+  <script>
+    // -------------------------------
+    // SmartKids Pro Typing Tutor Script
+    // -------------------------------
+    const classSelect = document.getElementById('classSelect');
+    const lessonBox = document.getElementById('lessonBox');
+    const lessonTitle = document.getElementById('lessonTitle');
+    const rootWordDisplay = document.getElementById('rootWord');
+    const typedWord = document.getElementById('typedWord');
+    const submitWord = document.getElementById('submitWord');
+    const correctList = document.getElementById('correctList');
+    const message = document.getElementById('message');
+    const scoreEl = document.getElementById('score');
+    const targetEl = document.getElementById('target');
+    const nextLesson = document.getElementById('nextLesson');
 
-  // update target input
-  targetInput.addEventListener('change', () => {
-    targetCount = Math.max(1, Math.min(100, parseInt(targetInput.value) || 8));
-    targetCountEl.textContent = targetCount;
-    updateProgress();
-  });
+    let lessonsData = {};
+    let currentLesson = null;
+    let correctWords = [];
+    let target = 10;
 
-  // next root (shuffle)
-  shuffleRootBtn.addEventListener('click', () => {
-    // pick a different random root
-    if (!yearLessons.length) return;
-    let nextIdx = Math.floor(Math.random() * yearLessons.length);
-    if (yearLessons.length > 1) {
-      while (nextIdx === currentRootIndex) nextIdx = Math.floor(Math.random() * yearLessons.length);
-    }
-    currentRootIndex = nextIdx;
-    loadRoot(currentRootIndex);
-  });
-
-  // load a root object by its index in yearLessons
-  function loadRoot(idx) {
-    resetStateForRoot();
-    currentRootObj = yearLessons[idx];
-    if (!currentRootObj) return;
-    const title = currentRootObj.title || `Root: ${currentRootObj.rootWord}`;
-    rootTitle.textContent = title;
-    rootHint.textContent = `Form words from the letters of "${currentRootObj.rootWord}". Minimum length: ${currentRootObj.minLength || 3}.`;
-    // prepare letter bank
-    const normalized = normalize(currentRootObj.rootWord);
-    rootLetters = buildLetterCounts(normalized);
-    renderLetterBank(rootLetters);
-    // UI
-    targetCount = Math.max(1, parseInt(targetInput.value) || 8);
-    targetCountEl.textContent = targetCount;
-    completionMsg.textContent = '';
-  }
-
-  // build letter counts map
-  function buildLetterCounts(s) {
-    const map = {};
-    for (const ch of s) {
-      if (ch === ' ') continue;
-      map[ch] = (map[ch] || 0) + 1;
-    }
-    return map;
-  }
-
-  // render letter bank tiles (letters + counts)
-  function renderLetterBank(map) {
-    rootBank.innerHTML = '';
-    // show root word (for reference) and letter tiles below
-    const wordRef = document.createElement('div');
-    wordRef.className = 'w-full mb-2 text-sm text-slate-600';
-    wordRef.textContent = `Root word: ${currentRootObj.rootWord}`;
-    rootBank.appendChild(wordRef);
-
-    const letters = Object.keys(map).sort();
-    letters.forEach(ch => {
-      const tile = document.createElement('button');
-      tile.type = 'button';
-      tile.className = 'tile bg-white text-slate-900 rounded shadow-sm px-2 py-1 flex items-center gap-2';
-      tile.innerHTML = `<span class="font-medium">${ch.toUpperCase()}</span><span class="text-xs text-slate-500">x${map[ch]}</span>`;
-      tile.addEventListener('click', () => {
-        // append this letter to input (do not enforce counts here — validation happens on submit)
-        wordInput.value += ch;
-        wordInput.focus();
-      });
-      rootBank.appendChild(tile);
-    });
-  }
-
-  // clear / submit handlers
-  clearBtn.addEventListener('click', () => {
-    wordInput.value = '';
-    feedback.textContent = '';
-  });
-
-  submitBtn.addEventListener('click', () => {
-    handleSubmit();
-  });
-
-  wordInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSubmit();
-    }
-  });
-
-  // handle confirmation
-  function handleSubmit() {
-    const raw = wordInput.value.trim();
-    if (!raw) {
-      flashFeedback('Type a word first.', 'text-slate-600');
-      return;
-    }
-    if (!currentRootObj) {
-      flashFeedback('Select a class and load a root first.', 'text-red-600');
-      return;
+    // Load lessons
+    async function loadLessons() {
+      try {
+        const response = await fetch('/json-files/keyboard_lessons.json');
+        lessonsData = await response.json();
+      } catch (e) {
+        console.warn("⚠️ Using fallback data");
+        lessonsData = {
+          "Year 1": [
+            { "title": "Lesson 1", "rootWord": "communication", "minLength": 3 },
+            { "title": "Lesson 2", "rootWord": "generation", "minLength": 3 },
+            { "title": "Lesson 3", "rootWord": "education", "minLength": 3 }
+          ],
+          "Year 2": [
+            { "title": "Lesson 1", "rootWord": "professional", "minLength": 4 },
+            { "title": "Lesson 2", "rootWord": "development", "minLength": 4 },
+            { "title": "Lesson 3", "rootWord": "intelligent", "minLength": 4 }
+          ],
+          "Year 3": [
+            { "title": "Lesson 1", "rootWord": "programming", "minLength": 4 },
+            { "title": "Lesson 2", "rootWord": "responsibility", "minLength": 5 },
+            { "title": "Lesson 3", "rootWord": "relationship", "minLength": 5 }
+          ]
+        };
+      }
+      populateClassDropdown();
     }
 
-    attempts++;
-    attemptsEl.textContent = attempts;
-
-    const normalizedWord = normalize(raw).replace(/\s+/g,'');
-    const minLen = currentRootObj.minLength || 3;
-    if (normalizedWord.length < minLen) {
-      wrong++;
-      wrongEl.textContent = wrong;
-      flashFeedback(`Word too short. Minimum ${minLen} letters.`, 'text-red-600');
-      return;
-    }
-    if (correctWords.has(normalizedWord)) {
-      flashFeedback('You already found that word.', 'text-amber-600');
-      return;
+    // Populate Class Selector
+    function populateClassDropdown() {
+      for (const year in lessonsData) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        classSelect.appendChild(option);
+      }
     }
 
-    // validate letter counts
-    if (!isFormable(normalizedWord, rootLetters)) {
-      wrong++;
-      wrongEl.textContent = wrong;
-      flashFeedback('That word cannot be formed from the root letters.', 'text-red-600');
-      return;
+    // Shuffle helper
+    function randomLesson(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    // passed core checks — accept word
-    correctWords.add(normalizedWord);
-    correct++;
-    correctEl.textContent = correct;
-    addCorrectWordToList(normalizedWord);
-    wordInput.value = '';
-    flashFeedback('Good! ✅', 'text-green-600');
-
-    updateProgress();
-
-    // check completion
-    if (correct >= targetCount) {
-      onCompleteRoot();
+    // Start a lesson
+    function startLesson(selectedClass) {
+      const lessons = lessonsData[selectedClass];
+      currentLesson = randomLesson(lessons);
+      lessonTitle.textContent = currentLesson.title + " - " + selectedClass;
+      rootWordDisplay.textContent = currentLesson.rootWord.toUpperCase();
+      correctWords = [];
+      scoreEl.textContent = 0;
+      targetEl.textContent = target;
+      correctList.innerHTML = '';
+      message.textContent = '';
+      lessonBox.classList.remove('hidden');
+      nextLesson.classList.add('hidden');
+      typedWord.value = '';
+      typedWord.focus();
     }
-  }
 
-  // check if a word can be formed from letter bank (respect counts)
-  function isFormable(word, bank) {
-    const needed = {};
-    for (const ch of word) {
-      if (!/[a-z]/.test(ch)) return false; // only letters allowed
-      needed[ch] = (needed[ch] || 0) + 1;
+    // Check if word valid from rootWord
+    function canFormWord(word, rootWord) {
+      const rootLetters = rootWord.split('');
+      for (let ch of word) {
+        const index = rootLetters.indexOf(ch);
+        if (index === -1) return false;
+        rootLetters.splice(index, 1);
+      }
+      return true;
     }
-    for (const [ch, cnt] of Object.entries(needed)) {
-      if (!bank[ch] || bank[ch] < cnt) return false;
-    }
-    return true;
-  }
 
-  function addCorrectWordToList(w) {
-    const el = document.createElement('div');
-    el.className = 'inline-block bg-indigo-50 text-indigo-700 px-3 py-1 mr-2 mb-2 rounded';
-    el.textContent = w;
-    correctList.appendChild(el);
-  }
+    // Submit handler
+    function checkWord() {
+      const input = typedWord.value.toLowerCase().trim();
+      const root = currentLesson.rootWord.toLowerCase();
 
-  function updateProgress() {
-    foundCountEl.textContent = correct;
-    const pct = Math.min(100, Math.round((correct / targetCount) * 100));
-    progressBar.style.width = pct + '%';
-  }
-
-  function onCompleteRoot() {
-    completionMsg.textContent = `Great — you found ${correct} words!`;
-    nextRootBtn.classList.remove('hidden');
-    restartBtn.classList.remove('hidden');
-    // disable input while waiting
-    submitBtn.disabled = true;
-    wordInput.disabled = true;
-  }
-
-  nextRootBtn.addEventListener('click', () => {
-    // choose another root from same year
-    if (!yearLessons || yearLessons.length === 0) return;
-    let idx = Math.floor(Math.random() * yearLessons.length);
-    if (yearLessons.length > 1) {
-      while (idx === currentRootIndex) idx = Math.floor(Math.random() * yearLessons.length);
-    }
-    currentRootIndex = idx;
-    loadRoot(idx);
-    // restore
-    submitBtn.disabled = false;
-    wordInput.disabled = false;
-    nextRootBtn.classList.add('hidden');
-    restartBtn.classList.add('hidden');
-  });
-
-  restartBtn.addEventListener('click', () => {
-    // restart same root
-    loadRoot(currentRootIndex);
-    submitBtn.disabled = false;
-    wordInput.disabled = false;
-    nextRootBtn.classList.add('hidden');
-    restartBtn.classList.add('hidden');
-  });
-
-  // helper utilities
-  function resetStateForRoot() {
-    correctWords.clear();
-    correctList.innerHTML = '';
-    attempts = 0; correct = 0; wrong = 0;
-    attemptsEl.textContent = 0; correctEl.textContent = 0; wrongEl.textContent = 0;
-    foundCountEl.textContent = 0; progressBar.style.width = '0%';
-    wordInput.value = '';
-    feedback.textContent = '';
-    completionMsg.textContent = '';
-    nextRootBtn.classList.add('hidden');
-    restartBtn.classList.add('hidden');
-  }
-
-  function flashFeedback(msg, cls='text-slate-600') {
-    feedback.innerHTML = `<span class="${cls}">${msg}</span>`;
-    setTimeout(()=> {
-      // clear light feedback after 2s unless it's completion message
-      if (completionMsg.textContent === '') feedback.innerHTML = '';
-    }, 2000);
-  }
-
-  // when a year selected, set yearLessons and pick random root
-  function populateYearLessons(year) {
-    if (!lessonsByYear || !lessonsByYear[year]) return;
-    yearLessons = lessonsByYear[year];
-    // ensure we keep the yearLessons pointer local
-    // choose a random index
-    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
-    loadRoot(currentRootIndex);
-  }
-
-  // initial scaffold: wait for JSON above, then populateYearSelect will set options.
-  // But we must connect year selection to populateYearLessons.
-  // Wait until lessonsByYear is assigned:
-  let lessonsByYear = {};
-  fetch(JSON_PATH)
-    .then(r => r.json())
-    .then(json => {
-      lessonsByYear = json;
-      // populate selector
-      yearSelect.innerHTML = '';
-      const years = Object.keys(lessonsByYear);
-      if (years.length === 0) {
-        yearSelect.innerHTML = '<option value="">No years found</option>';
+      if (!input) return;
+      if (input.length < currentLesson.minLength) {
+        message.textContent = `❗ Word too short. Minimum ${currentLesson.minLength} letters.`;
         return;
       }
-      const placeholder = document.createElement('option');
-      placeholder.value = '';
-      placeholder.textContent = '-- Select Year --';
-      yearSelect.appendChild(placeholder);
-      years.forEach(y => {
-        const o = document.createElement('option');
-        o.value = y;
-        o.textContent = y;
-        yearSelect.appendChild(o);
-      });
-      // optional: auto-select first year for convenience
-      yearSelect.selectedIndex = 1;
-      selectedYear = yearSelect.value;
-      yearLessons = lessonsByYear[selectedYear] || [];
-      if (yearLessons.length > 0) {
-        // pick random root
-        currentRootIndex = Math.floor(Math.random() * yearLessons.length);
-        loadRoot(currentRootIndex);
-        shuffleRootBtn.classList.remove('hidden');
-        lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root words (shuffled)`;
+      if (correctWords.includes(input)) {
+        message.textContent = "⚠️ Already used.";
+        return;
       }
-    })
-    .catch(err => {
-      console.error('Failed to load lessons JSON (initial):', err);
-      yearSelect.innerHTML = '<option value="">Failed to load</option>';
-    });
+      if (!canFormWord(input, root)) {
+        message.textContent = "❌ Can't be formed from given letters.";
+        return;
+      }
 
-  // connect selection change (again)
-  yearSelect.addEventListener('change', () => {
-    selectedYear = yearSelect.value;
-    if (!selectedYear) return;
-    yearLessons = lessonsByYear[selectedYear] || [];
-    if (yearLessons.length === 0) {
-      lessonInfo.textContent = 'No lessons for this year';
-      return;
+      correctWords.push(input);
+      scoreEl.textContent = correctWords.length;
+      const li = document.createElement('li');
+      li.textContent = input;
+      li.classList.add('fade-in');
+      correctList.appendChild(li);
+      message.textContent = "✅ Correct!";
+      typedWord.value = '';
+
+      if (correctWords.length >= target) {
+        message.textContent = "🎉 Excellent! Lesson Complete.";
+        nextLesson.classList.remove('hidden');
+      }
     }
-    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
-    loadRoot(currentRootIndex);
-    lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root words (shuffled)`;
-  });
 
-}); // DOMContentLoaded
-</script>
+    // Event listeners
+    submitWord.addEventListener('click', checkWord);
+    typedWord.addEventListener('keydown', e => { if (e.key === 'Enter') checkWord(); });
+    classSelect.addEventListener('change', e => {
+      if (e.target.value) startLesson(e.target.value);
+    });
+    nextLesson.addEventListener('click', () => startLesson(classSelect.value));
+
+    // Initialize
+    loadLessons();
+  </script>
 </body>
 </html>
