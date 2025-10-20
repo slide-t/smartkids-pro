@@ -1,174 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Keyboard Tutor | SmartKids Pro</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartKids-Pro — Word Formation Tutor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .key {
-      width: 2.6rem;
-      height: 2.6rem;
-      margin: 0.15rem;
-      background-color: #1e293b;
-      color: white;
-      border-radius: 0.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease-in-out;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-      user-select: none;
-      font-weight: 500;
-    }
-    .key.active { background-color: #3b82f6; transform: scale(1.1); }
-    .key.correct { background-color: #22c55e; }
-    .key.wrong { background-color: #ef4444; }
-    .hidden { display: none !important; }
+    /* small custom styles */
+    .tile { min-width: 2.2rem; min-height: 2.6rem; }
+    .tile:active { transform: translateY(1px); }
   </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-6">
-  <h1 class="text-3xl font-bold mb-4 text-center">Keyboard Tutor | SmartKids Pro</h1>
+<body class="min-h-screen bg-gradient-to-b from-sky-50 to-indigo-50 text-slate-900 p-6">
+  <div class="max-w-4xl mx-auto">
+    <header class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-extrabold">SmartKids-Pro — Word Formation Tutor</h1>
+      <div class="text-sm text-slate-600">Form words from a longer word • progressive by class</div>
+    </header>
 
-  <div id="lessonTitle" class="text-lg mb-2 font-semibold"></div>
-  <div id="practiceText" class="text-xl mb-6 text-center tracking-widest"></div>
+    <main class="bg-white rounded-2xl shadow p-6">
 
-  <!-- Virtual Keyboard -->
-  <div id="keyboard" class="p-4 bg-slate-800 rounded-xl shadow-lg mb-6 w-full max-w-5xl"></div>
+      <!-- Controls -->
+      <section class="mb-6 grid gap-3 md:grid-cols-3 md:items-center">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Select Class / Year</label>
+          <select id="yearSelect" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+            <option value="">Loading years...</option>
+          </select>
+        </div>
 
-  <div class="flex gap-4">
-    <button id="nextLessonBtn" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 hidden">Next Lesson</button>
-    <button id="retryBtn" class="bg-amber-600 px-4 py-2 rounded hover:bg-amber-500 hidden">Retry</button>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Target words to find</label>
+          <input id="targetInput" type="number" min="3" max="50" value="8" class="mt-1 w-full rounded-md border-slate-300 p-2" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Lesson</label>
+          <div id="lessonInfo" class="mt-1 text-sm text-slate-700">Pick a class to start</div>
+        </div>
+      </section>
+
+      <!-- Root word / letter bank -->
+      <section class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h2 class="text-lg font-semibold" id="rootTitle">Root word</h2>
+            <div class="text-xs text-slate-500" id="rootHint">Root word shows letter bank below.</div>
+          </div>
+          <div class="text-sm text-slate-600">
+            <button id="shuffleRootBtn" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm hidden">Shuffle root</button>
+          </div>
+        </div>
+
+        <div id="rootBank" class="flex flex-wrap gap-2 items-center p-3 bg-slate-50 rounded border border-slate-100">
+          <!-- letter tiles inserted here -->
+        </div>
+      </section>
+
+      <!-- Input area -->
+      <section class="mb-6">
+        <label class="block text-sm font-medium text-slate-700 mb-2">Type a word (or tap letters)</label>
+        <div class="flex gap-2">
+          <input id="wordInput" type="text" inputmode="text" autocomplete="off"
+                 class="flex-1 rounded border border-slate-300 p-3" placeholder="Type a word and press Enter" />
+          <button id="submitBtn" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-500">Submit</button>
+          <button id="clearBtn" class="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-400">Clear</button>
+        </div>
+
+        <div id="feedback" class="mt-3 min-h-[1.25rem] text-sm"></div>
+      </section>
+
+      <!-- Progress and correct words -->
+      <section class="mb-6 grid gap-4 md:grid-cols-2">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-600">Progress</div>
+            <div class="text-sm text-slate-600">Found: <span id="foundCount">0</span> / <span id="targetCount">8</span></div>
+          </div>
+          <div class="w-full bg-slate-100 rounded h-4 overflow-hidden">
+            <div id="progressBar" class="h-4 bg-indigo-500 w-0 transition-all"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm text-slate-600 mb-2">Stats</div>
+          <div class="flex gap-3 text-sm text-slate-700">
+            <div>Attempts: <span id="attempts">0</span></div>
+            <div>Correct: <span id="correct">0</span></div>
+            <div>Wrong: <span id="wrong">0</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Correct words list -->
+      <section class="mb-6">
+        <h3 class="font-semibold mb-2">Correct words</h3>
+        <div id="correctList" class="min-h-[4rem] p-3 bg-slate-50 rounded border border-slate-100 text-slate-700">
+          <!-- words appear here -->
+        </div>
+      </section>
+
+      <!-- Controls after completion -->
+      <section class="flex gap-3 items-center">
+        <button id="nextRootBtn" class="bg-indigo-600 text-white px-4 py-2 rounded hidden">Next root word</button>
+        <button id="restartBtn" class="bg-slate-200 px-4 py-2 rounded hidden">Restart same root</button>
+        <div id="completionMsg" class="text-green-600 font-semibold"></div>
+      </section>
+
+    </main>
+
+    <footer class="text-center text-sm text-slate-500 mt-5">
+      SmartKids-Pro — Word Formation Tutor
+    </footer>
   </div>
 
-  <script>
-    // Wait until DOM is ready
-    document.addEventListener("DOMContentLoaded", () => {
+<script>
+/* ===============================
+   Word-formation typing tutor
+   External JSON: ./json-files/keyboard_lessons.json
+   JSON structure expected:
+   {
+     "Year 1": [
+       { "title":"...", "rootWord":"communication", "minLength":3 },
+       ...
+     ],
+     "Year 2": [ ... ]
+   }
+   =============================== */
 
-      const keyboardContainer = document.getElementById("keyboard");
-      const lessonTitle = document.getElementById("lessonTitle");
-      const practiceDisplay = document.getElementById("practiceText");
-      const nextLessonBtn = document.getElementById("nextLessonBtn");
-      const retryBtn = document.getElementById("retryBtn");
+document.addEventListener('DOMContentLoaded', () => {
+  const JSON_PATH = './json-files/keyboard_lessons.json';
 
-      const keyboardLayout = [
-        ['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'],
-        ['Tab','Q','W','E','R','T','Y','U','I','O','P','[',']','\\'],
-        ['Caps','A','S','D','F','G','H','J','K','L',';',"'",'Enter'],
-        ['Shift','Z','X','C','V','B','N','M',',','.','/','Shift'],
-        ['Space']
-      ];
+  // DOM nodes
+  const yearSelect = document.getElementById('yearSelect');
+  const rootBank = document.getElementById('rootBank');
+  const rootTitle = document.getElementById('rootTitle');
+  const rootHint = document.getElementById('rootHint');
+  const lessonInfo = document.getElementById('lessonInfo');
+  const shuffleRootBtn = document.getElementById('shuffleRootBtn');
+  const wordInput = document.getElementById('wordInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const feedback = document.getElementById('feedback');
+  const foundCountEl = document.getElementById('foundCount');
+  const targetCountEl = document.getElementById('targetCount');
+  const progressBar = document.getElementById('progressBar');
+  const correctList = document.getElementById('correctList');
+  const attemptsEl = document.getElementById('attempts');
+  const correctEl = document.getElementById('correct');
+  const wrongEl = document.getElementById('wrong');
+  const nextRootBtn = document.getElementById('nextRootBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const completionMsg = document.getElementById('completionMsg');
+  const targetInput = document.getElementById('targetInput');
 
-      let lessons = [];
-      let currentLessonIndex = 0;
-      let currentCharIndex = 0;
-      let practiceText = '';
-      let activeLesson = null;
+  // state
+  let lessonsByYear = {};
+  let selectedYear = null;
+  let yearLessons = [];
+  let currentRootIndex = 0;    // index in yearLessons
+  let currentRootObj = null;   // {title, rootWord, minLength}
+  let rootLetters = {};        // letter -> count
+  let correctWords = new Set();
+  let attempts = 0, correct = 0, wrong = 0;
+  let targetCount = parseInt(targetInput.value) || 8;
 
-      function renderKeyboard(keysToShow = null) {
-        keyboardContainer.innerHTML = '';
-        keyboardLayout.forEach(row => {
-          const rowDiv = document.createElement('div');
-          rowDiv.className = 'flex justify-center';
-          row.forEach(label => {
-            const div = document.createElement('div');
-            div.className = 'key';
-            div.textContent = label.length === 1 ? label.toUpperCase() : label;
-            div.dataset.key = label.toLowerCase();
-            if (keysToShow && !keysToShow.includes(label.toUpperCase()) && !keysToShow.includes(label.toLowerCase()) && !keysToShow.includes(label)) {
-              div.classList.add('hidden');
-            }
-            if (label === 'Space') div.style.width = '12rem';
-            if (label === 'Shift' || label === 'Enter' || label === 'Backspace' || label === 'Tab' || label === 'Caps') div.style.width = '5rem';
-            rowDiv.appendChild(div);
-          });
-          keyboardContainer.appendChild(rowDiv);
-        });
-      }
+  // helper: normalize string -> letters only lower case
+  const normalize = s => (s||'').toLowerCase().normalize('NFC').replace(/[^a-z\s]/g,'');
 
-      function updatePracticeDisplay() {
-        let html = '';
-        for (let i = 0; i < practiceText.length; i++) {
-          const ch = practiceText[i];
-          if (i < currentCharIndex) html += `<span class='text-green-400'>${ch}</span>`;
-          else if (i === currentCharIndex) html += `<span class='text-yellow-400 underline'>${ch}</span>`;
-          else html += `<span class='text-gray-400'>${ch}</span>`;
-        }
-        practiceDisplay.innerHTML = html;
-      }
-
-      function loadLesson(index) {
-        activeLesson = lessons[index];
-        if (!activeLesson) return;
-        lessonTitle.textContent = activeLesson.title;
-        practiceText = activeLesson.text;
-        currentCharIndex = 0;
-        updatePracticeDisplay();
-        renderKeyboard(activeLesson.keys);
-        nextLessonBtn.classList.add("hidden");
-        retryBtn.classList.add("hidden");
-      }
-
-      document.addEventListener('keydown', (e) => {
-        const key = e.key.toLowerCase();
-        const keyDiv = document.querySelector(`.key[data-key="${key}"]`);
-        if (keyDiv) keyDiv.classList.add('active');
-
-        if (!practiceText) return;
-
-        const expected = practiceText[currentCharIndex];
-        const pressed = e.key === ' ' ? ' ' : e.key;
-
-        if (pressed.toLowerCase() === expected.toLowerCase()) {
-          keyDiv?.classList.add('correct');
-          currentCharIndex++;
-          updatePracticeDisplay();
-        } else {
-          keyDiv?.classList.add('wrong');
-        }
-
-        if (currentCharIndex >= practiceText.length) {
-          nextLessonBtn.classList.remove('hidden');
-          retryBtn.classList.remove('hidden');
-        }
-      });
-
-      document.addEventListener('keyup', (e) => {
-        const key = e.key.toLowerCase();
-        const keyDiv = document.querySelector(`.key[data-key="${key}"]`);
-        if (keyDiv) keyDiv.classList.remove('active');
-      });
-
-      nextLessonBtn.addEventListener('click', () => {
-        currentLessonIndex++;
-        if (currentLessonIndex < lessons.length) {
-          loadLesson(currentLessonIndex);
-        } else {
-          lessonTitle.textContent = "🎉 Great job! You’ve completed all lessons.";
-          practiceDisplay.textContent = "";
-          keyboardContainer.innerHTML = "";
-          nextLessonBtn.classList.add("hidden");
-        }
-      });
-
-      retryBtn.addEventListener('click', () => loadLesson(currentLessonIndex));
-
-      // Render immediately to show keyboard before JSON loads
-      renderKeyboard();
-
-      // Load lessons from JSON
-      fetch("./json-files/keyboard.json")
-        .then(res => res.json())
-        .then(data => {
-          lessons = data.lessons;
-          if (lessons.length > 0) loadLesson(0);
-        })
-        .catch(err => {
-          console.error("JSON load error:", err);
-          lessonTitle.textContent = "⚠️ Could not load lessons. Showing full keyboard.";
-        });
+  // fetch JSON
+  fetch(JSON_PATH)
+    .then(r => {
+      if (!r.ok) throw new Error('Lessons JSON not found');
+      return r.json();
+    })
+    .then(json => {
+      lessonsByYear = json;
+      populateYearSelect(Object.keys(lessonsByYear));
+    })
+    .catch(err => {
+      console.error('Failed to load lessons JSON:', err);
+      yearSelect.innerHTML = '<option value="">Failed to load years</option>';
+      lessonInfo.textContent = 'Unable to load lessons. Please check json-files/keyboard_lessons.json';
     });
-  </script>
+
+  // populate Year select
+  function populateYearSelect(years) {
+    yearSelect.innerHTML = '<option value="">-- Select Year --</option>';
+    years.forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearSelect.appendChild(opt);
+    });
+    // optional: preselect first year
+    // yearSelect.selectedIndex = 1;
+  }
+
+  yearSelect.addEventListener('change', () => {
+    selectedYear = yearSelect.value;
+    if (!selectedYear) return;
+    yearLessons = lessonsByYear[selectedYear] || [];
+    if (!Array.isArray(yearLessons) || yearLessons.length === 0) {
+      lessonInfo.textContent = 'No lessons for this year';
+      return;
+    }
+    // shuffle root order
+    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
+    loadRoot(currentRootIndex);
+    shuffleRootBtn.classList.remove('hidden');
+    lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root word(s) available (shuffles each new root).`;
+  });
+
+  // update target input
+  targetInput.addEventListener('change', () => {
+    targetCount = Math.max(1, Math.min(100, parseInt(targetInput.value) || 8));
+    targetCountEl.textContent = targetCount;
+    updateProgress();
+  });
+
+  // next root (shuffle)
+  shuffleRootBtn.addEventListener('click', () => {
+    // pick a different random root
+    if (!yearLessons.length) return;
+    let nextIdx = Math.floor(Math.random() * yearLessons.length);
+    if (yearLessons.length > 1) {
+      while (nextIdx === currentRootIndex) nextIdx = Math.floor(Math.random() * yearLessons.length);
+    }
+    currentRootIndex = nextIdx;
+    loadRoot(currentRootIndex);
+  });
+
+  // load a root object by its index in yearLessons
+  function loadRoot(idx) {
+    resetStateForRoot();
+    currentRootObj = yearLessons[idx];
+    if (!currentRootObj) return;
+    const title = currentRootObj.title || `Root: ${currentRootObj.rootWord}`;
+    rootTitle.textContent = title;
+    rootHint.textContent = `Form words from the letters of "${currentRootObj.rootWord}". Minimum length: ${currentRootObj.minLength || 3}.`;
+    // prepare letter bank
+    const normalized = normalize(currentRootObj.rootWord);
+    rootLetters = buildLetterCounts(normalized);
+    renderLetterBank(rootLetters);
+    // UI
+    targetCount = Math.max(1, parseInt(targetInput.value) || 8);
+    targetCountEl.textContent = targetCount;
+    completionMsg.textContent = '';
+  }
+
+  // build letter counts map
+  function buildLetterCounts(s) {
+    const map = {};
+    for (const ch of s) {
+      if (ch === ' ') continue;
+      map[ch] = (map[ch] || 0) + 1;
+    }
+    return map;
+  }
+
+  // render letter bank tiles (letters + counts)
+  function renderLetterBank(map) {
+    rootBank.innerHTML = '';
+    // show root word (for reference) and letter tiles below
+    const wordRef = document.createElement('div');
+    wordRef.className = 'w-full mb-2 text-sm text-slate-600';
+    wordRef.textContent = `Root word: ${currentRootObj.rootWord}`;
+    rootBank.appendChild(wordRef);
+
+    const letters = Object.keys(map).sort();
+    letters.forEach(ch => {
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'tile bg-white text-slate-900 rounded shadow-sm px-2 py-1 flex items-center gap-2';
+      tile.innerHTML = `<span class="font-medium">${ch.toUpperCase()}</span><span class="text-xs text-slate-500">x${map[ch]}</span>`;
+      tile.addEventListener('click', () => {
+        // append this letter to input (do not enforce counts here — validation happens on submit)
+        wordInput.value += ch;
+        wordInput.focus();
+      });
+      rootBank.appendChild(tile);
+    });
+  }
+
+  // clear / submit handlers
+  clearBtn.addEventListener('click', () => {
+    wordInput.value = '';
+    feedback.textContent = '';
+  });
+
+  submitBtn.addEventListener('click', () => {
+    handleSubmit();
+  });
+
+  wordInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit();
+    }
+  });
+
+  // handle confirmation
+  function handleSubmit() {
+    const raw = wordInput.value.trim();
+    if (!raw) {
+      flashFeedback('Type a word first.', 'text-slate-600');
+      return;
+    }
+    if (!currentRootObj) {
+      flashFeedback('Select a class and load a root first.', 'text-red-600');
+      return;
+    }
+
+    attempts++;
+    attemptsEl.textContent = attempts;
+
+    const normalizedWord = normalize(raw).replace(/\s+/g,'');
+    const minLen = currentRootObj.minLength || 3;
+    if (normalizedWord.length < minLen) {
+      wrong++;
+      wrongEl.textContent = wrong;
+      flashFeedback(`Word too short. Minimum ${minLen} letters.`, 'text-red-600');
+      return;
+    }
+    if (correctWords.has(normalizedWord)) {
+      flashFeedback('You already found that word.', 'text-amber-600');
+      return;
+    }
+
+    // validate letter counts
+    if (!isFormable(normalizedWord, rootLetters)) {
+      wrong++;
+      wrongEl.textContent = wrong;
+      flashFeedback('That word cannot be formed from the root letters.', 'text-red-600');
+      return;
+    }
+
+    // passed core checks — accept word
+    correctWords.add(normalizedWord);
+    correct++;
+    correctEl.textContent = correct;
+    addCorrectWordToList(normalizedWord);
+    wordInput.value = '';
+    flashFeedback('Good! ✅', 'text-green-600');
+
+    updateProgress();
+
+    // check completion
+    if (correct >= targetCount) {
+      onCompleteRoot();
+    }
+  }
+
+  // check if a word can be formed from letter bank (respect counts)
+  function isFormable(word, bank) {
+    const needed = {};
+    for (const ch of word) {
+      if (!/[a-z]/.test(ch)) return false; // only letters allowed
+      needed[ch] = (needed[ch] || 0) + 1;
+    }
+    for (const [ch, cnt] of Object.entries(needed)) {
+      if (!bank[ch] || bank[ch] < cnt) return false;
+    }
+    return true;
+  }
+
+  function addCorrectWordToList(w) {
+    const el = document.createElement('div');
+    el.className = 'inline-block bg-indigo-50 text-indigo-700 px-3 py-1 mr-2 mb-2 rounded';
+    el.textContent = w;
+    correctList.appendChild(el);
+  }
+
+  function updateProgress() {
+    foundCountEl.textContent = correct;
+    const pct = Math.min(100, Math.round((correct / targetCount) * 100));
+    progressBar.style.width = pct + '%';
+  }
+
+  function onCompleteRoot() {
+    completionMsg.textContent = `Great — you found ${correct} words!`;
+    nextRootBtn.classList.remove('hidden');
+    restartBtn.classList.remove('hidden');
+    // disable input while waiting
+    submitBtn.disabled = true;
+    wordInput.disabled = true;
+  }
+
+  nextRootBtn.addEventListener('click', () => {
+    // choose another root from same year
+    if (!yearLessons || yearLessons.length === 0) return;
+    let idx = Math.floor(Math.random() * yearLessons.length);
+    if (yearLessons.length > 1) {
+      while (idx === currentRootIndex) idx = Math.floor(Math.random() * yearLessons.length);
+    }
+    currentRootIndex = idx;
+    loadRoot(idx);
+    // restore
+    submitBtn.disabled = false;
+    wordInput.disabled = false;
+    nextRootBtn.classList.add('hidden');
+    restartBtn.classList.add('hidden');
+  });
+
+  restartBtn.addEventListener('click', () => {
+    // restart same root
+    loadRoot(currentRootIndex);
+    submitBtn.disabled = false;
+    wordInput.disabled = false;
+    nextRootBtn.classList.add('hidden');
+    restartBtn.classList.add('hidden');
+  });
+
+  // helper utilities
+  function resetStateForRoot() {
+    correctWords.clear();
+    correctList.innerHTML = '';
+    attempts = 0; correct = 0; wrong = 0;
+    attemptsEl.textContent = 0; correctEl.textContent = 0; wrongEl.textContent = 0;
+    foundCountEl.textContent = 0; progressBar.style.width = '0%';
+    wordInput.value = '';
+    feedback.textContent = '';
+    completionMsg.textContent = '';
+    nextRootBtn.classList.add('hidden');
+    restartBtn.classList.add('hidden');
+  }
+
+  function flashFeedback(msg, cls='text-slate-600') {
+    feedback.innerHTML = `<span class="${cls}">${msg}</span>`;
+    setTimeout(()=> {
+      // clear light feedback after 2s unless it's completion message
+      if (completionMsg.textContent === '') feedback.innerHTML = '';
+    }, 2000);
+  }
+
+  // when a year selected, set yearLessons and pick random root
+  function populateYearLessons(year) {
+    if (!lessonsByYear || !lessonsByYear[year]) return;
+    yearLessons = lessonsByYear[year];
+    // ensure we keep the yearLessons pointer local
+    // choose a random index
+    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
+    loadRoot(currentRootIndex);
+  }
+
+  // initial scaffold: wait for JSON above, then populateYearSelect will set options.
+  // But we must connect year selection to populateYearLessons.
+  // Wait until lessonsByYear is assigned:
+  let lessonsByYear = {};
+  fetch(JSON_PATH)
+    .then(r => r.json())
+    .then(json => {
+      lessonsByYear = json;
+      // populate selector
+      yearSelect.innerHTML = '';
+      const years = Object.keys(lessonsByYear);
+      if (years.length === 0) {
+        yearSelect.innerHTML = '<option value="">No years found</option>';
+        return;
+      }
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = '-- Select Year --';
+      yearSelect.appendChild(placeholder);
+      years.forEach(y => {
+        const o = document.createElement('option');
+        o.value = y;
+        o.textContent = y;
+        yearSelect.appendChild(o);
+      });
+      // optional: auto-select first year for convenience
+      yearSelect.selectedIndex = 1;
+      selectedYear = yearSelect.value;
+      yearLessons = lessonsByYear[selectedYear] || [];
+      if (yearLessons.length > 0) {
+        // pick random root
+        currentRootIndex = Math.floor(Math.random() * yearLessons.length);
+        loadRoot(currentRootIndex);
+        shuffleRootBtn.classList.remove('hidden');
+        lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root words (shuffled)`;
+      }
+    })
+    .catch(err => {
+      console.error('Failed to load lessons JSON (initial):', err);
+      yearSelect.innerHTML = '<option value="">Failed to load</option>';
+    });
+
+  // connect selection change (again)
+  yearSelect.addEventListener('change', () => {
+    selectedYear = yearSelect.value;
+    if (!selectedYear) return;
+    yearLessons = lessonsByYear[selectedYear] || [];
+    if (yearLessons.length === 0) {
+      lessonInfo.textContent = 'No lessons for this year';
+      return;
+    }
+    currentRootIndex = Math.floor(Math.random() * yearLessons.length);
+    loadRoot(currentRootIndex);
+    lessonInfo.textContent = `${selectedYear}: ${yearLessons.length} root words (shuffled)`;
+  });
+
+}); // DOMContentLoaded
+</script>
 </body>
 </html>
