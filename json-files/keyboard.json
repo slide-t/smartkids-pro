@@ -1,19 +1,22 @@
 {
-  "lessons": [
-    {
-      "title": "Lesson 1: Three-Letter Words",
-      "text": "cat dog sun",
-      "keys": ["C","A","T","D","O","G","S","U","N"," "]
-    },
-    {
-      "title": "Lesson 2: Short Sentences",
-      "text": "I can run fast",
-      "keys": ["I","C","A","N","R","U","F","S","T"," "]
-    },
-    {
-      "title": "Lesson 3: Rhymes and Phrases",
-      "text": "See the bee fly high",
-      "keys": ["S","E","T","H","B","F","L","Y","I","G"," ","E"]
-    }
+  "Year 6": [
+    { "title": "COMMUNICATION set", "rootWord": "communication", "minLength": 3 },
+    { "title": "EDUCATION set", "rootWord": "education", "minLength": 3 },
+    { "title": "GENERATION set", "rootWord": "generation", "minLength": 3 }
+  ],
+  "Year 7": [
+    { "title": "PROFESSIONAL set", "rootWord": "professional", "minLength": 4 },
+    { "title": "DEVELOPMENT set", "rootWord": "development", "minLength": 4 },
+    { "title": "INTELLIGENT set", "rootWord": "intelligent", "minLength": 4 }
+  ],
+  "Year 8": [
+    { "title": "UNDERSTANDING set", "rootWord": "understanding", "minLength": 4 },
+    { "title": "PROGRAMMING set", "rootWord": "programming", "minLength": 4 },
+    { "title": "DISCIPLINARY set", "rootWord": "disciplinary", "minLength": 4 }
+  ],
+  "Year 9": [
+    { "title": "RELATIONSHIP set", "rootWord": "relationship", "minLength": 4 },
+    { "title": "TRANSFORMATION set", "rootWord": "transformation", "minLength": 5 },
+    { "title": "RESPONSIBILITY set", "rootWord": "responsibility", "minLength": 5 }
   ]
 }
