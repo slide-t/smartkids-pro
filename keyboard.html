@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartKids Typing Tutor</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #e0f7fa, #fff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #0277bd;
+      margin-bottom: 10px;
+    }
+
+    #gameContainer {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #targetWord {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #0288d1;
+      margin: 10px 0;
+    }
+
+    #typedWord {
+      font-size: 1.4rem;
+      color: #00695c;
+      margin: 10px 0;
+      border-bottom: 2px solid #80deea;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    .keyboard {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      margin-top: 20px;
+    }
+
+    .key {
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+
+    .key.active {
+      background: #4fc3f7;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    #progressBarContainer {
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin: 15px 0;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #29b6f6, #0288d1);
+      transition: width 0.3s;
+    }
+
+    #timer {
+      font-weight: bold;
+      color: #f44336;
+    }
+
+    button {
+      background: #0288d1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0277bd;
+    }
+  </style>
+</head>
+<body>
+  <header>SmartKids Typing Tutor</header>
+
+  <div id="gameContainer">
+    <h3>Select Class Level:</h3>
+    <select id="classSelect"></select>
+
+    <div id="targetWord"></div>
+    <div id="typedWord"></div>
+
+    <div id="progressBarContainer">
+      <div id="progressBar"></div>
+    </div>
+
+    <p>Time left: <span id="timer">60</span> seconds</p>
+
+    <div class="keyboard" id="keyboard"></div>
+
+    <button id="restartBtn">Restart</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="audio/cheerful-kids.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const classSelect = document.getElementById('classSelect');
+    const targetWord = document.getElementById('targetWord');
+    const typedWord = document.getElementById('typedWord');
+    const keyboard = document.getElementById('keyboard');
+    const progressBar = document.getElementById('progressBar');
+    const timerDisplay = document.getElementById('timer');
+    const bgMusic = document.getElementById('bgMusic');
+    const restartBtn = document.getElementById('restartBtn');
+
+    let data = {};
+    let currentClass = null;
+    let currentLongWord = '';
+    let possibleWords = [];
+    let currentTyped = '';
+    let foundWords = [];
+    let timer = 60;
+    let interval = null;
+
+    // Load JSON
+    fetch('words.json')
+      .then(res => res.json())
+      .then(json => {
+        data = json;
+        populateClasses();
+      });
+
+    function populateClasses() {
+      Object.keys(data).forEach(cls => {
+        const opt = document.createElement('option');
+        opt.value = cls;
+        opt.textContent = cls;
+        classSelect.appendChild(opt);
+      });
+      classSelect.addEventListener('change', startGame);
+    }
+
+    function startGame() {
+      currentClass = classSelect.value;
+      const words = data[currentClass];
+      currentLongWord = words[Math.floor(Math.random() * words.length)];
+      possibleWords = generatePossibleWords(currentLongWord);
+      foundWords = [];
+      currentTyped = '';
+      typedWord.textContent = '';
+      targetWord.textContent = `Make words from: ${currentLongWord.toUpperCase()}`;
+      createKeyboard();
+      startTimer();
+      bgMusic.play();
+    }
+
+    function createKeyboard() {
+      keyboard.innerHTML = '';
+      const letters = [...new Set(currentLongWord.toUpperCase().split(''))];
+      letters.forEach(l => {
+        const key = document.createElement('div');
+        key.textContent = l;
+        key.className = 'key';
+        key.onclick = () => handleKeyPress(l, key);
+        keyboard.appendChild(key);
+      });
+    }
+
+    function handleKeyPress(letter, key) {
+      key.classList.add('active');
+      setTimeout(() => key.classList.remove('active'), 200);
+      currentTyped += letter;
+      typedWord.textContent = currentTyped;
+      checkWord();
+    }
+
+    function checkWord() {
+      if (possibleWords.includes(currentTyped.toLowerCase()) && !foundWords.includes(currentTyped)) {
+        foundWords.push(currentTyped);
+        currentTyped = '';
+        typedWord.textContent = '';
+        updateProgress();
+      }
+    }
+
+    function updateProgress() {
+      const progress = (foundWords.length / possibleWords.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      if (foundWords.length === possibleWords.length) {
+        alert('Great Job! You completed all words!');
+        clearInterval(interval);
+        bgMusic.pause();
+      }
+    }
+
+    function startTimer() {
+      clearInterval(interval);
+      timer = 60;
+      timerDisplay.textContent = timer;
+      interval = setInterval(() => {
+        timer--;
+        timerDisplay.textContent = timer;
+        if (timer <= 0) {
+          clearInterval(interval);
+          alert('Time up! Try again!');
+          bgMusic.pause();
+        }
+      }, 1000);
+    }
+
+    restartBtn.addEventListener('click', startGame);
+
+    // Simple word generator
+    function generatePossibleWords(longWord) {
+      const dictionary = ["com", "ion", "man", "pan", "pro", "can", "son", "ton", "cat", "fan", "pin", "coin", "mat", "room", "nation", "info"];
+      return dictionary.filter(w => w.split('').every(ch => longWord.includes(ch)));
+    }
+  </script>
+</body>
+</html>
