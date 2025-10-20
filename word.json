@@ -1,0 +1,8 @@
+{
+  "Basic 1": ["communication", "professional", "technology"],
+  "Basic 2": ["education", "computer", "keyboard"],
+  "Basic 3": ["information", "development", "animation"],
+  "Basic 4": ["programming", "networking", "database"],
+  "Basic 5": ["artificial", "intelligence", "application"],
+  "Basic 6": ["cybersecurity", "virtualization", "computation"]
+}
