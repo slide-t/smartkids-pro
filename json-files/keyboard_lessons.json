@@ -1,0 +1,15 @@
+{
+  "Year 1": { "items": ["cat","dog","sun","pen","fan","cup","map","run","box","cap","pig","hat","bag","sky","bed"], "minLength": 3 },
+  "Year 2": { "items": ["play","jump","walk","cake","wish","time","book","cold","rain","milk","park","tone","lamp","game","doll"], "minLength": 3 },
+  "Year 3": { "items": ["family","school","garden","silver","bridge","orange","planet","window","doctor","market","little","letter","coffee","circle","summer"], "minLength": 4 },
+  "Year 4": { "items": ["teacher","library","holiday","journey","picture","mountain","birthday","musical","history","battery","process","teacher","computer","element","writing"], "minLength": 4 },
+  "Year 5": { "items": ["creative","building","exercise","distance","solution","language","elephant","umbrella","chemical","magazine","computer","education","material","software","hardware"], "minLength": 4 },
+  "Year 6": { "items": ["generation","communication","technology","development","assessment","operation","direction","foundation","structure","statement","framework","education","discipline","formation","navigation"], "minLength": 4 },
+
+  "Year 7": { "items": ["The quick brown fox jumps over the lazy dog.","Look before you leap.","Actions speak louder than words."], "minLength": 6 },
+  "Year 8": { "items": ["A picture is worth a thousand words.","When in Rome do as the Romans do.","Curiosity killed the cat."], "minLength": 6 },
+  "Year 9": { "items": ["Beauty is in the eye of the beholder.","Practice makes perfect.","Too many cooks spoil the broth."], "minLength": 7 },
+  "Year 10": { "items": ["It was the best of times, it was the worst of times.","Knowledge speaks, but wisdom listens.","Fortune favors the bold."], "minLength": 8 },
+  "Year 11": { "items": ["To err is human; to forgive, divine.","All that glitters is not gold.","The pen is mightier than the sword."], "minLength": 8 },
+  "Year 12": { "items": ["In the midst of winter I found there was within me an invincible summer.","Not everything that is faced can be changed, but nothing can be changed until it is faced.","The only limit to our realization of tomorrow will be our doubts of today."], "minLength": 10 }
+}
