@@ -1,252 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartKids Typing Tutor</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(120deg, #e0f7fa, #fff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    header {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #0277bd;
-      margin-bottom: 10px;
-    }
-
-    #gameContainer {
-      background: #fff;
-      border-radius: 20px;
-      padding: 20px;
-      width: 90%;
-      max-width: 700px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    #targetWord {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #0288d1;
-      margin: 10px 0;
-    }
-
-    #typedWord {
-      font-size: 1.4rem;
-      color: #00695c;
-      margin: 10px 0;
-      border-bottom: 2px solid #80deea;
-      display: inline-block;
-      min-width: 100px;
-    }
-
-    .keyboard {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 6px;
-      margin-top: 20px;
-    }
-
-    .key {
-      background: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: all 0.2s;
-    }
-
-    .key.active {
-      background: #4fc3f7;
-      color: white;
-      transform: scale(1.05);
-    }
-
-    #progressBarContainer {
-      width: 100%;
-      background: #e0e0e0;
-      border-radius: 10px;
-      margin: 15px 0;
-      height: 20px;
-      overflow: hidden;
-    }
-
-    #progressBar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #29b6f6, #0288d1);
-      transition: width 0.3s;
-    }
-
-    #timer {
-      font-weight: bold;
-      color: #f44336;
-    }
-
-    button {
-      background: #0288d1;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #0277bd;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SmartKids-Pro — Typing Game (Word Formation & Typing)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --bg:#0f172a; --card:#0b1220; --accent:#60a5fa; --muted:#94a3b8;
+  }
+  body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(180deg,#e6f0ff 0%, #fcfdff 100%); color:#0f172a; margin:0; padding:28px;}
+  .card{background:white;border-radius:14px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.06);}
+  .controls .select, .controls .input, .controls .button{display:inline-block}
+  /* animated letter tiles */
+  .letter-bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0;}
+  .tile{
+    width:54px;height:64px;border-radius:8px;background:linear-gradient(180deg,#f8fafc,#ecfeff);display:flex;
+    align-items:center;justify-content:center;font-weight:700;font-size:22px;color:#0f172a;box-shadow:0 6px 18px rgba(2,6,23,0.08);transform-origin:center;
+  }
+  /* drop from top */
+  @keyframes dropIn {
+    0%{opacity:0; transform: translateY(-30px) rotateX(60deg) scale(.9)}
+    60%{opacity:1; transform: translateY(8px) rotateX(10deg) scale(1.02)}
+    100%{opacity:1; transform: translateY(0) rotateX(0) scale(1)}
+  }
+  .tile.drop{animation:dropIn 600ms cubic-bezier(.2,.9,.3,1) both;}
+  /* flip in */
+  @keyframes flipIn {
+    0%{opacity:0; transform: rotateX(90deg) translateY(-10px)}
+    60%{opacity:1; transform: rotateX(-20deg) translateY(4px)}
+    100%{opacity:1; transform: rotateX(0deg) translateY(0)}
+  }
+  .tile.flip{animation:flipIn 420ms cubic-bezier(.25,.9,.3,1) both;}
+  /* correct/wrong highlight */
+  .tile.correct{background:linear-gradient(180deg,#bbf7d0,#86efac); color:#14532d; box-shadow:0 8px 18px rgba(16,185,129,0.12);}
+  .tile.wrong{background:linear-gradient(180deg,#fecaca,#fca5a5); color:#7f1d1d; box-shadow:0 8px 18px rgba(239,68,68,0.12);}
+  /* progress bar */
+  .progress-outer{background:#eef2ff;border-radius:999px;height:14px;overflow:hidden}
+  .progress-inner{height:100%;background:linear-gradient(90deg,#60a5fa,#3b82f6);width:0%;transition:width 300ms ease}
+  /* small UI tweaks */
+  .stat{font-weight:700;color:#0f172a}
+  .muted{color:#6b7280}
+  .btn{background:linear-gradient(180deg,#2563eb,#1e40af);color:white;padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
+  .btn.ghost{background:transparent;border:1px solid #e6eefb;color:#0f172a}
+  .timer{font-weight:800;color:#ef4444}
+  .wpm{font-weight:800;color:#065f46}
+  .list-word{display:inline-block;background:#f1f5f9;padding:6px 10px;border-radius:999px;margin:6px 6px 6px 0}
+  @media (max-width:720px){ .tile{width:44px;height:54px;font-size:18px} }
+</style>
 </head>
 <body>
-  <header>SmartKids Typing Tutor</header>
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-6">
+      <h1 class="text-2xl font-extrabold">SmartKids-Pro — Typing Game</h1>
+      <p class="muted mt-1">Year-based progressive practice: Years 1–6 = words; 7–12 = sentences/idioms/paragraphs.</p>
+    </header>
 
-  <div id="gameContainer">
-    <h3>Select Class Level:</h3>
-    <select id="classSelect"></select>
+    <main class="card">
+      <!-- top controls -->
+      <section class="controls grid gap-4 md:grid-cols-4 mb-4 items-end">
+        <div>
+          <label class="muted block text-sm mb-1">Class / Year</label>
+          <select id="yearSelect" class="w-full p-2 border rounded">
+            <option value="">Loading...</option>
+          </select>
+        </div>
 
-    <div id="targetWord"></div>
-    <div id="typedWord"></div>
+        <div>
+          <label class="muted block text-sm mb-1">Time per item (seconds)</label>
+          <select id="timeSelect" class="w-full p-2 border rounded">
+            <option value="15">15s</option>
+            <option value="20" selected>20s</option>
+            <option value="25">25s</option>
+            <option value="30">30s</option>
+          </select>
+        </div>
 
-    <div id="progressBarContainer">
-      <div id="progressBar"></div>
-    </div>
+        <div>
+          <label class="muted block text-sm mb-1">Speed Mode</label>
+          <select id="speedSelect" class="w-full p-2 border rounded">
+            <option value="easy">Easy</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Fast</option>
+          </select>
+        </div>
 
-    <p>Time left: <span id="timer">60</span> seconds</p>
+        <div class="text-right">
+          <label class="muted block text-sm mb-1">Session target</label>
+          <input id="targetInput" type="number" min="3" max="50" value="10" class="w-full p-2 border rounded" />
+        </div>
+      </section>
 
-    <div class="keyboard" id="keyboard"></div>
+      <!-- lesson header + root word/word bank -->
+      <section class="mb-4 text-center">
+        <div class="flex items-center justify-between gap-4">
+          <div class="text-left">
+            <div class="muted text-sm">Lesson</div>
+            <div id="lessonTitle" class="text-lg font-semibold">Select a Year</div>
+          </div>
 
-    <button id="restartBtn">Restart</button>
+          <div class="text-center">
+            <div class="muted text-sm">Timer</div>
+            <div id="timerDisplay" class="timer text-xl">--</div>
+          </div>
+
+          <div class="text-center">
+            <div class="muted text-sm">WPM (session)</div>
+            <div id="wpmDisplay" class="wpm text-xl">0</div>
+          </div>
+
+          <div class="text-right">
+            <div class="muted text-sm">Progress</div>
+            <div class="stat"><span id="foundCount">0</span> / <span id="targetCount">10</span></div>
+          </div>
+        </div>
+
+        <div id="rootBank" class="letter-bank mt-4"></div>
+      </section>
+
+      <!-- animated letters area / main challenge -->
+      <section class="mb-4 text-center">
+        <div id="itemArea" class="mb-3">
+          <!-- letters or sentence will be injected here with tile animations -->
+        </div>
+
+        <div class="mb-3">
+          <input id="inputField" type="text" placeholder="Type here or use keyboard" class="w-full p-3 border rounded" autocomplete="off" autocorrect="off" />
+        </div>
+
+        <div class="flex gap-3 justify-center items-center mb-3">
+          <button id="submitBtn" class="btn">Submit</button>
+          <button id="skipBtn" class="btn ghost">Skip</button>
+          <button id="pauseBtn" class="btn ghost">Pause</button>
+        </div>
+
+        <div class="progress-outer">
+          <div id="progressInner" class="progress-inner" style="width:0%"></div>
+        </div>
+      </section>
+
+      <!-- stats and lists -->
+      <section class="mt-4 grid md:grid-cols-2 gap-4">
+        <div>
+          <div class="muted text-sm mb-2">Session Stats</div>
+          <div class="flex gap-4">
+            <div>Attempts: <span id="attempts" class="stat">0</span></div>
+            <div>Correct: <span id="correct" class="stat">0</span></div>
+            <div>Wrong: <span id="wrong" class="stat">0</span></div>
+          </div>
+          <div class="mt-3 muted text-sm">Found words / items</div>
+          <div id="foundList" class="mt-2"></div>
+        </div>
+
+        <div>
+          <div class="muted text-sm mb-2">Feedback</div>
+          <div id="feedback" class="min-h-[72px] p-3 rounded border border-slate-100 bg-slate-50"></div>
+        </div>
+      </section>
+
+      <section class="mt-4 text-right">
+        <button id="startBtn" class="btn">Start Session</button>
+        <button id="endBtn" class="btn ghost">End Session</button>
+      </section>
+    </main>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="audio/cheerful-kids.mp3" type="audio/mpeg">
-  </audio>
+<script>
+/* ===========================
+  SmartKids-Pro Typing Game
+  - expects JSON at ./json-files/keyboard_lessons.json
+  - years 1–6: multiple 3–4 letter words (10–15 per year)
+  - years 7–12: sentences/idioms/paragraphs
+  Features:
+  - per-item timer (15–30s)
+  - WPM monitor (session & per-item)
+  - animated letter tiles (flip/drop)
+  - progress tracker & skip/pause
+  =========================== */
 
-  <script>
-    const classSelect = document.getElementById('classSelect');
-    const targetWord = document.getElementById('targetWord');
-    const typedWord = document.getElementById('typedWord');
-    const keyboard = document.getElementById('keyboard');
-    const progressBar = document.getElementById('progressBar');
-    const timerDisplay = document.getElementById('timer');
-    const bgMusic = document.getElementById('bgMusic');
-    const restartBtn = document.getElementById('restartBtn');
+document.addEventListener('DOMContentLoaded', () => {
+  const JSON_PATH = './json-files/keyboard_lessons.json';
 
-    let data = {};
-    let currentClass = null;
-    let currentLongWord = '';
-    let possibleWords = [];
-    let currentTyped = '';
-    let foundWords = [];
-    let timer = 60;
-    let interval = null;
+  // DOM nodes
+  const yearSelect = document.getElementById('yearSelect');
+  const timeSelect = document.getElementById('timeSelect');
+  const speedSelect = document.getElementById('speedSelect');
+  const targetInput = document.getElementById('targetInput');
+  const lessonTitle = document.getElementById('lessonTitle');
+  const rootBank = document.getElementById('rootBank');
+  const itemArea = document.getElementById('itemArea');
+  const inputField = document.getElementById('inputField');
+  const submitBtn = document.getElementById('submitBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const startBtn = document.getElementById('startBtn');
+  const endBtn = document.getElementById('endBtn');
+  const timerDisplay = document.getElementById('timerDisplay');
+  const progressInner = document.getElementById('progressInner');
+  const foundCount = document.getElementById('foundCount');
+  const targetCount = document.getElementById('targetCount');
+  const attemptsEl = document.getElementById('attempts');
+  const correctEl = document.getElementById('correct');
+  const wrongEl = document.getElementById('wrong');
+  const foundList = document.getElementById('foundList');
+  const feedback = document.getElementById('feedback');
+  const wpmDisplay = document.getElementById('wpmDisplay');
 
-    // Load JSON
-    fetch('words.json')
-      .then(res => res.json())
-      .then(json => {
-        data = json;
-        populateClasses();
-      });
+  // state
+  let lessonsByYear = {};
+  let selectedYear = null;
+  let items = [];             // loaded items for current year/session (words or sentences)
+  let itemIndex = 0;          // index in items
+  let currentItem = '';       // the active long word or sentence
+  let isWordsMode = true;     // years1-6 words, years7+ sentences
+  let timer = 0;
+  let timerInterval = null;
+  let running = false;
+  let paused = false;
 
-    function populateClasses() {
-      Object.keys(data).forEach(cls => {
-        const opt = document.createElement('option');
-        opt.value = cls;
-        opt.textContent = cls;
-        classSelect.appendChild(opt);
-      });
-      classSelect.addEventListener('change', startGame);
-    }
+  // session stats
+  let sessionAttempts = 0;
+  let sessionCorrect = 0;
+  let sessionWrong = 0;
+  let sessionCharsTyped = 0; // for WPM (counts characters typed on correct submissions)
+  let sessionSeconds = 0; // elapsed seconds for WPM calculation (counts when running)
 
-    function startGame() {
-      currentClass = classSelect.value;
-      const words = data[currentClass];
-      currentLongWord = words[Math.floor(Math.random() * words.length)];
-      possibleWords = generatePossibleWords(currentLongWord);
-      foundWords = [];
-      currentTyped = '';
-      typedWord.textContent = '';
-      targetWord.textContent = `Make words from: ${currentLongWord.toUpperCase()}`;
-      createKeyboard();
-      startTimer();
-      bgMusic.play();
-    }
+  // performance config
+  function getDefaultTimeForYear(year) {
+    // defaults: younger classes get longer per word; speedSelect modifies
+    const y = parseInt(year.replace(/\D/g,'')) || 1;
+    if (y <= 2) return 25;
+    if (y <= 4) return 20;
+    if (y <= 6) return 18;
+    return 25;
+  }
 
-    function createKeyboard() {
-      keyboard.innerHTML = '';
-      const letters = [...new Set(currentLongWord.toUpperCase().split(''))];
-      letters.forEach(l => {
-        const key = document.createElement('div');
-        key.textContent = l;
-        key.className = 'key';
-        key.onclick = () => handleKeyPress(l, key);
-        keyboard.appendChild(key);
-      });
-    }
+  function applySpeedModifier(seconds) {
+    const mode = speedSelect.value;
+    if (mode === 'easy') return Math.round(seconds * 1.2);
+    if (mode === 'fast') return Math.round(seconds * 0.8);
+    return seconds;
+  }
 
-    function handleKeyPress(letter, key) {
-      key.classList.add('active');
-      setTimeout(() => key.classList.remove('active'), 200);
-      currentTyped += letter;
-      typedWord.textContent = currentTyped;
-      checkWord();
-    }
+  // UI helpers
+  function setFeedback(msg, tone='') {
+    feedback.innerHTML = `<div class="${tone}">${msg}</div>`;
+  }
 
-    function checkWord() {
-      if (possibleWords.includes(currentTyped.toLowerCase()) && !foundWords.includes(currentTyped)) {
-        foundWords.push(currentTyped);
-        currentTyped = '';
-        typedWord.textContent = '';
-        updateProgress();
-      }
-    }
+  function safeNormalize(s) {
+    return (s||'').toLowerCase().normalize('NFC').replace(/[^a-z0-9\s]/g,'').trim();
+  }
 
-    function updateProgress() {
-      const progress = (foundWords.length / possibleWords.length) * 100;
-      progressBar.style.width = `${progress}%`;
-      if (foundWords.length === possibleWords.length) {
-        alert('Great Job! You completed all words!');
-        clearInterval(interval);
-        bgMusic.pause();
-      }
-    }
-
-    function startTimer() {
-      clearInterval(interval);
-      timer = 60;
-      timerDisplay.textContent = timer;
-      interval = setInterval(() => {
-        timer--;
-        timerDisplay.textContent = timer;
-        if (timer <= 0) {
-          clearInterval(interval);
-          alert('Time up! Try again!');
-          bgMusic.pause();
+  // load JSON with fallback
+  async function loadLessonsJSON() {
+    try {
+      const r = await fetch(JSON_PATH);
+      if (!r.ok) throw new Error('Fetch failed');
+      const json = await r.json();
+      lessonsByYear = json;
+    } catch (err) {
+      console.warn('Fetch failed — using fallback data', err);
+      // fallback minimal dataset (must be replaced with your complete JSON)
+      lessonsByYear = {
+        "Year 1": {
+          "items": ["cat","dog","sun","pen","fan","map","cup","run","box","cup"], "minLength":3
+        },
+        "Year 2": {
+          "items": ["play","clap","jump","sand","milk","lamp","book","pond","road","park","ball"], "minLength":3
+        },
+        "Year 3": {
+          "items": ["family","school","garden","teacher","friend","market","laptop","remote","bottle","planet","orange"], "minLength":4
+        },
+        "Year 7": {
+          "items": ["The quick brown fox jumps over the lazy dog.","Early to bed, early to rise.","A stitch in time saves nine."], "minLength":6
         }
-      }, 1000);
+      };
+    }
+    populateYearSelect();
+  }
+
+  function populateYearSelect() {
+    yearSelect.innerHTML = '<option value="">-- Select Year --</option>';
+    Object.keys(lessonsByYear).forEach(y => {
+      const o = document.createElement('option');
+      o.value = y;
+      o.textContent = y;
+      yearSelect.appendChild(o);
+    });
+    // optional: auto-select first available year
+    if (yearSelect.options.length > 1) {
+      yearSelect.selectedIndex = 1;
+      selectedYear = yearSelect.value;
+      loadYear(selectedYear);
+    }
+  }
+
+  function loadYear(year) {
+    selectedYear = year;
+    if (!year || !lessonsByYear[year]) return;
+    // lessonsByYear may be object with items array or array of objects depending on JSON format
+    const node = lessonsByYear[year];
+
+    // normalize structure: node.items (array) or node (array)
+    if (Array.isArray(node)) {
+      items = [...node];
+    } else if (Array.isArray(node.items)) {
+      items = [...node.items];
+    } else {
+      // attempt to discover / flatten
+      items = [];
+      if (node.lessons) {
+        node.lessons.forEach(l => {
+          if (l.rootWord) items.push(l.rootWord);
+        });
+      }
     }
 
-    restartBtn.addEventListener('click', startGame);
-
-    // Simple word generator
-    function generatePossibleWords(longWord) {
-      const dictionary = ["com", "ion", "man", "pan", "pro", "can", "son", "ton", "cat", "fan", "pin", "coin", "mat", "room", "nation", "info"];
-      return dictionary.filter(w => w.split('').every(ch => longWord.includes(ch)));
+    // If items are objects with rootWord property (older format), extract
+    if (items.length && typeof items[0] === 'object' && items[0].rootWord) {
+      items = items.map(i => i.rootWord);
     }
-  </script>
+
+    // Ensure shuffle and fill
+    items = shuffleArray(items.slice()); // copy and shuffle
+    // Determine words mode: years 1-6 = words mode, else sentences
+    const num = parseInt(year.replace(/\D/g,'')) || 1;
+    isWordsMode = (num >=1 && num <=6);
+    lessonTitle.textContent = `${year} — ${isWordsMode ? 'Word Mode' : 'Sentence Mode'}`;
+
+    // show root bank (for words mode we show letters of current item; for sentences we show nothing)
+    resetSession();
+    renderRootBankPlaceholder();
+  }
+
+  function renderRootBankPlaceholder() {
+    rootBank.innerHTML = '';
+    const p = document.createElement('div');
+    p.className = 'muted';
+    p.textContent = isWordsMode ? 'Each word will show animated letters to build from' : 'Sentences / rhymes will appear in the item area';
+    rootBank.appendChild(p);
+  }
+
+  // shuffle items
+  function shuffleArray(a) {
+    for (let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  // start a session (uses items array)
+  function startSession() {
+    if (!selectedYear) { setFeedback('Select a Year first.',''); return; }
+    // session config
+    const requested = parseInt(targetInput.value) || 10;
+    targetCount.textContent = requested;
+    // time per item: either selection or default
+    let baseTime = parseInt(timeSelect.value);
+    // adjust baseTime by default for year
+    const defaultTime = getDefaultTimeFor();
+    if (!timeSelect.value) baseTime = defaultTime;
+    baseTime = applySpeedModifier(baseTime);
+
+    // prepare session state
+    itemIndex = 0;
+    sessionAttempts = 0; sessionCorrect = 0; sessionWrong = 0; sessionCharsTyped = 0; sessionSeconds = 0;
+    attemptsEl.textContent = 0; correctEl.textContent = 0; wrongEl.textContent = 0; foundCount.textContent = 0;
+    foundList.innerHTML = ''; feedback.innerHTML = ''; wpmDisplay.textContent = '0';
+    running = true; paused=false;
+    // store per-session settings
+    sessionSettings.timePerItem = baseTime;
+    sessionSettings.target = requested;
+
+    // load first item
+    loadNextItem();
+    // start global WPM timer increment
+    startGlobalTimer();
+  }
+
+  function getDefaultTimeFor() {
+    // adaptively choose default based on selectedYear
+    const num = parseInt(selectedYear.replace(/\D/g,'')) || 1;
+    if (num <= 2) return 25;
+    if (num <= 4) return 20;
+    if (num <= 6) return 18;
+    return 35; // for sentences maybe longer
+  }
+
+  function applySpeedModifier(t) {
+    const sp = speedSelect.value;
+    if (sp === 'easy') return Math.round(t * 1.2);
+    if (sp === 'fast') return Math.max(8, Math.round(t * 0.8));
+    return t;
+  }
+
+  // session settings holder
+  const sessionSettings = { timePerItem: 20, target: 10 };
+
+  // load itemIndex item and animate letters (if words) or show sentence
+  function loadNextItem() {
+    clearInterval(timerInterval);
+    itemArea.innerHTML = '';
+    inputField.value = '';
+    inputField.focus();
+    if (!items.length) { setFeedback('No items for this Year.',''); return; }
+
+    // if we've reached the end of items array, reshuffle or end
+    if (itemIndex >= items.length) {
+      // shuffle and continue
+      items = shuffleArray(items);
+      itemIndex = 0;
+    }
+    currentItem = items[itemIndex];
+    // handle words vs sentences
+    if (isWordsMode) {
+      renderLettersAnimated(currentItem);
+      // also show a simple root bank (letters counts) on top
+      renderLetterCounts(currentItem);
+    } else {
+      // sentences: display the sentence
+      itemArea.innerHTML = `<div class="text-lg font-medium">${currentItem}</div>`;
+      rootBank.innerHTML = `<div class="muted text-sm">Type the sentence exactly (punctuation optional). Minimum length: ${safeGetMinLength(selectedYear) || 3}</div>`;
+    }
+
+    // start item timer
+    const timePerItem = sessionSettings.timePerItem;
+    startItemTimer(timePerItem);
+    // record start time for WPM calc per item
+    currentItemStart = Date.now();
+    // set small UI hints
+    lessonTitle.textContent = `${selectedYear} • Item ${itemIndex+1}`;
+    setFeedback(`Type the ${isWordsMode ? 'word' : 'sentence'} and press Submit.`, '');
+  }
+
+  function safeGetMinLength(year){
+    const node = lessonsByYear[year];
+    if (!node) return 3;
+    // if object with minLength
+    if (node.minLength) return node.minLength;
+    if (Array.isArray(node) && node.length && typeof node[0] === 'object' && node[0].minLength) return node[0].minLength;
+    return 3;
+  }
+
+  // animate letters as tiles (flip or drop)
+  function renderLettersAnimated(word) {
+    itemArea.innerHTML = '';
+    const bank = document.createElement('div');
+    bank.className = 'letter-bank';
+    const letters = word.split('');
+    letters.forEach((ch, i) => {
+      const t = document.createElement('div');
+      t.className = 'tile drop';
+      t.textContent = ch.toUpperCase();
+      // stagger animations
+      t.style.animationDelay = `${i * 80}ms`;
+      bank.appendChild(t);
+    });
+    itemArea.appendChild(bank);
+  }
+
+  function renderLetterCounts(word) {
+    rootBank.innerHTML = '';
+    const counts = {};
+    word.toLowerCase().split('').forEach(ch => {
+      if (ch === ' ') return;
+      counts[ch] = (counts[ch] || 0) + 1;
+    });
+    Object.keys(counts).sort().forEach(ch => {
+      const btn = document.createElement('div');
+      btn.className = 'tile';
+      btn.style.minWidth='44px';
+      btn.style.height='48px';
+      btn.style.padding='6px';
+      btn.style.display='inline-flex';
+      btn.style.alignItems='center';
+      btn.style.justifyContent='center';
+      btn.style.marginRight='8px';
+      btn.innerHTML = `<div style="font-weight:700">${ch.toUpperCase()}</div><div style="font-size:11px;color:#475569;margin-left:6px">x${counts[ch]}</div>`;
+      rootBank.appendChild(btn);
+    });
+  }
+
+  // timer handling
+  let currentItemStart = 0;
+  function startItemTimer(seconds) {
+    timer = seconds;
+    timerDisplay.textContent = `${timer}s`;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (!running || paused) return;
+      timer--;
+      sessionSeconds++;
+      timerDisplay.textContent = `${timer}s`;
+      if (timer <= 0) {
+        clearInterval(timerInterval);
+        handleTimeout();
+      }
+    }, 1000);
+  }
+
+  function handleTimeout() {
+    sessionAttempts++;
+    attemptsEl.textContent = sessionAttempts;
+    sessionWrong++;
+    wrongEl.textContent = sessionWrong;
+    setFeedback('Time up — moving to next item','text-red-600');
+    addFoundItem(currentItem, false);
+    updateProgressBar();
+    // advance
+    itemIndex++;
+    setTimeout(() => {
+      if (sessionCorrect >= sessionSettings.target) endSession(true);
+      else loadNextItem();
+    }, 900);
+  }
+
+  function handleSubmit() {
+    if (!running) return;
+    const typed = inputField.value.trim();
+    if (!typed) return;
+    sessionAttempts++;
+    attemptsEl.textContent = sessionAttempts;
+
+    // validation rules
+    const minLen = safeGetMinLength(selectedYear) || 3;
+    if (typed.length < minLen) {
+      sessionWrong++; wrongEl.textContent = sessionWrong;
+      setFeedback(`Too short — min ${minLen} chars`,'text-red-600');
+      return;
+    }
+
+    // for words mode: ensure typed can be formed from letters
+    if (isWordsMode) {
+      if (!isFormable(typed, currentItem)) {
+        sessionWrong++; wrongEl.textContent = sessionWrong;
+        setFeedback('Cannot form from letters of root word','text-red-600');
+        return;
+      }
+    } else {
+      // sentences: we accept if majority words match or exact? We'll accept if normalized text contains typed normalized
+      // For strict typing, you may compare exact; here we check normalized equivalence ignoring case and punctuation
+      // Accept if typed normalized equals substring of currentItem normalized (looser)
+      const norm = safeNormalize(currentItem);
+      const tnorm = safeNormalize(typed);
+      if (!norm.includes(tnorm)) {
+        sessionWrong++; wrongEl.textContent = sessionWrong;
+        setFeedback('Typed sentence does not match expected text','text-red-600');
+        return;
+      }
+    }
+
+    // passed validation
+    sessionCorrect++;
+    correctEl.textContent = sessionCorrect;
+    // compute WPM contribution (only count characters of typed word)
+    const chars = typed.replace(/\s+/g,'').length;
+    sessionCharsTyped += chars;
+    const elapsedMinutes = Math.max((Date.now() - currentItemStart)/60000, 0.001);
+    const itemWpm = Math.round((chars/5)/elapsedMinutes);
+    updateWPM();
+
+    addFoundItem(typed, true, itemWpm);
+    setFeedback(`Good! +${chars} chars • ${itemWpm} WPM for item`,'text-green-600');
+    // next item
+    updateProgressBar();
+    inputField.value = '';
+    itemIndex++;
+    if (sessionCorrect >= sessionSettings.target) {
+      endSession(true);
+    } else {
+      setTimeout(() => loadNextItem(), 700);
+    }
+  }
+
+  function updateWPM() {
+    // overall WPM = (sessionCharsTyped / 5) / (sessionSeconds / 60)
+    const minutes = Math.max(sessionSeconds / 60, 0.001);
+    const wpm = Math.round((sessionCharsTyped / 5) / minutes);
+    wpmDisplay.textContent = wpm;
+  }
+
+  function addFoundItem(text, ok, itemWpm=0) {
+    const el = document.createElement('div');
+    el.className = 'list-word';
+    el.textContent = `${text}${ok ? ` ✓ (${itemWpm} WPM)` : ' ✗'}`;
+    foundList.appendChild(el);
+    foundCount.textContent = sessionCorrect;
+  }
+
+  function updateProgressBar() {
+    const pct = Math.min(100, Math.round((sessionCorrect / sessionSettings.target) * 100));
+    progressInner.style.width = pct + '%';
+  }
+
+  function endSession(success=false) {
+    running = false;
+    clearInterval(timerInterval);
+    setFeedback(success ? 'Session complete — well done!' : 'Session ended');
+    // show stats summary
+    const summary = `Attempts: ${sessionAttempts} • Correct: ${sessionCorrect} • Wrong: ${sessionWrong} • WPM: ${wpmDisplay.textContent}`;
+    feedback.innerHTML = `<div class="text-sm">${summary}</div>`;
+  }
+
+  function resetSession() {
+    clearInterval(timerInterval);
+    running=false; paused=false;
+    sessionAttempts=0; sessionCorrect=0; sessionWrong=0; sessionCharsTyped=0; sessionSeconds=0;
+    attemptsEl.textContent=0; correctEl.textContent=0; wrongEl.textContent=0; foundList.innerHTML=''; progressInner.style.width='0%';
+    foundCount.textContent=0; wpmDisplay.textContent='0'; timerDisplay.textContent='--';
+    inputField.value=''; feedback.innerHTML='';
+  }
+
+  function isFormable(typed, root) {
+    // letter counts
+    const r = root.toLowerCase().replace(/[^a-z]/g,'').split('');
+    const bank = {};
+    for (const ch of r) bank[ch] = (bank[ch]||0)+1;
+    const t = typed.toLowerCase().replace(/[^a-z]/g,'').split('');
+    for (const ch of t) {
+      if (!bank[ch] || bank[ch] <= 0) return false;
+      bank[ch]--;
+    }
+    return true;
+  }
+
+  function startGlobalTimer() {
+    // global timer increments sessionSeconds while running; we already increment in item timer tick
+  }
+
+  // UI events
+  yearSelect.addEventListener('change', (e) => {
+    loadYear(e.target.value);
+  });
+  startBtn.addEventListener('click', () => { resetSession(); startSession(); });
+  submitBtn.addEventListener('click', handleSubmit);
+  skipBtn.addEventListener('click', () => { // treat skip like wrong attempt
+    sessionAttempts++; attemptsEl.textContent = sessionAttempts; sessionWrong++; wrongEl.textContent = sessionWrong;
+    addFoundItem(currentItem, false); itemIndex++; if (sessionCorrect >= sessionSettings.target) endSession(true); else loadNextItem();
+  });
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    setFeedback(paused ? 'Paused' : 'Resumed');
+  });
+  endBtn.addEventListener('click', () => {
+    endSession(false);
+  });
+  inputField.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); handleSubmit(); }
+  });
+
+  // load JSON and init
+  loadLessonsJSON();
+});
+</script>
 </body>
 </html>
