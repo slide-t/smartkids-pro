@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboard Tutor | SmartKids Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .tile { 
+      display: inline-block;
+      margin: 0 4px;
+      padding: 6px 10px;
+      font-size: 1.5rem;
+      background: #1e293b;
+      border-radius: 0.4rem;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(-30px);
+      animation: dropIn 0.5s ease forwards;
+    }
+    @keyframes dropIn {
+      0% { opacity: 0; transform: translateY(-40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .tile.correct { background-color: #22c55e; }
+    .tile.wrong { background-color: #ef4444; }
+    #progressInner { transition: width 0.4s ease; }
+  </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center p-4">
+
+  <h1 class="text-3xl font-bold mb-2">SmartKids Pro: Keyboard Tutor</h1>
+  <div class="flex gap-2 mb-4 items-center">
+    <select id="yearSelect" class="bg-slate-800 text-white rounded p-2">
+      <option value="">Select Year</option>
+    </select>
+    <button id="startBtn" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">Start</button>
+    <button id="musicToggle" class="bg-pink-600 hover:bg-pink-500 px-3 py-2 rounded">🔊 Music On</button>
+  </div>
+
+  <!-- Stats & Progress -->
+  <div class="w-full max-w-lg">
+    <div class="flex justify-between text-sm mb-1">
+      <span>Timer: <span id="timer">0</span>s</span>
+      <span>WPM: <span id="wpm">0</span></span>
+      <span>Progress: <span id="progressCount">0%</span></span>
+    </div>
+    <div class="w-full bg-slate-700 rounded-full h-2 mb-6">
+      <div id="progressInner" class="bg-green-500 h-2 rounded-full" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Word Display -->
+  <div id="wordDisplay" class="text-3xl font-semibold tracking-widest mb-6"></div>
+
+  <!-- Input & Feedback -->
+  <input id="inputBox" type="text" placeholder="Type here..."
+         class="bg-slate-800 rounded p-3 text-lg text-center outline-none w-64 mb-3 hidden" />
+  <div id="feedback" class="text-lg mb-2"></div>
+  <div id="scoreboard" class="text-sm text-slate-400 mb-8"></div>
+
+  <script>
+  // ------------------ Data (Fallback + Fetch) ------------------
+  let lessons = {};
+  let dictionary = [];
+  async function loadData() {
+    try {
+      const res = await fetch('./json-files/keyboard_lessons.json');
+      lessons = await res.json();
+    } catch {
+      lessons = {
+        "Year 1": { "timer": 25, "items": ["cat","dog","sun","map","cup","bed","hat","pen","top","bus"] },
+        "Year 2": { "timer": 22, "items": ["play","book","milk","road","hand","fish","frog","door","cake","jump"] },
+        "Year 7": { "timer": 20, "items": ["A stitch in time saves nine.","Early to bed, early to rise.","The quick brown fox jumps over the lazy dog."] }
+      };
+    }
+    try {
+      const d = await fetch('./json-files/dictionary.json');
+      dictionary = await d.json();
+    } catch { dictionary = ["cat","dog","sun","map","play","book","milk","jump","door"]; }
+
+    // Populate Year Select
+    const sel = document.getElementById('yearSelect');
+    Object.keys(lessons).forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      sel.appendChild(opt);
+    });
+  }
+
+  // ------------------ Audio Setup ------------------
+  const sfx = {
+    correct: new Audio('./assets/sfx/correct.mp3'),
+    wrong: new Audio('./assets/sfx/wrong.mp3'),
+    start: new Audio('./assets/sfx/start.mp3'),
+    end: new Audio('./assets/sfx/end.mp3'),
+    bgm: new Audio('./assets/music/background.mp3')
+  };
+  sfx.bgm.loop = true; sfx.bgm.volume = 0.2;
+
+  const toggleMusic = document.getElementById('musicToggle');
+  toggleMusic.addEventListener('click', () => {
+    if (sfx.bgm.paused) { sfx.bgm.play(); toggleMusic.textContent = '🔊 Music On'; }
+    else { sfx.bgm.pause(); toggleMusic.textContent = '🔈 Music Off'; }
+  });
+
+  // ------------------ Game Logic ------------------
+  let currentWords = [], currentIndex = 0, timerInterval;
+  let timeLeft = 0, score = 0, correct = 0, attempts = 0;
+  const timerEl = document.getElementById('timer');
+  const wpmEl = document.getElementById('wpm');
+  const progressEl = document.getElementById('progressInner');
+  const progressCountEl = document.getElementById('progressCount');
+  const feedback = document.getElementById('feedback');
+  const inputBox = document.getElementById('inputBox');
+  const display = document.getElementById('wordDisplay');
+  const scoreBoard = document.getElementById('scoreboard');
+  const startBtn = document.getElementById('startBtn');
+
+  startBtn.addEventListener('click', startSession);
+  inputBox.addEventListener('input', checkTyping);
+
+  function startSession() {
+    const selectedYear = document.getElementById('yearSelect').value;
+    if (!selectedYear) return alert('Select a Year first!');
+    sfx.start.play(); sfx.bgm.play();
+
+    const lesson = lessons[selectedYear];
+    currentWords = shuffle([...lesson.items]);
+    currentIndex = 0; correct = 0; attempts = 0; score = 0;
+    timeLeft = lesson.timer;
+    showWord();
+    inputBox.value = ''; inputBox.classList.remove('hidden'); inputBox.focus();
+    updateProgress();
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+      progressEl.style.width = ((timeLeft / lesson.timer) * 100) + '%';
+      if (timeLeft <= 0) nextWord();
+    }, 1000);
+  }
+
+  function showWord() {
+    display.innerHTML = '';
+    const word = currentWords[currentIndex];
+    if (!word) return endSession();
+    [...word].forEach(ch => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.className = 'tile';
+      display.appendChild(span);
+    });
+    feedback.textContent = '';
+  }
+
+  function checkTyping() {
+    const typed = inputBox.value;
+    const word = currentWords[currentIndex];
+    attempts++;
+    const tiles = display.querySelectorAll('.tile');
+    tiles.forEach((t,i)=>{
+      t.classList.remove('correct','wrong');
+      if(typed[i]){
+        if(typed[i].toLowerCase()===word[i].toLowerCase()) t.classList.add('correct');
+        else t.classList.add('wrong');
+      }
+    });
+    if(typed.toLowerCase()===word.toLowerCase()){
+      sfx.correct.play();
+      correct++; score += word.length;
+      nextWord();
+    }
+  }
+
+  function nextWord() {
+    inputBox.value = '';
+    currentIndex++;
+    updateProgress();
+    if (currentIndex < currentWords.length) showWord();
+    else endSession();
+  }
+
+  function endSession() {
+    clearInterval(timerInterval);
+    sfx.end.play();
+    inputBox.classList.add('hidden');
+    feedback.textContent = '🎉 Session Complete!';
+    const wpm = ((correct / ((lessons[document.getElementById('yearSelect').value].timer / 60))) || 0).toFixed(1);
+    wpmEl.textContent = wpm;
+    scoreBoard.textContent = `Words Correct: ${correct}/${currentWords.length}`;
+  }
+
+  function updateProgress() {
+    const pct = ((currentIndex / currentWords.length) * 100).toFixed(1);
+    progressCountEl.textContent = pct + '%';
+    progressEl.style.width = pct + '%';
+  }
+
+  function shuffle(arr) {
+    return arr.sort(()=>Math.random()-0.5);
+  }
+
+  loadData();
+  </script>
+</body>
+</html>
