@@ -181,8 +181,212 @@
   <div id="feedback"></div>
   <div id="scoreboard"></div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSelect = document.getElementById("yearSelect");
+  const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const inputBox = document.getElementById("inputBox");
+  const wordDisplay = document.getElementById("wordDisplay");
+  const timerEl = document.getElementById("timer");
+  const wpmEl = document.getElementById("wpm");
+  const progressCount = document.getElementById("progressCount");
+  const progressInner = document.getElementById("progressInner");
+  const feedback = document.getElementById("feedback");
+  const scoreboard = document.getElementById("scoreboard");
+  const musicToggle = document.getElementById("musicToggle");
 
-  <script>
+  let lessonsData = {};
+  let words = [];
+  let currentIndex = 0;
+  let startTime = 0;
+  let timerInterval;
+  let timeLeft = 0;
+  let isPaused = false;
+  let correctCount = 0;
+  let totalTyped = 0;
+  let wpm = 0;
+  let musicPlaying = false;
+  let bgMusic;
+
+  // 🔊 Background music
+  function setupMusic() {
+    bgMusic = new Audio("https://cdn.pixabay.com/audio/2023/03/02/audio_327b4c1b22.mp3");
+    bgMusic.loop = true;
+    bgMusic.volume = 0.3;
+  }
+
+  musicToggle.addEventListener("click", () => {
+    if (!bgMusic) setupMusic();
+    musicPlaying = !musicPlaying;
+    if (musicPlaying) {
+      bgMusic.play();
+      musicToggle.textContent = "🔈 Music Off";
+    } else {
+      bgMusic.pause();
+      musicToggle.textContent = "🔊 Music On";
+    }
+  });
+
+  // ⏸ Pause / Resume
+  pauseBtn.addEventListener("click", () => {
+    if (!timerInterval) return;
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "▶ Resume" : "⏸ Pause";
+  });
+
+  // 🎯 Fetch JSON data
+  fetch("keyboard_lessons.json")
+    .then(res => res.json())
+    .then(data => {
+      lessonsData = data;
+      Object.keys(data).forEach(year => {
+        const opt = document.createElement("option");
+        opt.value = year;
+        opt.textContent = year;
+        yearSelect.appendChild(opt);
+      });
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+
+  // 🏁 Start Game
+  startBtn.addEventListener("click", () => {
+    const selectedYear = yearSelect.value;
+    if (!selectedYear) {
+      alert("Please select a year to start.");
+      return;
+    }
+
+    const lesson = lessonsData[selectedYear];
+    words = lesson.items.sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    correctCount = 0;
+    totalTyped = 0;
+    wpm = 0;
+
+    // ⏱ timer based on year (adjustable)
+    let baseTime = selectedYear.startsWith("Year 1") ? 15 : 
+                   selectedYear.startsWith("Year 2") ? 20 :
+                   selectedYear.startsWith("Year 3") ? 25 : 30;
+    timeLeft = baseTime;
+    timerEl.textContent = timeLeft;
+
+    progressInner.style.width = "0%";
+    progressCount.textContent = "0%";
+    wpmEl.textContent = "0";
+    feedback.textContent = "";
+    scoreboard.textContent = "";
+    inputBox.classList.remove("hidden");
+    inputBox.value = "";
+    inputBox.focus();
+
+    startTime = Date.now();
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
+
+    showWord();
+  });
+
+  // 🧩 Show a word with animation
+  function showWord() {
+    if (currentIndex >= words.length) {
+      endGame();
+      return;
+    }
+    wordDisplay.innerHTML = "";
+    const word = words[currentIndex];
+    [...word].forEach((letter, i) => {
+      const span = document.createElement("span");
+      span.className = "tile";
+      span.textContent = letter;
+      span.style.animationDelay = `${i * 0.08}s`;
+      wordDisplay.appendChild(span);
+    });
+    inputBox.value = "";
+    feedback.textContent = "";
+  }
+
+  // 💬 Input logic
+  inputBox.addEventListener("input", () => {
+    const word = words[currentIndex];
+    const typed = inputBox.value.trim();
+
+    totalTyped++;
+    if (typed === word) {
+      correctCount++;
+      playSound("correct");
+      feedback.textContent = "✅ Correct!";
+      feedback.style.color = "#22c55e";
+      nextWord();
+    } else if (!word.startsWith(typed)) {
+      playSound("error");
+      feedback.textContent = "❌ Try again...";
+      feedback.style.color = "#ef4444";
+    }
+    updateWPM();
+  });
+
+  // ⏩ Move to next word
+  function nextWord() {
+    currentIndex++;
+    const progress = Math.floor((currentIndex / words.length) * 100);
+    progressInner.style.width = `${progress}%`;
+    progressCount.textContent = `${progress}%`;
+
+    if (currentIndex < words.length) {
+      setTimeout(showWord, 600);
+    } else {
+      endGame();
+    }
+  }
+
+  // ⏲ Update Timer
+  function updateTimer() {
+    if (isPaused) return;
+    if (timeLeft <= 0) {
+      endGame();
+      return;
+    }
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+  }
+
+  // 🧮 Calculate WPM correctly
+  function updateWPM() {
+    const elapsedMinutes = (Date.now() - startTime) / 60000;
+    wpm = Math.round((correctCount / elapsedMinutes) || 0);
+    wpmEl.textContent = wpm;
+  }
+
+  // 🔚 End game
+  function endGame() {
+    clearInterval(timerInterval);
+    inputBox.classList.add("hidden");
+    feedback.textContent = "";
+    wordDisplay.textContent = "🎉 Great job!";
+    scoreboard.innerHTML = `
+      <p>✅ Correct words: ${correctCount}</p>
+      <p>⏱ WPM: ${wpm}</p>
+      <p>📊 Accuracy: ${Math.round((correctCount / totalTyped) * 100 || 0)}%</p>
+    `;
+  }
+
+  // 🎵 Sound Effects
+  function playSound(type) {
+    let url;
+    if (type === "correct") url = "https://cdn.pixabay.com/audio/2022/03/15/audio_3a2dcf17de.mp3";
+    if (type === "error") url = "https://cdn.pixabay.com/audio/2022/03/15/audio_43fa90b3b1.mp3";
+    const sound = new Audio(url);
+    sound.volume = 0.5;
+    sound.play();
+  }
+});
+</script>
+ 
+  
+  
+  
+  <!--<script>
   // ------------------ Data (Fallback + Fetch) ------------------
   let lessons = {};
   let dictionary = [];
@@ -372,6 +576,6 @@
   }
 
   loadData();
-</script>
+</script>-->
 </body>
 </html>
