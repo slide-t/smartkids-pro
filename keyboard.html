@@ -60,9 +60,188 @@
   <div id="feedback" class="text-lg mb-2"></div>
   <div id="scoreboard" class="text-sm text-slate-400 mb-8"></div>
 
+ <script>
+  // ------------------ Data (Fallback + Fetch) ------------------
+  let lessons = {};
+  let dictionary = [];
+  async function loadData() {
+    try {
+      const res = await fetch('./json-files/keyboard_lessons.json');
+      lessons = await res.json();
+    } catch {
+      lessons = {
+        "Year 1": { "timer": 25, "items": ["cat","dog","sun","map","cup","bed","hat","pen","top","bus"] },
+        "Year 2": { "timer": 22, "items": ["play","book","milk","road","hand","fish","frog","door","cake","jump"] },
+        "Year 7": { "timer": 20, "items": ["A stitch in time saves nine.","Early to bed, early to rise.","The quick brown fox jumps over the lazy dog."] }
+      };
+    }
+    try {
+      const d = await fetch('./json-files/dictionary.json');
+      dictionary = await d.json();
+    } catch { dictionary = ["cat","dog","sun","map","play","book","milk","jump","door"]; }
+
+    // Populate Year Select
+    const sel = document.getElementById('yearSelect');
+    Object.keys(lessons).forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      sel.appendChild(opt);
+    });
+  }
+
+  // ------------------ Audio Setup ------------------
+  const sfx = {
+    correct: new Audio('./assets/sfx/correct.mp3'),
+    wrong: new Audio('./assets/sfx/wrong.mp3'),
+    start: new Audio('./assets/sfx/start.mp3'),
+    end: new Audio('./assets/sfx/end.mp3'),
+    bgm: new Audio('./assets/music/background.mp3')
+  };
+  sfx.bgm.loop = true; sfx.bgm.volume = 0.2;
+
+  const toggleMusic = document.getElementById('musicToggle');
+  toggleMusic.addEventListener('click', () => {
+    if (sfx.bgm.paused) { sfx.bgm.play(); toggleMusic.textContent = '🔊 Music On'; }
+    else { sfx.bgm.pause(); toggleMusic.textContent = '🔈 Music Off'; }
+  });
+
+  // ------------------ Game Logic ------------------
+  let currentWords = [], currentIndex = 0, timerInterval;
+  let timeLeft = 0, score = 0, correct = 0, attempts = 0;
+  let startTime = 0, totalTyped = 0;
+
+  const timerEl = document.getElementById('timer');
+  const wpmEl = document.getElementById('wpm');
+  const progressEl = document.getElementById('progressInner');
+  const progressCountEl = document.getElementById('progressCount');
+  const feedback = document.getElementById('feedback');
+  const inputBox = document.getElementById('inputBox');
+  const display = document.getElementById('wordDisplay');
+  const scoreBoard = document.getElementById('scoreboard');
+  const startBtn = document.getElementById('startBtn');
+
+  startBtn.addEventListener('click', startSession);
+  inputBox.addEventListener('input', checkTyping);
+
+  function startSession() {
+    const selectedYear = document.getElementById('yearSelect').value;
+    if (!selectedYear) return alert('Select a Year first!');
+    sfx.start.play(); sfx.bgm.play();
+
+    const lesson = lessons[selectedYear];
+    currentWords = shuffle([...lesson.items]);
+    currentIndex = 0; correct = 0; attempts = 0; score = 0; totalTyped = 0;
+    timeLeft = lesson.timer;
+    startTime = Date.now();
+
+    showWord();
+    inputBox.value = ''; inputBox.classList.remove('hidden'); inputBox.focus();
+    updateProgress();
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      const elapsed = (Date.now() - startTime) / 1000;
+      timeLeft = Math.max(0, lesson.timer - elapsed);
+      timerEl.textContent = Math.ceil(timeLeft);
+      progressEl.style.width = ((timeLeft / lesson.timer) * 100) + '%';
+      updateWPM();
+
+      if (timeLeft <= 0) {
+        nextWord();
+      }
+    }, 250);
+  }
+
+  function showWord() {
+    display.innerHTML = '';
+    const word = currentWords[currentIndex];
+    if (!word) return endSession();
+
+    // Smooth letter drop
+    [...word].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.className = 'tile';
+      span.style.opacity = 0;
+      span.style.transform = 'translateY(-20px)';
+      span.style.transition = 'all 0.3s ease';
+      display.appendChild(span);
+      setTimeout(() => {
+        span.style.opacity = 1;
+        span.style.transform = 'translateY(0)';
+      }, i * 60);
+    });
+    feedback.textContent = '';
+  }
+
+  function checkTyping() {
+    const typed = inputBox.value;
+    const word = currentWords[currentIndex];
+    attempts++;
+    const tiles = display.querySelectorAll('.tile');
+    tiles.forEach((t, i) => {
+      t.classList.remove('correct', 'wrong');
+      if (typed[i]) {
+        if (typed[i].toLowerCase() === word[i].toLowerCase()) t.classList.add('correct');
+        else t.classList.add('wrong');
+      }
+    });
+    totalTyped = typed.length + (correct * 5); // total keystrokes roughly
+    updateWPM();
+
+    if (typed.toLowerCase() === word.toLowerCase()) {
+      sfx.correct.play();
+      correct++; score += word.length;
+      nextWord();
+    }
+  }
+
+  function nextWord() {
+    inputBox.value = '';
+    currentIndex++;
+    updateProgress();
+    if (currentIndex < currentWords.length) {
+      showWord();
+      startTime = Date.now(); // reset timer per word
+    } else endSession();
+  }
+
+  function endSession() {
+    clearInterval(timerInterval);
+    sfx.end.play();
+    inputBox.classList.add('hidden');
+    feedback.textContent = '🎉 Session Complete!';
+    const duration = (Date.now() - startTime) / 1000 || 1;
+    const wpm = ((totalTyped / 5) / (duration / 60)).toFixed(1);
+    wpmEl.textContent = wpm;
+    scoreBoard.textContent = `Words Correct: ${correct}/${currentWords.length}`;
+  }
+
+  function updateProgress() {
+    const pct = ((currentIndex / currentWords.length) * 100).toFixed(1);
+    progressCountEl.textContent = pct + '%';
+    progressEl.style.width = pct + '%';
+  }
+
+  function updateWPM() {
+    const elapsed = (Date.now() - startTime) / 1000;
+    if (elapsed > 0) {
+      const wpm = ((totalTyped / 5) / (elapsed / 60)).toFixed(1);
+      wpmEl.textContent = wpm;
+    }
+  }
+
+  function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+  }
+
+  loadData();
+</script>
  
- 
-<script>
+
+  
+  <!--<script>
   // ------------------ Data (Fallback + Fetch) ------------------
   let lessons = {};
   let dictionary = [];
@@ -207,6 +386,6 @@
   }
 
   loadData();
-  </script>
+  </script>-->
 </body>
 </html>
