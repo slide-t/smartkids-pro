@@ -1,4 +1,294 @@
+
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartKids Pro Typing Tutor</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(120deg, #f7f9fc, #e3f2fd);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: #1565c0;
+      color: white;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 1.4em;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    #game-container {
+      background: white;
+      width: 80%;
+      max-width: 800px;
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      text-align: center;
+      position: relative;
+    }
+
+    #word-display {
+      font-size: 2em;
+      font-weight: bold;
+      color: #0d47a1;
+      margin: 20px 0;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+
+    #input-box {
+      font-size: 1.2em;
+      padding: 8px 14px;
+      border: 2px solid #90caf9;
+      border-radius: 8px;
+      width: 80%;
+      outline: none;
+      text-align: center;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #cfd8dc;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    #progress {
+      height: 100%;
+      background: #42a5f5;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    #stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #1565c0;
+    }
+
+    #virtual-keyboard {
+      margin-top: 25px;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      justify-items: center;
+    }
+
+    .key {
+      background: #e3f2fd;
+      border-radius: 6px;
+      padding: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      width: 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .key:hover, .key.active {
+      background: #42a5f5;
+      color: white;
+    }
+
+    #start-btn {
+      background: #1e88e5;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s ease;
+    }
+
+    #start-btn:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+<header>SmartKids Pro Typing Tutor</header>
+
+<div id="game-container">
+  <h3 id="level">Year 1</h3>
+  <div id="stats">
+    <span>Timer: <span id="timer">30</span>s</span>
+    <span>Words: <span id="words-done">0</span></span>
+    <span>WPM: <span id="wpm">0</span></span>
+  </div>
+  <div id="progress-bar"><div id="progress"></div></div>
+
+  <div id="word-display">Press Start</div>
+  <input id="input-box" placeholder="Type here..." disabled />
+
+  <button id="start-btn">Start Game</button>
+
+  <div id="virtual-keyboard"></div>
+</div>
+
+<!-- background music -->
+<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4e5b0b9838.mp3?filename=playful-background-110856.mp3" loop></audio>
+
+<!-- sound effects -->
+<audio id="correct-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4eb8a6c723.mp3?filename=success-1-6297.mp3"></audio>
+<audio id="wrong-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_10635.mp3?filename=error-2-126514.mp3"></audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const wordDisplay = document.getElementById("word-display");
+  const inputBox = document.getElementById("input-box");
+  const timerDisplay = document.getElementById("timer");
+  const wpmDisplay = document.getElementById("wpm");
+  const wordsDoneDisplay = document.getElementById("words-done");
+  const progress = document.getElementById("progress");
+  const startBtn = document.getElementById("start-btn");
+  const bgMusic = document.getElementById("bg-music");
+  const correctSound = document.getElementById("correct-sound");
+  const wrongSound = document.getElementById("wrong-sound");
+
+  let jsonData = {};
+  let currentWords = [];
+  let currentIndex = 0;
+  let timer;
+  let timeLeft = 30;
+  let wordsDone = 0;
+  let startTime;
+
+  // Load JSON
+  try {
+    const response = await fetch("keyboard_lessons.json");
+    jsonData = await response.json();
+  } catch (err) {
+    alert("Error loading lessons file.");
+    console.error(err);
+  }
+
+  const year = "Year 1"; // Default; can be made selectable
+  currentWords = jsonData[year].items;
+  const totalWords = currentWords.length;
+
+  // Create virtual keyboard
+  const keyboard = document.getElementById("virtual-keyboard");
+  const keys = "abcdefghijklmnopqrstuvwxyz".split("");
+  keys.forEach(k => {
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = k;
+    key.onclick = () => {
+      inputBox.value += k;
+      key.classList.add("active");
+      setTimeout(() => key.classList.remove("active"), 200);
+    };
+    keyboard.appendChild(key);
+  });
+
+  // Start Game
+  startBtn.onclick = () => {
+    bgMusic.play();
+    resetGame();
+    startRound();
+  };
+
+  function resetGame() {
+    inputBox.disabled = false;
+    inputBox.value = "";
+    currentIndex = 0;
+    wordsDone = 0;
+    timeLeft = 30;
+    progress.style.width = "0%";
+    timerDisplay.textContent = timeLeft;
+    wordsDoneDisplay.textContent = 0;
+    wpmDisplay.textContent = 0;
+    startTime = new Date();
+  }
+
+  function startRound() {
+    if (currentIndex >= totalWords) {
+      endGame();
+      return;
+    }
+
+    const word = currentWords[currentIndex];
+    wordDisplay.textContent = word;
+    inputBox.focus();
+
+    clearInterval(timer);
+    timer = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = timeLeft;
+      if (timeLeft <= 0) checkWord();
+    }, 1000);
+  }
+
+  inputBox.addEventListener("keydown", e => {
+    if (e.key === "Enter") checkWord();
+  });
+
+  function checkWord() {
+    const word = currentWords[currentIndex];
+    const typed = inputBox.value.trim();
+    clearInterval(timer);
+
+    if (typed.toLowerCase() === word.toLowerCase()) {
+      correctSound.play();
+      wordsDone++;
+    } else {
+      wrongSound.play();
+    }
+
+    wordsDoneDisplay.textContent = wordsDone;
+    progress.style.width = ((currentIndex + 1) / totalWords) * 100 + "%";
+
+    const timeElapsed = (new Date() - startTime) / 60000;
+    const wpm = Math.round(wordsDone / timeElapsed);
+    wpmDisplay.textContent = isNaN(wpm) ? 0 : wpm;
+
+    currentIndex++;
+    inputBox.value = "";
+    timeLeft = 30; // reset timer
+    if (currentIndex < totalWords) startRound();
+    else endGame();
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    inputBox.disabled = true;
+    wordDisplay.textContent = "Game Over!";
+    bgMusic.pause();
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -39,7 +329,7 @@
     <button id="musicToggle" class="bg-pink-600 hover:bg-pink-500 px-3 py-2 rounded">🔊 Music On</button>
   </div>
 
-  <!-- Stats & Progress -->
+  <!-- Stats & Progress --
   <div class="w-full max-w-lg">
     <div class="flex justify-between text-sm mb-1">
       <span>Timer: <span id="timer">0</span>s</span>
@@ -51,10 +341,10 @@
     </div>
   </div>
 
-  <!-- Word Display -->
+  <!-- Word Display --
   <div id="wordDisplay" class="text-3xl font-semibold tracking-widest mb-6"></div>
 
-  <!-- Input & Feedback -->
+  <!-- Input & Feedback --
   <input id="inputBox" type="text" placeholder="Type here..."
          class="bg-slate-800 rounded p-3 text-lg text-center outline-none w-64 mb-3 hidden" />
   <div id="feedback" class="text-lg mb-2"></div>
