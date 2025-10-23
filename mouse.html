@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartKids Pro: Mouse Practice</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0f172a;
+    color: #fff;
+    overflow: hidden;
+    margin: 0;
+    height: 100vh;
+    position: relative;
+  }
+
+  header {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+  }
+  .home-btn {
+    background: white;
+    color: #0078ff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .home-btn:hover { background: #0078ff; color: white; }
+
+  h1 {
+    text-align: center;
+    margin-top: 60px;
+    color: #38bdf8;
+  }
+
+  #gameArea {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    margin-top: 40px;
+    overflow: hidden;
+  }
+
+  #target {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  #scorePanel {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  #scorePanel span { margin: 0 10px; }
+</style>
+</head>
+
+<body>
+  <header>
+    <a href="index.html" class="home-btn">🏠 Home</a>
+  </header>
+
+  <h1>🎯 Mouse Practice Game</h1>
+
+  <div id="gameArea">
+    <div id="target"></div>
+  </div>
+
+  <div id="scorePanel">
+    <span>Hits: <strong id="hits">0</strong></span>
+    <span>Misses: <strong id="misses">0</strong></span>
+    <span>Timer: <strong id="timer">30</strong>s</span>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const target = document.getElementById("target");
+  const gameArea = document.getElementById("gameArea");
+  const hitsEl = document.getElementById("hits");
+  const missesEl = document.getElementById("misses");
+  const timerEl = document.getElementById("timer");
+
+  let hits = 0, misses = 0;
+  let gameTime = 30;
+  let timerInterval;
+
+  const hitSound = new Audio("sounds/click.mp3");
+  const cheerSound = new Audio("sounds/cheer.mp3");
+
+  // Move the circle randomly
+  function moveTarget() {
+    const areaRect = gameArea.getBoundingClientRect();
+    const size = target.offsetWidth;
+    const x = Math.random() * (areaRect.width - size);
+    const y = Math.random() * (areaRect.height - size);
+    target.style.left = `${x}px`;
+    target.style.top = `${y}px`;
+  }
+
+  // Start the timer
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      gameTime--;
+      timerEl.textContent = gameTime;
+      if (gameTime <= 0) endGame();
+    }, 1000);
+  }
+
+  // Handle hit
+  target.addEventListener("click", () => {
+    hits++;
+    hitsEl.textContent = hits;
+    hitSound.play();
+    moveTarget();
+    target.style.transform = "scale(1.2)";
+    setTimeout(() => (target.style.transform = "scale(1)"), 200);
+
+    // Change color after every 3 hits
+    if (hits % 9 === 0) {
+      target.style.background = "#ec4899"; // pink
+      cheerSound.play();
+      alert("🌟 Well done!");
+    } else if (hits % 6 === 0) {
+      target.style.background = "#facc15"; // yellow
+    } else if (hits % 3 === 0) {
+      target.style.background = "#22c55e"; // green
+    }
+  });
+
+  // Count misses
+  gameArea.addEventListener("click", (e) => {
+    if (e.target !== target) {
+      misses++;
+      missesEl.textContent = misses;
+    }
+  });
+
+  // Start game
+  moveTarget();
+  startTimer();
+
+  function endGame() {
+    clearInterval(timerInterval);
+    target.style.display = "none";
+    const accuracy = ((hits / (hits + misses)) * 100).toFixed(1);
+    alert(`⏰ Time's up!\nHits: ${hits}\nMisses: ${misses}\nAccuracy: ${accuracy}%`);
+  }
+});
+</script>
+</body>
+</html>
