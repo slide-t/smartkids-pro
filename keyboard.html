@@ -194,10 +194,66 @@
     }
     .left-panel { padding: 1rem; }
   }
+  /* Header Styles */
+  .header-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #0078ff, #00c4ff);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .header-bar h1 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .home-btn {
+    background: white;
+    color: #0078ff;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .home-btn:hover {
+    background: #0078ff;
+    color: white;
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+
+  /* Add top padding to main section so header doesn't overlap */
+  body {
+    padding-top: 65px;
+  }
 </style>
+  
 </head>
 
 <body>
+<!-- 🌟 HEADER SECTION -->
+<header class="header-bar">
+  <div class="header-left">
+    <h1>Keyboard Lessons</h1>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="home-btn">🏠 Home</a>
+  </div>
+</header>
+
+
+  
   <!-- Background bubbles -->
   <div class="bubbles">
     <div class="bubble" style="left:10%; animation-duration:14s; width:15px; height:15px;"></div>
