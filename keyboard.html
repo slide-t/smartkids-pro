@@ -4,6 +4,440 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SmartKids Pro: Keyboard Tutor</title>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #0f172a;
+    color: #fff;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+  }
+
+  /* 🎈 Bubble background animation */
+  .bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .bubble {
+    position: absolute;
+    bottom: -100px;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    animation: rise 15s infinite ease-in;
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 0.5; }
+    100% { transform: translateY(-1200px) scale(1.2); opacity: 0; }
+  }
+
+  /* 🎯 Layout */
+  .main-container {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .right-sidebar {
+    background: #1e293b;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    border-left: 3px solid #334155;
+  }
+
+  select, button {
+    background: #334155;
+    color: #fff;
+    border: none;
+    border-radius: 0.4rem;
+    padding: 0.7rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+    width: 100%;
+  }
+
+  button:hover { opacity: 0.9; }
+
+  #musicToggle { background-color: #db2777; }
+  #startBtn { background-color: #2563eb; }
+  #pauseBtn { background-color: #facc15; color: #000; }
+
+  /* 🧠 Stats */
+  .stats {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 1rem;
+  }
+
+  .stat-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 0.6rem;
+    border-radius: 9999px;
+    background: #334155;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  #progressInner {
+    height: 100%;
+    width: 0%;
+    background-color: #22c55e;
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+  }
+
+  /* 🧩 Word Display */
+  #wordDisplay {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    word-wrap: break-word;
+    width: 80%;
+  }
+
+  .tile {
+    display: inline-block;
+    margin: 0 4px;
+    padding: 6px 10px;
+    font-size: 1.8rem;
+    background: #1e293b;
+    border-radius: 0.4rem;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-30px);
+    animation: dropIn 0.5s ease forwards;
+  }
+
+  @keyframes dropIn {
+    0% { opacity: 0; transform: translateY(-40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .tile.correct { background-color: #22c55e; }
+  .tile.wrong { background-color: #ef4444; }
+
+  #inputBox {
+    background: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #fff;
+    width: 75%;
+    max-width: 300px;
+    margin-bottom: 0.5rem;
+    outline: none;
+  }
+
+  #feedback {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.25rem;
+  }
+
+  #scoreboard {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .main-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+    .right-sidebar {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      border-left: none;
+      border-top: 3px solid #334155;
+    }
+    .left-panel { padding: 1rem; }
+  }
+</style>
+</head>
+
+<body>
+  <!-- Background bubbles -->
+  <div class="bubbles">
+    <div class="bubble" style="left:10%; animation-duration:14s; width:15px; height:15px;"></div>
+    <div class="bubble" style="left:30%; animation-duration:18s; width:20px; height:20px;"></div>
+    <div class="bubble" style="left:50%; animation-duration:20s; width:10px; height:10px;"></div>
+    <div class="bubble" style="left:70%; animation-duration:16s; width:25px; height:25px;"></div>
+    <div class="bubble" style="left:85%; animation-duration:22s; width:18px; height:18px;"></div>
+  </div>
+
+  <div class="main-container">
+    <!-- Left: Game Area -->
+    <div class="left-panel">
+      <h1>SmartKids Pro: Keyboard Tutor</h1>
+
+      <div class="stats">
+        <div class="stat-line">
+          <span>Timer: <span id="timer">0</span>s</span>
+          <span>WPM: <span id="wpm">0</span></span>
+          <span>Progress: <span id="progressCount">0%</span></span>
+        </div>
+        <div class="progress-bar"><div id="progressInner"></div></div>
+      </div>
+
+      <div id="wordDisplay"></div>
+      <input id="inputBox" type="text" placeholder="Type here..." class="hidden" />
+      <div id="feedback"></div>
+      <div id="scoreboard"></div>
+    </div>
+
+    <!-- Right: Sidebar -->
+    <div class="right-sidebar">
+      <select id="yearSelect">
+        <option value="">Select Year</option>
+      </select>
+      <select id="timeSelect">
+        <option value="15">15s</option>
+        <option value="20">20s</option>
+        <option value="25">25s</option>
+      </select>
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">⏸ Pause</button>
+      <button id="musicToggle">🔊 Music On</button>
+    </div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("startBtn");
+  const yearSelect = document.getElementById("yearSelect");
+  const timeSelect = document.getElementById("timeSelect");
+  const inputBox = document.getElementById("inputBox");
+  const wordDisplay = document.getElementById("wordDisplay");
+  const timerEl = document.getElementById("timer");
+  const wpmEl = document.getElementById("wpm");
+  const feedback = document.getElementById("feedback");
+  const progressInner = document.getElementById("progressInner");
+  const progressCount = document.getElementById("progressCount");
+  const scoreboard = document.getElementById("scoreboard");
+  const musicToggle = document.getElementById("musicToggle");
+  const pauseBtn = document.getElementById("pauseBtn");
+
+  let lessonsData = {};
+  let words = [];
+  let currentIndex = 0;
+  let correctCount = 0;
+  let timer = 0;
+  let totalTyped = 0;
+  let interval;
+  let startTime;
+  let isPaused = false;
+
+  const bgMusic = new Audio("sounds/bg-music.mp3");
+  bgMusic.loop = true;
+
+  // 🎧 Music
+  musicToggle.addEventListener("click", () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicToggle.textContent = "🔊 Music On";
+    } else {
+      bgMusic.pause();
+      musicToggle.textContent = "🔇 Music Off";
+    }
+  });
+
+  // 🎯 Load Lessons
+  fetch("json-files/keyboard_lessons.json")
+    .then(res => res.json())
+    .then(data => {
+      lessonsData = data;
+      Object.keys(data).forEach(year => {
+        const opt = document.createElement("option");
+        opt.value = year;
+        opt.textContent = year;
+        yearSelect.appendChild(opt);
+      });
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+
+  // 🕓 Adjust Timer Choices
+  yearSelect.addEventListener("change", () => {
+    const selectedYear = yearSelect.value;
+    timeSelect.innerHTML = "";
+    if (/Year (7|8|9|10|11|12)/.test(selectedYear)) {
+      [30, 60].forEach(sec => {
+        const opt = document.createElement("option");
+        opt.value = sec;
+        opt.textContent = `${sec}s`;
+        timeSelect.appendChild(opt);
+      });
+    } else {
+      [15, 20, 25].forEach(sec => {
+        const opt = document.createElement("option");
+        opt.value = sec;
+        opt.textContent = `${sec}s`;
+        timeSelect.appendChild(opt);
+      });
+    }
+  });
+
+  // 🏁 Start
+  startBtn.addEventListener("click", () => {
+    const selectedYear = yearSelect.value;
+    if (!selectedYear) return alert("Please select a Year level!");
+
+    words = lessonsData[selectedYear].items;
+    currentIndex = 0;
+    correctCount = 0;
+    totalTyped = 0;
+    feedback.textContent = "";
+    wordDisplay.innerHTML = "";
+    inputBox.value = "";
+    inputBox.classList.remove("hidden");
+    inputBox.focus();
+    progressInner.style.width = "0%";
+    progressCount.textContent = "0%";
+    timerEl.textContent = "0";
+    wpmEl.textContent = "0";
+
+    timer = parseInt(timeSelect.value);
+    startTime = Date.now();
+    clearInterval(interval);
+    updateWord();
+    startTimer();
+  });
+
+  // Timer
+  function startTimer() {
+    interval = setInterval(() => {
+      if (!isPaused) {
+        timer--;
+        timerEl.textContent = timer;
+        const percent = (currentIndex / words.length) * 100;
+        progressInner.style.width = percent + "%";
+        progressCount.textContent = Math.round(percent) + "%";
+
+        const timeElapsed = (Date.now() - startTime) / 1000 / 60;
+        const wpm = totalTyped > 0 && timeElapsed > 0 ? Math.round((totalTyped / 5) / timeElapsed) : 0;
+        wpmEl.textContent = wpm;
+
+        if (timer <= 0) nextWord();
+      }
+    }, 1000);
+  }
+
+  // Display
+  function updateWord() {
+    if (currentIndex >= words.length) {
+      endLevel();
+      return;
+    }
+    const word = words[currentIndex];
+    wordDisplay.innerHTML = "";
+    [...word].forEach((letter, i) => {
+      const span = document.createElement("span");
+      span.textContent = letter;
+      span.className = "tile";
+      span.style.animationDelay = `${i * 0.05}s`;
+      wordDisplay.appendChild(span);
+    });
+  }
+
+  // Input
+  inputBox.addEventListener("input", () => {
+    const currentWord = words[currentIndex];
+    const userInput = inputBox.value.trim();
+    totalTyped++;
+
+    if (userInput === currentWord) {
+      correctCount++;
+      inputBox.value = "";
+      feedback.textContent = "✅ Correct!";
+      feedback.className = "text-green-400";
+      nextWord();
+    } else if (!currentWord.startsWith(userInput)) {
+      feedback.textContent = "❌ Wrong!";
+      feedback.className = "text-red-400";
+    } else feedback.textContent = "";
+
+    scoreboard.textContent = `Score: ${correctCount}/${words.length}`;
+  });
+
+  function nextWord() {
+    currentIndex++;
+    if (currentIndex < words.length) {
+      timer = parseInt(timeSelect.value);
+      updateWord();
+    } else endLevel();
+  }
+
+  function endLevel() {
+    clearInterval(interval);
+    wordDisplay.innerHTML = `<span class="text-green-400 text-2xl">🎉 Congratulations! You’ve completed this level.</span>`;
+    inputBox.classList.add("hidden");
+    progressInner.style.width = "100%";
+    progressCount.textContent = "100%";
+  }
+
+  // Pause
+  pauseBtn.addEventListener("click", () => {
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "▶ Resume" : "⏸ Pause";
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartKids Pro: Keyboard Tutor</title>
 <style>
   body {
     font-family: 'Poppins', sans-serif;
@@ -192,11 +626,11 @@
       <option value="">Select Year</option>
     </select>
     <button id="startBtn">Start</button>
-   <!--<button id="pauseBtn">⏸ Pause</button>-->
+   <!--<button id="pauseBtn">⏸ Pause</button>--
     <button id="musicToggle">🔊 Music On</button>
   </div>
 
-  <!-- Stats -->
+  <!-- Stats --
   <div class="stats">
     <div class="stat-line">
       <span>Timer: <span id="timer">0</span>s</span>
@@ -208,10 +642,10 @@
     </div>
   </div>
 
-  <!-- Word Display -->
+  <!-- Word Display --
   <div id="wordDisplay"></div>
 
-  <!-- Input & Feedback -->
+  <!-- Input & Feedback --
   <input id="inputBox" type="text" placeholder="Type here..." class="hidden" />
   <div id="feedback"></div>
   <div id="scoreboard"></div>
