@@ -68,6 +68,7 @@
       box-shadow: -2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
       transition: transform 0.4s ease;
+      z-index: 15;
     }
 
     .sidebar.hidden {
@@ -94,6 +95,7 @@
       width: 70%;
     }
 
+    /* Sidebar buttons */
     .mode-btn {
       width: 100%;
       padding: 12px;
@@ -157,16 +159,47 @@
       background: #0078ff;
     }
 
-    .timer {
+    /* Timer + Selector */
+    .timer-wrapper {
       position: absolute;
       top: 10px;
       left: 20px;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: white;
       padding: 5px 10px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-weight: 600;
     }
+
+    #timeSelector {
+      background: #f8faff;
+      color: #0078ff;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 2px solid #0078ff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    #timeSelector:hover {
+      background: #0078ff;
+      color: white;
+    }
+
+    /* Menu icon animation */
+    #menuToggle.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    #menuToggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    #menuToggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+    #menuToggle span { transition: all 0.3s ease; }
 
   </style>
 </head>
@@ -197,7 +230,15 @@
 
   <!-- Main Game Area -->
   <div class="main-board" id="gameBoard">
-    <div class="timer" id="timer">Time: 15</div>
+    <div class="timer-wrapper">
+      <div class="timer" id="timer">Time: 15</div>
+      <select id="timeSelector">
+        <option value="15">15s</option>
+        <option value="20">20s</option>
+        <option value="25">25s</option>
+      </select>
+    </div>
+
     <div class="controls">
       <button class="control-btn" id="startBtn">Start</button>
       <button class="control-btn" id="pauseBtn">Pause</button>
@@ -205,170 +246,102 @@
     </div>
   </div>
 
- <script>
-  let lessonsData = {};
-  let gameRunning = false;
-  let score = 0;
-  let hits = 0;
-  let time = 15;
-  let timerInterval;
-  const gameBoard = document.getElementById("gameBoard");
-  const timerDisplay = document.getElementById("timer");
-  const sidebar = document.getElementById("sidebar");
-  const menuToggle = document.getElementById("menuToggle");
+  <script>
+    let lessonsData = {};
+    let gameRunning = false;
+    let score = 0;
+    let hits = 0;
+    let time = 15;
+    let timerInterval;
 
-  /* 🔹 Create a time selector dynamically near the timer */
-  const timeSelector = document.createElement("select");
-  timeSelector.id = "timeSelector";
-  ["15", "20", "25"].forEach(val => {
-    const option = document.createElement("option");
-    option.value = val;
-    option.textContent = `${val}s`;
-    timeSelector.appendChild(option);
-  });
-  timerDisplay.insertAdjacentElement("afterend", timeSelector);
+    const gameBoard = document.getElementById("gameBoard");
+    const timerDisplay = document.getElementById("timer");
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+    const timeSelector = document.getElementById("timeSelector");
 
-  const selectorStyle = document.createElement("style");
-  selectorStyle.textContent = `
-    #timeSelector {
-      background: white;
-      color: #0078ff;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 8px;
-      border: 2px solid #0078ff;
-      margin-left: 8px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    #timeSelector:hover {
-      background: #0078ff;
-      color: white;
-    }
-  `;
-  document.head.appendChild(selectorStyle);
-
-  /* 🔹 Sidebar toggle with tooltip */
-  menuToggle.addEventListener("click", () => {
-    sidebar.classList.toggle("hidden");
-    menuToggle.classList.toggle("active");
-  });
-
-  const style = document.createElement("style");
-  style.textContent = `
-    #menuToggle.active span:nth-child(1) {
-      transform: rotate(45deg) translateY(8px);
-    }
-    #menuToggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-    #menuToggle.active span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-8px);
-    }
-    #menuToggle span {
-      transition: all 0.3s ease;
-    }
-    #menuToggle::after {
-      content: attr(title);
-      position: absolute;
-      top: 35px;
-      left: -10px;
-      color: white;
-      font-size: 13px;
-      opacity: 0;
-      transform: translateY(-5px);
-      transition: all 0.3s ease;
-      pointer-events: none;
-    }
-    #menuToggle:hover::after {
-      opacity: 0.9;
-      transform: translateY(0);
-    }
-  `;
-  document.head.appendChild(style);
-
-  /* 🔹 Load mouse lessons */
-  fetch("json-files/mouse_lessons.json")
-    .then(res => res.json())
-    .then(data => {
-      lessonsData = data;
-      console.log("✅ Mouse lessons loaded", data);
-    })
-    .catch(err => console.error("Error loading JSON:", err));
-
-  /* 🔹 Sidebar mode buttons */
-  document.querySelectorAll(".mode-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      sidebar.classList.add("hidden");
-      menuToggle.classList.remove("active");
-      const mode = btn.dataset.mode;
-      if (mode === "click") startClickTargets();
-      else alert(`🔧 ${btn.textContent} coming soon!`);
-    });
-  });
-
-  /* 🔹 Click Targets: Sample Game */
-  function startClickTargets() {
-    if (gameRunning) return;
-    gameRunning = true;
-    score = 0;
-    hits = 0;
-    time = parseInt(timeSelector.value) || 15;
-    timeSelector.disabled = true; // lock time while playing
-    timerDisplay.textContent = `Time: ${time}`;
-
-    const circle = document.createElement("div");
-    circle.classList.add("circle");
-    moveCircle(circle);
-    gameBoard.appendChild(circle);
-
-    circle.addEventListener("click", () => {
-      hits++;
-      score += 10;
-      if (hits >= 3 && hits < 6) circle.style.background = "#ff9800";
-      else if (hits >= 6 && hits < 10) circle.style.background = "#0078ff";
-      else if (hits >= 10) circle.style.background = "#28a745";
-      moveCircle(circle);
+    /* Sidebar toggle */
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("hidden");
+      menuToggle.classList.toggle("active");
     });
 
-    timerInterval = setInterval(() => {
-      time--;
+    /* Fetch mouse lessons */
+    fetch("json-files/mouse_lessons.json")
+      .then(res => res.json())
+      .then(data => (lessonsData = data))
+      .catch(err => console.error("Error loading JSON:", err));
+
+    /* Sidebar buttons */
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        sidebar.classList.add("hidden");
+        menuToggle.classList.remove("active");
+        const mode = btn.dataset.mode;
+        if (mode === "click") startClickTargets();
+        else alert(`🔧 ${btn.textContent} coming soon!`);
+      });
+    });
+
+    /* Click Targets */
+    function startClickTargets() {
+      if (gameRunning) return;
+      gameRunning = true;
+      score = 0;
+      hits = 0;
+      time = parseInt(timeSelector.value);
+      timeSelector.disabled = true;
       timerDisplay.textContent = `Time: ${time}`;
-      if (time <= 0) endGame(circle);
-    }, 1000);
-  }
 
-  function moveCircle(circle) {
-    const maxX = gameBoard.clientWidth - 60;
-    const maxY = gameBoard.clientHeight - 60;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-    circle.style.transition = "left 0.3s ease, top 0.3s ease";
-    circle.style.left = x + "px";
-    circle.style.top = y + "px";
-  }
+      const circle = document.createElement("div");
+      circle.classList.add("circle");
+      moveCircle(circle);
+      gameBoard.appendChild(circle);
 
-  function endGame(circle) {
-    clearInterval(timerInterval);
-    gameRunning = false;
-    circle.remove();
-    timeSelector.disabled = false; // unlock for next round
-    alert(`⏰ Time's up! Score: ${score}`);
-  }
+      circle.addEventListener("click", () => {
+        hits++;
+        score += 10;
+        if (hits >= 3 && hits < 6) circle.style.background = "#ff9800";
+        else if (hits >= 6 && hits < 10) circle.style.background = "#0078ff";
+        else if (hits >= 10) circle.style.background = "#28a745";
+        moveCircle(circle);
+      });
 
-  /* 🔹 Control buttons */
-  document.getElementById("startBtn").addEventListener("click", startClickTargets);
-  document.getElementById("pauseBtn").addEventListener("click", () => {
-    if (gameRunning) {
+      timerInterval = setInterval(() => {
+        time--;
+        timerDisplay.textContent = `Time: ${time}`;
+        if (time <= 0) endGame(circle);
+      }, 1000);
+    }
+
+    function moveCircle(circle) {
+      const maxX = gameBoard.clientWidth - 60;
+      const maxY = gameBoard.clientHeight - 60;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      circle.style.transition = "left 0.3s ease, top 0.3s ease";
+      circle.style.left = x + "px";
+      circle.style.top = y + "px";
+    }
+
+    function endGame(circle) {
       clearInterval(timerInterval);
       gameRunning = false;
-      alert("⏸ Game paused");
+      circle.remove();
+      timeSelector.disabled = false;
+      alert(`⏰ Time's up! Score: ${score}`);
     }
-  });
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    location.reload();
-  });
-</script>
-  
+
+    /* Control buttons */
+    document.getElementById("startBtn").addEventListener("click", startClickTargets);
+    document.getElementById("pauseBtn").addEventListener("click", () => {
+      if (gameRunning) {
+        clearInterval(timerInterval);
+        gameRunning = false;
+        alert("⏸ Game paused");
+      }
+    });
+    document.getElementById("resetBtn").addEventListener("click", () => location.reload());
+  </script>
 </body>
 </html>
