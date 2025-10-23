@@ -181,6 +181,173 @@
   <div id="feedback"></div>
   <div id="scoreboard"></div>
 
+
+<script>
+let lessons = {};
+let dictionary = [];
+let timerInterval = null;
+let timeLeft = 0, totalTime = 0;
+let score = 0, correct = 0, attempts = 0;
+let currentWords = [], currentIndex = 0;
+let isPaused = false;
+
+// DOM
+const timerEl = document.getElementById('timer');
+const wpmEl = document.getElementById('wpm');
+const progressEl = document.getElementById('progressInner');
+const progressCountEl = document.getElementById('progressCount');
+const feedback = document.getElementById('feedback');
+const inputBox = document.getElementById('inputBox');
+const display = document.getElementById('wordDisplay');
+const scoreBoard = document.getElementById('scoreboard');
+const startBtn = document.getElementById('startBtn');
+const yearSelect = document.getElementById('yearSelect');
+
+// 🎵 Audio
+const sfx = {
+  correct: new Audio('./assets/sfx/correct.mp3'),
+  wrong: new Audio('./assets/sfx/wrong.mp3'),
+  start: new Audio('./assets/sfx/start.mp3'),
+  end: new Audio('./assets/sfx/end.mp3'),
+  bgm: new Audio('./assets/music/background.mp3')
+};
+sfx.bgm.loop = true; sfx.bgm.volume = 0.2;
+
+document.getElementById('musicToggle').addEventListener('click', () => {
+  if (sfx.bgm.paused) { sfx.bgm.play(); musicToggle.textContent = '🔊 Music On'; }
+  else { sfx.bgm.pause(); musicToggle.textContent = '🔈 Music Off'; }
+});
+
+// 🎯 Fetch JSON data
+fetch("json-files/keyboard_lessons.json")
+  .then(res => res.json())
+  .then(data => {
+    lessons = data;
+    Object.keys(data).forEach(year => {
+      const opt = document.createElement("option");
+      opt.value = year;
+      opt.textContent = year;
+      yearSelect.appendChild(opt);
+    });
+  })
+  .catch(() => {
+    lessons = {
+      "Year 1": { "timer": 25, "items": ["cat","dog","sun","map","cup","bed","hat","pen","top","bus"] },
+      "Year 2": { "timer": 22, "items": ["play","book","milk","road","hand","fish","frog","door","cake","jump"] },
+    };
+  });
+
+// 🎮 Start Game
+startBtn.addEventListener('click', startSession);
+inputBox.addEventListener('input', checkTyping);
+
+function startSession() {
+  const selectedYear = yearSelect.value;
+  if (!selectedYear) return alert('Select a Year first!');
+  
+  sfx.start.play(); sfx.bgm.play();
+
+  const lesson = lessons[selectedYear];
+  const baseTime = lesson.minLength < 5 ? 30 : 45;
+  timeLeft = baseTime;
+  totalTime = baseTime;
+  correct = 0; score = 0; attempts = 0;
+  currentWords = shuffle([...lesson.items]);
+  currentIndex = 0;
+  feedback.textContent = '';
+  inputBox.value = ''; inputBox.classList.remove('hidden'); inputBox.focus();
+  showWord();
+  updateProgress();
+
+  // Clear and start timer
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (!isPaused) {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+      progressEl.style.width = ((timeLeft / totalTime) * 100) + '%';
+      if (timeLeft <= 0) endSession();
+    }
+  }, 1000);
+}
+
+function showWord() {
+  display.innerHTML = '';
+  const word = currentWords[currentIndex];
+  if (!word) { currentIndex = 0; shuffle(currentWords); } // Loop words
+  const activeWord = currentWords[currentIndex];
+  [...activeWord].forEach(ch => {
+    const span = document.createElement('span');
+    span.textContent = ch;
+    span.className = 'tile';
+    display.appendChild(span);
+  });
+}
+
+function checkTyping() {
+  const typed = inputBox.value;
+  const word = currentWords[currentIndex];
+  const tiles = display.querySelectorAll('.tile');
+
+  tiles.forEach((t,i)=>{
+    t.classList.remove('correct','wrong');
+    if(typed[i]){
+      if(typed[i].toLowerCase()===word[i].toLowerCase()) t.classList.add('correct');
+      else t.classList.add('wrong');
+    }
+  });
+
+  if(typed.toLowerCase()===word.toLowerCase()){
+    sfx.correct.play();
+    correct++; score += word.length;
+    inputBox.value = '';
+    currentIndex = (currentIndex + 1) % currentWords.length; // loop
+    updateWPM();
+    showWord();
+  }
+}
+
+function updateWPM() {
+  const elapsed = (totalTime - timeLeft) / 60; // minutes
+  const wpm = elapsed > 0 ? (correct / elapsed).toFixed(1) : 0;
+  wpmEl.textContent = wpm;
+}
+
+function endSession() {
+  clearInterval(timerInterval);
+  sfx.end.play();
+  inputBox.classList.add('hidden');
+  feedback.textContent = '🎉 Great job! Session complete!';
+  scoreBoard.textContent = `Words Correct: ${correct}, WPM: ${wpmEl.textContent}`;
+}
+
+function updateProgress() {
+  const pct = ((currentIndex / currentWords.length) * 100).toFixed(1);
+  progressCountEl.textContent = pct + '%';
+}
+
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+// 🟡 Optional Pause Button
+const pauseBtn = document.createElement('button');
+pauseBtn.textContent = '⏸ Pause';
+pauseBtn.className = 'bg-yellow-600 hover:bg-yellow-500 px-3 py-2 rounded ml-2';
+startBtn.insertAdjacentElement('afterend', pauseBtn);
+
+pauseBtn.addEventListener('click', () => {
+  isPaused = !isPaused;
+  pauseBtn.textContent = isPaused ? '▶ Resume' : '⏸ Pause';
+});
+
+</script>
+
+
+
+
+
+  <!--
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const yearSelect = document.getElementById("yearSelect");
