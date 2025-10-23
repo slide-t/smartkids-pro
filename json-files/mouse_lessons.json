@@ -1,0 +1,113 @@
+
+{
+  "Year 1": {
+    "Click Practice": {
+      "instructions": "Click the red circles as they appear on the screen. Each correct click gives you 10 points.",
+      "levels": [
+        { "name": "Level 1", "time": 15, "targets": 5 },
+        { "name": "Level 2", "time": 20, "targets": 10 },
+        { "name": "Level 3", "time": 25, "targets": 15 }
+      ]
+    },
+    "Double Click Practice": {
+      "instructions": "Double click quickly on the shapes that appear. Be fast and precise!",
+      "levels": [
+        { "name": "Level 1", "time": 15, "targets": 5 },
+        { "name": "Level 2", "time": 20, "targets": 10 }
+      ]
+    }
+  },
+
+  "Year 2": {
+    "Click and Catch": {
+      "instructions": "Catch the moving objects by clicking them before they disappear!",
+      "levels": [
+        { "name": "Level 1", "speed": 1.2, "time": 20 },
+        { "name": "Level 2", "speed": 1.5, "time": 25 },
+        { "name": "Level 3", "speed": 1.8, "time": 30 }
+      ]
+    },
+    "Drag and Drop": {
+      "instructions": "Drag each image into the correct box or container.",
+      "levels": [
+        { "name": "Level 1", "items": 4 },
+        { "name": "Level 2", "items": 6 },
+        { "name": "Level 3", "items": 8 }
+      ]
+    }
+  },
+
+  "Year 3": {
+    "Speed Tracker": {
+      "instructions": "Click as many targets as possible within the time limit. Each round gets faster!",
+      "levels": [
+        { "name": "Level 1", "time": 20, "speed": 1.0 },
+        { "name": "Level 2", "time": 25, "speed": 1.3 },
+        { "name": "Level 3", "time": 30, "speed": 1.6 }
+      ]
+    },
+    "Shape Builder": {
+      "instructions": "Click on the dots to form a shape. Connect all points correctly!",
+      "levels": [
+        { "name": "Level 1", "shapes": ["triangle", "square"] },
+        { "name": "Level 2", "shapes": ["star", "house"] }
+      ]
+    }
+  },
+
+  "Year 4": {
+    "Drawing Pad": {
+      "instructions": "Use your mouse to draw lines, shapes, or anything creative. Practice smooth hand control.",
+      "levels": [
+        { "name": "Level 1", "task": "Trace straight lines" },
+        { "name": "Level 2", "task": "Draw circles and squares" },
+        { "name": "Level 3", "task": "Create a simple house drawing" }
+      ]
+    },
+    "Reflex Game": {
+      "instructions": "Wait for the screen to change color, then click as quickly as you can!",
+      "levels": [
+        { "name": "Level 1", "delay": [2, 5] },
+        { "name": "Level 2", "delay": [1, 4] },
+        { "name": "Level 3", "delay": [1, 3] }
+      ]
+    }
+  },
+
+  "Year 5": {
+    "Memory Match": {
+      "instructions": "Click to flip cards and find matching pairs.",
+      "levels": [
+        { "name": "Level 1", "cards": 6 },
+        { "name": "Level 2", "cards": 10 },
+        { "name": "Level 3", "cards": 14 }
+      ]
+    },
+    "Click Accuracy": {
+      "instructions": "Click on smaller and smaller targets accurately.",
+      "levels": [
+        { "name": "Level 1", "targetSize": 50 },
+        { "name": "Level 2", "targetSize": 35 },
+        { "name": "Level 3", "targetSize": 25 }
+      ]
+    }
+  },
+
+  "Year 6": {
+    "Advanced Reflex": {
+      "instructions": "React quickly when the correct symbol appears. Avoid false clicks!",
+      "levels": [
+        { "name": "Level 1", "symbols": ["✔", "✖"], "time": 30 },
+        { "name": "Level 2", "symbols": ["🐭", "🐱", "🐶"], "time": 40 }
+      ]
+    },
+    "Path Follower": {
+      "instructions": "Guide your cursor along a winding path without touching the edges.",
+      "levels": [
+        { "name": "Level 1", "pathType": "easy curve" },
+        { "name": "Level 2", "pathType": "zigzag" },
+        { "name": "Level 3", "pathType": "maze" }
+      ]
+    }
+  }
+}
