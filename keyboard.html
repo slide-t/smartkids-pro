@@ -181,8 +181,189 @@
   <div id="feedback"></div>
   <div id="scoreboard"></div>
 
-
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("startBtn");
+  const yearSelect = document.getElementById("yearSelect");
+  const inputBox = document.getElementById("inputBox");
+  const wordDisplay = document.getElementById("wordDisplay");
+  const timerEl = document.getElementById("timer");
+  const wpmEl = document.getElementById("wpm");
+  const feedback = document.getElementById("feedback");
+  const progressInner = document.getElementById("progressInner");
+  const progressCount = document.getElementById("progressCount");
+  const scoreboard = document.getElementById("scoreboard");
+  const musicToggle = document.getElementById("musicToggle");
+  
+  let lessonsData = {};
+  let words = [];
+  let currentIndex = 0;
+  let correctCount = 0;
+  let timer = 0;
+  let totalTyped = 0;
+  let interval;
+  let startTime;
+  let isPaused = false;
+  let bgMusic = new Audio("sounds/bg-music.mp3");
+  bgMusic.loop = true;
+
+  // 🎧 Toggle music
+  musicToggle.addEventListener("click", () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicToggle.textContent = "🔊 Music On";
+    } else {
+      bgMusic.pause();
+      musicToggle.textContent = "🔇 Music Off";
+    }
+  });
+
+  // 🎯 Fetch JSON data
+  fetch("json-files/keyboard_lessons.json")
+    .then(res => res.json())
+    .then(data => {
+      lessonsData = data;
+      Object.keys(data).forEach(year => {
+        const opt = document.createElement("option");
+        opt.value = year;
+        opt.textContent = year;
+        yearSelect.appendChild(opt);
+      });
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+
+  // 🕹 Start Game
+  startBtn.addEventListener("click", () => {
+    const selectedYear = yearSelect.value;
+    if (!selectedYear) return alert("Please select a Year level!");
+    
+    words = lessonsData[selectedYear].items;
+    currentIndex = 0;
+    correctCount = 0;
+    totalTyped = 0;
+    feedback.textContent = "";
+    wordDisplay.innerHTML = "";
+    inputBox.value = "";
+    inputBox.classList.remove("hidden");
+    inputBox.focus();
+    progressInner.style.width = "0%";
+    progressCount.textContent = "0%";
+    timerEl.textContent = "0";
+    wpmEl.textContent = "0";
+
+    const timerLimit = selectedYear.includes("Year 1") ? 15 : 
+                       selectedYear.includes("Year 2") ? 20 : 
+                       selectedYear.includes("Year 3") ? 25 : 
+                       selectedYear.includes("Year 4") ? 30 : 
+                       selectedYear.includes("Year 5") ? 35 :
+                       selectedYear.includes("Year 6") ? 40 : 45;
+
+    timer = timerLimit;
+    startTime = Date.now();
+    clearInterval(interval);
+    updateWord();
+    startTimer();
+  });
+
+  // 🧠 Timer & Progress
+  function startTimer() {
+    interval = setInterval(() => {
+      if (!isPaused) {
+        timer--;
+        timerEl.textContent = timer;
+        const percent = ((currentIndex) / words.length) * 100;
+        progressInner.style.width = percent + "%";
+        progressCount.textContent = Math.round(percent) + "%";
+
+        // Update WPM
+        const timeElapsed = (Date.now() - startTime) / 1000 / 60;
+        const wpm = totalTyped > 0 && timeElapsed > 0 ? Math.round(totalTyped / timeElapsed / 5) : 0;
+        wpmEl.textContent = wpm;
+
+        if (timer <= 0) {
+          nextWord();
+        }
+      }
+    }, 1000);
+  }
+
+  // 🧩 Display Words
+  function updateWord() {
+    if (currentIndex >= words.length) {
+      clearInterval(interval);
+      wordDisplay.innerHTML = `<span class="text-green-400 text-2xl">🎉 Congratulations! You’ve completed this level.</span>`;
+      inputBox.classList.add("hidden");
+      return;
+    }
+
+    const word = words[currentIndex];
+    wordDisplay.innerHTML = "";
+    [...word].forEach((letter, i) => {
+      const span = document.createElement("span");
+      span.textContent = letter;
+      span.className = "tile";
+      span.style.animationDelay = `${i * 0.05}s`;
+      wordDisplay.appendChild(span);
+    });
+  }
+
+  // ✅ Check Input
+  inputBox.addEventListener("input", () => {
+    const currentWord = words[currentIndex];
+    const userInput = inputBox.value.trim();
+
+    totalTyped++;
+
+    if (userInput === currentWord) {
+      correctCount++;
+      inputBox.value = "";
+      feedback.textContent = "✅ Correct!";
+      feedback.className = "text-green-400";
+      nextWord();
+    } else if (!currentWord.startsWith(userInput)) {
+      feedback.textContent = "❌ Wrong!";
+      feedback.className = "text-red-400";
+    } else {
+      feedback.textContent = "";
+    }
+
+    scoreboard.textContent = `Score: ${correctCount}/${words.length}`;
+  });
+
+  // ▶️ Next Word
+  function nextWord() {
+    currentIndex++;
+    if (currentIndex < words.length) {
+      timer = timer > 10 ? timer - 1 : timer; // slightly reduce each round for fun pace
+      updateWord();
+    } else {
+      clearInterval(interval);
+      wordDisplay.innerHTML = `<span class="text-green-400 text-2xl">🎉 Congratulations! You’ve completed this level.</span>`;
+      inputBox.classList.add("hidden");
+      progressInner.style.width = "100%";
+      progressCount.textContent = "100%";
+    }
+  }
+
+  // ⏸ Pause / Resume Button
+  const pauseBtn = document.createElement("button");
+  pauseBtn.textContent = "⏸ Pause";
+  pauseBtn.className = "bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded mt-3";
+  document.body.insertBefore(pauseBtn, document.getElementById("wordDisplay"));
+
+  pauseBtn.addEventListener("click", () => {
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "▶ Resume" : "⏸ Pause";
+  });
+
+});
+</script>
+
+
+
+
+  
+<!--<script>
 let lessons = {};
 let dictionary = [];
 let timerInterval = null;
