@@ -53,7 +53,7 @@
     }
     .home-btn:hover { background: #e8f1ff; }
 
-    /* Sidebar */
+    /* Sidebar *
     .sidebar {
       position: fixed;
       right: 0;
@@ -104,7 +104,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s, opacity 0.3s;
-    }
+    }*/
     .mode-btn:hover { transform: scale(1.05); opacity: 0.9; }
 
     .green { background: #28a745; }
@@ -167,7 +167,95 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+/* Sidebar Animation */
+#sidebar {
+  position: fixed;
+  top: 0;
+  right: -220px;
+  width: 200px;
+  height: 100%;
+  background: #0078ff;
+  color: white;
+  padding: 20px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.3);
+  transition: right 0.5s cubic-bezier(0.68,-0.55,0.27,1.55);
+  z-index: 10;
+}
+#sidebar.open {
+  right: 0;
+}
 
+/* Toggle Icon Animation */
+#menuToggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 20;
+}
+.bar {
+  width: 100%;
+  height: 4px;
+  background: #0078ff;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+#menuToggle.active .bar:nth-child(1) {
+  transform: rotate(45deg) translateY(10px);
+}
+#menuToggle.active .bar:nth-child(2) {
+  opacity: 0;
+}
+#menuToggle.active .bar:nth-child(3) {
+  transform: rotate(-45deg) translateY(-10px);
+}
+
+/* Sidebar Buttons */
+.mode-btn {
+  background: white;
+  color: #0078ff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.mode-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Tooltip */
+#menuToggle::after {
+  content: "☰ Menu";
+  position: absolute;
+  left: 40px;
+  top: 6px;
+  color: #0078ff;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Circle for Game */
+.circle {
+  width: 60px;
+  height: 60px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.circle:active {
+  transform: scale(0.9);
+}
   </style>
 </head>
 <body>
@@ -204,8 +292,102 @@
       <button class="control-btn" id="resetBtn">Reset</button>
     </div>
   </div>
+<script>
+  let lessonsData = {};
+  let gameRunning = false;
+  let score = 0;
+  let hits = 0;
+  let time = 15;
+  let timerInterval;
+  const gameBoard = document.getElementById("gameBoard");
+  const timerDisplay = document.getElementById("timer");
+  const sidebar = document.getElementById("sidebar");
+  const menuToggle = document.getElementById("menuToggle");
+  const menuBars = document.querySelectorAll(".bar");
 
-  <script>
+  // --- Sidebar Toggle ---
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    menuToggle.classList.toggle("active");
+  });
+
+  // --- Fetch mouse lessons ---
+  fetch("json-files/mouse_lessons.json")
+    .then(res => res.json())
+    .then(data => {
+      lessonsData = data;
+      console.log("✅ Mouse lessons loaded", data);
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+
+  // --- Sidebar Mode Buttons ---
+  document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      menuToggle.classList.remove("active");
+      alert(`🔧 ${btn.textContent} coming soon!`);
+    });
+  });
+
+  // --- Sample Game: Click Targets ---
+  function startClickTargets() {
+    if (gameRunning) return;
+    gameRunning = true;
+    score = 0;
+    hits = 0;
+    time = 15;
+    timerDisplay.textContent = `Time: ${time}`;
+
+    const circle = document.createElement("div");
+    circle.classList.add("circle");
+    moveCircle(circle);
+    gameBoard.appendChild(circle);
+
+    circle.addEventListener("click", () => {
+      hits++;
+      score += 10;
+      if (hits >= 3) circle.style.background = "#ff9800";
+      moveCircle(circle);
+    });
+
+    timerInterval = setInterval(() => {
+      time--;
+      timerDisplay.textContent = `Time: ${time}`;
+      if (time <= 0) endGame(circle);
+    }, 1000);
+  }
+
+  function moveCircle(circle) {
+    const maxX = gameBoard.clientWidth - 60;
+    const maxY = gameBoard.clientHeight - 60;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    circle.style.left = x + "px";
+    circle.style.top = y + "px";
+  }
+
+  function endGame(circle) {
+    clearInterval(timerInterval);
+    gameRunning = false;
+    circle.remove();
+    alert(`⏰ Time's up! Score: ${score}`);
+  }
+
+  document.getElementById("startBtn").addEventListener("click", startClickTargets);
+  document.getElementById("pauseBtn").addEventListener("click", () => {
+    if (gameRunning) {
+      clearInterval(timerInterval);
+      gameRunning = false;
+      alert("⏸ Game paused");
+    }
+  });
+  document.getElementById("resetBtn").addEventListener("click", () => location.reload());
+</script>
+ 
+  
+  
+  
+  <!--<script>
     let lessonsData = {};
     let gameRunning = false;
     let score = 0;
@@ -292,6 +474,6 @@
     document.getElementById("resetBtn").addEventListener("click", () => {
       location.reload();
     });
-  </script>
+  </script>-->
 </body>
 </html>
