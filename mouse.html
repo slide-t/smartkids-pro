@@ -201,6 +201,26 @@
     }
     #menuToggle span { transition: all 0.3s ease; }
 
+    /*new update*/
+    .game-area {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  height: 75%;
+  background: #ffffff;
+  border: 2px dashed #0078ff33;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  aspect-ratio: 4 / 3;
+}
+
+/* Adjust timer wrapper to stay clear of tooltip */
+.timer-wrapper {
+  top: 15px;
+  left: 20px;
+  z-index: 5;
+}
   </style>
 </head>
 <body>
@@ -228,7 +248,7 @@
     <button class="mode-btn red" data-mode="memory">Memory Match</button>
   </div>
 
-<!-- Inside main-board -->
+<!-- Main Game Area -->
 <div class="main-board" id="gameBoard">
   <div class="timer-wrapper">
     <div class="timer" id="timer">Time: 15</div>
@@ -239,7 +259,7 @@
     </select>
   </div>
 
-  <!-- Dedicated game container -->
+  <!-- New dedicated play area -->
   <div class="game-area" id="gameArea"></div>
 
   <div class="controls">
@@ -248,24 +268,6 @@
     <button class="control-btn" id="resetBtn">Reset</button>
   </div>
 </div>
-  
-  <!-- Main Game Area --
-  <div class="main-board" id="gameBoard">
-    <div class="timer-wrapper">
-      <div class="timer" id="timer">Time: 15</div>
-      <select id="timeSelector">
-        <option value="15">15s</option>
-        <option value="20">20s</option>
-        <option value="25">25s</option>
-      </select>
-    </div>
-
-    <div class="controls">
-      <button class="control-btn" id="startBtn">Start</button>
-      <button class="control-btn" id="pauseBtn">Pause</button>
-      <button class="control-btn" id="resetBtn">Reset</button>
-    </div>
-  </div>-->
 
   <script>
 /*
@@ -537,7 +539,20 @@
         if (hits < totalTargets) setTimeout(spawnTarget, 350);
       }, { once:true });
     }
+//game area
 
+const gameArea = document.getElementById("gameArea");
+
+function moveCircle(circle) {
+  const maxX = gameArea.clientWidth - 60;
+  const maxY = gameArea.clientHeight - 60;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  circle.style.left = x + "px";
+  circle.style.top = y + "px";
+  gameArea.appendChild(circle);
+}
+                                       
     // start flow
     spawnTarget();
     beginTimer(lvlTime, null, () => {
