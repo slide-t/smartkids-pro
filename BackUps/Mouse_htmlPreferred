@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartKids Pro | Mouse Practice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #eef3fb;
+      overflow: hidden;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #0078ff, #0059c1);
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 20;
+    }
+
+    header .brand {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand span {
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #6ec1ff; }
+      to { text-shadow: 0 0 10px #fff, 0 0 20px #7ed6ff; }
+    }
+
+    .home-btn {
+      background: white;
+      color: #0078ff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .home-btn:hover { background: #e8f1ff; }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 220px;
+      height: 100vh;
+      background: #f4f6fb;
+      padding: 80px 15px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      transition: transform 0.4s ease;
+      z-index: 15;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(230px);
+    }
+
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .menu-toggle:hover span:nth-child(2) {
+      width: 70%;
+    }
+
+    /* Sidebar buttons */
+    .mode-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.3s;
+    }
+    .mode-btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+    .green { background: #28a745; }
+    .blue { background: #0078ff; }
+    .purple { background: #7e57c2; }
+    .orange { background: #ff9800; }
+    .yellow { background: #fdd835; color: #333; }
+    .gray { background: #9e9e9e; }
+    .brown { background: #795548; }
+    .red { background: #e53935; }
+
+    /* Main Game Board */
+    .main-board {
+      margin-right: 240px;
+      height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .circle {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #28a745;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.1s;
+    }
+    .circle:active { transform: scale(0.9); }
+
+    /* Controls */
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .control-btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      background: #0078ff;
+    }
+
+    /* Timer + Selector */
+    .timer-wrapper {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-weight: 600;
+    }
+
+    #timeSelector {
+      background: #f8faff;
+      color: #0078ff;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 2px solid #0078ff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    #timeSelector:hover {
+      background: #0078ff;
+      color: white;
+    }
+
+    /* Menu icon animation */
+    #menuToggle.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    #menuToggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    #menuToggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+    #menuToggle span { transition: all 0.3s ease; }
+
+    /*new update*/
+    .game-area {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  height: 75%;
+  margin: auto;
+  background: #ffffff;
+  border: 2px dashed #0078ff33;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix timer position so tooltip never covers it */
+.timer-wrapper {
+  top: 12px;
+  left: 16px;
+  z-index: 5;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      🐭 <span>SmartKids Mouse Practice</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <a href="index.html" class="home-btn">🏠 Home</a>
+      <div class="menu-toggle" id="menuToggle" title="Toggle Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar hidden" id="sidebar">
+    <button class="mode-btn green" data-mode="click">Click Targets</button>
+    <button class="mode-btn blue" data-mode="double">Double Click Test</button>
+    <button class="mode-btn purple" data-mode="drag">Drag & Drop</button>
+    <button class="mode-btn orange" data-mode="speed">Speed Tracker</button>
+    <button class="mode-btn yellow" data-mode="shape">Shape Builder</button>
+    <button class="mode-btn gray" data-mode="draw">Drawing Pad</button>
+    <button class="mode-btn brown" data-mode="reflex">Reflex Game</button>
+    <button class="mode-btn red" data-mode="memory">Memory Match</button>
+  </div>
+
+<!-- Main Game Area -->
+<div class="main-board" id="gameBoard">
+  <div class="timer-wrapper">
+    <div class="timer" id="timer">Time: 15</div>
+    <select id="timeSelector">
+      <option value="15">15s</option>
+      <option value="20">20s</option>
+      <option value="25">25s</option>
+    </select>
+  </div>
+
+  <!-- New dedicated play area -->
+  <div class="game-area" id="gameArea"></div>
+
+  <div class="controls">
+    <button class="control-btn" id="startBtn">Start</button>
+    <button class="control-btn" id="pauseBtn">Pause</button>
+    <button class="control-btn" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<script>
+/*=============================
+ SMARTKIDS MOUSE PRACTICE ENGINE
+===============================*/
+let lessonsData = {};
+let gameRunning = false;
+let currentMode = null;
+let timerInterval, time = 15, score = 0, hits = 0;
+
+const sidebar = document.getElementById("sidebar");
+const menuToggle = document.getElementById("menuToggle");
+const timeSelector = document.getElementById("timeSelector");
+const timerDisplay = document.getElementById("timer");
+const gameArea = document.getElementById("gameArea");
+
+/* Sidebar toggle */
+menuToggle.addEventListener("click", () => {
+  sidebar.classList.toggle("hidden");
+  menuToggle.classList.toggle("active");
+});
+
+/* Load lesson JSON */
+fetch("json-files/mouse_lessons.json")
+  .then(res => res.json())
+  .then(data => (lessonsData = data))
+  .catch(err => console.error("❌ Error loading lessons:", err));
+
+/* Sidebar buttons */
+document.querySelectorAll(".mode-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    sidebar.classList.add("hidden");
+    menuToggle.classList.remove("active");
+    startMode(btn.dataset.mode);
+  });
+});
+
+/* Mode Dispatcher */
+function startMode(mode) {
+  resetBoard();
+  currentMode = mode;
+  switch (mode) {
+    case "click": startClickTargets(); break;
+    case "double": startDoubleClick(); break;
+    case "drag": startDragDrop(); break;
+    case "speed": startSpeedTracker(); break;
+    case "shape": startShapeBuilder(); break;
+    case "draw": startDrawingPad(); break;
+    case "reflex": startReflexGame(); break;
+    case "memory": startMemoryMatch(); break;
+    default: alert("🚧 Coming soon!");
+  }
+}
+
+/* Reset and Clear Game Area */
+function resetBoard() {
+  clearInterval(timerInterval);
+  gameArea.innerHTML = "";
+  gameRunning = false;
+  score = 0;
+  hits = 0;
+  time = parseInt(timeSelector.value);
+  timerDisplay.textContent = `Time: ${time}`;
+  timeSelector.disabled = false;
+}
+
+/* Timer start helper */
+function startTimer(callback) {
+  timerDisplay.textContent = `Time: ${time}`;
+  timerInterval = setInterval(() => {
+    time--;
+    timerDisplay.textContent = `Time: ${time}`;
+    if (time <= 0) {
+      clearInterval(timerInterval);
+      gameRunning = false;
+      callback?.();
+    }
+  }, 1000);
+}
+
+/* ========== MODE 1: CLICK TARGETS ========== */
+function startClickTargets() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const circle = document.createElement("div");
+  circle.className = "circle";
+  positionWithinBounds(circle);
+  gameArea.appendChild(circle);
+
+  circle.addEventListener("click", () => {
+    hits++; score += 10;
+    circle.style.background = hits % 2 ? "#ff9800" : "#28a745";
+    positionWithinBounds(circle);
+  });
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 2: DOUBLE CLICK ========== */
+function startDoubleClick() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const circle = document.createElement("div");
+  circle.className = "circle";
+  circle.style.background = "#0078ff";
+  positionWithinBounds(circle);
+  gameArea.appendChild(circle);
+
+  circle.addEventListener("dblclick", () => {
+    hits++; score += 15;
+    circle.style.background = hits % 2 ? "#9c27b0" : "#0078ff";
+    positionWithinBounds(circle);
+  });
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 3: DRAG & DROP ========== */
+function startDragDrop() {
+  if (gameRunning) return;
+  gameRunning = true;
+
+  const target = document.createElement("div");
+  target.style.cssText = `
+    position:absolute; width:80px; height:80px; border:2px dashed #0078ff;
+    border-radius:50%; bottom:20px; right:20px; background:#e3f2fd;
+  `;
+  const draggable = document.createElement("div");
+  draggable.className = "circle";
+  draggable.draggable = true;
+  positionWithinBounds(draggable);
+  gameArea.append(target, draggable);
+
+  draggable.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("text", "drag");
+  });
+  target.addEventListener("dragover", e => e.preventDefault());
+  target.addEventListener("drop", e => {
+    e.preventDefault();
+    score += 20; hits++;
+    target.style.background = "#a5d6a7";
+    positionWithinBounds(draggable);
+  });
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 4: SPEED TRACKER ========== */
+function startSpeedTracker() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const circle = document.createElement("div");
+  circle.className = "circle";
+  circle.style.background = "#ff9800";
+  gameArea.appendChild(circle);
+
+  let moveSpeed = 800;
+  positionWithinBounds(circle);
+
+  circle.addEventListener("click", () => {
+    hits++; score += 10;
+    moveSpeed = Math.max(300, moveSpeed - 50);
+    moveCircle(circle, moveSpeed);
+  });
+
+  function moveCircle(el, delay) {
+    positionWithinBounds(el);
+    setTimeout(() => moveCircle(el, delay), delay);
+  }
+  moveCircle(circle, moveSpeed);
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 5: SHAPE BUILDER ========== */
+function startShapeBuilder() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const dots = [];
+  for (let i = 0; i < 5; i++) {
+    const dot = document.createElement("div");
+    dot.style.cssText = `
+      position:absolute;width:14px;height:14px;border-radius:50%;
+      background:#0078ff;cursor:pointer;
+      left:${10 + i * 18}%;top:${40 + (Math.random() * 10)}%;
+    `;
+    dot.dataset.index = i;
+    gameArea.appendChild(dot);
+    dots.push(dot);
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = gameArea.clientWidth;
+  canvas.height = gameArea.clientHeight;
+  canvas.style.position = "absolute";
+  gameArea.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let lastDot = null;
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      if (lastDot) {
+        ctx.beginPath();
+        ctx.moveTo(lastDot.offsetLeft + 7, lastDot.offsetTop + 7);
+        ctx.lineTo(dot.offsetLeft + 7, dot.offsetTop + 7);
+        ctx.strokeStyle = "#28a745";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        score += 10;
+      }
+      lastDot = dot;
+    });
+  });
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 6: DRAWING PAD ========== */
+function startDrawingPad() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const canvas = document.createElement("canvas");
+  canvas.width = gameArea.clientWidth;
+  canvas.height = gameArea.clientHeight;
+  canvas.style.border = "2px solid #0078ff";
+  gameArea.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let drawing = false;
+  canvas.addEventListener("mousedown", e => { drawing = true; draw(e); });
+  canvas.addEventListener("mouseup", () => drawing = false);
+  canvas.addEventListener("mousemove", draw);
+
+  function draw(e) {
+    if (!drawing) return;
+    ctx.fillStyle = "#0078ff";
+    ctx.beginPath();
+    ctx.arc(e.offsetX, e.offsetY, 4, 0, Math.PI * 2);
+    ctx.fill();
+    score++;
+  }
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 7: REFLEX GAME ========== */
+function startReflexGame() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const box = document.createElement("div");
+  box.className = "circle";
+  box.style.background = "#9e9e9e";
+  gameArea.appendChild(box);
+
+  let ready = false;
+  const delay = 2000 + Math.random() * 3000;
+  setTimeout(() => {
+    box.style.background = "#28a745";
+    ready = true;
+    box.dataset.start = Date.now();
+  }, delay);
+
+  box.addEventListener("click", () => {
+    if (!ready) return alert("Too early!");
+    const reaction = Date.now() - box.dataset.start;
+    score += Math.max(0, 3000 - reaction);
+    alert(`Reaction Time: ${reaction}ms`);
+    endGame();
+  });
+
+  startTimer(() => endGame());
+}
+
+/* ========== MODE 8: MEMORY MATCH ========== */
+function startMemoryMatch() {
+  if (gameRunning) return;
+  gameRunning = true;
+  const icons = ["🐭","🐱","🐶","🦊","🐸","🐭","🐱","🐶","🦊","🐸"];
+  icons.sort(() => 0.5 - Math.random());
+  const cards = icons.map(i => {
+    const c = document.createElement("div");
+    c.style.cssText = `
+      width:70px;height:70px;display:inline-flex;
+      align-items:center;justify-content:center;
+      background:#0078ff33;font-size:2rem;margin:5px;
+      border-radius:8px;cursor:pointer;user-select:none;
+    `;
+    c.dataset.icon = i;
+    gameArea.appendChild(c);
+    return c;
+  });
+
+  let first = null;
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      if (card.textContent) return;
+      card.textContent = card.dataset.icon;
+      if (!first) first = card;
+      else {
+        if (first.dataset.icon === card.dataset.icon) {
+          score += 20;
+          first = null;
+        } else {
+          setTimeout(() => {
+            first.textContent = "";
+            card.textContent = "";
+            first = null;
+          }, 600);
+        }
+      }
+    });
+  });
+  startTimer(() => endGame());
+}
+
+/* ========== HELPERS ========== */
+function positionWithinBounds(el) {
+  const rect = gameArea.getBoundingClientRect();
+  const size = 60;
+  const x = Math.random() * (rect.width - size);
+  const y = Math.random() * (rect.height - size);
+  el.style.position = "absolute";
+  el.style.left = `${x}px`;
+  el.style.top = `${y}px`;
+}
+
+function endGame() {
+  clearInterval(timerInterval);
+  gameRunning = false;
+  alert(`⏰ Time's up! Your score: ${score}`);
+}
+
+/* Control Buttons */
+document.getElementById("startBtn").addEventListener("click", () => {
+  if (currentMode) startMode(currentMode);
+  else alert("Please select a mode from the menu.");
+});
+document.getElementById("pauseBtn").addEventListener("click", () => {
+  if (gameRunning) {
+    clearInterval(timerInterval);
+    gameRunning = false;
+    alert("⏸ Game paused");
+  }
+});
+document.getElementById("resetBtn").addEventListener("click", resetBoard);
+</script> 
+  
+</body>
+</html>
