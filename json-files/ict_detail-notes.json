@@ -1,0 +1,14 @@
+{
+  "lessons": [
+    {
+      "id": "meaning-of-ict",
+      "title": "Meaning of ICT",
+      "content": "ICT stands for Information and Communication Technology. It refers to all technologies used to handle telecommunications, broadcast media, intelligent building management systems, and network-based control and monitoring functions."
+    },
+    {
+      "id": "collecting-data",
+      "title": "Collecting and Organizing Data",
+      "content": "Data collection is the process of gathering and measuring information. In schools, data can include attendance, scores, and names. Organizing data means putting it into tables or charts to make it easy to read."
+    }
+  ]
+}
