@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartKids Pro | Mouse Practice</title>
+  <style>
+    /* --------------------
+       Base + Layout
+       -------------------- */
+    :root{
+      --primary:#0078ff;
+      --muted:#f1f5f9;
+      --card:#ffffff;
+      --accent:#28a745;
+      --glass: rgba(255,255,255,0.72);
+    }
+    html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:#eef3fb;color:#0b1220;overflow:hidden;}
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 20px;background:linear-gradient(90deg,var(--primary),#0059c1);
+      color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.12);z-index:40;position:relative;
+    }
+    .brand{display:flex;gap:8px;align-items:center;font-weight:700}
+    .home-btn{background:#fff;color:var(--primary);padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:700}
+
+    /* Sidebar */
+    .sidebar{
+      position:fixed;right:0;top:0;width:230px;height:100vh;background:#f4f6fb;padding:88px 16px 20px;
+      display:flex;flex-direction:column;gap:10px;box-shadow:-2px 0 6px rgba(0,0,0,0.06);transition:transform .36s ease;z-index:30;
+    }
+    .sidebar.hidden{transform:translateX(240px)}
+    .mode-btn{padding:12px;border-radius:10px;border:0;color:#fff;font-weight:700;cursor:pointer;text-align:left}
+    .green{background:#28a745}.blue{background:var(--primary)}.purple{background:#7e57c2}
+    .orange{background:#ff9800}.yellow{background:#fdd835;color:#222}.gray{background:#9e9e9e}
+    .brown{background:#795548}.red{background:#e53935}
+
+    .menu-toggle{width:28px;height:22px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
+    .menu-toggle span{height:3px;background:#fff;border-radius:2px;display:block;transition:all .28s}
+
+    /* Main board layout */
+    .main-board{margin-right:260px;height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;padding:18px 20px;box-sizing:border-box}
+    .toolbar{display:flex;gap:10px;align-items:center;width:100%;max-width:1100px;margin-bottom:12px}
+    .timer-wrapper{display:flex;gap:10px;align-items:center;background:var(--glass);padding:8px 10px;border-radius:10px;box-shadow:0 2px 8px rgba(2,6,23,0.06)}
+    .timer{font-weight:800;color:#04283a}
+    #timeSelector{padding:6px;border-radius:8px;border:2px solid #dbeafe;background:#fff;color:var(--primary);font-weight:700}
+
+    .controls-inline{display:flex;gap:8px;align-items:center}
+    .control-btn{padding:8px 14px;border-radius:10px;border:0;background:var(--primary);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,23,0.08)}
+    .control-btn.secondary{background:#f3f4f6;color:#04283a;border:1px solid #e2e8f0}
+
+    /* Game area */
+    .game-area{
+      width:100%;max-width:1100px;height:calc(100% - 120px);background:var(--card);
+      border-radius:14px;border:2px dashed rgba(0,120,255,0.12);box-shadow:0 8px 24px rgba(2,6,23,0.04);
+      display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+    }
+
+    /* Target */
+    .target{
+      position:absolute;width:64px;height:64px;border-radius:999px;background:#ef4444;box-shadow:0 4px 12px rgba(2,6,23,0.12);
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;cursor:pointer;user-select:none;
+      transition:transform .12s ease, background .18s ease, box-shadow .12s;
+    }
+    .target:active{transform:scale(.94)}
+
+    /* Scoreboard + instructions */
+    .scoreboard{
+      position:absolute;right:18px;top:18px;background:var(--card);padding:10px 14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.08);text-align:right;font-weight:700;z-index:30
+    }
+    .scoreboard div{font-size:14px;margin:4px 0}
+    .instructions{
+      position:absolute;left:50%;top:72px;transform:translateX(-50%);background:rgba(255,255,255,0.96);
+      padding:12px 16px;border-radius:10px;box-shadow:0 10px 24px rgba(2,6,23,0.08);z-index:30;max-width:80%;text-align:center;font-weight:600;color:#0b1220
+    }
+
+    /* overlay (light blur behind) */
+    .overlay-bg{
+      position:absolute;inset:0;background:rgba(7,12,20,0.04);backdrop-filter: blur(2px);z-index:28;
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:900px){
+      .sidebar{width:200px;padding-top:70px}
+      .main-board{margin-right:220px}
+      .game-area{height:65vh}
+    }
+    @media (max-width:600px){
+      header{padding:10px}
+      .toolbar{flex-direction:column;align-items:flex-start;gap:8px}
+      .timer-wrapper{width:100%;justify-content:space-between}
+      .controls-inline{order:2}
+      .sidebar{transform:translateX(240px)}
+      .main-board{margin-right:0;padding:12px}
+      .game-area{max-width:100%;height:56vh;margin-top:8px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🐭 <span>SmartKids Mouse Practice</span></div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <a class="home-btn" href="index.html">🏠 Home</a>
+      <div class="menu-toggle" id="menuToggle" title="Toggle Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- sidebar (keeps your buttons unchanged) -->
+  <div class="sidebar hidden" id="sidebar">
+    <button class="mode-btn green" data-mode="click">Click Targets</button>
+    <button class="mode-btn blue" data-mode="double">Double Click Test</button>
+    <button class="mode-btn purple" data-mode="drag">Drag & Drop</button>
+    <button class="mode-btn orange" data-mode="speed">Speed Tracker</button>
+    <button class="mode-btn yellow" data-mode="shape">Shape Builder</button>
+    <button class="mode-btn gray" data-mode="draw">Drawing Pad</button>
+    <button class="mode-btn brown" data-mode="reflex">Reflex Game</button>
+    <button class="mode-btn red" data-mode="memory">Memory Match</button>
+  </div>
+
+  <!-- Main Game Area -->
+  <div class="main-board" id="gameBoard">
+    <div class="toolbar">
+      <div class="timer-wrapper">
+        <div class="timer" id="timer">Time: 00:15</div>
+        <select id="timeSelector">
+          <option value="15">15s</option>
+          <option value="20">20s</option>
+          <option value="25">25s</option>
+        </select>
+      </div>
+
+      <div style="flex:1"></div>
+
+      <!-- Controls inline (moved into toolbar) -->
+      <div class="controls-inline">
+        <button class="control-btn" id="startBtn">Start</button>
+        <button class="control-btn secondary" id="pauseBtn">Pause</button>
+        <button class="control-btn secondary" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <!-- play field -->
+    <div class="game-area" id="gameArea">
+      <!-- scoreboard & instruction injected by JS -->
+    </div>
+  </div>
+
+  <script>
+  /* ===========================================================
+     SmartKids Mouse Practice Engine (integrated + final)
+     - keeps your HTML structure intact
+     - sidebar selects mode -> shows instructions -> 'Got it!' to start
+     - Start/Pause/Reset live in toolbar (inline with timer)
+     - moving targets constrained to gameArea via requestAnimationFrame
+     - scoreboard with score, misses, accuracy, best saved in localStorage
+     ============================================================*/
+
+  (function(){
+    // DOM refs
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const gameArea = document.getElementById('gameArea');
+    const timerEl = document.getElementById('timer');
+    const timeSelector = document.getElementById('timeSelector');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // state
+    let activeMode = null;
+    let running = false;
+    let paused = false;
+    let timeLeft = 15;
+    let timerInterval = null;
+    let rafId = null;
+
+    let score = 0, misses = 0, clicksTotal = 0;
+    let bestScores = {}; // stored per mode in localStorage
+
+    // UI pieces
+    const scoreboard = document.createElement('div');
+    scoreboard.className = 'scoreboard';
+    scoreboard.innerHTML = `<div>🏆 <span id="bestScore">Best: 0</span></div>
+                           <div>🎯 <span id="curScore">Score: 0</span></div>
+                           <div>❌ <span id="misses">Misses: 0</span></div>
+                           <div>🎮 <span id="modeName">Mode: None</span></div>`;
+    gameArea.appendChild(scoreboard);
+
+    const instructions = document.createElement('div');
+    instructions.className = 'instructions';
+    instructions.style.display = 'none';
+    gameArea.appendChild(instructions);
+
+    const overlayBg = document.createElement('div');
+    overlayBg.className = 'overlay-bg';
+    overlayBg.style.display = 'none';
+    gameArea.appendChild(overlayBg);
+
+    // helper: format mm:ss
+    function formatTime(s){
+      const mm = Math.floor(s/60).toString().padStart(2,'0');
+      const ss = Math.max(0, s%60).toString().padStart(2,'0');
+      return `${mm}:${ss}`;
+    }
+
+    // load best scores from localStorage
+    function loadBest(mode){
+      try {
+        const v = localStorage.getItem('sk_best_' + mode);
+        return v ? parseInt(v,10) : 0;
+      } catch { return 0; }
+    }
+    function storeBest(mode, val){
+      try { localStorage.setItem('sk_best_' + mode, String(val)); } catch {}
+    }
+
+    // scoreboard updater
+    function refreshScoreboard(){
+      document.getElementById('curScore').textContent = score;
+      document.getElementById('misses').textContent = misses;
+      document.getElementById('modeName').textContent = activeMode ? (activeMode.charAt(0).toUpperCase()+activeMode.slice(1)) : 'None';
+      document.getElementById('bestScore').textContent = loadBest(activeMode || 'none');
+    }
+
+    // menu toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      menuToggle.classList.toggle('active');
+    });
+
+    // instructions per mode (short)
+    const instructionsText = {
+      click: "Click the moving targets as quickly as you can. Try to hit as many as possible before time runs out. Use Pause to stop the timer. Good luck!",
+      double: "Double-click each target quickly to score. Watch your timing!",
+      drag: "Drag the movable item into the correct drop target area. Try to be accurate!",
+      speed: "Targets accelerate with each hit. Keep up and click fast!",
+      shape: "Click dots in sequence to build the shape. Complete patterns to score.",
+      draw: "Use the mouse to draw on the pad. Smooth strokes earn points.",
+      reflex: "Wait for the color change, then click as fast as you can. Measures reaction time!",
+      memory: "Flip cards two at a time and find pairs. Remember positions to match faster."
+    };
+
+    // when a sidebar mode clicked => show instructions overlay
+    sidebar.querySelectorAll('.mode-btn').forEach(btn=>{
+      btn.addEventListener('click', () => {
+        activeMode = btn.dataset.mode;
+        // populate overlay/instructions
+        instructionOpen(instructionsText[activeMode] || "Play!");
+        document.getElementById('modeName').textContent = btn.textContent;
+        refreshScoreboard();
+        // hide sidebar
+        sidebar.classList.add('hidden'); menuToggle.classList.remove('active');
+      });
+    });
+
+    // instruction overlay UI
+    function instructionOpen(text){
+      overlayBg.style.display = 'block';
+      instructions.style.display = 'block';
+      instructions.innerHTML = `<div style="margin-bottom:10px">${text}</div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:6px">
+          <button id="gotIt" style="padding:8px 12px;border-radius:8px;border:0;background:var(--primary);color:#fff;font-weight:800;cursor:pointer">Got it — Start</button>
+          <button id="cancelInst" style="padding:8px 12px;border-radius:8px;border:1px solid #e6eefc;background:#fff;cursor:pointer">Cancel</button>
+        </div>`;
+      document.getElementById('gotIt').addEventListener('click', ()=>{ instructionClose(); prepareAndStart(); });
+      document.getElementById('cancelInst').addEventListener('click', ()=>{ instructionClose(); });
+    }
+    function instructionClose(){ overlayBg.style.display='none'; instructions.style.display='none'; }
+
+    // prepare variables and UI then start
+    function prepareAndStart(){
+      resetGameState(false);
+      // start timer and game loop
+      startGameLoop();
+    }
+
+    // reset internal counters and UI (optionally clear scoreboard)
+    function resetGameState(clearScore=true){
+      stopGameLoop();
+      running=false; paused=false;
+      timeLeft = parseInt(timeSelector.value) || 15;
+      timerEl.textContent = `Time: ${formatTime(timeLeft)}`;
+      if (clearScore){
+        score = 0; misses = 0; clicksTotal = 0;
+      }
+      refreshScoreboard();
+      // remove all targets / canvas
+      while(gameArea.firstChild){
+        // preserve scoreboard, instructions, overlayBg
+        if (gameArea.firstChild === scoreboard || gameArea.firstChild === instructions || gameArea.firstChild === overlayBg) break;
+        gameArea.removeChild(gameArea.firstChild);
+      }
+      // remove only non-ui elements
+      Array.from(gameArea.querySelectorAll('.target, canvas, .draggable, .drop-slot')).forEach(n=>n.remove());
+    }
+
+    // stop timers & rAF
+    function stopGameLoop(){
+      if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+      if (rafId) { cancelAnimationFrame(rafId); rafId=null; }
+    }
+
+    // main loop starter
+    function startGameLoop(){
+      running = true;
+      paused = false;
+      // start countdown
+      timerEl.textContent = `Time: ${formatTime(timeLeft)}`;
+      timerInterval = setInterval(()=>{
+        if (!paused){
+          timeLeft--;
+          timerEl.textContent = `Time: ${formatTime(timeLeft)}`;
+          if (timeLeft <= 0){
+            endGame();
+          }
+        }
+      },1000);
+      // commence chosen mode
+      runMode(activeMode);
+    }
+
+    // public controls
+    startBtn.addEventListener('click', ()=>{
+      if (!activeMode) { alert('Please select a mode from the menu first.'); return; }
+      if (running && paused){ paused=false; return; }
+      if (running) return; // already running
+      instructionClose();
+      resetGameState(true);
+      startGameLoop();
+    });
+
+    pauseBtn.addEventListener('click', ()=>{
+      if (!running) return;
+      paused = !paused;
+      pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      resetGameState(true);
+      refreshScoreboard();
+      pauseBtn.textContent = 'Pause';
+    });
+
+    // --- Utility for target movement (balanced velocities) ---
+    function createMovingTarget(opts = {}){
+      const t = document.createElement('div');
+      t.className = 'target';
+      t.style.width = opts.size ? opts.size+'px' : '64px';
+      t.style.height = opts.size ? opts.size+'px' : '64px';
+      t.style.background = opts.color || '#ef4444';
+      t.textContent = opts.label || '';
+      gameArea.appendChild(t);
+
+      const rect = gameArea.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      const size = parseInt(t.style.width);
+      // initial position
+      const x = Math.random() * (w - size);
+      const y = Math.random() * (h - size);
+      t.style.left = x + 'px';
+      t.style.top = y + 'px';
+      // velocity - ensure balanced aspect ratio
+      const speed = (opts.speed || 80) + Math.random()*60; // px per sec baseline
+      const angle = Math.random() * Math.PI * 2;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      return { el: t, vx, vy, size };
+    }
+
+    // animation step using requestAnimationFrame
+    function animateTargets(list){
+      let last = performance.now();
+      function step(now){
+        const dt = (now - last)/1000; last = now;
+        if (!paused){
+          list.forEach(obj=>{
+            const rect = gameArea.getBoundingClientRect();
+            let nx = parseFloat(obj.el.style.left) + obj.vx * dt;
+            let ny = parseFloat(obj.el.style.top) + obj.vy * dt;
+            // bounce on edges
+            if (nx < 0){ nx = 0; obj.vx *= -1; }
+            if (ny < 0){ ny = 0; obj.vy *= -1; }
+            if (nx + obj.size > rect.width){ nx = rect.width - obj.size; obj.vx *= -1; }
+            if (ny + obj.size > rect.height){ ny = rect.height - obj.size; obj.vy *= -1; }
+            obj.el.style.left = nx + 'px';
+            obj.el.style.top = ny + 'px';
+          });
+        }
+        rafId = requestAnimationFrame(step);
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    // Utility: compute accuracy
+    function accuracy(){
+      const total = clicksTotal || 1;
+      return Math.round((score / total) * 100);
+    }
+
+    // --- Mode implementations ---
+    function runMode(mode){
+      refreshScoreboard();
+      if (!mode) return;
+      switch(mode){
+        case 'click': modeClick(); break;
+        case 'double': modeDouble(); break;
+        case 'drag': modeDragDrop(); break;
+        case 'speed': modeSpeed(); break;
+        case 'shape': modeShapeBuilder(); break;
+        case 'draw': modeDrawPad(); break;
+        case 'reflex': modeReflex(); break;
+        case 'memory': modeMemory(); break;
+        default: alert('Mode not implemented'); break;
+      }
+    }
+
+    /* MODE: Click Targets */
+    function modeClick(){
+      const targets = [];
+      // spawn a few moving targets
+      for (let i=0;i<3;i++){
+        const color = ['#ef4444','#ff9800','#0078ff','#28a745'][i%4];
+        const obj = createMovingTarget({ color, speed: 90 + i*20 });
+        gameArea.appendChild(obj.el);
+        targets.push(obj);
+        obj.el.addEventListener('click', (e)=>{
+          if (paused) return;
+          e.stopPropagation();
+          score += 1;
+          clicksTotal++;
+          // small pop animation
+          obj.el.style.transform = 'scale(1.06)';
+          setTimeout(()=>obj.el.style.transform='',120);
+          // change color sequence
+          const palette = ['#ef4444','#ff9800','#0078ff','#28a745','#9c27b0','#795548'];
+          obj.el.style.background = palette[Math.floor(Math.random()*palette.length)];
+          refreshScoreboard();
+        });
+      }
+      // count miss clicks (click on gameArea but not on target)
+      gameArea.addEventListener('click', areaMissClick);
+      animateTargets(targets);
+    }
+
+    /* MODE: Double Click (targets appear and require double click) */
+    function modeDouble(){
+      const targets = [];
+      for (let i=0;i<4;i++){
+        const obj = createMovingTarget({ color: '#60a5fa', speed: 70 + i*30 });
+        obj.el.addEventListener('dblclick', (e)=>{
+          if (paused) return;
+          e.stopPropagation();
+          score += 2;
+          clicksTotal++;
+          obj.el.style.transform='scale(.9)';
+          setTimeout(()=>obj.el.style.transform='',120);
+          refreshScoreboard();
+        });
+        targets.push(obj);
+      }
+      gameArea.addEventListener('click', areaMissClick);
+      animateTargets(targets);
+    }
+
+    /* MODE: Drag & Drop */
+    function modeDragDrop(){
+      // create a draggable item and a drop slot
+      const draggable = document.createElement('div');
+      draggable.className = 'target draggable';
+      draggable.style.width='80px'; draggable.style.height='80px';
+      draggable.style.left='20px'; draggable.style.top='20px';
+      draggable.style.background='#10b981'; draggable.textContent='DRAG';
+      draggable.draggable = true;
+      gameArea.appendChild(draggable);
+
+      const slot = document.createElement('div');
+      slot.className = 'drop-slot';
+      slot.style.cssText = 'position:absolute;right:30px;bottom:30px;width:100px;height:100px;border-radius:10px;border:2px dashed #94a3b8;display:flex;align-items:center;justify-content:center;background:#fff';
+      slot.textContent = 'DROP';
+      gameArea.appendChild(slot);
+
+      draggable.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain','drag-1');
+        setTimeout(()=>draggable.style.opacity='0.4',10);
+      });
+      draggable.addEventListener('dragend', ()=> draggable.style.opacity='1');
+
+      slot.addEventListener('dragover', e => e.preventDefault());
+      slot.addEventListener('drop', e => {
+        e.preventDefault();
+        score += 5; clicksTotal++;
+        slot.style.background='#bbf7d0';
+        refreshScoreboard();
+      });
+
+      gameArea.addEventListener('click', areaMissClick);
+    }
+
+    /* MODE: Speed tracker - increasing speed */
+    function modeSpeed(){
+      const targets=[];
+      for (let i=0;i<2;i++){
+        const obj=createMovingTarget({color:'#ffb020', speed:120 + i*20});
+        targets.push(obj);
+        obj.el.addEventListener('click', (e)=>{
+          if (paused) return;
+          score += 1; clicksTotal++;
+          // increase speed
+          obj.vx *= 1.15; obj.vy *= 1.15;
+          refreshScoreboard();
+        });
+      }
+      gameArea.addEventListener('click', areaMissClick);
+      animateTargets(targets);
+    }
+
+    /* MODE: Shape builder - connect dots (simple) */
+    function modeShapeBuilder(){
+      // create dots
+      const nodes=[];
+      const count = 5;
+      for (let i=0;i<count;i++){
+        const dot = document.createElement('div');
+        dot.className='target';
+        dot.style.width='18px'; dot.style.height='18px'; dot.style.background='#0078ff';
+        // position in a semi-random ring
+        const r = gameArea.getBoundingClientRect();
+        const px = 20 + i*(r.width-40)/count;
+        const py = 30 + Math.random()*(r.height-80);
+        dot.style.left = px + 'px'; dot.style.top = py + 'px';
+        gameArea.appendChild(dot);
+        nodes.push(dot);
+      }
+      // draw connections on a canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = gameArea.clientWidth; canvas.height = gameArea.clientHeight;
+      canvas.style.position='absolute'; canvas.style.left='0'; canvas.style.top='0'; canvas.style.zIndex=5;
+      gameArea.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      let last = null;
+      nodes.forEach((d, idx) => {
+        d.addEventListener('click', () => {
+          if (paused) return;
+          if (last){
+            ctx.beginPath();
+            ctx.moveTo(last.offsetLeft + 9, last.offsetTop + 9);
+            ctx.lineTo(d.offsetLeft + 9, d.offsetTop + 9);
+            ctx.strokeStyle = '#28a745'; ctx.lineWidth = 3; ctx.stroke();
+            score += 2; clicksTotal++;
+            refreshScoreboard();
+          }
+          last = d;
+        });
+      });
+      gameArea.addEventListener('click', areaMissClick);
+    }
+
+    /* MODE: Drawing pad */
+    function modeDrawPad(){
+      const canvas = document.createElement('canvas');
+      canvas.width = gameArea.clientWidth; canvas.height = gameArea.clientHeight;
+      canvas.style.position='absolute'; canvas.style.left='0'; canvas.style.top='0';
+      gameArea.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      let drawing=false;
+      canvas.addEventListener('mousedown', e => { drawing=true; draw(e); });
+      canvas.addEventListener('mouseup', ()=> drawing=false);
+      canvas.addEventListener('mouseleave', ()=> drawing=false);
+      canvas.addEventListener('mousemove', draw);
+      function draw(e){
+        if (!drawing || paused) return;
+        ctx.fillStyle = '#0078ff';
+        ctx.beginPath(); ctx.arc(e.offsetX, e.offsetY, 3, 0, Math.PI*2); ctx.fill();
+        score++; clicksTotal++; refreshScoreboard();
+      }
+      gameArea.addEventListener('click', areaMissClick);
+    }
+
+    /* MODE: Reflex game (color change then click) */
+    function modeReflex(){
+      const box = document.createElement('div');
+      box.className='target'; box.style.width='100px'; box.style.height='100px'; box.style.background='#9e9e9e';
+      box.style.left='calc(50% - 50px)'; box.style.top='calc(50% - 50px)';
+      gameArea.appendChild(box);
+      let ready=false, startAt=0;
+      const delay = 800 + Math.random()*2200;
+      setTimeout(()=>{
+        box.style.background='#28a745'; ready=true; startAt = performance.now();
+      }, delay);
+      box.addEventListener('click', ()=>{
+        if (!ready) { alert('Too early! Wait for green.'); return; }
+        const rt = Math.round(performance.now() - startAt);
+        score += Math.max(0, 300 - rt); clicksTotal++;
+        alert('Reaction time: ' + rt + 'ms');
+        refreshScoreboard();
+        endGame();
+      });
+    }
+
+    /* MODE: Memory match (simple pairs) */
+    function modeMemory(){
+      const icons = ['🐭','🐱','🐶','🦊','🐸','🐵'];
+      const pool = icons.concat(icons).sort(()=>Math.random()-0.5);
+      const cards=[];
+      const grid = document.createElement('div');
+      grid.style.position='absolute'; grid.style.left='20px'; grid.style.top='20px';
+      grid.style.display='grid'; grid.style.gridTemplateColumns='repeat(6, 72px)'; grid.style.gap='8px';
+      gameArea.appendChild(grid);
+      pool.forEach(sym=>{
+        const c = document.createElement('div');
+        c.style.cssText='width:72px;height:72px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer';
+        c.dataset.sym = sym; c.textContent=''; grid.appendChild(c);
+        cards.push(c);
+      });
+      let first=null;
+      cards.forEach(c=>{
+        c.addEventListener('click', ()=>{
+          if (paused) return;
+          if (c.textContent) return;
+          c.textContent = c.dataset.sym;
+          if (!first) first = c;
+          else {
+            if (first.dataset.sym === c.dataset.sym){
+              score+=3; clicksTotal+=2; first=null; refreshScoreboard();
+            } else {
+              setTimeout(()=>{ first.textContent=''; c.textContent=''; first=null; }, 600);
+            }
+          }
+        });
+      });
+      gameArea.addEventListener('click', areaMissClick);
+    }
+
+    // miss click on gameArea (not on a target)
+    function areaMissClick(e){
+      // if click target element, ignore (target handlers stopPropagation)
+      if (e.target.closest('.target') || e.target.classList.contains('draggable') ) return;
+      misses++; clicksTotal++;
+      refreshScoreboard();
+    }
+
+    // end game - show results and persist best
+    function endGame(){
+      stopGameLoop();
+      running=false;
+      const bs = loadBest(activeMode);
+      if (score > bs) { storeBest(activeMode, score); alert('🎉 New best: ' + score); }
+      else alert('⏰ Time up! Score: ' + score + ' • Accuracy: ' + accuracy() + '%');
+      refreshScoreboard();
+    }
+
+    // compute accuracy
+    function accuracy(){
+      const total = clicksTotal || 1;
+      return Math.round((score / total) * 100);
+    }
+
+    // helper: load/store best
+    function loadBest(mode){ const v = localStorage.getItem('sk_best_' + (mode||'none')); return v ? parseInt(v,10) : 0; }
+    function storeBest(mode,val){ localStorage.setItem('sk_best_' + (mode||'none'), String(val)); }
+
+    // stop timers & rAF
+    function stopGameLoop(){
+      if (timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+      if (rafId){ cancelAnimationFrame(rafId); rafId=null; }
+    }
+
+    // initialize timer display
+    timeLeft = parseInt(timeSelector.value) || 15;
+    timerEl.textContent = `Time: ${formatTime(timeLeft)}`;
+    refreshScoreboard();
+
+    // keep scoreboard updated when time selection changes
+    timeSelector.addEventListener('change', ()=>{
+      timeLeft = parseInt(timeSelector.value) || 15;
+      timerEl.textContent = `Time: ${formatTime(timeLeft)}`;
+    });
+
+    // expose a simple console-friendly run (for dev)
+    window.SK = { reset: ()=>{ resetGameState(true); }, start: ()=>{ startBtn.click(); } };
+
+  })();
+  </script>
+</body>
+</html>
