@@ -207,18 +207,22 @@
   width: 80%;
   max-width: 900px;
   height: 75%;
+  margin: auto;
   background: #ffffff;
   border: 2px dashed #0078ff33;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Adjust timer wrapper to stay clear of tooltip */
+/* Fix timer position so tooltip never covers it */
 .timer-wrapper {
-  top: 15px;
-  left: 20px;
+  top: 12px;
+  left: 16px;
   z-index: 5;
 }
   </style>
@@ -495,7 +499,68 @@
     }, 1000);
   }
 
-  // --- Game: Click Practice (targets) ---
+  function runClickPractice(level) {
+  const gameArea = document.getElementById("gameArea");
+  const lvlTime = (level && level.time) || parseInt(timeSelector.value) || 15;
+  const totalTargets = (level && level.targets) || 8;
+  lockTimeSelector(true);
+
+  const status = document.createElement('div');
+  status.style = `
+    position:absolute;
+    right:20px;top:20px;
+    background:#fff;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:700;
+    color:#0b1220;
+    z-index:40;
+  `;
+  status.textContent = `Score: 0 • Hits: 0/${totalTargets}`;
+  gameBoard.appendChild(status);
+  activeElements.push(status);
+
+  function spawnTarget() {
+    const target = document.createElement('div');
+    target.className = 'circle';
+    const maxX = gameArea.clientWidth - 60;
+    const maxY = gameArea.clientHeight - 60;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    target.style.left = x + "px";
+    target.style.top = y + "px";
+    target.style.position = "absolute";
+    gameArea.appendChild(target);
+    activeElements.push(target);
+
+    const ttl = 1400;
+    const timeoutId = setTimeout(() => {
+      target.remove();
+      activeElements = activeElements.filter(a => a !== target);
+    }, ttl);
+
+    target.addEventListener('click', () => {
+      if (paused) return;
+      clearTimeout(timeoutId);
+      hits++;
+      score += 10;
+      target.remove();
+      activeElements = activeElements.filter(a => a !== target);
+      status.textContent = `Score: ${score} • Hits: ${hits}/${totalTargets}`;
+      if (hits < totalTargets) setTimeout(spawnTarget, 350);
+    }, { once: true });
+  }
+
+  spawnTarget();
+  beginTimer(lvlTime, null, () => {
+    lockTimeSelector(false);
+    cleanupAfterGame();
+    status.textContent = `Final score: ${score} • Hits: ${hits}/${totalTargets}`;
+    setTimeout(() => alert(`Time's up — Click Practice finished.\nScore: ${score}`), 150);
+  });
+}
+  
+  /*// --- Game: Click Practice (targets) ---
   function runClickPractice(level) {
     // level: {name, time, targets}
     const lvlTime = (level && level.time) || parseInt(timeSelector.value) || 15;
@@ -538,7 +603,9 @@
         // spawn next if not finished
         if (hits < totalTargets) setTimeout(spawnTarget, 350);
       }, { once:true });
-    }
+    }*/
+
+    
 //game area
 
 const gameArea = document.getElementById("gameArea");
