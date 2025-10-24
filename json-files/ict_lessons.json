@@ -1,0 +1,20 @@
+{
+  "modules": [
+    {
+      "title": "Introduction to ICT",
+      "subtopics": [
+        { "id": "meaning-of-ict", "title": "Meaning of ICT" },
+        { "id": "importance-of-ict", "title": "Importance of ICT in Everyday Life" },
+        { "id": "examples-of-ict-tools", "title": "Examples of ICT Tools" }
+      ]
+    },
+    {
+      "title": "Data Analysis Basics",
+      "subtopics": [
+        { "id": "what-is-data", "title": "What is Data?" },
+        { "id": "collecting-data", "title": "Collecting and Organizing Data" },
+        { "id": "charts-graphs", "title": "Charts, Graphs, and Conclusions" }
+      ]
+    }
+  ]
+}
