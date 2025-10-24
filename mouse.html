@@ -37,9 +37,41 @@
     .orange{background:#ff9800}.yellow{background:#fdd835;color:#222}.gray{background:#9e9e9e}
     .brown{background:#795548}.red{background:#e53935}
 
-    .menu-toggle{width:28px;height:22px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
+   /* .menu-toggle{width:28px;height:22px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
     .menu-toggle span{height:3px;background:#fff;border-radius:2px;display:block;transition:all .28s}
 
+/* Menu Toggle Base */
+.menu-toggle {
+  width: 30px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Active State (Turns into X) */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+    
     /* Main board layout */
     .main-board{margin-right:260px;height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;padding:18px 20px;box-sizing:border-box}
     .toolbar{display:flex;gap:10px;align-items:center;width:100%;max-width:1100px;margin-bottom:12px}
@@ -226,11 +258,20 @@
       document.getElementById('bestScore').textContent = loadBest(activeMode || 'none');
     }
 
-    // menu toggle
+   /* // menu toggle
     menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('hidden');
       menuToggle.classList.toggle('active');
-    });
+    });*/
+
+    // Menu toggle for sidebar
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.querySelector(".sidebar"); // or .nav-links, depending on your HTML
+
+menuToggle.addEventListener("click", () => {
+  sidebar.classList.toggle("hidden");
+  menuToggle.classList.toggle("active"); // This triggers the X animation
+});
 
     // instructions per mode (short)
     const instructionsText = {
