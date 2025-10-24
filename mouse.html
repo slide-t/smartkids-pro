@@ -272,8 +272,7 @@
     <button class="control-btn" id="resetBtn">Reset</button>
   </div>
 </div>
-
-  <script>
+<script>
 /*
   Enhanced SmartKids Mouse Practice script
   - Requires: json-files/mouse_lessons.json (confirmed path)
@@ -499,80 +498,52 @@
     }, 1000);
   }
 
+  // --- Game: Click Practice (targets) ---
   function runClickPractice(level) {
-  const gameArea = document.getElementById("gameArea");
-  const lvlTime = (level && level.time) || parseInt(timeSelector.value) || 15;
-  const totalTargets = (level && level.targets) || 8;
-  lockTimeSelector(true);
+    // level: {name, time, targets}
+    const lvlTime = (level && level.time) || parseInt(timeSelector.value) || 15;
+    const totalTargets = (level && level.targets) || 8;
+    lockTimeSelector(true);
+    // display scoreboard area
+    const status = document.createElement('div');
+    status.style = 'position:absolute;right:20px;top:20px;background:#fff;padding:8px 12px;border-radius:8px;font-weight:700;color:#0b1220;z-index:40';
+    status.textContent = `Score: 0 • Hits: 0/${totalTargets}`;
+    gameBoard.appendChild(status); activeElements.push(status);
 
-  const status = document.createElement('div');
-  status.style = `
-    position:absolute;
-    right:20px;top:20px;
-    background:#fff;
-    padding:8px 12px;
-    border-radius:8px;
-    font-weight:700;
-    color:#0b1220;
-    z-index:40;
-  `;
-  status.textContent = `Score: 0 • Hits: 0/${totalTargets}`;
-  gameBoard.appendChild(status);
-  activeElements.push(status);
+    function spawnTarget() {
+      const t = document.createElement('div');
+      t.className = 'circle';
+      t.style.width = '60px';
+      t.style.height = '60px';
+      t.style.background = '#ef4444';
+      t.style.left = (Math.random() * (gameBoard.clientWidth - 80)) + 'px';
+      t.style.top = (Math.random() * (gameBoard.clientHeight - 120)) + 'px';
+      t.style.zIndex = 30;
+      gameBoard.appendChild(t);
+      activeElements.push(t);
 
-  function spawnTarget() {
-    const target = document.createElement('div');
-    target.className = 'circle';
-    const maxX = gameArea.clientWidth - 60;
-    const maxY = gameArea.clientHeight - 60;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-    target.style.left = x + "px";
-    target.style.top = y + "px";
-    target.style.position = "absolute";
-    gameArea.appendChild(target);
-    activeElements.push(target);
+      // auto-remove target after short time
+      const ttl = 1400;
+      const timeoutId = setTimeout(()=> { if (t.parentNode) { t.remove(); activeElements = activeElements.filter(a=>a!==t);} }, ttl);
 
-    const ttl = 1400;
-    const timeoutId = setTimeout(() => {
-      target.remove();
-      activeElements = activeElements.filter(a => a !== target);
-    }, ttl);
+      t.addEventListener('click', function handler() {
+        if (paused) return;
+        clearTimeout(timeoutId);
+        hits++;
+        score += 10;
+        // change color progression
+        if (hits >= 3 && hits < 6) t.style.background = '#ff9800';
+        else if (hits >= 6 && hits < 10) t.style.background = '#0078ff';
+        else if (hits >= 10) t.style.background = '#28a745';
+        t.remove();
+        activeElements = activeElements.filter(a=>a!==t);
+        status.textContent = `Score: ${score} • Hits: ${hits}/${totalTargets}`;
+        // spawn next if not finished
+        if (hits < totalTargets) setTimeout(spawnTarget, 350);
+      }, { once:true });
+    }
 
-    target.addEventListener('click', () => {
-      if (paused) return;
-      clearTimeout(timeoutId);
-      hits++;
-      score += 10;
-      target.remove();
-      activeElements = activeElements.filter(a => a !== target);
-      status.textContent = `Score: ${score} • Hits: ${hits}/${totalTargets}`;
-      if (hits < totalTargets) setTimeout(spawnTarget, 350);
-    }, { once: true });
-  }
-
-  spawnTarget();
-  beginTimer(lvlTime, null, () => {
-    lockTimeSelector(false);
-    cleanupAfterGame();
-    status.textContent = `Final score: ${score} • Hits: ${hits}/${totalTargets}`;
-    setTimeout(() => alert(`Time's up — Click Practice finished.\nScore: ${score}`), 150);
-  });
-}   
-//game area
-
-const gameArea = document.getElementById("gameArea");
-
-function moveCircle(circle) {
-  const maxX = gameArea.clientWidth - 60;
-  const maxY = gameArea.clientHeight - 60;
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-  circle.style.left = x + "px";
-  circle.style.top = y + "px";
-  gameArea.appendChild(circle);
-}
-      // start flow
+    // start flow
     spawnTarget();
     beginTimer(lvlTime, null, () => {
       // game end
