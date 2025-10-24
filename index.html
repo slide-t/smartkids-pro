@@ -348,17 +348,21 @@
 
   <!-- JS -->
   <script>
-   /* const menuBtn = document.getElementById("menuBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
-    const accordions = document.querySelectorAll(".accordion-btn");
-
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });*/
-const menuBtn = document.getElementById('menuBtn');
+   const menuBtn = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
+const menuLinks = mobileMenu.querySelectorAll('a'); // all links inside menu
 
-menuBtn.addEventListener('click', () => {
+menuBtn.addEventListener('click', toggleMenu);
+
+menuLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('show')) {
+      toggleMenu(); // close when any link is clicked
+    }
+  });
+});
+
+function toggleMenu() {
   menuBtn.classList.toggle('active');
   mobileMenu.classList.toggle('show');
 
@@ -373,7 +377,7 @@ menuBtn.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
     }, 300);
   }
-});
+}
     
   </script>
 <script>
