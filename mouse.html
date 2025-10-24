@@ -272,7 +272,149 @@
     <button class="control-btn" id="resetBtn">Reset</button>
   </div>
 </div>
-<script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const gameArea = document.getElementById("gameArea");
+  const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const timerDisplay = document.getElementById("timer");
+  const timeSelector = document.getElementById("timeSelector");
+  const sidebar = document.getElementById("sidebar");
+  const menuToggle = document.getElementById("menuToggle");
+
+  let circle = null;
+  let timeLeft = parseInt(timeSelector.value);
+  let timer;
+  let score = 0;
+  let isPaused = false;
+  let isRunning = false;
+
+  // 🎯 Create floating score tooltip
+  const scoreDisplay = document.createElement("div");
+  scoreDisplay.style.position = "absolute";
+  scoreDisplay.style.top = "10px";
+  scoreDisplay.style.right = "15px";
+  scoreDisplay.style.background = "#0078ff";
+  scoreDisplay.style.color = "#fff";
+  scoreDisplay.style.padding = "6px 12px";
+  scoreDisplay.style.borderRadius = "8px";
+  scoreDisplay.style.fontWeight = "600";
+  scoreDisplay.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+  scoreDisplay.style.zIndex = "6";
+  scoreDisplay.textContent = "Score: 0";
+  gameArea.appendChild(scoreDisplay);
+
+  // Sidebar toggle animation
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("hidden");
+    menuToggle.classList.toggle("active");
+  });
+
+  // Timer dropdown change
+  timeSelector.addEventListener("change", () => {
+    if (!isRunning) {
+      timeLeft = parseInt(timeSelector.value);
+      timerDisplay.textContent = `Time: ${timeLeft}`;
+    }
+  });
+
+  // ▶️ Start Game
+  startBtn.addEventListener("click", () => {
+    if (isRunning) return;
+    isRunning = true;
+    isPaused = false;
+    score = 0;
+    updateScore();
+    timeLeft = parseInt(timeSelector.value);
+    timerDisplay.textContent = `Time: ${timeLeft}`;
+    spawnCircle();
+    timer = setInterval(updateTimer, 1000);
+  });
+
+  // ⏸ Pause or Resume Game
+  pauseBtn.addEventListener("click", () => {
+    if (!isRunning) return;
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+  });
+
+  // 🔁 Reset Game
+  resetBtn.addEventListener("click", resetGame);
+
+  function resetGame() {
+    clearInterval(timer);
+    if (circle) circle.remove();
+    isRunning = false;
+    isPaused = false;
+    score = 0;
+    updateScore();
+    timeLeft = parseInt(timeSelector.value);
+    timerDisplay.textContent = `Time: ${timeLeft}`;
+    pauseBtn.textContent = "Pause";
+  }
+
+  function updateTimer() {
+    if (isPaused) return;
+    timeLeft--;
+    timerDisplay.textContent = `Time: ${timeLeft}`;
+    if (timeLeft <= 0) endGame();
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    if (circle) circle.remove();
+    isRunning = false;
+    alert(`⏰ Time's up! Your score: ${score}`);
+  }
+
+  // 🎯 Circle Spawning Logic
+  function spawnCircle() {
+    if (circle) circle.remove();
+    circle = document.createElement("div");
+    circle.classList.add("circle");
+    gameArea.appendChild(circle);
+    moveCircleWithinBounds();
+
+    circle.addEventListener("click", () => {
+      if (!isRunning || isPaused) return;
+      score++;
+      updateScore();
+      changeCircleColor();
+      moveCircleWithinBounds();
+    });
+  }
+
+  // 🟢 Move circle within safe area
+  function moveCircleWithinBounds() {
+    const areaRect = gameArea.getBoundingClientRect();
+    const size = 60;
+    const padding = 10;
+    const maxX = areaRect.width - size - padding;
+    const maxY = areaRect.height - size - padding;
+    const randomX = Math.random() * maxX + padding;
+    const randomY = Math.random() * maxY + padding;
+
+    circle.style.left = `${randomX}px`;
+    circle.style.top = `${randomY}px`;
+  }
+
+  // 🌈 Random color changer
+  function changeCircleColor() {
+    const colors = ["#28a745", "#ff9800", "#f44336", "#0078ff", "#9c27b0", "#795548", "#00bcd4"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    circle.style.background = randomColor;
+  }
+
+  // 💯 Score updater
+  function updateScore() {
+    scoreDisplay.textContent = `Score: ${score}`;
+  }
+});
+</script>
+  
+  <!--<script>
 /*
   Enhanced SmartKids Mouse Practice script
   - Requires: json-files/mouse_lessons.json (confirmed path)
@@ -776,7 +918,7 @@
   };
 
 })();
-</script>
+</script>-->
   
 </body>
 </html>
