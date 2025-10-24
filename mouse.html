@@ -42,35 +42,50 @@
 
 /* Menu Toggle Base */
 .menu-toggle {
-  width: 30px;
+  width: 28px;
   height: 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  z-index: 1000;
+  transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .menu-toggle span {
-  display: block;
-  height: 4px;
-  background: #333;
+  height: 3px;
+  background: #fff; /* Matches dark header background */
   border-radius: 2px;
-  transition: all 0.3s ease;
+  display: block;
+  transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 /* Active State (Turns into X) */
 .menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
+  transform: rotate(45deg) translate(5px, 5px);
 }
 
 .menu-toggle.active span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
+
+/* Reverse animation (X → Bars) */
+.menu-toggle:not(.active) span:nth-child(1),
+.menu-toggle:not(.active) span:nth-child(3) {
+  transform: rotate(0) translate(0, 0);
+}
+
+.menu-toggle:not(.active) span:nth-child(2) {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+
     
     /* Main board layout */
     .main-board{margin-right:260px;height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;padding:18px 20px;box-sizing:border-box}
@@ -258,20 +273,24 @@
       document.getElementById('bestScore').textContent = loadBest(activeMode || 'none');
     }
 
-   /* // menu toggle
+   // menu toggle 
     menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('hidden');
       menuToggle.classList.toggle('active');
-    });*/
+    });
+/*
+// Menu toggle (safe version that works on all devices)
+document.addEventListener("DOMContentLoaded", () => {
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebar = document.querySelector(".sidebar"); // adjust if yours uses .nav-links or similar
 
-    // Menu toggle for sidebar
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.querySelector(".sidebar"); // or .nav-links, depending on your HTML
-
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("hidden");
-  menuToggle.classList.toggle("active"); // This triggers the X animation
-});
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("hidden");
+      menuToggle.classList.toggle("active");
+    });
+  }
+});*/
 
     // instructions per mode (short)
     const instructionsText = {
