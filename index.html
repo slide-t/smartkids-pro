@@ -6,7 +6,8 @@
   <title>SmartKids-Pro | Learn ICT the Fun Way!</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
-  <style>
+ 
+  <!--<style>
     /* Simple floating animation for icons */
     @keyframes float {
       0%, 100% { transform: translateY(0); }
@@ -58,6 +59,109 @@
 }
 
   
+  </style>-->
+  <style>
+/* Floating icon animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.float { animation: float 3s ease-in-out infinite; }
+
+/* Image gentle zoom */
+.slide img {
+  transition: transform 8s ease-in-out;
+}
+.slide:hover img {
+  transform: scale(1.05);
+}
+
+/* Hamburger Menu Icon */
+.menu-toggle {
+  width: 30px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Active (Turns into X) */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* --- Floating Glass Dropdown --- */
+#mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(67, 56, 202, 0.9); /* Indigo 700 glass */
+  backdrop-filter: blur(10px) saturate(150%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  transform-origin: top;
+  opacity: 0;
+  transform: translateY(-20px) scaleY(0.9);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+}
+
+/* Visible state */
+#mobileMenu.show {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+  pointer-events: auto;
+}
+
+/* Menu Links Styling */
+#mobileMenu ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 0 1.4rem;
+  gap: 1.2rem;
+}
+
+#mobileMenu ul li a {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+#mobileMenu ul li a:hover {
+  color: #facc15;
+  transform: scale(1.07) translateY(-2px);
+  text-shadow: 0 2px 6px rgba(250, 204, 21, 0.6);
+}
+
+/* Small glow on toggle icon */
+.menu-toggle.active {
+  transform: rotate(180deg);
+  filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.5));
+}
+    
   </style>
 </head>
 
