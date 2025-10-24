@@ -8,50 +8,9 @@
   <meta name="theme-color" content="#4f46e5" />
  
   <!--<style>
-    /* Simple floating animation for icons */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    .float { animation: float 3s ease-in-out infinite; }
-
-    .slide img {
-  transition: transform 8s ease-in-out;
-}
-.slide:hover img {
-  transform: scale(1.05);
-}
-/* Hamburger Menu Icon */
-.menu-toggle {
-  width: 30px;
-  height: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.menu-toggle span {
-  display: block;
-  height: 3px;
-  background: #fff;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-/* Active (Turns into X) */
-.menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-.menu-toggle.active span:nth-child(2) {
-  opacity: 0;
-}
-.menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* Smooth dropdown animation */
+    /* 
+  
+/*  */
 #mobileMenu.show {
   display: block;
   opacity: 1 !important;
@@ -106,14 +65,14 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* --- Floating Glass Dropdown --- */
+/* --- Floating Glass Dropdown --- *
 #mobileMenu {
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   z-index: 9999;
-  background: rgba(67, 56, 202, 0.9); /* Indigo 700 glass */
+  background: rgba(67, 56, 202, 0.9); /* Indigo 700 glass *
   backdrop-filter: blur(10px) saturate(150%);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   border-bottom-left-radius: 14px;
@@ -123,7 +82,36 @@
   transform: translateY(-20px) scaleY(0.9);
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   pointer-events: none;
+}*/
+    
+   /* --- Floating Glass Dropdown (White Glassy) --- */
+#mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.85); /* White glass effect */
+  backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  transition: all 0.4s ease;
 }
+
+/* Dropdown link styles */
+#mobileMenu ul li a {
+  color: #1e1e1e; /* Dark text for white bg */
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  font-size: 1rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#mobileMenu ul li a:hover {
+  color: #4f46e5; /* Indigo accent */
+  transform: scale(1.05);
+} 
 
 /* Visible state */
 #mobileMenu.show {
