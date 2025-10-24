@@ -274,6 +274,172 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById("sidebar");
+  const menuToggle = document.getElementById("menuToggle");
+  const gameArea = document.getElementById("gameArea");
+  const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const timerEl = document.getElementById("timer");
+  const timeSelector = document.getElementById("timeSelector");
+
+  let activeMode = null;
+  let timeLeft = 15;
+  let timer = null;
+  let score = 0;
+  let isPaused = false;
+
+  /* === Scoreboard UI === */
+  const scoreboard = document.createElement("div");
+  scoreboard.style.position = "absolute";
+  scoreboard.style.top = "12px";
+  scoreboard.style.right = "16px";
+  scoreboard.style.background = "white";
+  scoreboard.style.padding = "8px 14px";
+  scoreboard.style.borderRadius = "10px";
+  scoreboard.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
+  scoreboard.style.fontWeight = "600";
+  scoreboard.style.textAlign = "right";
+  scoreboard.innerHTML = `
+    <div>🏆 <span id="bestScore">Best: 0</span></div>
+    <div>🎯 <span id="currentScore">Score: 0</span></div>
+    <div>🎮 <span id="activeMode">Mode: None</span></div>
+  `;
+  document.getElementById("gameBoard").appendChild(scoreboard);
+
+  /* === Instruction UI === */
+  const instructionBox = document.createElement("div");
+  instructionBox.style.position = "absolute";
+  instructionBox.style.top = "60px";
+  instructionBox.style.left = "50%";
+  instructionBox.style.transform = "translateX(-50%)";
+  instructionBox.style.background = "#fff";
+  instructionBox.style.border = "2px solid #0078ff33";
+  instructionBox.style.padding = "10px 16px";
+  instructionBox.style.borderRadius = "8px";
+  instructionBox.style.maxWidth = "80%";
+  instructionBox.style.textAlign = "center";
+  instructionBox.style.fontWeight = "500";
+  instructionBox.style.color = "#333";
+  instructionBox.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
+  document.getElementById("gameBoard").appendChild(instructionBox);
+
+  /* === Instructions per Mode === */
+  const modeInstructions = {
+    click: "Click the moving circles as fast as you can before time runs out!",
+    double: "Double-click on each target quickly to earn points!",
+    drag: "Drag and drop items to their correct positions!",
+    speed: "Click targets as they appear faster and faster!",
+    shape: "Click shapes in the correct order to complete patterns!",
+    draw: "Practice mouse movement by drawing freely in the pad!",
+    reflex: "Wait for the signal, then click fast to test your reflex!",
+    memory: "Memorize and click the matching pairs before time runs out!"
+  };
+
+  /* === Toggle Sidebar === */
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("hidden");
+    menuToggle.classList.toggle("active");
+  });
+
+  /* === Mode Selection === */
+  document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeMode = btn.dataset.mode;
+      document.getElementById("activeMode").textContent = "Mode: " + btn.textContent;
+      instructionBox.textContent = modeInstructions[activeMode] || "";
+      gameArea.innerHTML = "";
+      score = 0;
+      updateScore();
+      sidebar.classList.add("hidden");
+      menuToggle.classList.remove("active");
+    });
+  });
+
+  /* === Start Game === */
+  startBtn.addEventListener("click", () => {
+    if (!activeMode) {
+      alert("Please select a mode first!");
+      return;
+    }
+    if (timer) clearInterval(timer);
+    timeLeft = parseInt(timeSelector.value);
+    timerEl.textContent = `Time: ${timeLeft}`;
+    score = 0;
+    updateScore();
+    startMode(activeMode);
+    timer = setInterval(() => {
+      if (!isPaused) {
+        timeLeft--;
+        timerEl.textContent = `Time: ${timeLeft}`;
+        if (timeLeft <= 0) endGame();
+      }
+    }, 1000);
+  });
+
+  /* === Pause / Reset === */
+  pauseBtn.addEventListener("click", () => { isPaused = !isPaused; });
+  resetBtn.addEventListener("click", () => endGame(true));
+
+  /* === Update Scores === */
+  function updateScore() {
+    document.getElementById("currentScore").textContent = "Score: " + score;
+    const best = localStorage.getItem(activeMode + "_best") || 0;
+    document.getElementById("bestScore").textContent = "Best: " + best;
+  }
+
+  /* === Start Mode === */
+  function startMode(mode) {
+    gameArea.innerHTML = "";
+    if (mode === "click") startClickGame();
+    // Future: integrate others here
+  }
+
+  /* === Click Targets Game === */
+  function startClickGame() {
+    spawnTarget();
+  }
+
+  function spawnTarget() {
+    if (timeLeft <= 0) return;
+    const target = document.createElement("div");
+    target.classList.add("circle");
+    const areaRect = gameArea.getBoundingClientRect();
+    const x = Math.random() * (areaRect.width - 70);
+    const y = Math.random() * (areaRect.height - 70);
+    target.style.left = `${x}px`;
+    target.style.top = `${y}px`;
+    gameArea.appendChild(target);
+
+    target.addEventListener("click", () => {
+      score++;
+      updateScore();
+      target.remove();
+      spawnTarget();
+    });
+  }
+
+  /* === End Game === */
+  function endGame(resetOnly = false) {
+    clearInterval(timer);
+    timer = null;
+    gameArea.innerHTML = "";
+    if (!resetOnly) {
+      const best = localStorage.getItem(activeMode + "_best") || 0;
+      if (score > best) {
+        localStorage.setItem(activeMode + "_best", score);
+        alert(`🎉 New Best Score: ${score}!`);
+      } else {
+        alert(`⏰ Time's up! Your Score: ${score}`);
+      }
+    }
+    updateScore();
+  }
+});
+</script>
+  
+  <!--<script>
 /*=============================
  SMARTKIDS MOUSE PRACTICE ENGINE
 ===============================*/
