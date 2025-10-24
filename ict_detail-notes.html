@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICT Lesson Details</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f9fafb;
+      color: #222;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .back-btn {
+      background: #4f46e5;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #3730a3;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="window.history.back()">← Back</button>
+  <div id="lessonContainer">Loading lesson...</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const lessonId = params.get('id');
+    const container = document.getElementById('lessonContainer');
+
+    fetch('./json-files/ict_detail-notes.json')
+      .then(res => res.json())
+      .then(data => {
+        const lesson = data.lessons.find(l => l.id === lessonId);
+        if (lesson) {
+          container.innerHTML = `
+            <h2>${lesson.title}</h2>
+            <p>${lesson.content}</p>
+          `;
+        } else {
+          container.innerHTML = '<p>Lesson not found.</p>';
+        }
+      })
+      .catch(err => {
+        container.innerHTML = '❌ Failed to load lesson.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
