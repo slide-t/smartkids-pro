@@ -87,7 +87,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then(reg => {
       console.log("✅ Service Worker registered:", reg.scope);
 
-      // Listen for updates
+      // Auto-detect update
       reg.addEventListener("updatefound", () => {
         const newWorker = reg.installing;
         newWorker.addEventListener("statechange", () => {
@@ -96,10 +96,14 @@ if ("serviceWorker" in navigator) {
           }
         });
       });
+
+      // Manual update check button
+      createManualCheckButton(reg);
     }).catch(err => console.error("SW registration failed:", err));
   });
 }
 
+// ✅ Banner that appears when new version available
 function showUpdateBanner(reg) {
   const banner = document.createElement("div");
   banner.innerHTML = `
@@ -126,6 +130,39 @@ function showUpdateBanner(reg) {
       if (e.target.state === "activated") window.location.reload();
     });
   });
+}
+
+// ✅ Small floating button to manually check for updates
+function createManualCheckButton(reg) {
+  const btn = document.createElement("button");
+  btn.textContent = "↻ Check for Updates";
+  btn.style = `
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 9999;
+  `;
+  btn.addEventListener("click", async () => {
+    btn.textContent = "🔄 Checking...";
+    try {
+      const newReg = await reg.update();
+      btn.textContent = "✅ Up to date";
+      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
+    } catch (err) {
+      console.error("Error checking updates:", err);
+      btn.textContent = "⚠️ Error";
+      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
+    }
+  });
+  document.body.appendChild(btn);
 }
 </script>
 </body>
