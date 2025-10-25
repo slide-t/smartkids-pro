@@ -3,95 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Lesson Details | SmartKids Learning</title>
+  <title>ICT Detail Notes | SmartKidsPro</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: #f9fafb;
-      color: #222;
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
+      margin: 0;
+      padding: 0;
+      background: #f9fafc;
+      color: #333;
     }
 
     header {
+      background: #4f46e5;
+      color: #fff;
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: white;
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 25px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
     }
 
-    header h1 {
-      color: #1e3a8a;
-      font-size: 1.5rem;
-      margin: 0;
-    }
-
-    .nav-btn {
-      background: #4f46e5;
-      color: white;
-      border: none;
-      border-radius: 8px;
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
       padding: 6px 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s ease;
+      border-radius: 8px;
+      transition: background 0.3s;
     }
 
-    .nav-btn:hover {
-      background: #3730a3;
-      transform: scale(1.05);
+    header a:hover {
+      background: rgba(255,255,255,0.3);
     }
 
-    h2 {
-      color: #1e3a8a;
-      margin-bottom: 10px;
+    .content {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    p {
-      line-height: 1.6;
-      font-size: 16px;
+    .content h2 {
+      color: #4f46e5;
     }
   </style>
 </head>
 <body>
   <header>
-    <button class="nav-btn" onclick="window.location.href='ict_lessons.html'">← Back</button>
-    <h1>SmartKids ICT</h1>
-    <button class="nav-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <a href="index.html">🏠 Home</a>
+    <h2>ICT Detail Notes</h2>
+    <a href="ict_lessons.html">↩ Back</a>
   </header>
 
-  <div id="lessonContainer">Loading lesson...</div>
+  <div class="content" id="content"></div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const lessonId = params.get('id');
-    const container = document.getElementById('lessonContainer');
+    async function loadDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const topicId = params.get("topic");
+      const res = await fetch("json-files/ict_detail-notes.json");
+      const details = await res.json();
 
-    fetch('./json-files/ict_detail-notes.json')
-      .then(res => res.json())
-      .then(data => {
-        const lesson = data.lessons.find(l => l.id === lessonId);
-        if (lesson) {
-          container.innerHTML = `
-            <h2>${lesson.title}</h2>
-            <p>${lesson.content}</p>
-          `;
-        } else {
-          container.innerHTML = '<p>Lesson not found.</p>';
-        }
-      })
-      .catch(err => {
-        container.innerHTML = '❌ Failed to load lesson.';
-        console.error(err);
-      });
+      const note = details.find(d => d.id === topicId);
+      const container = document.getElementById("content");
+      if (note) {
+        container.innerHTML = `
+          <h2>${note.title}</h2>
+          <p>${note.content}</p>
+        `;
+      } else {
+        container.innerHTML = "<p>Topic not found.</p>";
+      }
+    }
+
+    loadDetail();
   </script>
 </body>
 </html>
