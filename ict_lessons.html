@@ -42,7 +42,60 @@
     <p>&copy; 2025 SmartKids-Pro. All rights reserved.</p>
   </footer>
 
-  <script>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("accordion");
+
+  fetch("json-files/ict_lessons.json")
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to load JSON");
+      return res.json();
+    })
+    .then(data => {
+      container.innerHTML = data.modules.map((module, i) => `
+        <div class="accordion-item border rounded mb-2">
+          <button class="accordion-header w-full flex justify-between items-center p-3 bg-blue-100 hover:bg-blue-200 font-semibold" data-index="${i}">
+            ${module.title}
+            <span class="icon">+</span>
+          </button>
+          <div class="accordion-content hidden bg-white p-3">
+            ${module.topics.map(topic => `
+              <a href="ict_detail-notes.html?topic=${encodeURIComponent(topic)}" class="block text-blue-600 hover:underline py-1">
+                ${topic}
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      document.querySelectorAll(".accordion-header").forEach(header => {
+        header.addEventListener("click", () => {
+          const content = header.nextElementSibling;
+          const icon = header.querySelector(".icon");
+
+          // Close all others
+          document.querySelectorAll(".accordion-content").forEach(c => c.classList.add("hidden"));
+          document.querySelectorAll(".icon").forEach(i => i.textContent = "+");
+
+          // Toggle current
+          if (content.classList.contains("hidden")) {
+            content.classList.remove("hidden");
+            icon.textContent = "–";
+          } else {
+            content.classList.add("hidden");
+            icon.textContent = "+";
+          }
+        });
+      });
+    })
+    .catch(err => {
+      container.innerHTML = `<p class="text-red-600">Error loading lessons: ${err.message}</p>`;
+    });
+});
+</script>
+  
+  
+  <!--<script>
     document.addEventListener("DOMContentLoaded", async () => {
       const container = document.getElementById("accordionContainer");
 
@@ -109,6 +162,6 @@
         console.error(err);
       }
     });
-  </script>
+  </script>-->
 </body>
 </html>
