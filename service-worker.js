@@ -1,39 +1,38 @@
-// ==== SmartKids Learning Service Worker ====
+// ==== SmartKids-Pro Service Worker ====
 
-// ⚙️ VERSION — bump this anytime you change files
-const CACHE_NAME = "smartkids-cache-v2";
+// ⚙️ Increment this version any time you update assets
+const CACHE_NAME = "smartkids-cache-v3";
 const APP_SHELL = [
-  "/",                        // adjust if not at root
+  "/",
   "/index.html",
   "/ict_lessons.html",
   "/ict_detail-notes.html",
-  "/mouse.html",
-"/keyboard.html",
   "/json-files/ict_lessons.json",
-  "/Images/logo.png",
-  "/scripts/main.js"
+  "/mouse.html",
+  "/keyboard.html",
+  "/images/logo.png"
 ];
 
-// ✅ Install event — cache all core assets
+// ✅ INSTALL — cache all static files
 self.addEventListener("install", event => {
-  console.log("[SW] Installing new service worker...");
+  console.log("[SW] Installing...");
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
   );
-  self.skipWaiting(); // Activate immediately
+  self.skipWaiting(); // activate immediately
 });
 
-// ✅ Activate event — clear old caches
+// ✅ ACTIVATE — clear old caches
 self.addEventListener("activate", event => {
-  console.log("[SW] Activating new service worker...");
+  console.log("[SW] Activating...");
   event.waitUntil(
-    caches.keys().then(keys => 
+    caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => {
-            console.log("[SW] Deleting old cache:", key);
-            return caches.delete(key);
+          .filter(k => k !== CACHE_NAME)
+          .map(k => {
+            console.log("[SW] Deleting old cache:", k);
+            return caches.delete(k);
           })
       )
     )
@@ -41,30 +40,27 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-// ✅ Fetch event — serve from cache first, fallback to network
+// ✅ FETCH — use cache, then network fallback
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
-
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      const networkFetch = fetch(event.request)
-        .then(response => {
-          // Update cache with latest response
-          if (response && response.status === 200) {
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, response.clone());
-            });
+      const fetchPromise = fetch(event.request)
+        .then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then(cache =>
+              cache.put(event.request, networkResponse.clone())
+            );
           }
-          return response;
+          return networkResponse;
         })
-        .catch(() => cachedResponse); // fallback offline
-
-      return cachedResponse || networkFetch;
+        .catch(() => cachedResponse);
+      return cachedResponse || fetchPromise;
     })
   );
 });
 
-// ✅ Notify clients of updates
+// ✅ MESSAGE — used for forcing update (skip waiting)
 self.addEventListener("message", event => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
