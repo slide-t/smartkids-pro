@@ -1,82 +1,249 @@
 [
   {
+    "id": "1",
     "module": "Module 1: Introduction to ICT",
-    "topics": [
-      { "id": "1", "title": "Meaning of ICT", "content": "meaning-of-ict", "url": "lessons/meaning-of-ict.html" },
-      { "id": "2", "title": "Examples of ICT Tools", "content": "examples-of-ict-tools", "url": "lessons/examples-of-ict-tools.html" },
-      { "id": "3", "title": "Uses of ICT in Everyday Life", "slug": "uses-of-ict-in-everyday-life", "url": "lessons/uses-of-ict-in-everyday-life.html" },
-      { "id": "4", "title": "Benefits and Importance of ICT", "slug": "benefits-and-importance-of-ict", "url": "lessons/benefits-and-importance-of-ict.html" },
-      { "id": "5", "title": "ICT Devices Around Us", "slug": "ict-devices-around-us", "url": "lessons/ict-devices-around-us.html" }
-    ]
+    "title": "Meaning of ICT",
+    "content": ""
   },
   {
+    "id": "2",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Examples of ICT Tools",
+    "content": ""
+  },
+  {
+    "id": "3",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Uses of ICT in Everyday Life",
+    "content": ""
+  },
+  {
+    "id": "4",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Benefits and Importance of ICT",
+    "content": ""
+  },
+  {
+    "id": "5",
+    "module": "Module 1: Introduction to ICT",
+    "title": "ICT Devices Around Us",
+    "content": ""
+  },
+
+  {
+    "id": "6",
     "module": "Module 2: Computer System and Its Parts",
-    "topics": [
-      { "id": "6", "title": "Definition of a Computer", "slug": "definition-of-a-computer", "url": "lessons/definition-of-a-computer.html" },
-      { "id": "7", "title": "Parts of a Computer: Hardware and Software", "slug": "parts-of-a-computer", "url": "lessons/parts-of-a-computer.html" },
-      { "id": "8", "title": "Input, Output and Storage Devices", "slug": "input-output-storage-devices", "url": "lessons/input-output-storage-devices.html" },
-      { "id": "9", "title": "How to Start and Shut Down a Computer", "slug": "how-to-start-and-shut-down-a-computer", "url": "lessons/how-to-start-and-shut-down-a-computer.html" },
-      { "id": "10", "title": "Care and Maintenance of Computer", "slug": "care-and-maintenance-of-computer", "url": "lessons/care-and-maintenance-of-computer.html" }
-    ]
+    "title": "Definition of a Computer",
+    "content": ""
   },
   {
+    "id": "7",
+    "module": "Module 2: Computer System and Its Parts",
+    "title": "Parts of a Computer: Hardware and Software",
+    "content": ""
+  },
+  {
+    "id": "8",
+    "module": "Module 2: Computer System and Its Parts",
+    "title": "Input, Output and Storage Devices",
+    "content": ""
+  },
+  {
+    "id": "9",
+    "module": "Module 2: Computer System and Its Parts",
+    "title": "How to Start and Shut Down a Computer",
+    "content": ""
+  },
+  {
+    "id": "10",
+    "module": "Module 2: Computer System and Its Parts",
+    "title": "Care and Maintenance of Computer",
+    "content": ""
+  },
+
+  {
+    "id": "11",
     "module": "Module 3: Basic Computer Operations",
-    "topics": [
-      { "id": "11", "title": "Using the Mouse and Keyboard", "slug": "using-the-mouse-and-keyboard", "url": "lessons/using-the-mouse-and-keyboard.html" },
-      { "id": "12", "title": "Understanding the Desktop and Icons", "slug": "understanding-desktop-and-icons", "url": "lessons/understanding-desktop-and-icons.html" },
-      { "id": "13", "title": "Creating, Saving and Opening Files", "slug": "creating-saving-and-opening-files", "url": "lessons/creating-saving-and-opening-files.html" },
-      { "id": "14", "title": "Using Simple Programs (Paint, Notepad)", "slug": "using-simple-programs", "url": "lessons/using-simple-programs.html" },
-      { "id": "15", "title": "Shutting Down Properly", "slug": "shutting-down-properly", "url": "lessons/shutting-down-properly.html" }
-    ]
+    "title": "Using the Mouse and Keyboard",
+    "content": ""
   },
   {
+    "id": "12",
+    "module": "Module 3: Basic Computer Operations",
+    "title": "Understanding the Desktop and Icons",
+    "content": ""
+  },
+  {
+    "id": "13",
+    "module": "Module 3: Basic Computer Operations",
+    "title": "Creating, Saving and Opening Files",
+    "content": ""
+  },
+  {
+    "id": "14",
+    "module": "Module 3: Basic Computer Operations",
+    "title": "Using Simple Programs (Paint, Notepad)",
+    "content": ""
+  },
+  {
+    "id": "15",
+    "module": "Module 3: Basic Computer Operations",
+    "title": "Shutting Down Properly",
+    "content": ""
+  },
+
+  {
+    "id": "16",
     "module": "Module 4: The Internet and Its Uses",
-    "topics": [
-      { "id": "16", "title": "What is the Internet?", "slug": "what-is-the-internet", "url": "lessons/what-is-the-internet.html" },
-      { "id": "17", "title": "Common Internet Terms (Web, Browser, Website)", "slug": "common-internet-terms", "url": "lessons/common-internet-terms.html" },
-      { "id": "18", "title": "Uses of the Internet", "slug": "uses-of-the-internet", "url": "lessons/uses-of-the-internet.html" },
-      { "id": "19", "title": "How to Browse Safely", "slug": "how-to-browse-safely", "url": "lessons/how-to-browse-safely.html" },
-      { "id": "20", "title": "Email and Social Media", "slug": "email-and-social-media", "url": "lessons/email-and-social-media.html" }
-    ]
+    "title": "What is the Internet?",
+    "content": ""
   },
   {
+    "id": "17",
+    "module": "Module 4: The Internet and Its Uses",
+    "title": "Common Internet Terms (Web, Browser, Website)",
+    "content": ""
+  },
+  {
+    "id": "18",
+    "module": "Module 4: The Internet and Its Uses",
+    "title": "Uses of the Internet",
+    "content": ""
+  },
+  {
+    "id": "19",
+    "module": "Module 4: The Internet and Its Uses",
+    "title": "How to Browse Safely",
+    "content": ""
+  },
+  {
+    "id": "20",
+    "module": "Module 4: The Internet and Its Uses",
+    "title": "Email and Social Media",
+    "content": ""
+  },
+
+  {
+    "id": "21",
     "module": "Module 5: Software Applications",
-    "topics": [
-      { "id": "21", "title": "Meaning and Types of Software", "slug": "meaning-and-types-of-software", "url": "lessons/meaning-and-types-of-software.html" },
-      { "id": "22", "title": "Word Processing Basics (MS Word, Google Docs)", "slug": "word-processing-basics", "url": "lessons/word-processing-basics.html" },
-      { "id": "23", "title": "Spreadsheet Basics (MS Excel, Google Sheets)", "slug": "spreadsheet-basics", "url": "lessons/spreadsheet-basics.html" },
-      { "id": "24", "title": "Presentation Basics (MS PowerPoint, Slides)", "slug": "presentation-basics", "url": "lessons/presentation-basics.html" },
-      { "id": "25", "title": "Practical Project: Class Document and Charts", "slug": "practical-project", "url": "lessons/practical-project.html" }
-    ]
+    "title": "Meaning and Types of Software",
+    "content": ""
   },
   {
+    "id": "22",
+    "module": "Module 5: Software Applications",
+    "title": "Word Processing Basics (MS Word, Google Docs)",
+    "content": ""
+  },
+  {
+    "id": "23",
+    "module": "Module 5: Software Applications",
+    "title": "Spreadsheet Basics (MS Excel, Google Sheets)",
+    "content": ""
+  },
+  {
+    "id": "24",
+    "module": "Module 5: Software Applications",
+    "title": "Presentation Basics (MS PowerPoint, Slides)",
+    "content": ""
+  },
+  {
+    "id": "25",
+    "module": "Module 5: Software Applications",
+    "title": "Practical Project: Class Document and Charts",
+    "content": ""
+  },
+
+  {
+    "id": "26",
     "module": "Module 6: Data Analysis Basics",
-    "topics": [
-      { "id": "26", "title": "Meaning of Data and Data Analysis", "slug": "meaning-of-data-and-analysis", "url": "lessons/meaning-of-data-and-analysis.html" },
-      { "id": "27", "title": "Types of Data (Text, Number, Date)", "slug": "types-of-data", "url": "lessons/types-of-data.html" },
-      { "id": "28", "title": "Collecting and Organizing Data", "slug": "collecting-and-organizing-data", "url": "lessons/collecting-and-organizing-data.html" },
-      { "id": "29", "title": "Using Spreadsheet for Simple Analysis", "slug": "spreadsheet-for-simple-analysis", "url": "lessons/spreadsheet-for-simple-analysis.html" },
-      { "id": "30", "title": "Creating Charts and Interpreting Results", "slug": "creating-charts-and-interpreting-results", "url": "lessons/creating-charts-and-interpreting-results.html" }
-    ]
+    "title": "Meaning of Data and Data Analysis",
+    "content": ""
   },
   {
+    "id": "27",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Types of Data (Text, Number, Date)",
+    "content": ""
+  },
+  {
+    "id": "28",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Collecting and Organizing Data",
+    "content": ""
+  },
+  {
+    "id": "29",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Using Spreadsheet for Simple Analysis",
+    "content": ""
+  },
+  {
+    "id": "30",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Creating Charts and Interpreting Results",
+    "content": ""
+  },
+
+  {
+    "id": "31",
     "module": "Module 7: Introduction to Coding and AI",
-    "topics": [
-      { "id": "31", "title": "What is Coding?", "slug": "what-is-coding", "url": "lessons/what-is-coding.html" },
-      { "id": "32", "title": "Algorithms and Logical Thinking", "slug": "algorithms-and-logical-thinking", "url": "lessons/algorithms-and-logical-thinking.html" },
-      { "id": "33", "title": "Introduction to Scratch Programming", "slug": "introduction-to-scratch-programming", "url": "lessons/introduction-to-scratch-programming.html" },
-      { "id": "34", "title": "What is Artificial Intelligence?", "slug": "what-is-artificial-intelligence", "url": "lessons/what-is-artificial-intelligence.html" },
-      { "id": "35", "title": "How AI Helps in Daily Life", "slug": "how-ai-helps-in-daily-life", "url": "lessons/how-ai-helps-in-daily-life.html" }
-    ]
+    "title": "What is Coding?",
+    "content": ""
   },
   {
+    "id": "32",
+    "module": "Module 7: Introduction to Coding and AI",
+    "title": "Algorithms and Logical Thinking",
+    "content": ""
+  },
+  {
+    "id": "33",
+    "module": "Module 7: Introduction to Coding and AI",
+    "title": "Introduction to Scratch Programming",
+    "content": ""
+  },
+  {
+    "id": "34",
+    "module": "Module 7: Introduction to Coding and AI",
+    "title": "What is Artificial Intelligence?",
+    "content": ""
+  },
+  {
+    "id": "35",
+    "module": "Module 7: Introduction to Coding and AI",
+    "title": "How AI Helps in Daily Life",
+    "content": ""
+  },
+
+  {
+    "id": "36",
     "module": "Module 8: Web Development Basics",
-    "topics": [
-      { "id": "36", "title": "What is a Website?", "slug": "what-is-a-website", "url": "lessons/what-is-a-website.html" },
-      { "id": "37", "title": "Introduction to HTML", "slug": "introduction-to-html", "url": "lessons/introduction-to-html.html" },
-      { "id": "38", "title": "Adding CSS for Design", "slug": "adding-css-for-design", "url": "lessons/adding-css-for-design.html" },
-      { "id": "39", "title": "Introduction to JavaScript", "slug": "introduction-to-javascript", "url": "lessons/introduction-to-javascript.html" },
-      { "id": "40", "title": "Building a Simple Web Page", "slug": "building-a-simple-web-page", "url": "lessons/building-a-simple-web-page.html" }
-    ]
+    "title": "What is a Website?",
+    "content": ""
+  },
+  {
+    "id": "37",
+    "module": "Module 8: Web Development Basics",
+    "title": "Introduction to HTML",
+    "content": ""
+  },
+  {
+    "id": "38",
+    "module": "Module 8: Web Development Basics",
+    "title": "Adding CSS for Design",
+    "content": ""
+  },
+  {
+    "id": "39",
+    "module": "Module 8: Web Development Basics",
+    "title": "Introduction to JavaScript",
+    "content": ""
+  },
+  {
+    "id": "40",
+    "module": "Module 8: Web Development Basics",
+    "title": "Building a Simple Web Page",
+    "content": ""
   }
 ]
