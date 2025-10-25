@@ -3,156 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Lessons | SmartKids Learning</title>
+  <title>SmartKids-Pro | ICT Lessons</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="theme-color" content="#4f46e5" />
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(to right, #f7f9fc, #eef1f7);
-      color: #222;
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #222;
-    }
-
-    .accordion {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(8px);
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
-    }
-
-    .accordion-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      padding: 16px 20px;
-      background: #fff;
-      font-weight: 600;
-      font-size: 18px;
-      border-bottom: 1px solid #eee;
-      transition: background 0.3s ease;
-    }
-
-    .accordion-header:hover {
-      background: #f5f5f5;
-    }
-
+    /* Accordion animation */
     .accordion-content {
-      display: none;
-      padding: 15px 25px;
-      background: #fafafa;
-      border-top: 1px solid #eee;
-      animation: fadeIn 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease-in-out;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .icon {
-      font-size: 22px;
-      transition: transform 0.3s ease;
-    }
-
-    .accordion.active .icon {
-      transform: rotate(45deg);
-      color: #1e3a8a; /* Indigo-900 */
-    }
-
-    .subtopic-btn {
-      display: block;
-      width: 100%;
-      text-align: left;
-      padding: 10px 15px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin: 6px 0;
-      font-size: 15px;
-      color: #333;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .subtopic-btn:hover {
-      background: #eef2ff;
-      border-color: #6366f1;
-      color: #1e3a8a;
-      transform: scale(1.02);
+    .accordion-content.open {
+      max-height: 500px;
+      opacity: 1;
     }
   </style>
 </head>
-<body>
-  <h1>📘 ICT Lessons</h1>
-  <div id="accordionContainer">Loading lessons...</div>
 
+<body class="font-sans bg-gray-50 text-gray-800">
+  <!-- HEADER -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-700">ICT Lessons</h1>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-indigo-600 font-semibold hover:text-indigo-800 transition">🏠 Home</a>
+        <a href="javascript:history.back()" class="text-indigo-600 font-semibold hover:text-indigo-800 transition">⬅ Back</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <section class="max-w-5xl mx-auto px-4 py-10">
+    <h2 class="text-3xl font-bold text-center text-indigo-700 mb-8">ICT Modules</h2>
+    <div id="accordionContainer" class="space-y-4"></div>
+  </section>
+
+  <footer class="bg-indigo-700 text-white text-center py-4">
+    <p>&copy; 2025 SmartKids-Pro. All rights reserved.</p>
+  </footer>
   <script>
-    const container = document.getElementById('accordionContainer');
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("accordionContainer");
 
-    fetch('./json-files/ict_lessons.json')
-      .then(res => res.json())
-      .then(data => {
-        container.innerHTML = '';
-        data.modules.forEach(module => {
-          const section = document.createElement('div');
-          section.className = 'accordion';
+  try {
+    // ✅ Ensure correct JSON file path
+    const response = await fetch("./json-files/ict_lessons.json");
+    if (!response.ok) throw new Error("JSON file not found");
+    const lessons = await response.json();
 
-          section.innerHTML = `
-            <div class="accordion-header">
-              <span>${module.title}</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="accordion-content">
-              ${module.subtopics.map(sub =>
-                `<button class="subtopic-btn" onclick="openLesson('${sub.id}')">${sub.title}</button>`
-              ).join('')}
-            </div>
-          `;
-          container.appendChild(section);
+    lessons.forEach((module) => {
+      const moduleDiv = document.createElement("div");
+      moduleDiv.className =
+        "bg-white shadow rounded-lg overflow-hidden border border-gray-200";
+
+      // Accordion Header
+      const header = document.createElement("button");
+      header.className =
+        "w-full flex justify-between items-center text-left px-5 py-4 font-semibold text-indigo-700 hover:bg-indigo-50 transition";
+      header.innerHTML = `
+        <span>${module.title}</span>
+        <svg class="w-6 h-6 text-indigo-600 transform transition-transform duration-300" 
+             fill="none" stroke="currentColor" stroke-width="2" 
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" 
+                d="M19 9l-7 7-7-7" />
+        </svg>
+      `;
+
+      // Accordion Content
+      const content = document.createElement("div");
+      content.className =
+        "accordion-content bg-gray-50 px-5 py-4 text-gray-700";
+
+      module.subtopics.forEach((sub) => {
+        const btn = document.createElement("a");
+        btn.href = `ict_detail-notes.html?id=${sub.id}`;
+        btn.className =
+          "block py-2 px-3 mb-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded transition text-sm font-medium";
+        btn.textContent = sub.title;
+
+        // ✅ Close accordion when a link is clicked
+        btn.addEventListener("click", () => {
+          content.classList.remove("open");
+          header.querySelector("svg").classList.remove("rotate-180");
         });
 
-        // Accordion toggle logic
-        document.querySelectorAll('.accordion-header').forEach(header => {
-          header.addEventListener('click', () => {
-            const parent = header.parentElement;
-            const content = header.nextElementSibling;
-            const icon = header.querySelector('.icon');
-
-            if (content.style.display === 'block') {
-              content.style.display = 'none';
-              icon.textContent = '+';
-              parent.classList.remove('active');
-            } else {
-              document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
-              document.querySelectorAll('.icon').forEach(i => i.textContent = '+');
-              document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
-
-              content.style.display = 'block';
-              icon.textContent = '–';
-              parent.classList.add('active');
-            }
-          });
-        });
-      })
-      .catch(err => {
-        container.innerHTML = '❌ Failed to load lessons.';
-        console.error(err);
+        content.appendChild(btn);
       });
 
-    function openLesson(id) {
-      window.location.href = `ict_detail-notes.html?id=${id}`;
-    }
-  </script>
+      // ✅ Accordion Toggle
+      header.addEventListener("click", () => {
+        const isOpen = content.classList.contains("open");
+
+        // Close all open accordions
+        document
+          .querySelectorAll(".accordion-content.open")
+          .forEach((c) => c.classList.remove("open"));
+        document
+          .querySelectorAll("#accordionContainer svg")
+          .forEach((svg) => svg.classList.remove("rotate-180"));
+
+        // Open clicked one
+        if (!isOpen) {
+          content.classList.add("open");
+          header.querySelector("svg").classList.add("rotate-180");
+        }
+      });
+
+      moduleDiv.appendChild(header);
+      moduleDiv.appendChild(content);
+      container.appendChild(moduleDiv);
+    });
+  } catch (err) {
+    container.innerHTML = `
+      <p class="text-red-500 text-center font-semibold">
+        ⚠️ Error loading lessons. Please ensure <b>json-files/ict_lessons.json</b> exists and is valid.
+      </p>`;
+    console.error("Error loading lessons:", err);
+  }
+});
+</script>
+
+  
 </body>
 </html>
