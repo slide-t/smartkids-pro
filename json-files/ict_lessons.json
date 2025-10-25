@@ -1,58 +1,52 @@
-[
-  {
-    "title": "Module 1: Introduction to ICT",
-    "subtopics": [
-      { "id": "ict_intro_meaning", "title": "Meaning of ICT" },
-      { "id": "ict_intro_importance", "title": "Importance of ICT" },
-      { "id": "ict_intro_examples", "title": "Examples of ICT Devices" },
-      { "id": "ict_intro_applications", "title": "Uses and Applications of ICT" }
-    ]
-  },
-  {
-    "title": "Module 2: Computer Hardware and Software",
-    "subtopics": [
-      { "id": "hardware_types", "title": "Types of Computer Hardware" },
-      { "id": "input_output_devices", "title": "Input and Output Devices" },
-      { "id": "storage_devices", "title": "Storage Devices" },
-      { "id": "software_types", "title": "Types of Software" }
-    ]
-  },
-  {
-    "title": "Module 3: The Computer System",
-    "subtopics": [
-      { "id": "computer_parts", "title": "Main Parts of a Computer" },
-      { "id": "system_unit", "title": "The System Unit" },
-      { "id": "booting_process", "title": "The Booting Process" },
-      { "id": "caring_computer", "title": "Care and Maintenance of the Computer" }
-    ]
-  },
-  {
-    "title": "Module 4: Computer Operations and Keyboarding",
-    "subtopics": [
-      { "id": "turn_on_off", "title": "Turning On and Off the Computer" },
-      { "id": "mouse_use", "title": "Using the Mouse" },
-      { "id": "keyboard_parts", "title": "Parts of the Keyboard" },
-      { "id": "typing_practice", "title": "Typing Practice and Speed Test" }
-    ]
-  },
-  {
-    "title": "Module 5: Internet and Web Development",
-    "subtopics": [
-      { "id": "internet_intro", "title": "Introduction to the Internet" },
-      { "id": "safe_browsing", "title": "Safe Browsing and Online Safety" },
-      { "id": "web_basics", "title": "Introduction to Web Development" },
-      { "id": "html_css_js", "title": "HTML, CSS, and JavaScript Basics" }
-    ]
-  },
-  {
-    "title": "Module 6: Data Analysis Basics",
-    "subtopics": [
-      { "id": "data_meaning", "title": "Meaning of Data and Information" },
-      { "id": "data_collection", "title": "Methods of Data Collection" },
-      { "id": "data_entry", "title": "Entering Data into a Computer" },
-      { "id": "data_tools", "title": "Basic Tools for Data Analysis (Excel, Google Sheets)" },
-      { "id": "data_charting", "title": "Creating Charts and Graphs" },
-      { "id": "data_interpretation", "title": "Interpreting Data and Making Decisions" }
-    ]
-  }
-]
+{
+  "modules": [
+    {
+      "title": "Module 1: Introduction to ICT",
+      "topics": [
+        "What is ICT?",
+        "Importance of ICT in Everyday Life",
+        "Examples of ICT Devices"
+      ]
+    },
+    {
+      "title": "Module 2: Computer Hardware",
+      "topics": [
+        "Meaning and Types of Computer Hardware",
+        "Input, Output and Storage Devices",
+        "Care of Hardware Devices"
+      ]
+    },
+    {
+      "title": "Module 3: Computer Software",
+      "topics": [
+        "What is Software?",
+        "Types of Software (System and Application)",
+        "Examples of Application Software"
+      ]
+    },
+    {
+      "title": "Module 4: Using the Keyboard and Mouse",
+      "topics": [
+        "Parts of the Keyboard",
+        "Mouse Functions and Practice",
+        "Typing and Pointing Exercises"
+      ]
+    },
+    {
+      "title": "Module 5: Internet and Web",
+      "topics": [
+        "What is the Internet?",
+        "How to Browse Safely",
+        "Using Search Engines"
+      ]
+    },
+    {
+      "title": "Module 6: Data Analysis Basics",
+      "topics": [
+        "What is Data?",
+        "Collecting and Recording Data",
+        "Simple Data Analysis Using Charts and Tables"
+      ]
+    }
+  ]
+}
