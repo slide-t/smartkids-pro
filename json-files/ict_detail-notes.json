@@ -1,249 +1,82 @@
 [
   {
-    "id": "1",
     "module": "Module 1: Introduction to ICT",
-    "title": "Meaning of ICT",
-    "content": "<<< Paste full lesson note for this topic here >>>"
+    "topics": [
+      { "id": "1", "title": "Meaning of ICT", "slug": "meaning-of-ict", "url": "lessons/meaning-of-ict.html" },
+      { "id": "2", "title": "Examples of ICT Tools", "slug": "examples-of-ict-tools", "url": "lessons/examples-of-ict-tools.html" },
+      { "id": "3", "title": "Uses of ICT in Everyday Life", "slug": "uses-of-ict-in-everyday-life", "url": "lessons/uses-of-ict-in-everyday-life.html" },
+      { "id": "4", "title": "Benefits and Importance of ICT", "slug": "benefits-and-importance-of-ict", "url": "lessons/benefits-and-importance-of-ict.html" },
+      { "id": "5", "title": "ICT Devices Around Us", "slug": "ict-devices-around-us", "url": "lessons/ict-devices-around-us.html" }
+    ]
   },
   {
-    "id": "2",
-    "module": "Module 1: Introduction to ICT",
-    "title": "Importance of ICT in Everyday Life",
-    "content": "<<< Paste note here >>>"
+    "module": "Module 2: Computer System and Its Parts",
+    "topics": [
+      { "id": "6", "title": "Definition of a Computer", "slug": "definition-of-a-computer", "url": "lessons/definition-of-a-computer.html" },
+      { "id": "7", "title": "Parts of a Computer: Hardware and Software", "slug": "parts-of-a-computer", "url": "lessons/parts-of-a-computer.html" },
+      { "id": "8", "title": "Input, Output and Storage Devices", "slug": "input-output-storage-devices", "url": "lessons/input-output-storage-devices.html" },
+      { "id": "9", "title": "How to Start and Shut Down a Computer", "slug": "how-to-start-and-shut-down-a-computer", "url": "lessons/how-to-start-and-shut-down-a-computer.html" },
+      { "id": "10", "title": "Care and Maintenance of Computer", "slug": "care-and-maintenance-of-computer", "url": "lessons/care-and-maintenance-of-computer.html" }
+    ]
   },
   {
-    "id": "3",
-    "module": "Module 1: Introduction to ICT",
-    "title": "Examples of ICT Tools",
-    "content": "<<< Paste note here >>>"
+    "module": "Module 3: Basic Computer Operations",
+    "topics": [
+      { "id": "11", "title": "Using the Mouse and Keyboard", "slug": "using-the-mouse-and-keyboard", "url": "lessons/using-the-mouse-and-keyboard.html" },
+      { "id": "12", "title": "Understanding the Desktop and Icons", "slug": "understanding-desktop-and-icons", "url": "lessons/understanding-desktop-and-icons.html" },
+      { "id": "13", "title": "Creating, Saving and Opening Files", "slug": "creating-saving-and-opening-files", "url": "lessons/creating-saving-and-opening-files.html" },
+      { "id": "14", "title": "Using Simple Programs (Paint, Notepad)", "slug": "using-simple-programs", "url": "lessons/using-simple-programs.html" },
+      { "id": "15", "title": "Shutting Down Properly", "slug": "shutting-down-properly", "url": "lessons/shutting-down-properly.html" }
+    ]
   },
   {
-    "id": "4",
-    "module": "Module 1: Introduction to ICT",
-    "title": "ICT in Education, Health, and Business",
-    "content": "<<< Paste note here >>>"
+    "module": "Module 4: The Internet and Its Uses",
+    "topics": [
+      { "id": "16", "title": "What is the Internet?", "slug": "what-is-the-internet", "url": "lessons/what-is-the-internet.html" },
+      { "id": "17", "title": "Common Internet Terms (Web, Browser, Website)", "slug": "common-internet-terms", "url": "lessons/common-internet-terms.html" },
+      { "id": "18", "title": "Uses of the Internet", "slug": "uses-of-the-internet", "url": "lessons/uses-of-the-internet.html" },
+      { "id": "19", "title": "How to Browse Safely", "slug": "how-to-browse-safely", "url": "lessons/how-to-browse-safely.html" },
+      { "id": "20", "title": "Email and Social Media", "slug": "email-and-social-media", "url": "lessons/email-and-social-media.html" }
+    ]
   },
   {
-    "id": "5",
-    "module": "Module 1: Introduction to ICT",
-    "title": "Care and Handling of ICT Tools",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "6",
-    "module": "Module 2: Computer Hardware",
-    "title": "Meaning of Hardware",
-    "content": "<<< Paste note here >>>"
+    "module": "Module 5: Software Applications",
+    "topics": [
+      { "id": "21", "title": "Meaning and Types of Software", "slug": "meaning-and-types-of-software", "url": "lessons/meaning-and-types-of-software.html" },
+      { "id": "22", "title": "Word Processing Basics (MS Word, Google Docs)", "slug": "word-processing-basics", "url": "lessons/word-processing-basics.html" },
+      { "id": "23", "title": "Spreadsheet Basics (MS Excel, Google Sheets)", "slug": "spreadsheet-basics", "url": "lessons/spreadsheet-basics.html" },
+      { "id": "24", "title": "Presentation Basics (MS PowerPoint, Slides)", "slug": "presentation-basics", "url": "lessons/presentation-basics.html" },
+      { "id": "25", "title": "Practical Project: Class Document and Charts", "slug": "practical-project", "url": "lessons/practical-project.html" }
+    ]
   },
   {
-    "id": "7",
-    "module": "Module 2: Computer Hardware",
-    "title": "Types of Computer Hardware",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "8",
-    "module": "Module 2: Computer Hardware",
-    "title": "Input Devices and Their Functions",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "9",
-    "module": "Module 2: Computer Hardware",
-    "title": "Output Devices and Their Functions",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "10",
-    "module": "Module 2: Computer Hardware",
-    "title": "Storage Devices",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "11",
-    "module": "Module 3: Computer Software",
-    "title": "Meaning of Software",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "12",
-    "module": "Module 3: Computer Software",
-    "title": "Types of Software",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "13",
-    "module": "Module 3: Computer Software",
-    "title": "System Software and Its Functions",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "14",
-    "module": "Module 3: Computer Software",
-    "title": "Application Software Examples",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "15",
-    "module": "Module 3: Computer Software",
-    "title": "Importance of Software Updates",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "16",
-    "module": "Module 4: Using the Computer",
-    "title": "Booting and Shutting Down a Computer",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "17",
-    "module": "Module 4: Using the Computer",
-    "title": "Desktop and Icons",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "18",
-    "module": "Module 4: Using the Computer",
-    "title": "File and Folder Management",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "19",
-    "module": "Module 4: Using the Computer",
-    "title": "Using the Keyboard and Mouse",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "20",
-    "module": "Module 4: Using the Computer",
-    "title": "Typing Practice and Shortcuts",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "21",
-    "module": "Module 5: Internet and Email",
-    "title": "Meaning of Internet",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "22",
-    "module": "Module 5: Internet and Email",
-    "title": "Uses of the Internet",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "23",
-    "module": "Module 5: Internet and Email",
-    "title": "Meaning of Email",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "24",
-    "module": "Module 5: Internet and Email",
-    "title": "Sending and Receiving Emails",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "25",
-    "module": "Module 5: Internet and Email",
-    "title": "Online Safety and Etiquette",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "26",
     "module": "Module 6: Data Analysis Basics",
-    "title": "Meaning of Data and Information",
-    "content": "<<< Paste note here >>>"
+    "topics": [
+      { "id": "26", "title": "Meaning of Data and Data Analysis", "slug": "meaning-of-data-and-analysis", "url": "lessons/meaning-of-data-and-analysis.html" },
+      { "id": "27", "title": "Types of Data (Text, Number, Date)", "slug": "types-of-data", "url": "lessons/types-of-data.html" },
+      { "id": "28", "title": "Collecting and Organizing Data", "slug": "collecting-and-organizing-data", "url": "lessons/collecting-and-organizing-data.html" },
+      { "id": "29", "title": "Using Spreadsheet for Simple Analysis", "slug": "spreadsheet-for-simple-analysis", "url": "lessons/spreadsheet-for-simple-analysis.html" },
+      { "id": "30", "title": "Creating Charts and Interpreting Results", "slug": "creating-charts-and-interpreting-results", "url": "lessons/creating-charts-and-interpreting-results.html" }
+    ]
   },
   {
-    "id": "27",
-    "module": "Module 6: Data Analysis Basics",
-    "title": "Sources of Data",
-    "content": "<<< Paste note here >>>"
+    "module": "Module 7: Introduction to Coding and AI",
+    "topics": [
+      { "id": "31", "title": "What is Coding?", "slug": "what-is-coding", "url": "lessons/what-is-coding.html" },
+      { "id": "32", "title": "Algorithms and Logical Thinking", "slug": "algorithms-and-logical-thinking", "url": "lessons/algorithms-and-logical-thinking.html" },
+      { "id": "33", "title": "Introduction to Scratch Programming", "slug": "introduction-to-scratch-programming", "url": "lessons/introduction-to-scratch-programming.html" },
+      { "id": "34", "title": "What is Artificial Intelligence?", "slug": "what-is-artificial-intelligence", "url": "lessons/what-is-artificial-intelligence.html" },
+      { "id": "35", "title": "How AI Helps in Daily Life", "slug": "how-ai-helps-in-daily-life", "url": "lessons/how-ai-helps-in-daily-life.html" }
+    ]
   },
   {
-    "id": "28",
-    "module": "Module 6: Data Analysis Basics",
-    "title": "Organizing Data in Tables",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "29",
-    "module": "Module 6: Data Analysis Basics",
-    "title": "Introduction to Charts and Graphs",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "30",
-    "module": "Module 6: Data Analysis Basics",
-    "title": "Uses of Data in Daily Life",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "31",
-    "module": "Module 7: Artificial Intelligence Basics",
-    "title": "Meaning of Artificial Intelligence",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "32",
-    "module": "Module 7: Artificial Intelligence Basics",
-    "title": "Examples of AI Tools",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "33",
-    "module": "Module 7: Artificial Intelligence Basics",
-    "title": "How AI Helps in Daily Life",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "34",
-    "module": "Module 7: Artificial Intelligence Basics",
-    "title": "AI in Education and Learning",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "35",
-    "module": "Module 7: Artificial Intelligence Basics",
-    "title": "Safety and Ethics in AI",
-    "content": "<<< Paste note here >>>"
-  },
-
-  {
-    "id": "36",
     "module": "Module 8: Web Development Basics",
-    "title": "Introduction to Web Development",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "37",
-    "module": "Module 8: Web Development Basics",
-    "title": "Meaning of HTML",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "38",
-    "module": "Module 8: Web Development Basics",
-    "title": "Introduction to CSS",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "39",
-    "module": "Module 8: Web Development Basics",
-    "title": "Basics of JavaScript",
-    "content": "<<< Paste note here >>>"
-  },
-  {
-    "id": "40",
-    "module": "Module 8: Web Development Basics",
-    "title": "Simple Web Design Project",
-    "content": "<<< Paste note here >>>"
+    "topics": [
+      { "id": "36", "title": "What is a Website?", "slug": "what-is-a-website", "url": "lessons/what-is-a-website.html" },
+      { "id": "37", "title": "Introduction to HTML", "slug": "introduction-to-html", "url": "lessons/introduction-to-html.html" },
+      { "id": "38", "title": "Adding CSS for Design", "slug": "adding-css-for-design", "url": "lessons/adding-css-for-design.html" },
+      { "id": "39", "title": "Introduction to JavaScript", "slug": "introduction-to-javascript", "url": "lessons/introduction-to-javascript.html" },
+      { "id": "40", "title": "Building a Simple Web Page", "slug": "building-a-simple-web-page", "url": "lessons/building-a-simple-web-page.html" }
+    ]
   }
 ]
