@@ -1,14 +1,249 @@
-{
-  "lessons": [
-    {
-      "id": "meaning-of-ict",
-      "title": "Meaning of ICT",
-      "content": "ICT stands for Information and Communication Technology. It refers to all technologies used to handle telecommunications, broadcast media, intelligent building management systems, and network-based control and monitoring functions."
-    },
-    {
-      "id": "collecting-data",
-      "title": "Collecting and Organizing Data",
-      "content": "Data collection is the process of gathering and measuring information. In schools, data can include attendance, scores, and names. Organizing data means putting it into tables or charts to make it easy to read."
-    }
-  ]
-}
+[
+  {
+    "id": "1",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Meaning of ICT",
+    "content": "<<< Paste full lesson note for this topic here >>>"
+  },
+  {
+    "id": "2",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Importance of ICT in Everyday Life",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "3",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Examples of ICT Tools",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "4",
+    "module": "Module 1: Introduction to ICT",
+    "title": "ICT in Education, Health, and Business",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "5",
+    "module": "Module 1: Introduction to ICT",
+    "title": "Care and Handling of ICT Tools",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "6",
+    "module": "Module 2: Computer Hardware",
+    "title": "Meaning of Hardware",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "7",
+    "module": "Module 2: Computer Hardware",
+    "title": "Types of Computer Hardware",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "8",
+    "module": "Module 2: Computer Hardware",
+    "title": "Input Devices and Their Functions",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "9",
+    "module": "Module 2: Computer Hardware",
+    "title": "Output Devices and Their Functions",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "10",
+    "module": "Module 2: Computer Hardware",
+    "title": "Storage Devices",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "11",
+    "module": "Module 3: Computer Software",
+    "title": "Meaning of Software",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "12",
+    "module": "Module 3: Computer Software",
+    "title": "Types of Software",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "13",
+    "module": "Module 3: Computer Software",
+    "title": "System Software and Its Functions",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "14",
+    "module": "Module 3: Computer Software",
+    "title": "Application Software Examples",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "15",
+    "module": "Module 3: Computer Software",
+    "title": "Importance of Software Updates",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "16",
+    "module": "Module 4: Using the Computer",
+    "title": "Booting and Shutting Down a Computer",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "17",
+    "module": "Module 4: Using the Computer",
+    "title": "Desktop and Icons",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "18",
+    "module": "Module 4: Using the Computer",
+    "title": "File and Folder Management",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "19",
+    "module": "Module 4: Using the Computer",
+    "title": "Using the Keyboard and Mouse",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "20",
+    "module": "Module 4: Using the Computer",
+    "title": "Typing Practice and Shortcuts",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "21",
+    "module": "Module 5: Internet and Email",
+    "title": "Meaning of Internet",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "22",
+    "module": "Module 5: Internet and Email",
+    "title": "Uses of the Internet",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "23",
+    "module": "Module 5: Internet and Email",
+    "title": "Meaning of Email",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "24",
+    "module": "Module 5: Internet and Email",
+    "title": "Sending and Receiving Emails",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "25",
+    "module": "Module 5: Internet and Email",
+    "title": "Online Safety and Etiquette",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "26",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Meaning of Data and Information",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "27",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Sources of Data",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "28",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Organizing Data in Tables",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "29",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Introduction to Charts and Graphs",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "30",
+    "module": "Module 6: Data Analysis Basics",
+    "title": "Uses of Data in Daily Life",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "31",
+    "module": "Module 7: Artificial Intelligence Basics",
+    "title": "Meaning of Artificial Intelligence",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "32",
+    "module": "Module 7: Artificial Intelligence Basics",
+    "title": "Examples of AI Tools",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "33",
+    "module": "Module 7: Artificial Intelligence Basics",
+    "title": "How AI Helps in Daily Life",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "34",
+    "module": "Module 7: Artificial Intelligence Basics",
+    "title": "AI in Education and Learning",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "35",
+    "module": "Module 7: Artificial Intelligence Basics",
+    "title": "Safety and Ethics in AI",
+    "content": "<<< Paste note here >>>"
+  },
+
+  {
+    "id": "36",
+    "module": "Module 8: Web Development Basics",
+    "title": "Introduction to Web Development",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "37",
+    "module": "Module 8: Web Development Basics",
+    "title": "Meaning of HTML",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "38",
+    "module": "Module 8: Web Development Basics",
+    "title": "Introduction to CSS",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "39",
+    "module": "Module 8: Web Development Basics",
+    "title": "Basics of JavaScript",
+    "content": "<<< Paste note here >>>"
+  },
+  {
+    "id": "40",
+    "module": "Module 8: Web Development Basics",
+    "title": "Simple Web Design Project",
+    "content": "<<< Paste note here >>>"
+  }
+]
