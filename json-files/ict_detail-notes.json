@@ -3,247 +3,240 @@
     "id": "1",
     "module": "Module 1: Introduction to ICT",
     "title": "Meaning of ICT",
-    "content": ""
+    "content": "ICT stands for Information and Communication Technology. It refers to the combination of technologies used to create, store, exchange and use information in various forms — text, audio, images, and video. ICT covers computers, software, networks, the internet, mobile devices and related services that make it possible to communicate and process data.\n\nWhy ICT matters:\n• Communication: Email, instant messaging and video calls let people connect across distances instantly.\n• Information access: With the internet you can search for facts, news, educational material and tutorials.\n• Automation: ICT automates repetitive tasks — for example, calculators, spreadsheets and scheduling tools.\n\nSimple example:\n• A student uses a web search to research a school project, types notes in a word processor, and shares the file by email. This process uses several ICT components: the computer, software (browser and word processor), and the internet.\n\nQuick exercise:\n1. List three ICT tools you used today.\n2. Describe one way ICT made a task faster or easier for you.\n\nTip for teachers: Use a short class discussion to collect local examples of ICT in homes, schools and businesses to ground the concept."
   },
   {
     "id": "2",
     "module": "Module 1: Introduction to ICT",
     "title": "Examples of ICT Tools",
-    "content": ""
+    "content": "ICT tools are hardware, software and services that enable users to create, manage and share information. Examples include:\n\nHardware:\n• Computers (desktops, laptops)\n• Tablets and smartphones\n• Printers and scanners\n• Network equipment (routers, modems)\n\nSoftware and services:\n• Web browsers (Chrome, Firefox)\n• Email services (Gmail, Outlook)\n• Office suites (Microsoft Office, Google Workspace)\n• Learning platforms (Moodle, Google Classroom)\n\nMultimedia tools:\n• Image editors (Paint, Photoshop)\n• Video players and editors (VLC, Clipchamp)\n\nExample scenario:\nA small business uses a laptop (hardware), accounting software (software) and an internet connection to send invoices by email (service). Together these tools enable faster, accurate billing.\n\nActivity:\nAsk pupils to name one ICT tool they use for learning, and describe its purpose. For younger learners, provide picture cards (computer, smartphone, printer) and have them match labels."
   },
   {
     "id": "3",
     "module": "Module 1: Introduction to ICT",
     "title": "Uses of ICT in Everyday Life",
-    "content": ""
+    "content": "ICT impacts many aspects of daily life. Important uses include:\n\nEducation:\n• Online lessons, digital textbooks and quizzes\n• Collaboration: shared documents and video meetings\n\nCommunication:\n• Messaging apps, emails, and social media keep people connected\n\nWork and business:\n• Remote work tools, online banking, e-commerce and inventory systems\n\nHealth and public services:\n• Electronic health records, telemedicine and appointment systems\n\nEntertainment and creativity:\n• Streaming music and videos, digital art and gaming\n\nPractical examples:\n• Parents pay bills online using a smartphone app.\n• Students submit homework through a learning platform.\n\nClass activity:\nSplit the class into groups. Give each group a daily life area (home, school, shop, hospital) and ask them to list 5 ICT uses in that area. Present findings to class."
   },
   {
     "id": "4",
     "module": "Module 1: Introduction to ICT",
     "title": "Benefits and Importance of ICT",
-    "content": ""
+    "content": "ICT brings many benefits to individuals and society:\n\nSpeed and efficiency:\n• Tasks like calculation, organization and communication are faster.\n\nAccess to information and education:\n• Online resources make learning available beyond the classroom.\n\nImproved communication:\n• People collaborate quickly across distances.\n\nEconomic growth and job creation:\n• ICT creates new types of jobs and improves business productivity.\n\nInclusion and accessibility:\n• Assistive technologies (screen readers, large text) help learners with disabilities.\n\nExample benefit: During a school closure, teachers can deliver lessons online so learning continues.\n\nClass task:\nAsk learners to write a short paragraph describing one major benefit of ICT in their lives, with a real example (e.g., communicating with relatives, researching homework)."
   },
   {
     "id": "5",
     "module": "Module 1: Introduction to ICT",
     "title": "ICT Devices Around Us",
-    "content": ""
+    "content": "ICT devices are tools we commonly see and use. Understanding them helps learners become comfortable using technology.\n\nCommon devices:\n• Desktop computer: powerful, used for school labs and offices.\n• Laptop: portable computer used in classrooms and at home.\n• Tablet and smartphone: touch-screen devices for browsing, apps and communication.\n• Printer: creates paper copies of digital documents.\n• Scanner: turns paper documents into digital images.\n\nHow devices connect:\n• Devices often connect to the internet via Wi-Fi or mobile data.\n• Routers and modems are the home equipment that bring internet access.\n\nPractical activity:\nLabel pictures of devices in class and ask students to state one use for each device. For older students, discuss device advantages and limitations (battery life, processing power)."
   },
-
   {
     "id": "6",
     "module": "Module 2: Computer System and Its Parts",
     "title": "Definition of a Computer",
-    "content": ""
+    "content": "A computer is an electronic device that processes data to produce useful information. It takes input, processes it according to instructions (software) and produces output.\n\nKey idea: Input → Process → Output\n\nExamples:\n• A calculator accepts numbers (input), computes results (process) and shows the answer (output).\n• A word processor takes typed characters, applies user commands (process), and displays a formatted document (output).\n\nReal-world analogy:\nThink of a computer as a kitchen: ingredients (input) are combined using recipes (software), and the cooked meal is the output.\n\nClass activity:\nHave pupils list examples of inputs, processes and outputs for a smartphone, a desktop PC and an ATM."
   },
   {
     "id": "7",
     "module": "Module 2: Computer System and Its Parts",
     "title": "Parts of a Computer: Hardware and Software",
-    "content": ""
+    "content": "Computers have two main parts: hardware (physical components) and software (programs and data).\n\nHardware examples:\n• CPU (Central Processing Unit): the 'brain' that executes instructions.\n• RAM (Memory): temporary workspace for running programs.\n• Hard drive / SSD: long-term storage for files.\n• Motherboard: connects components.\n• Monitor, keyboard, mouse: input/output devices.\n\nSoftware examples:\n• Operating system (Windows, macOS, Linux): manages hardware and provides user interface.\n• Applications (word processors, browsers): perform specific tasks.\n\nSimple experiment (classroom):\nOpen Task Manager (or Activity Monitor) and show how running programs use memory and CPU. Discuss what happens when many programs run at once (computer slows down)."
   },
   {
     "id": "8",
     "module": "Module 2: Computer System and Its Parts",
     "title": "Input, Output and Storage Devices",
-    "content": ""
+    "content": "Devices are classified by their role in a computer system:\n\nInput devices (send data to the computer):\n• Keyboard, mouse, scanner, microphone, camera\n\nOutput devices (receive data from the computer):\n• Monitor, printer, speakers\n\nStorage devices (store data):\n• Hard disk drive (HDD), solid-state drive (SSD), USB flash drives, memory cards\n\nExample use-case:\n• A teacher scans a worksheet (input), saves it to a USB drive (storage), then prints copies (output).\n\nClass activity:\nShow several devices and ask students to identify whether each is input, output or storage and why."
   },
   {
     "id": "9",
     "module": "Module 2: Computer System and Its Parts",
     "title": "How to Start and Shut Down a Computer",
-    "content": ""
+    "content": "Properly starting and shutting down computers helps protect data and hardware.\n\nStarting a computer:\n1. Ensure power cable is connected and switch is ON.\n2. Press the power button on the computer (or laptop).\n3. Wait for the operating system to load and display the desktop.\n\nShutting down safely:\n• Use the operating system 'Shut down' or 'Restart' option — do not force power off unless necessary.\n• Save all open work before shutting down.\n\nWhy it matters:\n• Safe shutdown ensures files are saved and prevents data corruption.\n• Sudden power loss can damage the operating system files.\n\nPractical class task:\nDemonstrate the shutdown process step-by-step. For younger students, make a poster showing the steps to start and shut down."
   },
   {
     "id": "10",
     "module": "Module 2: Computer System and Its Parts",
     "title": "Care and Maintenance of Computer",
-    "content": ""
+    "content": "Good care extends a computer's life and keeps it secure.\n\nBasic maintenance tips:\n• Keep the computer clean — dust can block vents and overheat components.\n• Update software regularly (operating system and antivirus) to fix bugs and security issues.\n• Back up important files (external drive or cloud) to prevent data loss.\n• Avoid eating or drinking near the computer to prevent spills.\n\nSecurity and health:\n• Use antivirus and strong passwords.\n• Place monitor at eye level and maintain good posture to prevent strain.\n\nClass practical:\nShow how to clean a keyboard safely (turn off computer, use compressed air) and explain software update prompts."
   },
-
   {
     "id": "11",
     "module": "Module 3: Basic Computer Operations",
     "title": "Using the Mouse and Keyboard",
-    "content": ""
+    "content": "The mouse and keyboard are primary input devices.\n\nMouse basics:\n• Left-click: select or open items.\n• Double-click: open files or programs.\n• Right-click: show context menu with options.\n• Drag and drop: move files or objects on screen.\n\nKeyboard basics:\n• Typing letters, numbers and punctuation.\n• Special keys: Enter, Backspace, Shift (for uppercase), Ctrl (for shortcuts).\n\nUseful shortcuts:\n• Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+S (Save), Ctrl+Z (Undo)\n\nPractice exercises:\n1. Open Notepad/Word and type a short paragraph.\n2. Use copy (Ctrl+C) and paste (Ctrl+V) to duplicate text.\n3. Practice selecting text by clicking and dragging with the mouse."
   },
   {
     "id": "12",
     "module": "Module 3: Basic Computer Operations",
     "title": "Understanding the Desktop and Icons",
-    "content": ""
+    "content": "The desktop is the main screen area when the computer starts. Icons are small pictures that represent files, folders or programs.\n\nCommon desktop elements:\n• Recycle Bin / Trash: holds deleted files until you empty it.\n• Taskbar / Dock: quick access to programs and system notifications.\n• Shortcuts: icons that link to programs or files.\n\nHow to organize:\n• Create folders to group similar files (e.g., Projects, Pictures).\n• Rename icons by right-clicking and choosing 'Rename'.\n\nClass activity:\nAsk students to create a folder named 'Computer Practice' and move a sample file into it. Teach how to restore a file from Recycle Bin if deleted."
   },
   {
     "id": "13",
     "module": "Module 3: Basic Computer Operations",
     "title": "Creating, Saving and Opening Files",
-    "content": ""
+    "content": "Working with files is a core computer skill.\n\nCreating a file:\n• Open an application (e.g., Notepad, Word), type content and choose File → Save as.\n\nSaving rules:\n• Choose a meaningful filename and a folder where you can find it later.\n• Save frequently (Ctrl+S) to avoid losing work.\n\nOpening files:\n• Double-click a file in File Explorer (Windows) or Finder (macOS) to open it in the associated program.\n\nPractical task:\nCreate a text file named 'MyNotes.txt' and write three things you learned today. Save it to a folder called 'ICTWork'. Then close and re-open it."
   },
   {
     "id": "14",
     "module": "Module 3: Basic Computer Operations",
     "title": "Using Simple Programs (Paint, Notepad)",
-    "content": ""
+    "content": "Beginner-friendly applications:\n\nNotepad / Text Editor:\n• Simple text editing: type, save and open plain text files.\n• Useful for notes and basic coding practice.\n\nPaint / Drawing App:\n• Basic drawing tools: pencil, brush, shapes and fill.\n• Good for learning about pixels and simple graphic creation.\n\nClass activity idea:\n• Notepad exercise: create a short poem and save it.\n• Paint exercise: draw a house using shapes, then save the image as 'house.png'.\n\nLearning goal:\nThese simple programs teach users how to use tools, menus and the save/open workflow before moving to more advanced software."
   },
   {
     "id": "15",
     "module": "Module 3: Basic Computer Operations",
     "title": "Shutting Down Properly",
-    "content": ""
+    "content": "Shutting down properly prevents data loss and keeps the computer healthy.\n\nSteps to shut down (Windows):\n1. Save all files (Ctrl+S) and close programs.\n2. Click Start → Power → Shut down.\n\nSteps to shut down (macOS):\n1. Save your work and close applications.\n2. Click Apple menu → Shut Down.\n\nWhen to restart vs. shut down:\n• Restart is useful after system updates or when the computer runs slowly.\n• Shut down turns off power completely.\n\nClass checklist:\nMake a simple checklist poster showing 'Save → Close → Shut down' and have pupils follow it when finishing computer time."
   },
-
   {
     "id": "16",
     "module": "Module 4: The Internet and Its Uses",
     "title": "What is the Internet?",
-    "content": ""
+    "content": "The internet is a global network of connected computers and devices that share information. It enables websites, email, streaming, online learning and many services.\n\nImportant points:\n• The internet is not a single place — it’s a system of networks communicating using common rules (protocols).\n• Web pages are stored on servers and accessed using web browsers.\n\nSimple analogy:\nThink of the internet as a postal system where servers are post offices, and data travels as packets between computers.\n\nActivity:\nHave students list three things they do online and discuss how each uses the internet (search, video call, game)."
   },
   {
     "id": "17",
     "module": "Module 4: The Internet and Its Uses",
     "title": "Common Internet Terms (Web, Browser, Website)",
-    "content": ""
+    "content": "Key terms to know:\n\nWeb/World Wide Web:\n• A system of interlinked web pages accessed via the internet.\n\nBrowser:\n• Software used to view web pages (Chrome, Firefox, Edge, Safari).\n\nWebsite:\n• A collection of related web pages, often belonging to a person, school or company.\n\nURL (Uniform Resource Locator):\n• The web address of a page (e.g., https://example.com).\n\nPractical demo:\nOpen a browser and visit a safe educational website. Show how to read the URL and use the back/forward buttons."
   },
   {
     "id": "18",
     "module": "Module 4: The Internet and Its Uses",
     "title": "Uses of the Internet",
-    "content": ""
+    "content": "The internet has many uses across life and learning:\n\nEducation:\n• Online courses, research, interactive learning tools\n\nCommunication:\n• Email, messaging, video calls\n\nEntertainment:\n• Streaming music, videos and games\n\nBusiness and shopping:\n• Online stores, banking and digital payments\n\nInformation and services:\n• Weather forecasts, maps, news and government services\n\nClass brainstorm:\nAsk pupils how the internet helps in schoolwork and list safe, helpful websites for research."
   },
   {
     "id": "19",
     "module": "Module 4: The Internet and Its Uses",
     "title": "How to Browse Safely",
-    "content": ""
+    "content": "Internet safety is essential.\n\nBasic safety rules:\n• Do not share personal information (address, phone, passwords).\n• Use strong, unique passwords and never share them.\n• Be careful with links — avoid clicking suspicious messages.\n• Only download files from trusted sites.\n\nPrivacy and respectful behaviour:\n• Think before posting — your digital footprint lasts.\n• Be kind online and report cyberbullying to a trusted adult.\n\nPractical classroom activity:\nShow examples of strong vs weak passwords and let students practice creating and testing password strength. Discuss phishing examples and how to identify them."
   },
   {
     "id": "20",
     "module": "Module 4: The Internet and Its Uses",
     "title": "Email and Social Media",
-    "content": ""
+    "content": "Email basics:\n• Email is a digital message sent via an email service (Gmail, Outlook).\n• Compose, attach files, send, reply and forward are core actions.\n\nSocial media:\n• Platforms like Facebook, Instagram and TikTok let users share posts, photos and videos.\n• Social media can be useful for learning but requires safe and responsible use.\n\nEtiquette and safety:\n• Use polite language and verify facts before sharing.\n• Adjust privacy settings and never accept strangers' friend requests.\n\nPractical exercise:\nCreate a mock email in class to send homework to a teacher (use an example address). Discuss subject lines, greetings and attachments."
   },
-
   {
     "id": "21",
     "module": "Module 5: Software Applications",
     "title": "Meaning and Types of Software",
-    "content": ""
+    "content": "Software is a collection of instructions that tells hardware what to do. There are two main types:\n\nSystem software:\n• The operating system (Windows, macOS, Linux) which manages hardware and provides basic services.\n\nApplication software:\n• Programs for specific tasks (word processing, spreadsheets, web browsers, games).\n\nUtility software:\n• Tools for maintenance (antivirus, disk cleanup).\n\nExample classification:\n• Microsoft Word — application software for documents.\n• Windows Defender — utility software for security.\n\nClass activity:\nList installed software on a classroom computer and classify each item as system, application or utility."
   },
   {
     "id": "22",
     "module": "Module 5: Software Applications",
     "title": "Word Processing Basics (MS Word, Google Docs)",
-    "content": ""
+    "content": "Word processors help create and format text documents.\n\nCommon tasks:\n• Typing, changing font size and style, bold/italic/underline\n• Paragraph alignment, line spacing and lists (bulleted/numbered)\n• Inserting images, headers, footers and page numbers\n\nExample activity:\nCreate a one-page letter with a title, two short paragraphs and a picture. Save the file as 'MyLetter.docx' or in Google Docs.\n\nTips:\n• Use spell-check and save often.\n• Use headings for better structure and readability."
   },
   {
     "id": "23",
     "module": "Module 5: Software Applications",
     "title": "Spreadsheet Basics (MS Excel, Google Sheets)",
-    "content": ""
+    "content": "Spreadsheets store data in tables of rows and columns and perform calculations.\n\nKey concepts:\n• Cells: individual boxes (A1, B2)\n• Formulas: =SUM(A1:A5), =A1*B1\n• Functions: SUM, AVERAGE, MIN, MAX\n\nSimple example:\nCreate a table of student scores in three subjects and use SUM and AVERAGE to calculate totals and class average.\n\nHands-on task:\nMake a spreadsheet with items and prices, then calculate total cost using a formula."
   },
   {
     "id": "24",
     "module": "Module 5: Software Applications",
     "title": "Presentation Basics (MS PowerPoint, Slides)",
-    "content": ""
+    "content": "Presentation software helps create slide shows for teaching and talks.\n\nCore tasks:\n• Add slides, choose layouts and insert text and images.\n• Use simple transitions and animations carefully.\n• Present mode displays slides full screen.\n\nActivity:\nCreate a 3-slide presentation about 'My Favorite Animal' with a title slide, one facts slide and one image slide.\n\nPresentation tips:\n• Use clear fonts, short bullet points and legible colors.\n• Practice speaking while advancing slides smoothly."
   },
   {
     "id": "25",
     "module": "Module 5: Software Applications",
     "title": "Practical Project: Class Document and Charts",
-    "content": ""
+    "content": "A practical project combines word processing and spreadsheets:\n\nProject idea:\n• Collect class survey data (e.g., favourite fruits).\n• Enter responses into a spreadsheet and create a chart.\n• Write a short report in a word processor including the chart as an image.\n\nSteps:\n1. Design a simple survey and collect responses from classmates.\n2. Input data into a spreadsheet and use COUNT or SUM functions.\n3. Create a bar or pie chart and copy it into a word document.\n4. Write a brief conclusion describing results.\n\nLearning outcome:\nStudents practise data entry, simple analysis and presentation skills."
   },
-
   {
     "id": "26",
     "module": "Module 6: Data Analysis Basics",
     "title": "Meaning of Data and Data Analysis",
-    "content": ""
+    "content": "Data is raw information — numbers, text, dates or observations. Data analysis is the process of cleaning, organizing and interpreting data to find useful insights.\n\nSteps in simple data analysis:\n1. Collect data (survey, measurement).\n2. Organize data (tables, spreadsheets).\n3. Analyze (calculate totals, averages, find patterns).\n4. Visualize results (charts) and draw conclusions.\n\nExample:\nA teacher records the number of books read each month by students. By analyzing totals and averages, the teacher identifies reading trends and recognises top readers.\n\nClass activity:\nCollect a short dataset (e.g., number of fruits each student ate today) and compute the average and a simple bar chart."
   },
   {
     "id": "27",
     "module": "Module 6: Data Analysis Basics",
     "title": "Types of Data (Text, Number, Date)",
-    "content": ""
+    "content": "Data types affect how we analyze information.\n\nCommon types:\n• Text (strings): names, descriptions\n• Number (numeric): counts, measurements\n• Date/time: birthdays, times\n\nWhy types matter:\n• Numbers can be summed or averaged; text cannot.\n• Dates allow sorting by time and calculating durations.\n\nPractical exercise:\nProvide a table with mixed data (name, age, date of birth) and ask students to identify each data type and suggest one analysis for each (e.g., average age)."
   },
   {
     "id": "28",
     "module": "Module 6: Data Analysis Basics",
     "title": "Collecting and Organizing Data",
-    "content": ""
+    "content": "Good data begins with careful collection and clear organization.\n\nCollection methods:\n• Surveys, observations, measurements, and digital logs.\n\nOrganizing data:\n• Use spreadsheets: columns for variables (name, age, score) and rows for records.\n• Keep consistent formats (dates, units).\n\nQuality checks:\n• Remove duplicates and correct obvious errors (e.g., age 200).\n• Use headers to label columns clearly.\n\nClass activity:\nDesign a short survey (favourite fruit, age group), collect responses, and enter them into a spreadsheet. Discuss why clear labels and consistent entries matter."
   },
   {
     "id": "29",
     "module": "Module 6: Data Analysis Basics",
     "title": "Using Spreadsheet for Simple Analysis",
-    "content": ""
+    "content": "Spreadsheets are excellent for basic analysis.\n\nUseful tools and functions:\n• SUM, AVERAGE, COUNT, MIN, MAX\n• Sorting and filtering to view subsets of data\n• Conditional formatting to highlight values (e.g., high scores)\n\nExample exercise:\nCreate a table of test scores and use the AVERAGE function to find class average. Sort the table to show top performers.\n\nStep-by-step:\n1. Enter data in columns.\n2. Use =AVERAGE(B2:B11) to compute average.\n3. Use Sort → Descending to see highest scores first."
   },
   {
     "id": "30",
     "module": "Module 6: Data Analysis Basics",
     "title": "Creating Charts and Interpreting Results",
-    "content": ""
+    "content": "Charts help visualise data and reveal patterns.\n\nCommon chart types:\n• Bar chart: compare categories (e.g., favourite fruits).\n• Pie chart: show percentage parts of a whole.\n• Line chart: show trends over time.\n\nHow to interpret:\n• Look for the highest/lowest bars, the steep parts of a line, and large pie slices.\n• Ask: What story does the chart tell? Are there surprises?\n\nClass project:\nUsing the survey data from Module 5, create a chart and write a short caption describing the main result. Practice removing misleading labels and choosing the correct chart type."
   },
-
   {
     "id": "31",
     "module": "Module 7: Introduction to Coding and AI",
     "title": "What is Coding?",
-    "content": ""
+    "content": "Coding (programming) is writing instructions that a computer can execute. These instructions are written in programming languages such as Scratch, Python or JavaScript.\n\nKey ideas:\n• A program is a sequence of instructions.\n• Debugging is finding and fixing errors.\n• Algorithms are step-by-step procedures to solve a problem.\n\nSimple example (algorithm):\nRecipe for boiling an egg:\n1. Fill pot with water.\n2. Place egg in pot.\n3. Heat until boiling for 7 minutes.\nThis sequence is an algorithm that a human or computer can follow.\n\nLearning activity:\nUse a block-based tool (Scratch) to make a sprite move across the screen using simple commands."
   },
   {
     "id": "32",
     "module": "Module 7: Introduction to Coding and AI",
     "title": "Algorithms and Logical Thinking",
-    "content": ""
+    "content": "Algorithms are precise sets of instructions. Logical thinking helps design algorithms that are correct and efficient.\n\nExamples of algorithmic thinking:\n• Sorting a list of names alphabetically.\n• Following step-by-step instructions to make a sandwich.\n\nBasic constructs in coding:\n• Sequence: steps happen one after another.\n• Selection/Condition: if/else decisions.\n• Loop: repeat actions until a condition is met.\n\nClass exercise:\nWrite a simple algorithm to find the largest of three numbers on paper, then convert it into a Scratch program using decision blocks."
   },
   {
     "id": "33",
     "module": "Module 7: Introduction to Coding and AI",
     "title": "Introduction to Scratch Programming",
-    "content": ""
+    "content": "Scratch is a visual, block-based programming language ideal for beginners.\n\nKey features:\n• Drag-and-drop code blocks that snap together.\n• Sprites (characters) that you can program to move, speak and interact.\n• Sound and drawing capabilities for creative projects.\n\nStarter project:\nCreate a simple animation where a sprite says 'Hello', moves across the screen and plays a sound.\n\nSteps:\n1. Add 'when green flag clicked' block.\n2. Attach 'say Hello for 2 seconds'.\n3. Attach 'move 100 steps' and 'play sound meow'.\n\nActivity:\nAsk students to modify the project to change the sprite, add another sprite and make them interact using messages."
   },
   {
     "id": "34",
     "module": "Module 7: Introduction to Coding and AI",
     "title": "What is Artificial Intelligence?",
-    "content": ""
+    "content": "Artificial Intelligence (AI) refers to systems that perform tasks normally requiring human intelligence, like recognizing speech, understanding language, or making decisions.\n\nTypes of AI examples:\n• Narrow AI: performs a single task (spam filters, voice assistants).\n• Machine learning: algorithms that learn patterns from data (e.g., recognizing images).\n\nEveryday examples:\n• Voice assistants (Siri, Alexa)\n• Recommendation systems (YouTube, Netflix)\n\nClass discussion:\nTalk about how AI is used in daily life and discuss benefits and concerns (privacy, fairness). Introduce the idea that AI learns from data — good data helps good results."
   },
   {
     "id": "35",
     "module": "Module 7: Introduction to Coding and AI",
     "title": "How AI Helps in Daily Life",
-    "content": ""
+    "content": "AI improves many services we use:\n\nLearning and education:\n• Adaptive learning apps recommend exercises based on performance.\n\nHealth:\n• AI helps in diagnosing conditions from images and managing appointments.\n\nSafety and convenience:\n• Spam detection in email and fraud detection in banking.\n\nEthical considerations:\n• AI can reflect bias in training data; privacy must be protected.\n\nClass activity:\nAsk students to identify one AI example they use and explain how it helps them. Then discuss one potential downside and how people try to reduce it."
   },
-
   {
     "id": "36",
     "module": "Module 8: Web Development Basics",
     "title": "What is a Website?",
-    "content": ""
+    "content": "A website is a collection of web pages served by a web server and accessed via a browser. Websites can be informational (news, blogs), interactive (forms, games), or transactional (online shops).\n\nBasic components:\n• HTML: structure and content.\n• CSS: styling and layout.\n• JavaScript: interactivity and behaviour.\n\nExample structure:\n• Home page (index.html)\n• About page (about.html)\n• Contact form that sends messages to a server\n\nClass project idea:\nPlan a simple website for your classroom: list pages needed (home, about, contact) and sketch a layout on paper."
   },
   {
     "id": "37",
     "module": "Module 8: Web Development Basics",
     "title": "Introduction to HTML",
-    "content": ""
+    "content": "HTML (HyperText Markup Language) gives structure to web pages using tags.\n\nBasic tags:\n• <html>, <head>, <body>\n• <h1> to <h6> for headings\n• <p> for paragraphs, <a> for links, <img> for images\n\nSimple example:\n<html>\n  <body>\n    <h1>My First Page</h1>\n    <p>Hello, world!</p>\n  </body>\n</html>\n\nClass exercise:\nCreate a simple HTML file with a title, one heading and a paragraph. Open it in a browser to view the result."
   },
   {
     "id": "38",
     "module": "Module 8: Web Development Basics",
     "title": "Adding CSS for Design",
-    "content": ""
+    "content": "CSS (Cascading Style Sheets) controls the visual style of HTML elements.\n\nBasic CSS examples:\n• color, background-color, font-size\n• margin, padding, border-radius\n\nExample:\n<style>\n  body { font-family: Arial; }\n  h1 { color: #333; }\n</style>\n\nPractical task:\nStyle the HTML page from the previous lesson: change font, center the heading and add a background color. Use an external CSS file or a <style> block in the head."
   },
   {
     "id": "39",
     "module": "Module 8: Web Development Basics",
     "title": "Introduction to JavaScript",
-    "content": ""
+    "content": "JavaScript adds interactivity to web pages.\n\nExamples of interactivity:\n• Responding to button clicks\n• Showing/hiding parts of the page\n• Simple form validation\n\nExample script:\n<script>\n  function greet() { alert('Hello!'); }\n</script>\n<button onclick=\"greet()\">Say Hello</button>\n\nActivity:\nAdd a button to your HTML page that, when clicked, changes the page heading text using JavaScript."
   },
   {
     "id": "40",
     "module": "Module 8: Web Development Basics",
     "title": "Building a Simple Web Page",
-    "content": ""
+    "content": "Combine HTML, CSS and JavaScript to build a complete page.\n\nProject outline:\n1. Create index.html with page structure and content.\n2. Add styles in styles.css to make the page look nice.\n3. Add script.js to handle a simple button click or form event.\n\nExample mini-project:\n• A 'My Profile' page with a photo, a short bio and a 'Change color' button that toggles themes.\n\nSteps for students:\n1. Create the HTML content with <img>, <h1> and <p>.\n2. Add CSS to center content and set a color palette.\n3. Add JavaScript to change the background color on button click.\n\nLearning outcome:\nStudents learn how the three web technologies work together to produce interactive, styled web pages."
   }
 ]
