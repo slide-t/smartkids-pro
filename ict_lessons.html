@@ -14,10 +14,45 @@
       margin: auto;
     }
 
-    h1 {
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 25px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      color: #1e3a8a;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .home-btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background: #3730a3;
+      transform: scale(1.05);
+    }
+
+    h2 {
       text-align: center;
-      margin-bottom: 30px;
-      color: #222;
+      margin-bottom: 25px;
     }
 
     .accordion {
@@ -67,7 +102,7 @@
 
     .accordion.active .icon {
       transform: rotate(45deg);
-      color: #1e3a8a; /* Indigo-900 */
+      color: #1e3a8a;
     }
 
     .subtopic-btn {
@@ -94,7 +129,11 @@
   </style>
 </head>
 <body>
-  <h1>📘 ICT Lessons</h1>
+  <header>
+    <h1>📘 ICT Lessons</h1>
+    <button class="home-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+  </header>
+
   <div id="accordionContainer">Loading lessons...</div>
 
   <script>
@@ -115,7 +154,7 @@
             </div>
             <div class="accordion-content">
               ${module.subtopics.map(sub =>
-                `<button class="subtopic-btn" onclick="openLesson('${sub.id}')">${sub.title}</button>`
+                `<button class="subtopic-btn" onclick="openLesson('${sub.id}', this)">${sub.title}</button>`
               ).join('')}
             </div>
           `;
@@ -150,7 +189,12 @@
         console.error(err);
       });
 
-    function openLesson(id) {
+    function openLesson(id, btn) {
+      // Collapse all accordions when clicked
+      document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
+      document.querySelectorAll('.icon').forEach(i => i.textContent = '+');
+      document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
+
       window.location.href = `ict_detail-notes.html?id=${id}`;
     }
   </script>
