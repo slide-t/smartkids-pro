@@ -1,20 +1,82 @@
-{
-  "modules": [
-    {
-      "title": "Introduction to ICT",
-      "subtopics": [
-        { "id": "meaning-of-ict", "title": "Meaning of ICT" },
-        { "id": "importance-of-ict", "title": "Importance of ICT in Everyday Life" },
-        { "id": "examples-of-ict-tools", "title": "Examples of ICT Tools" }
-      ]
-    },
-    {
-      "title": "Data Analysis Basics",
-      "subtopics": [
-        { "id": "what-is-data", "title": "What is Data?" },
-        { "id": "collecting-data", "title": "Collecting and Organizing Data" },
-        { "id": "charts-graphs", "title": "Charts, Graphs, and Conclusions" }
-      ]
-    }
-  ]
-}
+[
+  {
+    "title": "Module 1: Introduction to ICT",
+    "subtopics": [
+      { "id": "1", "title": "Meaning of ICT" },
+      { "id": "2", "title": "Examples of ICT Tools" },
+      { "id": "3", "title": "Uses of ICT in Everyday Life" },
+      { "id": "4", "title": "Benefits and Importance of ICT" },
+      { "id": "5", "title": "ICT Devices Around Us" }
+    ]
+  },
+  {
+    "title": "Module 2: Computer System and Its Parts",
+    "subtopics": [
+      { "id": "6", "title": "Definition of a Computer" },
+      { "id": "7", "title": "Parts of a Computer: Hardware and Software" },
+      { "id": "8", "title": "Input, Output and Storage Devices" },
+      { "id": "9", "title": "How to Start and Shut Down a Computer" },
+      { "id": "10", "title": "Care and Maintenance of Computer" }
+    ]
+  },
+  {
+    "title": "Module 3: Basic Computer Operations",
+    "subtopics": [
+      { "id": "11", "title": "Using the Mouse and Keyboard" },
+      { "id": "12", "title": "Understanding the Desktop and Icons" },
+      { "id": "13", "title": "Creating, Saving and Opening Files" },
+      { "id": "14", "title": "Using Simple Programs (Paint, Notepad)" },
+      { "id": "15", "title": "Shutting Down Properly" }
+    ]
+  },
+  {
+    "title": "Module 4: The Internet and Its Uses",
+    "subtopics": [
+      { "id": "16", "title": "What is the Internet?" },
+      { "id": "17", "title": "Common Internet Terms (Web, Browser, Website)" },
+      { "id": "18", "title": "Uses of the Internet" },
+      { "id": "19", "title": "How to Browse Safely" },
+      { "id": "20", "title": "Email and Social Media" }
+    ]
+  },
+  {
+    "title": "Module 5: Software Applications",
+    "subtopics": [
+      { "id": "21", "title": "Meaning and Types of Software" },
+      { "id": "22", "title": "Word Processing Basics (MS Word, Google Docs)" },
+      { "id": "23", "title": "Spreadsheet Basics (MS Excel, Google Sheets)" },
+      { "id": "24", "title": "Presentation Basics (MS PowerPoint, Slides)" },
+      { "id": "25", "title": "Practical Project: Class Document and Charts" }
+    ]
+  },
+  {
+    "title": "Module 6: Data Analysis Basics",
+    "subtopics": [
+      { "id": "26", "title": "Meaning of Data and Data Analysis" },
+      { "id": "27", "title": "Types of Data (Text, Number, Date)" },
+      { "id": "28", "title": "Collecting and Organizing Data" },
+      { "id": "29", "title": "Using Spreadsheet for Simple Analysis" },
+      { "id": "30", "title": "Creating Charts and Interpreting Results" }
+    ]
+  },
+  {
+    "title": "Module 7: Introduction to Coding and AI",
+    "subtopics": [
+      { "id": "31", "title": "What is Coding?" },
+      { "id": "32", "title": "Algorithms and Logical Thinking" },
+      { "id": "33", "title": "Introduction to Scratch Programming" },
+      { "id": "34", "title": "What is Artificial Intelligence?" },
+      { "id": "35", "title": "How AI Helps in Daily Life" }
+    ]
+  },
+  {
+    "title": "Module 8: Web Development Basics",
+    "subtopics": [
+      { "id": "36", "title": "What is a Website?" },
+      { "id": "37", "title": "Introduction to HTML" },
+      { "id": "38", "title": "Adding CSS for Design" },
+      { "id": "39", "title": "Introduction to JavaScript" },
+      { "id": "40", "title": "Building a Simple Web Page" }
+    ]
+  }
+]
