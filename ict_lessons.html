@@ -3,200 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Lessons | SmartKids Learning</title>
+  <title>ICT Lessons | SmartKidsPro</title>
+  <link rel="stylesheet" href="style.css" />
+
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(to right, #f7f9fc, #eef1f7);
-      color: #222;
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
+      background: #f9f9fc;
+      margin: 0;
+      padding: 0;
     }
 
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 25px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    header h1 {
-      color: #1e3a8a;
-      font-size: 1.5rem;
-      margin: 0;
-    }
-
-    .home-btn {
       background: #4f46e5;
       color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .home-btn:hover {
-      background: #3730a3;
-      transform: scale(1.05);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .accordion {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(8px);
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
-    }
-
-    .accordion-header {
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      padding: 16px 20px;
-      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
       font-weight: 600;
-      font-size: 18px;
-      border-bottom: 1px solid #eee;
+      background: rgba(255,255,255,0.15);
+      padding: 6px 14px;
+      border-radius: 8px;
       transition: background 0.3s ease;
     }
 
+    header a:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .accordion {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .accordion-header {
+      background: #f3f4f6;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
     .accordion-header:hover {
-      background: #f5f5f5;
+      background: #e0e7ff;
     }
 
     .accordion-content {
-      display: none;
-      padding: 15px 25px;
-      background: #fafafa;
-      border-top: 1px solid #eee;
-      animation: fadeIn 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: #fff;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
+    .accordion-content ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px 20px 20px;
+    }
+
+    .accordion-content ul li {
+      margin: 8px 0;
+    }
+
+    .accordion-content ul li button {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .accordion-content ul li button:hover {
+      background: #4338ca;
     }
 
     .icon {
-      font-size: 22px;
       transition: transform 0.3s ease;
     }
 
-    .accordion.active .icon {
+    .accordion-header.active .icon {
       transform: rotate(45deg);
-      color: #1e3a8a;
-    }
-
-    .subtopic-btn {
-      display: block;
-      width: 100%;
-      text-align: left;
-      padding: 10px 15px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin: 6px 0;
-      font-size: 15px;
-      color: #333;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .subtopic-btn:hover {
-      background: #eef2ff;
-      border-color: #6366f1;
-      color: #1e3a8a;
-      transform: scale(1.02);
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>📘 ICT Lessons</h1>
-    <button class="home-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <h2>ICT Lessons</h2>
+    <a href="index.html">🏠 Home</a>
   </header>
 
-  <div id="accordionContainer">Loading lessons...</div>
+  <div id="accordion" class="accordion"></div>
 
   <script>
-    const container = document.getElementById('accordionContainer');
+    async function loadLessons() {
+      const res = await fetch("json-files/ict_lessons.json");
+      const lessons = await res.json();
+      const accordion = document.getElementById("accordion");
 
-    fetch('./json-files/ict_lessons.json')
-      .then(res => res.json())
-      .then(data => {
-        container.innerHTML = '';
-        data.modules.forEach(module => {
-          const section = document.createElement('div');
-          section.className = 'accordion';
+      lessons.forEach((lesson, index) => {
+        const item = document.createElement("div");
+        item.classList.add("accordion-item");
 
-          section.innerHTML = `
-            <div class="accordion-header">
-              <span>${module.title}</span>
-              <span class="icon">+</span>
-            </div>
-            <div class="accordion-content">
-              ${module.subtopics.map(sub =>
-                `<button class="subtopic-btn" onclick="openLesson('${sub.id}', this)">${sub.title}</button>`
-              ).join('')}
-            </div>
-          `;
-          container.appendChild(section);
-        });
+        item.innerHTML = `
+          <div class="accordion-header">
+            <span>${lesson.title}</span>
+            <span class="icon">＋</span>
+          </div>
+          <div class="accordion-content">
+            <ul>
+              ${lesson.subtopics.map(
+                (sub) => `<li><button onclick="goToDetail('${sub.id}')">${sub.title}</button></li>`
+              ).join("")}
+            </ul>
+          </div>
+        `;
 
-        // Accordion toggle logic
-        document.querySelectorAll('.accordion-header').forEach(header => {
-          header.addEventListener('click', () => {
-            const parent = header.parentElement;
-            const content = header.nextElementSibling;
-            const icon = header.querySelector('.icon');
-
-            if (content.style.display === 'block') {
-              content.style.display = 'none';
-              icon.textContent = '+';
-              parent.classList.remove('active');
-            } else {
-              document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
-              document.querySelectorAll('.icon').forEach(i => i.textContent = '+');
-              document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
-
-              content.style.display = 'block';
-              icon.textContent = '–';
-              parent.classList.add('active');
-            }
-          });
-        });
-      })
-      .catch(err => {
-        container.innerHTML = '❌ Failed to load lessons.';
-        console.error(err);
+        accordion.appendChild(item);
       });
 
-    function openLesson(id, btn) {
-      // Collapse all accordions when clicked
-      document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
-      document.querySelectorAll('.icon').forEach(i => i.textContent = '+');
-      document.querySelectorAll('.accordion').forEach(a => a.classList.remove('active'));
-
-      window.location.href = `ict_detail-notes.html?id=${id}`;
+      // Accordion logic
+      const headers = document.querySelectorAll(".accordion-header");
+      headers.forEach((header) => {
+        header.addEventListener("click", () => {
+          const active = header.classList.contains("active");
+          document.querySelectorAll(".accordion-header").forEach(h => {
+            h.classList.remove("active");
+            h.nextElementSibling.style.maxHeight = null;
+          });
+          if (!active) {
+            header.classList.add("active");
+            const content = header.nextElementSibling;
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      });
     }
+
+    function goToDetail(id) {
+      window.location.href = `ict_detail-notes.html?topic=${id}`;
+      // Collapse all accordions
+      document.querySelectorAll(".accordion-header").forEach(h => {
+        h.classList.remove("active");
+        h.nextElementSibling.style.maxHeight = null;
+      });
+    }
+
+    loadLessons();
   </script>
 </body>
 </html>
