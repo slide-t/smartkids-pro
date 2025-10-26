@@ -250,64 +250,82 @@
 </div>
 
 <script>
-// ✅ Menu toggle for buttons
-const menuBtn = document.getElementById('menuBtn');
-const headerBtns = document.getElementById('headerBtns');
-
-menuBtn.addEventListener('click', () => {
-  menuBtn.classList.toggle('open');
-  headerBtns.classList.toggle('hidden');
-  menuBtn.innerHTML = menuBtn.classList.contains('open') ? '✖' : '☰';
-});
-
-// ✅ Quiz checking logic
-const checkAnswersBtn = document.getElementById("checkAnswers");
+const contentArea = document.getElementById("lessonContent");
 const quizContainer = document.getElementById("quizContainer");
+const checkAnswersBtn = document.getElementById("checkAnswers");
 const successModal = document.getElementById("successModal");
 const cancelNextBtn = document.getElementById("cancelNextBtn");
 const confirmNextBtn = document.getElementById("confirmNextBtn");
 
-let currentLessonTitle = "";
-let nextLessonLink = "";
+let currentLessonIndex = 0;
+let allLessons = [];
 
-// ✅ Fetch lesson list to identify next lesson
-async function loadNextLesson() {
-  const params = new URLSearchParams(window.location.search);
-  currentLessonTitle = params.get("lesson")?.toLowerCase().trim() || "";
-  
+// ✅ Fetch lessons on page load
+async function loadLessonsList() {
+  const res = await fetch("json-files/ict_lessons.json");
+  const data = await res.json();
+  allLessons = data.flatMap(m => m.subtopics.map(s => s.title));
+}
+
+// ✅ Load content and quiz for a specific lesson index
+async function loadLesson(index) {
   try {
-    const res = await fetch("json-files/ict_lessons.json");
-    const lessons = await res.json();
+    const notesRes = await fetch("json-files/ict_detail-notes.json");
+    const notes = await notesRes.json();
+    const quizzesRes = await fetch("json-files/lesson-quiz.json");
+    const quizzes = await quizzesRes.json();
 
-    // Flatten subtopics into single list with their links
-    const allTopics = lessons.flatMap(t => t.subtopics.map(st => ({
-      title: st.title.toLowerCase().trim(),
-      link: st.link
-    })));
+    const lessonTitle = allLessons[index];
+    const lessonNote = notes.find(n => n.title === lessonTitle);
+    const lessonQuiz = quizzes.find(q => q.title === lessonTitle);
 
-    const currentIndex = allTopics.findIndex(t => t.title === currentLessonTitle);
-    if (currentIndex !== -1 && currentIndex < allTopics.length - 1) {
-      nextLessonLink = allTopics[currentIndex + 1].link;
-    } else {
-      nextLessonLink = "ict_lessons.html"; // fallback: return to lessons index
+    if (!lessonNote) {
+      contentArea.innerHTML = `<h2 class='text-xl font-semibold text-red-600'>Lesson not found!</h2>`;
+      quizContainer.innerHTML = "";
+      return;
     }
+
+    // ✅ Render lesson
+    document.title = lessonTitle + " - SmartKids ICT Lessons";
+    contentArea.innerHTML = `
+      <h2 class="text-2xl font-semibold mb-4 text-indigo-700">${lessonTitle}</h2>
+      <div class="text-gray-800 leading-relaxed">${lessonNote.content}</div>
+    `;
+
+    // ✅ Render quiz
+    if (lessonQuiz && lessonQuiz.questions.length > 0) {
+      quizContainer.innerHTML = lessonQuiz.questions.map((q, i) => `
+        <div class="question mb-4 p-3 border rounded-md bg-gray-50" data-correct="${q.correct}">
+          <p class="font-medium text-gray-800 mb-2">${i + 1}. ${q.question}</p>
+          ${q.options.map(opt => `
+            <label class="block">
+              <input type="radio" name="q${i}" value="${opt}" class="mr-2">${opt}
+            </label>
+          `).join('')}
+          <p class="result text-sm font-semibold mt-1"></p>
+        </div>
+      `).join('');
+    } else {
+      quizContainer.innerHTML = `<p class="text-gray-500 italic">No quiz available for this lesson.</p>`;
+    }
+
+    currentLessonIndex = index;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
   } catch (error) {
-    console.error("Error loading lessons:", error);
-    nextLessonLink = "ict_lessons.html";
+    console.error("Error loading lesson:", error);
   }
 }
 
-loadNextLesson();
-
-// ✅ Handle quiz checking
+// ✅ Check quiz answers
 checkAnswersBtn.addEventListener("click", () => {
   const questions = quizContainer.querySelectorAll(".question");
   let allCorrect = true;
 
-  questions.forEach((question) => {
-    const correctOption = question.getAttribute("data-correct");
-    const selected = question.querySelector("input[type='radio']:checked");
-    const result = question.querySelector(".result");
+  questions.forEach(q => {
+    const correctOption = q.getAttribute("data-correct");
+    const selected = q.querySelector("input[type='radio']:checked");
+    const result = q.querySelector(".result");
 
     if (!selected) {
       result.textContent = "Please select an answer!";
@@ -332,17 +350,37 @@ checkAnswersBtn.addEventListener("click", () => {
   }
 });
 
-// ✅ Modal button actions
+// ✅ Modal controls
 cancelNextBtn.addEventListener("click", () => {
   successModal.classList.add("hidden");
 });
-
 confirmNextBtn.addEventListener("click", () => {
   successModal.classList.add("hidden");
-  window.location.href = nextLessonLink;
+  if (currentLessonIndex < allLessons.length - 1) {
+    loadLesson(currentLessonIndex + 1);
+  } else {
+    alert("🎉 You’ve completed all lessons! Returning to main page.");
+    window.location.href = "ict_lessons.html";
+  }
 });
+
+// ✅ Load initial lesson from URL or first one
+(async () => {
+  await loadLessonsList();
+
+  const params = new URLSearchParams(window.location.search);
+  const lessonTitle = params.get("lesson");
+
+  if (lessonTitle) {
+    const foundIndex = allLessons.findIndex(l => l.toLowerCase() === lessonTitle.toLowerCase());
+    if (foundIndex !== -1) loadLesson(foundIndex);
+    else loadLesson(0);
+  } else {
+    loadLesson(0);
+  }
+})();
 </script>
-  
+ 
   
   
   
