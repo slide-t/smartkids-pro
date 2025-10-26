@@ -65,7 +65,7 @@
       transform: rotate(-45deg) translateY(-8px);
     }
 
-    /* ===== MENU PANEL ===== */
+    /* ===== MENU PANEL ===== *
     .nav-buttons {
       position: absolute;
       top: 60px;
@@ -107,6 +107,55 @@
       from { opacity: 0; transform: translateY(-5px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* ===== MENU PANEL ===== */
+.nav-buttons {
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.3s ease forwards;
+  min-width: 160px; /* 👈 ensures buttons are comfortably wide */
+}
+
+.nav-buttons.show {
+  display: flex;
+}
+
+.nav-buttons button {
+  background: none;
+  border: none;
+  color: #1e3a8a;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  padding: 10px 14px; /* 👈 more breathing space */
+  text-align: left;   /* 👈 keeps labels aligned neatly */
+  width: 100%;        /* 👈 make full-width clickable area */
+  border-radius: 6px; /* 👈 smoother feel */
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-buttons button.active {
+  border-bottom: 2px solid #1e3a8a;
+}
+
+.nav-buttons button:hover {
+  background: rgba(30, 58, 138, 0.08); /* 👈 subtle hover background */
+  color: #312e81;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
     /* ===== DESKTOP NAV ===== */
     @media (min-width: 768px) {
