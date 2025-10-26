@@ -616,8 +616,507 @@
     "question": "Which tool is needed to send an email?",
     "options": ["Computer or phone with Internet", "Ruler", "Cup"],
     "answer": "Computer or phone with Internet"
+  },
+
+
+  {
+    "lessonId": "21",
+    "question": "What is a keyboard used for?",
+    "options": ["Typing letters and numbers", "Watching movies", "Listening to songs"],
+    "answer": "Typing letters and numbers"
+  },
+  {
+    "lessonId": "21",
+    "question": "Which key is used to space words?",
+    "options": ["Space bar", "Enter key", "Shift key"],
+    "answer": "Space bar"
+  },
+  {
+    "lessonId": "21",
+    "question": "The Enter key is used to ____.",
+    "options": ["Move to the next line", "Delete letters", "Type capital letters"],
+    "answer": "Move to the next line"
+  },
+  {
+    "lessonId": "22",
+    "question": "What is a mouse used for?",
+    "options": ["To point and click items on the screen", "To type letters", "To play music"],
+    "answer": "To point and click items on the screen"
+  },
+  {
+    "lessonId": "22",
+    "question": "Which part of the mouse is used to select an item?",
+    "options": ["Left button", "Right button", "Scroll wheel"],
+    "answer": "Left button"
+  },
+  {
+    "lessonId": "22",
+    "question": "The mouse pointer moves when you ____.",
+    "options": ["Move the mouse on a flat surface", "Press the keyboard", "Touch the screen"],
+    "answer": "Move the mouse on a flat surface"
+  },
+  {
+    "lessonId": "23",
+    "question": "What is a desktop?",
+    "options": ["The main screen of the computer", "A table for books", "A folder name"],
+    "answer": "The main screen of the computer"
+  },
+  {
+    "lessonId": "23",
+    "question": "Which of the following can be found on the desktop?",
+    "options": ["Icons and taskbar", "Shoes", "Food items"],
+    "answer": "Icons and taskbar"
+  },
+  {
+    "lessonId": "23",
+    "question": "What appears on the screen after starting a computer?",
+    "options": ["Desktop", "Television", "Blank paper"],
+    "answer": "Desktop"
+  },
+  {
+    "lessonId": "24",
+    "question": "What is an icon?",
+    "options": ["A small picture that represents a program or file", "A long text", "A song name"],
+    "answer": "A small picture that represents a program or file"
+  },
+  {
+    "lessonId": "24",
+    "question": "Which icon represents deleting files?",
+    "options": ["Recycle Bin", "My Computer", "Network"],
+    "answer": "Recycle Bin"
+  },
+  {
+    "lessonId": "24",
+    "question": "The My Computer icon helps us to ____.",
+    "options": ["View files and drives", "Draw pictures", "Listen to music"],
+    "answer": "View files and drives"
+  },
+  {
+    "lessonId": "25",
+    "question": "What is the first step in starting a computer?",
+    "options": ["Press the power button", "Click the mouse", "Type on the keyboard"],
+    "answer": "Press the power button"
+  },
+  {
+    "lessonId": "25",
+    "question": "Why is it important to shut down a computer properly?",
+    "options": ["To avoid damage and save work", "To make it slow", "To delete all files"],
+    "answer": "To avoid damage and save work"
+  },
+  {
+    "lessonId": "25",
+    "question": "Which button is used to shut down the computer?",
+    "options": ["Start menu button", "Space bar", "Caps Lock"],
+    "answer": "Start menu button"
+  },
+
+  {
+    "lessonId": "26",
+    "question": "What is software?",
+    "options": ["Programs that make the computer work", "The body of the computer", "A hardware device"],
+    "answer": "Programs that make the computer work"
+  },
+  {
+    "lessonId": "26",
+    "question": "Which of the following is an example of software?",
+    "options": ["MS Word", "Keyboard", "Mouse"],
+    "answer": "MS Word"
+  },
+  {
+    "lessonId": "26",
+    "question": "Software is also called ____.",
+    "options": ["Programs", "Wires", "Screens"],
+    "answer": "Programs"
+  },
+  {
+    "lessonId": "27",
+    "question": "What is hardware?",
+    "options": ["The physical parts of the computer", "Invisible programs", "Soft materials"],
+    "answer": "The physical parts of the computer"
+  },
+  {
+    "lessonId": "27",
+    "question": "Which of the following is a hardware part?",
+    "options": ["Monitor", "Paint", "MS Word"],
+    "answer": "Monitor"
+  },
+  {
+    "lessonId": "27",
+    "question": "Hardware can be touched and seen.",
+    "options": ["True", "False", "Not sure"],
+    "answer": "True"
+  },
+  {
+    "lessonId": "28",
+    "question": "What is an input device used for?",
+    "options": ["To enter data into the computer", "To display information", "To print paper"],
+    "answer": "To enter data into the computer"
+  },
+  {
+    "lessonId": "28",
+    "question": "Which of these is an output device?",
+    "options": ["Monitor", "Keyboard", "Mouse"],
+    "answer": "Monitor"
+  },
+  {
+    "lessonId": "28",
+    "question": "Which device is used to store data?",
+    "options": ["Flash drive", "Speaker", "Printer"],
+    "answer": "Flash drive"
+  },
+  {
+    "lessonId": "29",
+    "question": "What is the function of a storage device?",
+    "options": ["To save data and files", "To type letters", "To display pictures"],
+    "answer": "To save data and files"
+  },
+  {
+    "lessonId": "29",
+    "question": "Which of the following is a storage device?",
+    "options": ["Hard disk", "Monitor", "Keyboard"],
+    "answer": "Hard disk"
+  },
+  {
+    "lessonId": "29",
+    "question": "Storage devices help us to ____ information.",
+    "options": ["Keep", "Delete", "Hide"],
+    "answer": "Keep"
+  },
+  {
+    "lessonId": "30",
+    "question": "What is an operating system?",
+    "options": ["A program that controls the computer", "A type of keyboard", "A storage device"],
+    "answer": "A program that controls the computer"
+  },
+  {
+    "lessonId": "30",
+    "question": "Which of these is an example of an operating system?",
+    "options": ["Windows", "Mouse", "MS Word"],
+    "answer": "Windows"
+  },
+  {
+    "lessonId": "30",
+    "question": "The operating system helps us to ____.",
+    "options": ["Use and control the computer", "Clean the monitor", "Print letters only"],
+    "answer": "Use and control the computer"
+  },
+
+
+  {
+    "lessonId": "31",
+    "question": "What is the Internet?",
+    "options": ["A network that connects computers worldwide", "A single computer", "A type of cable"],
+    "answer": "A network that connects computers worldwide"
+  },
+  {
+    "lessonId": "31",
+    "question": "The Internet helps people to ____.",
+    "options": ["Communicate and share information", "Sleep well", "Cook food"],
+    "answer": "Communicate and share information"
+  },
+  {
+    "lessonId": "31",
+    "question": "Which of these can you do on the Internet?",
+    "options": ["Send emails", "Wash clothes", "Play football physically"],
+    "answer": "Send emails"
+  },
+  {
+    "lessonId": "31",
+    "question": "What do you need to connect to the Internet?",
+    "options": ["Data connection", "Spoon", "Book"],
+    "answer": "Data connection"
+  },
+  {
+    "lessonId": "31",
+    "question": "The Internet connects people from ____.",
+    "options": ["Different parts of the world", "One classroom only", "A single family"],
+    "answer": "Different parts of the world"
+  },
+
+  {
+    "lessonId": "32",
+    "question": "What is a web browser?",
+    "options": ["A program that helps you visit websites", "A type of computer", "An Internet cable"],
+    "answer": "A program that helps you visit websites"
+  },
+  {
+    "lessonId": "32",
+    "question": "Which of these is a web browser?",
+    "options": ["Google Chrome", "MS Word", "Excel"],
+    "answer": "Google Chrome"
+  },
+  {
+    "lessonId": "32",
+    "question": "A website is a collection of ____.",
+    "options": ["Web pages", "Books", "Songs"],
+    "answer": "Web pages"
+  },
+  {
+    "lessonId": "32",
+    "question": "The short form of 'World Wide Web' is ____.",
+    "options": ["WWW", "WBW", "WWN"],
+    "answer": "WWW"
+  },
+  {
+    "lessonId": "32",
+    "question": "We use browsers to open ____.",
+    "options": ["Websites", "Folders", "Games"],
+    "answer": "Websites"
+  },
+
+  {
+    "lessonId": "33",
+    "question": "Which of these is a use of the Internet?",
+    "options": ["Research and learning", "Sleeping", "Cooking"],
+    "answer": "Research and learning"
+  },
+  {
+    "lessonId": "33",
+    "question": "You can use the Internet to ____.",
+    "options": ["Chat with friends", "Dig the ground", "Cut paper"],
+    "answer": "Chat with friends"
+  },
+  {
+    "lessonId": "33",
+    "question": "Teachers use the Internet to ____.",
+    "options": ["Find information", "Sleep in class", "Eat food"],
+    "answer": "Find information"
+  },
+  {
+    "lessonId": "33",
+    "question": "Businesses use the Internet to ____.",
+    "options": ["Sell products online", "Wash clothes", "Cook rice"],
+    "answer": "Sell products online"
+  },
+  {
+    "lessonId": "33",
+    "question": "Students use the Internet for ____.",
+    "options": ["Learning and assignments", "Playing football only", "Cooking lessons"],
+    "answer": "Learning and assignments"
+  },
+
+  {
+    "lessonId": "34",
+    "question": "Which of the following is safe Internet use?",
+    "options": ["Keeping your password secret", "Sharing your password", "Clicking every link"],
+    "answer": "Keeping your password secret"
+  },
+  {
+    "lessonId": "34",
+    "question": "We should not share ____ online.",
+    "options": ["Personal information", "Homework files", "Public notes"],
+    "answer": "Personal information"
+  },
+  {
+    "lessonId": "34",
+    "question": "When browsing, you should visit ____ websites.",
+    "options": ["Trusted", "Unknown", "Fake"],
+    "answer": "Trusted"
+  },
+  {
+    "lessonId": "34",
+    "question": "One way to stay safe online is ____.",
+    "options": ["Avoid chatting with strangers", "Tell strangers your address", "Click pop-ups often"],
+    "answer": "Avoid chatting with strangers"
+  },
+  {
+    "lessonId": "34",
+    "question": "You should report unsafe websites to ____.",
+    "options": ["An adult or teacher", "A stranger", "A hacker"],
+    "answer": "An adult or teacher"
+  },
+
+  {
+    "lessonId": "35",
+    "question": "Email is used to ____.",
+    "options": ["Send and receive messages", "Cook food", "Print papers"],
+    "answer": "Send and receive messages"
+  },
+  {
+    "lessonId": "35",
+    "question": "Which of these is a social media platform?",
+    "options": ["Facebook", "Notepad", "Paint"],
+    "answer": "Facebook"
+  },
+  {
+    "lessonId": "35",
+    "question": "We use social media to ____.",
+    "options": ["Chat and share pictures", "Sleep", "Cook rice"],
+    "answer": "Chat and share pictures"
+  },
+  {
+    "lessonId": "35",
+    "question": "You can send an email using ____.",
+    "options": ["Gmail", "WordPad", "Excel"],
+    "answer": "Gmail"
+  },
+  {
+    "lessonId": "35",
+    "question": "Which of these should NOT be shared on social media?",
+    "options": ["Home address", "School lessons", "Class projects"],
+    "answer": "Home address"
+  },
+
+
+  {
+    "lessonId": "36",
+    "question": "What is software?",
+    "options": ["Programs that make the computer work", "The physical parts of a computer", "A type of food"],
+    "answer": "Programs that make the computer work"
+  },
+  {
+    "lessonId": "36",
+    "question": "Software helps users to ____.",
+    "options": ["Give instructions to the computer", "Eat food", "Clean the monitor"],
+    "answer": "Give instructions to the computer"
+  },
+  {
+    "lessonId": "36",
+    "question": "Which of these is NOT software?",
+    "options": ["Keyboard", "MS Word", "Paint"],
+    "answer": "Keyboard"
+  },
+  {
+    "lessonId": "36",
+    "question": "Software is divided into ____ types.",
+    "options": ["Two", "Three", "Four"],
+    "answer": "Two"
+  },
+  {
+    "lessonId": "36",
+    "question": "The two main types of software are ____.",
+    "options": ["System and Application Software", "Mouse and Keyboard", "Hardware and Tools"],
+    "answer": "System and Application Software"
+  },
+
+  {
+    "lessonId": "37",
+    "question": "What is a word processor?",
+    "options": ["A program used to type documents", "A game app", "A browser"],
+    "answer": "A program used to type documents"
+  },
+  {
+    "lessonId": "37",
+    "question": "Which of these is an example of a word processor?",
+    "options": ["MS Word", "Excel", "Chrome"],
+    "answer": "MS Word"
+  },
+  {
+    "lessonId": "37",
+    "question": "Word processing is used for ____.",
+    "options": ["Typing letters and reports", "Playing music", "Editing videos"],
+    "answer": "Typing letters and reports"
+  },
+  {
+    "lessonId": "37",
+    "question": "Which key helps you save a document in Word?",
+    "options": ["Ctrl + S", "Ctrl + C", "Ctrl + V"],
+    "answer": "Ctrl + S"
+  },
+  {
+    "lessonId": "37",
+    "question": "You can print your typed document using the ____ menu.",
+    "options": ["File", "Insert", "View"],
+    "answer": "File"
+  },
+
+  {
+    "lessonId": "38",
+    "question": "What is a spreadsheet?",
+    "options": ["A program used for calculations and tables", "A word processing tool", "A photo viewer"],
+    "answer": "A program used for calculations and tables"
+  },
+  {
+    "lessonId": "38",
+    "question": "Which of these is an example of a spreadsheet program?",
+    "options": ["MS Excel", "MS Word", "Paint"],
+    "answer": "MS Excel"
+  },
+  {
+    "lessonId": "38",
+    "question": "In spreadsheets, data is arranged in ____.",
+    "options": ["Rows and columns", "Paragraphs", "Pictures"],
+    "answer": "Rows and columns"
+  },
+  {
+    "lessonId": "38",
+    "question": "A single box in a spreadsheet is called a ____.",
+    "options": ["Cell", "Table", "Row"],
+    "answer": "Cell"
+  },
+  {
+    "lessonId": "38",
+    "question": "We can use spreadsheets to ____.",
+    "options": ["Calculate marks", "Draw pictures", "Write letters"],
+    "answer": "Calculate marks"
+  },
+
+  {
+    "lessonId": "39",
+    "question": "What is a presentation program?",
+    "options": ["Software used to create slides", "Software for typing documents", "A computer game"],
+    "answer": "Software used to create slides"
+  },
+  {
+    "lessonId": "39",
+    "question": "Which of these is a presentation software?",
+    "options": ["MS PowerPoint", "MS Excel", "MS Word"],
+    "answer": "MS PowerPoint"
+  },
+  {
+    "lessonId": "39",
+    "question": "Slides are used to ____.",
+    "options": ["Show information to an audience", "Cook food", "Print documents"],
+    "answer": "Show information to an audience"
+  },
+  {
+    "lessonId": "39",
+    "question": "You can add pictures to your slides using the ____ tab.",
+    "options": ["Insert", "Home", "Design"],
+    "answer": "Insert"
+  },
+  {
+    "lessonId": "39",
+    "question": "A collection of slides in PowerPoint is called a ____.",
+    "options": ["Presentation", "Book", "Table"],
+    "answer": "Presentation"
+  },
+
+  {
+    "lessonId": "40",
+    "question": "What is a project in ICT?",
+    "options": ["A practical task to test your skills", "A computer part", "A type of wire"],
+    "answer": "A practical task to test your skills"
+  },
+  {
+    "lessonId": "40",
+    "question": "Which of these is an example of a class project?",
+    "options": ["Typing a letter", "Eating lunch", "Walking home"],
+    "answer": "Typing a letter"
+  },
+  {
+    "lessonId": "40",
+    "question": "A project on spreadsheet may include ____.",
+    "options": ["Charts and calculations", "Drawing animals", "Printing photos"],
+    "answer": "Charts and calculations"
+  },
+  {
+    "lessonId": "40",
+    "question": "Which of these can help you make a presentation project?",
+    "options": ["PowerPoint", "Paint", "Chrome"],
+    "answer": "PowerPoint"
+  },
+  {
+    "lessonId": "40",
+    "question": "A complete ICT project shows both ____ and ____.",
+    "options": ["Knowledge and creativity", "Games and play", "Food and drink"],
+    "answer": "Knowledge and creativity"
   }
 ]
+  
+  
+  
+  
 
   
   
