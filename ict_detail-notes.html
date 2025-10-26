@@ -1,673 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Lesson Details</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICT Detailed Notes</title>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    margin: 0; padding: 0;
+    background: #f5f7fa;
+    color: #333;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0078d7;
+    color: white;
+    padding: 12px 16px;
+  }
+  header h1 {
+    font-size: 18px;
+    margin: 0;
+  }
+  .menu-toggle {
+    font-size: 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .menu {
+    display: none;
+    background: #005fa3;
+    text-align: right;
+    padding: 10px;
+  }
+  .menu button {
+    display: block;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    text-align: right;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .menu button:hover {
+    background: #004b82;
+  }
 
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 10px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    header h1 {
-      font-size: 18px;
-      margin: 0;
-      color: #1e3a8a;
-    }
-
-    header .nav-buttons button {
-      background: #1e3a8a;
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-left: 5px;
-    }
-
-    #lesson-container {
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    #lesson-title {
-      font-size: 22px;
-      color: #111827;
-      margin-bottom: 10px;
-    }
-
-    #lesson-content {
-      line-height: 1.6;
-      color: #374151;
-    }
-
-    /* Accordion Styling */
-    .accordion {
-      margin-top: 24px;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    .accordion-header {
-      width: 100%;
-      text-align: left;
-      padding: 14px 16px;
-      font-size: 18px;
-      font-weight: 600;
-      background: #f3f4f6;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .accordion-header:hover {
-      background: #e0e7ff;
-    }
-
-    .accordion-header .icon {
-      transition: transform 0.3s ease;
-    }
-
-    .accordion-header.active .icon {
-      transform: rotate(45deg);
-    }
-
-    .accordion-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      padding: 0 16px;
-      background: white;
-    }
-
-    .accordion-body.show {
-      max-height: 1000px;
-      padding: 16px;
-    }
-
-    /* Quiz */
-    .quiz-question {
-      margin-bottom: 20px;
-    }
-
-    .quiz-options label {
-      display: block;
-      padding: 6px 10px;
-      background: #f9fafb;
-      margin: 5px 0;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: 0.2s;
-    }
-
-    .quiz-options input[type="radio"] {
-      margin-right: 8px;
-    }
-
-    .quiz-options label:hover {
-      background: #e0e7ff;
-    }
-
-    .feedback {
-      margin-top: 5px;
-      font-weight: 600;
-    }
-
-    .correct {
-      color: green;
-    }
-
-    .wrong {
-      color: red;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
-      background: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn.hidden {
-      display: none;
-    }
-
-    .btn:hover {
-      background: #312e81;
-    }
-  </style>
-</head>
-
-<body>
-  <header>
-    <h1>ICT Lesson</h1>
-    <div class="nav-buttons">
-      <button onclick="window.location.href='index.html'">Home</button>
-      <button onclick="window.location.href='ict_lessons.html'">Back</button>
-      <button id="refreshBtn">🔄 Refresh</button>
-    </div>
-  </header>
-
-  <main id="lesson-container">
-    <h2 id="lesson-title">Loading lesson...</h2>
-    <article id="lesson-content"></article>
-
-    <div class="accordion">
-      <button id="quizAccordionBtn" class="accordion-header">
-        Lesson Quiz <span class="icon">+</span>
-      </button>
-      <div id="quizAccordionContent" class="accordion-body">
-        <div id="quiz-container"></div>
-        <button id="checkAnswersBtn" class="btn hidden">Check Your Answers</button>
-        <button id="nextLessonBtn" class="btn hidden">Next Lesson →</button>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    // ===== Refresh Button =====
-    document.getElementById("refreshBtn").addEventListener("click", () => {
-      caches.keys().then(names => {
-        for (let name of names) caches.delete(name);
-      });
-      location.reload(true);
-    });
-
-    // ===== Fetch Lesson and Quiz =====
-    const params = new URLSearchParams(window.location.search);
-    const lessonId = params.get("id");
-
-    const lessonTitle = document.getElementById("lesson-title");
-    const lessonContent = document.getElementById("lesson-content");
-    const quizContainer = document.getElementById("quiz-container");
-    const checkBtn = document.getElementById("checkAnswersBtn");
-    const nextBtn = document.getElementById("nextLessonBtn");
-
-    async function loadLesson() {
-      try {
-        const res = await fetch("json-files/ict_detail-notes.json");
-        const data = await res.json();
-        const lesson = data.find(item => item.id == lessonId);
-
-        if (lesson) {
-          lessonTitle.textContent = lesson.title;
-          lessonContent.innerHTML = lesson.content;
-        }
-
-        loadQuiz(lessonId);
-      } catch (err) {
-        lessonContent.textContent = "Failed to load lesson.";
-      }
-    }
-
-    async function loadQuiz(lessonId) {
-      try {
-        const res = await fetch("json-files/lesson-quiz.json");
-        const data = await res.json();
-        const quizzes = data.filter(q => q.lessonId == lessonId);
-
-        if (!quizzes.length) {
-          quizContainer.innerHTML = "<p>No quizzes available for this lesson.</p>";
-          return;
-        }
-
-        quizContainer.innerHTML = quizzes.map((q, index) => `
-          <div class="quiz-question" data-index="${index}">
-            <p><strong>${index + 1}. ${q.question}</strong></p>
-            <div class="quiz-options">
-              ${q.options.map(opt => `
-                <label>
-                  <input type="radio" name="q${index}" value="${opt}" /> ${opt}
-                </label>
-              `).join('')}
-            </div>
-            <div class="feedback" id="feedback${index}"></div>
-          </div>
-        `).join('');
-
-        checkBtn.classList.remove("hidden");
-
-      } catch (err) {
-        quizContainer.textContent = "Failed to load quiz.";
-      }
-    }
-
-    checkBtn.addEventListener("click", () => {
-      const questions = document.querySelectorAll(".quiz-question");
-      let allCorrect = true;
-
-      questions.forEach((q, index) => {
-        const selected = q.querySelector("input[type='radio']:checked");
-        const feedback = document.getElementById(`feedback${index}`);
-        const correct = selected && selected.value === getCorrectAnswer(index);
-
-        if (correct) {
-          feedback.textContent = "✔ Correct!";
-          feedback.className = "feedback correct";
-        } else {
-          feedback.textContent = "✖ Retry";
-          feedback.className = "feedback wrong";
-          allCorrect = false;
-        }
-      });
-
-      if (allCorrect) nextBtn.classList.remove("hidden");
-    });
-
-    function getCorrectAnswer(index) {
-      const correct = JSON.parse(sessionStorage.getItem("lessonQuizCorrectAnswers")) || [];
-      return correct[index];
-    }
-
-    nextBtn.addEventListener("click", () => {
-      const nextId = parseInt(lessonId) + 1;
-      window.location.href = `ict_detail-notes.html?id=${nextId}`;
-    });
-
-    // Accordion toggle
-    const accordionBtn = document.getElementById("quizAccordionBtn");
-    const accordionContent = document.getElementById("quizAccordionContent");
-
-    accordionBtn.addEventListener("click", () => {
-      accordionBtn.classList.toggle("active");
-      accordionContent.classList.toggle("show");
-      accordionBtn.querySelector(".icon").textContent =
-        accordionBtn.classList.contains("active") ? "−" : "+";
-    });
-
-    loadLesson();
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Detail Notes | SmartKidsPro</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9fafc;
-      color: #333;
-    }
-
-    header {
-      background: #4f46e5;
-      color: #fff;
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      background: rgba(255,255,255,0.15);
-      padding: 6px 14px;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    header a:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .content {
-      max-width: 850px;
-      margin: 40px auto 80px; /* Added bottom margin */
-      padding: 20px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .content h2 {
-      color: #4f46e5;
-    }
-  </style>
+  .lesson-container {
+    padding: 20px;
+  }
+  .accordion {
+    background-color: #0078d7;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  .active, .accordion:hover {
+    background-color: #005fa3;
+  }
+  .panel {
+    display: none;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+  .quiz-option {
+    display: block;
+    background: #eaf3ff;
+    border: 1px solid #cbdffd;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 8px 0;
+    cursor: pointer;
+  }
+  .quiz-option.correct {
+    background: #c8f7c5;
+    border-color: #3cb043;
+  }
+  .quiz-option.wrong {
+    background: #ffd4d4;
+    border-color: #e02424;
+  }
+  #checkAnswers, #nextLesson {
+    background: #0078d7;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  #nextLesson {
+    display: none;
+    background: #28a745;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <a href="index.html">🏠 Home</a>
-    <h2>ICT Detail Notes</h2>
-    <a href="ict_lessons.html">↩ Back</a>
-  </header>
 
-  <div class="content" id="content">
-    <p>Loading content...</p>
+<header>
+  <h1>ICT Lesson Details</h1>
+  <div class="menu-toggle" id="menuToggle">☰</div>
+</header>
+<div class="menu" id="menu">
+  <button onclick="location.href='index.html'">🏠 Home</button>
+  <button onclick="history.back()">⬅ Back</button>
+  <button id="nextLesson">➡ Next Lesson</button>
+</div>
+
+<div class="lesson-container">
+  <h2 id="lessonTitle">Lesson Title</h2>
+  <p id="lessonContent">Lesson content will appear here...</p>
+
+  <button class="accordion">Lesson Quiz</button>
+  <div class="panel" id="quizContainer">
+    <div id="quiz"></div>
+    <button id="checkAnswers">Check Your Answers</button>
   </div>
+</div>
 
-  <script>
-    async function loadDetail() {
-      const params = new URLSearchParams(window.location.search);
-      const topicId = params.get("id"); // ✅ fixed parameter
-      try {
-        const res = await fetch("json-files/ict_detail-notes.json");
-        const details = await res.json();
+<script>
+  // MENU TOGGLE
+  const menuToggle = document.getElementById("menuToggle");
+  const menu = document.getElementById("menu");
+  let menuOpen = false;
 
-        const note = details.find(d => d.id === topicId);
-        const container = document.getElementById("content");
+  menuToggle.addEventListener("click", () => {
+    menuOpen = !menuOpen;
+    menu.style.display = menuOpen ? "block" : "none";
+    menuToggle.textContent = menuOpen ? "✖" : "☰";
+  });
 
-        if (note) {
-          container.innerHTML = `
-            <h2>${note.title}</h2>
-            <h4 style="color:#666;">${note.module}</h4>
-            <p style="margin-top:12px; line-height:1.7;">${note.content.replace(/\n/g, "<br>")}</p>
-          `;
-        } else {
-          container.innerHTML = "<p>⚠️ Topic not found.</p>";
+  // ACCORDION
+  const acc = document.querySelector(".accordion");
+  acc.addEventListener("click", function () {
+    this.classList.toggle("active");
+    const panel = this.nextElementSibling;
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  });
+
+  // SAMPLE LESSON QUIZ (Replace with fetch from lesson-quiz.json)
+  const quizData = [
+    {
+      question: "What is the full meaning of ICT?",
+      options: ["Information and Communication Technology", "Internet Computer Technology", "Internal Connection Tool"],
+      answer: 0
+    },
+    {
+      question: "Which device is used to type letters?",
+      options: ["Monitor", "Keyboard", "Speaker"],
+      answer: 1
+    },
+    {
+      question: "Which one is a storage device?",
+      options: ["Mouse", "Flash Drive", "Monitor"],
+      answer: 1
+    },
+    {
+      question: "What part of a computer shows pictures?",
+      options: ["Mouse", "Keyboard", "Monitor"],
+      answer: 2
+    },
+    {
+      question: "Which device helps us listen to sounds?",
+      options: ["Speaker", "CPU", "Mouse"],
+      answer: 0
+    }
+  ];
+
+  const quizContainer = document.getElementById("quiz");
+  const checkBtn = document.getElementById("checkAnswers");
+  const nextLessonBtn = document.getElementById("nextLesson");
+
+  // Generate Quiz
+  quizData.forEach((q, qi) => {
+    const div = document.createElement("div");
+    div.innerHTML = `<p><b>${qi + 1}. ${q.question}</b></p>`;
+    q.options.forEach((opt, oi) => {
+      const btn = document.createElement("button");
+      btn.classList.add("quiz-option");
+      btn.textContent = opt;
+      btn.addEventListener("click", () => {
+        q.selected = oi;
+        [...div.querySelectorAll(".quiz-option")].forEach(o => o.classList.remove("selected"));
+        btn.classList.add("selected");
+      });
+      div.appendChild(btn);
+    });
+    quizContainer.appendChild(div);
+  });
+
+  // Check Answers
+  checkBtn.addEventListener("click", () => {
+    let allCorrect = true;
+    quizData.forEach((q, qi) => {
+      const div = quizContainer.children[qi];
+      [...div.querySelectorAll(".quiz-option")].forEach((btn, oi) => {
+        btn.classList.remove("correct", "wrong");
+        if (oi === q.selected) {
+          if (oi === q.answer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+            allCorrect = false;
+          }
         }
-      } catch (err) {
-        document.getElementById("content").innerHTML =
-          "<p>⚠️ Error loading content. Please check your JSON file path.</p>";
-        console.error("Error:", err);
-      }
-    }
-
-    loadDetail();
-  </script>
-
-  <!-- ✅ Service Worker & Auto Refresh --
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").then(reg => {
-      console.log("✅ Service Worker registered:", reg.scope);
-
-      // Detect new version
-      reg.addEventListener("updatefound", () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener("statechange", () => {
-          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            showUpdateBanner(reg);
-          }
-        });
       });
-
-      createManualCheckButton(reg);
-    }).catch(err => console.error("SW registration failed:", err));
-  });
-}
-
-function showUpdateBanner(reg) {
-  const banner = document.createElement("div");
-  banner.innerHTML = `
-    <div style="
-      position:fixed; bottom:20px; right:20px; z-index:9999;
-      background:rgba(255,255,255,0.95); color:#111;
-      border:1px solid #ccc; border-radius:8px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15);
-      padding:10px 16px; font-family:sans-serif;
-    ">
-      <strong>New version available</strong>
-      <button id="refreshBtn" style="
-        background:#2563eb; color:#fff; border:none;
-        padding:6px 10px; border-radius:6px;
-        margin-left:8px; cursor:pointer;
-      ">Refresh</button>
-    </div>
-  `;
-  document.body.appendChild(banner);
-
-  document.getElementById("refreshBtn").addEventListener("click", () => {
-    reg.waiting.postMessage({ type: "SKIP_WAITING" });
-    reg.waiting.addEventListener("statechange", e => {
-      if (e.target.state === "activated") window.location.reload();
     });
-  });
-}
-
-function createManualCheckButton(reg) {
-  const btn = document.createElement("button");
-  btn.textContent = "↻ Check for Updates";
-  btn.style = `
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    font-size: 13px;
-    cursor: pointer;
-    z-index: 9999;
-  `;
-  btn.addEventListener("click", async () => {
-    btn.textContent = "🔄 Checking...";
-    try {
-      await reg.update();
-      btn.textContent = "✅ Up to date";
-      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
-    } catch (err) {
-      console.error("Error checking updates:", err);
-      btn.textContent = "⚠️ Error";
-      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
+    if (allCorrect) {
+      nextLessonBtn.style.display = "block";
+      alert("Excellent! You got all correct 🎉");
+    } else {
+      alert("Some answers are wrong. Retry!");
     }
   });
-  document.body.appendChild(btn);
-}
-  </script>
-</body>
-</html>
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICT Detail Notes | SmartKidsPro</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9fafc;
-      color: #333;
-    }
-
-    header {
-      background: #4f46e5;
-      color: #fff;
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      background: rgba(255,255,255,0.15);
-      padding: 6px 14px;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-
-    header a:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .content {
-      max-width: 850px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .content h2 {
-      color: #4f46e5;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="index.html">🏠 Home</a>
-    <h2>ICT Detail Notes</h2>
-    <a href="ict_lessons.html">↩ Back</a>
-  </header>
-
-  <div class="content" id="content"></div>
-
-  <script>
-    async function loadDetail() {
-      const params = new URLSearchParams(window.location.search);
-      const topicId = params.get("topic");
-      const res = await fetch("json-files/ict_detail-notes.json");
-      const details = await res.json();
-
-      const note = details.find(d => d.id === topicId);
-      const container = document.getElementById("content");
-      if (note) {
-        container.innerHTML = `
-          <h2>${note.title}</h2>
-          <p>${note.content}</p>
-        `;
-      } else {
-        container.innerHTML = "<p>Topic not found.</p>";
-      }
-    }
-
-    loadDetail();
-  </script>
-
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").then(reg => {
-      console.log("✅ Service Worker registered:", reg.scope);
-
-      // Auto-detect update
-      reg.addEventListener("updatefound", () => {
-        const newWorker = reg.installing;
-        newWorker.addEventListener("statechange", () => {
-          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-            showUpdateBanner(reg);
-          }
-        });
-      });
-
-      // Manual update check button
-      createManualCheckButton(reg);
-    }).catch(err => console.error("SW registration failed:", err));
-  });
-}
-
-// ✅ Banner that appears when new version available
-function showUpdateBanner(reg) {
-  const banner = document.createElement("div");
-  banner.innerHTML = `
-    <div style="
-      position:fixed; bottom:20px; right:20px; z-index:9999;
-      background:rgba(255,255,255,0.95); color:#111;
-      border:1px solid #ccc; border-radius:8px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15);
-      padding:10px 16px; font-family:sans-serif;
-    ">
-      <strong>New version available</strong>
-      <button id="refreshBtn" style="
-        background:#2563eb; color:#fff; border:none;
-        padding:6px 10px; border-radius:6px;
-        margin-left:8px; cursor:pointer;
-      ">Refresh</button>
-    </div>
-  `;
-  document.body.appendChild(banner);
-
-  document.getElementById("refreshBtn").addEventListener("click", () => {
-    reg.waiting.postMessage({ type: "SKIP_WAITING" });
-    reg.waiting.addEventListener("statechange", e => {
-      if (e.target.state === "activated") window.location.reload();
-    });
-  });
-}
-
-// ✅ Small floating button to manually check for updates
-function createManualCheckButton(reg) {
-  const btn = document.createElement("button");
-  btn.textContent = "↻ Check for Updates";
-  btn.style = `
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    font-size: 13px;
-    cursor: pointer;
-    z-index: 9999;
-  `;
-  btn.addEventListener("click", async () => {
-    btn.textContent = "🔄 Checking...";
-    try {
-      const newReg = await reg.update();
-      btn.textContent = "✅ Up to date";
-      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
-    } catch (err) {
-      console.error("Error checking updates:", err);
-      btn.textContent = "⚠️ Error";
-      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
-    }
-  });
-  document.body.appendChild(btn);
-}
 </script>
 </body>
 </html>
