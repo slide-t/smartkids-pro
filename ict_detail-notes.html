@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ICT Lesson Details</title>
-  <link rel="stylesheet" href="styles.css" />
 
   <style>
     body {
@@ -163,9 +161,7 @@
     }
 
     /* Quiz */
-    .quiz-question {
-      margin-bottom: 20px;
-    }
+    .quiz-question { margin-bottom: 20px; }
 
     .quiz-options label {
       display: block;
@@ -178,9 +174,7 @@
       transition: 0.2s;
     }
 
-    .quiz-options label:hover {
-      background: #e0e7ff;
-    }
+    .quiz-options label:hover { background: #e0e7ff; }
 
     .feedback {
       margin-top: 5px;
@@ -203,17 +197,45 @@
     }
 
     .btn.hidden { display: none; }
-
     .btn:hover { background: #312e81; }
+
+    /* === Success Modal === */
+    #successModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #successModal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: popIn 0.3s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 
 <body>
   <header>
     <h1>ICT Lesson</h1>
-    <button id="menuToggle">
-      <span></span><span></span><span></span>
-    </button>
+    <button id="menuToggle"><span></span><span></span><span></span></button>
 
     <div class="nav-buttons" id="menuPanel">
       <button onclick="window.location.href='index.html'">Home</button>
@@ -233,10 +255,21 @@
       <div id="quizAccordionContent" class="accordion-body">
         <div id="quiz-container"></div>
         <button id="checkAnswersBtn" class="btn hidden">Check Your Answers</button>
-        <button id="nextLessonBtn" class="btn hidden">Next Lesson →</button>
       </div>
     </div>
   </main>
+
+  <!-- ✅ Success Modal -->
+  <div id="successModal">
+    <div class="modal-content">
+      <h2 style="color:#1e3a8a;">🎉 Congratulations!</h2>
+      <p>You did very well! Would you like to go to the next lesson?</p>
+      <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+        <button id="cancelNextBtn" class="btn" style="background:#9ca3af;">Cancel</button>
+        <button id="confirmNextBtn" class="btn">Next →</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // ===== Menu Toggle =====
@@ -260,7 +293,6 @@
     const lessonContent = document.getElementById("lesson-content");
     const quizContainer = document.getElementById("quiz-container");
     const checkBtn = document.getElementById("checkAnswersBtn");
-    const nextBtn = document.getElementById("nextLessonBtn");
 
     async function loadLesson() {
       try {
@@ -313,6 +345,7 @@
       }
     }
 
+    // ===== Quiz Checking =====
     checkBtn.addEventListener("click", () => {
       const correctAnswers = JSON.parse(sessionStorage.getItem("lessonQuizCorrectAnswers")) || [];
       const questions = document.querySelectorAll(".quiz-question");
@@ -338,15 +371,22 @@
         }
       });
 
-      if (allCorrect) nextBtn.classList.remove("hidden");
+      if (allCorrect) {
+        document.getElementById("successModal").classList.add("show");
+      }
     });
 
-    nextBtn.addEventListener("click", () => {
+    // ===== Modal Buttons =====
+    document.getElementById("cancelNextBtn").addEventListener("click", () => {
+      document.getElementById("successModal").classList.remove("show");
+    });
+
+    document.getElementById("confirmNextBtn").addEventListener("click", () => {
       const nextId = parseInt(lessonId) + 1;
       window.location.href = `ict_detail-notes.html?id=${nextId}`;
     });
 
-    // ===== Accordion Toggle =====
+    // ===== Accordion =====
     const accordionBtn = document.getElementById("quizAccordionBtn");
     const accordionContent = document.getElementById("quizAccordionContent");
     accordionBtn.addEventListener("click", () => {
