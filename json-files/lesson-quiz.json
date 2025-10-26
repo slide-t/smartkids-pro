@@ -1,0 +1,156 @@
+[
+  {
+    "lessonId": "1",
+    "question": "What does ICT stand for?",
+    "options": ["Information and Communication Technology", "Internet Computer Technology", "International Communication Tool"],
+    "answer": "Information and Communication Technology"
+  },
+  {
+    "lessonId": "1",
+    "question": "Which of the following is part of ICT?",
+    "options": ["Books", "Computers", "Tables"],
+    "answer": "Computers"
+  },
+  {
+    "lessonId": "1",
+    "question": "ICT helps people to ____.",
+    "options": ["Cook food", "Share information", "Sleep well"],
+    "answer": "Share information"
+  },
+  {
+    "lessonId": "1",
+    "question": "ICT is used in ____.",
+    "options": ["Homes only", "Offices and schools", "Farms only"],
+    "answer": "Offices and schools"
+  },
+  {
+    "lessonId": "1",
+    "question": "The full meaning of ICT is ____.",
+    "options": ["Information and Communication Technology", "Internet Communication Tool", "Information and Computing Time"],
+    "answer": "Information and Communication Technology"
+  },
+
+  {
+    "lessonId": "2",
+    "question": "Which of these is an ICT tool?",
+    "options": ["Television", "Plate", "Spoon"],
+    "answer": "Television"
+  },
+  {
+    "lessonId": "2",
+    "question": "A smartphone is an example of a ____.",
+    "options": ["Kitchen tool", "ICT tool", "Toy"],
+    "answer": "ICT tool"
+  },
+  {
+    "lessonId": "2",
+    "question": "Which of these is NOT an ICT tool?",
+    "options": ["Computer", "Radio", "Chair"],
+    "answer": "Chair"
+  },
+  {
+    "lessonId": "2",
+    "question": "ICT tools help us to ____.",
+    "options": ["Watch movies", "Communicate easily", "Cook rice"],
+    "answer": "Communicate easily"
+  },
+  {
+    "lessonId": "2",
+    "question": "Which tool helps us to send emails?",
+    "options": ["Computer", "Spoon", "Table"],
+    "answer": "Computer"
+  },
+
+  {
+    "lessonId": "3",
+    "question": "ICT is used in schools to ____.",
+    "options": ["Teach and learn", "Cook food", "Drive cars"],
+    "answer": "Teach and learn"
+  },
+  {
+    "lessonId": "3",
+    "question": "One use of ICT at home is ____.",
+    "options": ["Ironing clothes", "Listening to news", "Driving"],
+    "answer": "Listening to news"
+  },
+  {
+    "lessonId": "3",
+    "question": "ICT is useful in hospitals for ____.",
+    "options": ["Recording patients’ data", "Cooking", "Farming"],
+    "answer": "Recording patients’ data"
+  },
+  {
+    "lessonId": "3",
+    "question": "One use of ICT in business is ____.",
+    "options": ["Selling online", "Sleeping", "Playing football"],
+    "answer": "Selling online"
+  },
+  {
+    "lessonId": "3",
+    "question": "ICT helps communication to be ____.",
+    "options": ["Slow", "Fast", "Impossible"],
+    "answer": "Fast"
+  },
+
+  {
+    "lessonId": "4",
+    "question": "ICT helps people to ____ information.",
+    "options": ["Destroy", "Share", "Hide"],
+    "answer": "Share"
+  },
+  {
+    "lessonId": "4",
+    "question": "Which is an importance of ICT?",
+    "options": ["It helps communication", "It wastes time", "It stops learning"],
+    "answer": "It helps communication"
+  },
+  {
+    "lessonId": "4",
+    "question": "ICT is important in ____.",
+    "options": ["Learning", "Fighting", "Sleeping"],
+    "answer": "Learning"
+  },
+  {
+    "lessonId": "4",
+    "question": "ICT helps to save ____.",
+    "options": ["Money", "Information", "Food"],
+    "answer": "Information"
+  },
+  {
+    "lessonId": "4",
+    "question": "ICT promotes ____.",
+    "options": ["Ignorance", "Development", "Destruction"],
+    "answer": "Development"
+  },
+
+  {
+    "lessonId": "5",
+    "question": "Which of these is an ICT device?",
+    "options": ["Computer", "Chair", "Book"],
+    "answer": "Computer"
+  },
+  {
+    "lessonId": "5",
+    "question": "Which device helps us type letters?",
+    "options": ["Keyboard", "Television", "Mouse"],
+    "answer": "Keyboard"
+  },
+  {
+    "lessonId": "5",
+    "question": "A printer is used for ____.",
+    "options": ["Printing documents", "Cooking", "Talking"],
+    "answer": "Printing documents"
+  },
+  {
+    "lessonId": "5",
+    "question": "Which of these is used to move the cursor?",
+    "options": ["Mouse", "Pen", "Cup"],
+    "answer": "Mouse"
+  },
+  {
+    "lessonId": "5",
+    "question": "A computer monitor shows ____.",
+    "options": ["Text and pictures", "Water", "Clothes"],
+    "answer": "Text and pictures"
+  }
+]
