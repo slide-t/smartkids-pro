@@ -270,6 +270,55 @@
 
     .modal-content .next { background: #1e3a8a; color: white; }
     .modal-content .cancel { background: #e5e7eb; }
+ 
+  /* Fade-in animations for desktop and mobile */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply fade-in to main quiz elements */
+.quiz-container,
+.question-card,
+.option-button,
+button,
+h2,
+h3,
+p {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Staggered appearance for better feel */
+.question-card {
+  animation-delay: 0.1s;
+}
+
+.option-button {
+  animation-delay: 0.2s;
+}
+
+button {
+  animation-delay: 0.3s;
+}
+
+/* Ensure animations feel smooth on desktop */
+@media (min-width: 768px) {
+  .quiz-container {
+    animation: fadeIn 0.7s ease-out forwards;
+  }
+  .question-card {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  .option-button {
+    animation: fadeIn 0.9s ease-out forwards;
+  }
+}
   </style>
 </head>
 <body>
