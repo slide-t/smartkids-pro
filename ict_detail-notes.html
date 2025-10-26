@@ -248,8 +248,141 @@
     </div>
   </div>
 </div>
-
 <script>
+const contentArea = document.getElementById("lessonContent");
+const quizContainer = document.getElementById("quizContainer");
+const checkAnswersBtn = document.getElementById("checkAnswers");
+const successModal = document.getElementById("successModal");
+const cancelNextBtn = document.getElementById("cancelNextBtn");
+const confirmNextBtn = document.getElementById("confirmNextBtn");
+
+let currentLessonIndex = 0;
+let allLessons = [];
+
+// ✅ Fetch lessons on page load
+async function loadLessonsList() {
+  const res = await fetch("json-files/ict_lessons.json");
+  const data = await res.json();
+  allLessons = data.flatMap(m => m.subtopics.map(s => s.title));
+}
+
+// ✅ Load content and quiz for a specific lesson index
+async function loadLesson(index) {
+  try {
+    const notesRes = await fetch("json-files/ict_detail-notes.json");
+    const notes = await notesRes.json();
+    const quizzesRes = await fetch("json-files/lesson-quiz.json");
+    const quizzes = await quizzesRes.json();
+
+    const lessonTitle = allLessons[index];
+    const lessonNote = notes.find(n => n.title === lessonTitle);
+    const lessonQuiz = quizzes.find(q => q.title === lessonTitle);
+
+    if (!lessonNote) {
+      contentArea.innerHTML = `<h2 class='text-xl font-semibold text-red-600'>Lesson not found!</h2>`;
+      quizContainer.innerHTML = "";
+      return;
+    }
+
+    // ✅ Render lesson
+    document.title = lessonTitle + " - SmartKids ICT Lessons";
+    contentArea.innerHTML = `
+      <h2 class="text-2xl font-semibold mb-4 text-indigo-700">${lessonTitle}</h2>
+      <div class="text-gray-800 leading-relaxed">${lessonNote.content}</div>
+    `;
+
+    // ✅ Render quiz
+    if (lessonQuiz && lessonQuiz.questions.length > 0) {
+      quizContainer.innerHTML = lessonQuiz.questions.map((q, i) => `
+        <div class="question mb-4 p-3 border rounded-md bg-gray-50" data-correct="${q.correct}">
+          <p class="font-medium text-gray-800 mb-2">${i + 1}. ${q.question}</p>
+          ${q.options.map(opt => `
+            <label class="block">
+              <input type="radio" name="q${i}" value="${opt}" class="mr-2">${opt}
+            </label>
+          `).join('')}
+          <p class="result text-sm font-semibold mt-1"></p>
+        </div>
+      `).join('');
+    } else {
+      quizContainer.innerHTML = `<p class="text-gray-500 italic">No quiz available for this lesson.</p>`;
+    }
+
+    currentLessonIndex = index;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+  } catch (error) {
+    console.error("Error loading lesson:", error);
+  }
+}
+
+// ✅ Check quiz answers
+checkAnswersBtn.addEventListener("click", () => {
+  const questions = quizContainer.querySelectorAll(".question");
+  let allCorrect = true;
+
+  questions.forEach(q => {
+    const correctOption = q.getAttribute("data-correct");
+    const selected = q.querySelector("input[type='radio']:checked");
+    const result = q.querySelector(".result");
+
+    if (!selected) {
+      result.textContent = "Please select an answer!";
+      result.className = "result text-red-500";
+      allCorrect = false;
+      return;
+    }
+
+    if (selected.value === correctOption) {
+      result.textContent = "✅ Correct!";
+      result.className = "result text-green-600";
+    } else {
+      result.textContent = "❌ Retry!";
+      result.className = "result text-red-600";
+      allCorrect = false;
+    }
+  });
+
+  if (allCorrect) {
+    successModal.classList.remove("hidden");
+    successModal.classList.add("flex");
+  }
+});
+
+// ✅ Modal controls
+cancelNextBtn.addEventListener("click", () => {
+  successModal.classList.add("hidden");
+});
+confirmNextBtn.addEventListener("click", () => {
+  successModal.classList.add("hidden");
+  if (currentLessonIndex < allLessons.length - 1) {
+    loadLesson(currentLessonIndex + 1);
+  } else {
+    alert("🎉 You’ve completed all lessons! Returning to main page.");
+    window.location.href = "ict_lessons.html";
+  }
+});
+
+// ✅ Load initial lesson from URL or first one
+(async () => {
+  await loadLessonsList();
+
+  const params = new URLSearchParams(window.location.search);
+  const lessonTitle = params.get("lesson");
+
+  if (lessonTitle) {
+    const foundIndex = allLessons.findIndex(l => l.toLowerCase() === lessonTitle.toLowerCase());
+    if (foundIndex !== -1) loadLesson(foundIndex);
+    else loadLesson(0);
+  } else {
+    loadLesson(0);
+  }
+})();
+</script>
+
+  
+  
+  <!--<script>
 const contentArea = document.getElementById("lessonContent");
 const quizContainer = document.getElementById("quizContainer");
 const checkAnswersBtn = document.getElementById("checkAnswers");
