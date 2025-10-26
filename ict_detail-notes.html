@@ -237,7 +237,116 @@
     </div>
   </main>
 
-  <script>
+  <!-- ✅ Success Modal -->
+<div id="successModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-2xl shadow-lg text-center max-w-sm w-[90%]">
+    <h2 class="text-lg font-semibold text-green-700 mb-2">🎉 Congratulations!</h2>
+    <p class="text-gray-700 mb-4">You did well! Would you like to go to the next lesson?</p>
+    <div class="flex justify-center gap-3">
+      <button id="cancelNextBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+      <button id="confirmNextBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ✅ Menu toggle for buttons
+const menuBtn = document.getElementById('menuBtn');
+const headerBtns = document.getElementById('headerBtns');
+
+menuBtn.addEventListener('click', () => {
+  menuBtn.classList.toggle('open');
+  headerBtns.classList.toggle('hidden');
+  menuBtn.innerHTML = menuBtn.classList.contains('open') ? '✖' : '☰';
+});
+
+// ✅ Quiz checking logic
+const checkAnswersBtn = document.getElementById("checkAnswers");
+const quizContainer = document.getElementById("quizContainer");
+const successModal = document.getElementById("successModal");
+const cancelNextBtn = document.getElementById("cancelNextBtn");
+const confirmNextBtn = document.getElementById("confirmNextBtn");
+
+let currentLessonTitle = "";
+let nextLessonLink = "";
+
+// ✅ Fetch lesson list to identify next lesson
+async function loadNextLesson() {
+  const params = new URLSearchParams(window.location.search);
+  currentLessonTitle = params.get("lesson")?.toLowerCase().trim() || "";
+  
+  try {
+    const res = await fetch("json-files/ict_lessons.json");
+    const lessons = await res.json();
+
+    // Flatten subtopics into single list with their links
+    const allTopics = lessons.flatMap(t => t.subtopics.map(st => ({
+      title: st.title.toLowerCase().trim(),
+      link: st.link
+    })));
+
+    const currentIndex = allTopics.findIndex(t => t.title === currentLessonTitle);
+    if (currentIndex !== -1 && currentIndex < allTopics.length - 1) {
+      nextLessonLink = allTopics[currentIndex + 1].link;
+    } else {
+      nextLessonLink = "ict_lessons.html"; // fallback: return to lessons index
+    }
+  } catch (error) {
+    console.error("Error loading lessons:", error);
+    nextLessonLink = "ict_lessons.html";
+  }
+}
+
+loadNextLesson();
+
+// ✅ Handle quiz checking
+checkAnswersBtn.addEventListener("click", () => {
+  const questions = quizContainer.querySelectorAll(".question");
+  let allCorrect = true;
+
+  questions.forEach((question) => {
+    const correctOption = question.getAttribute("data-correct");
+    const selected = question.querySelector("input[type='radio']:checked");
+    const result = question.querySelector(".result");
+
+    if (!selected) {
+      result.textContent = "Please select an answer!";
+      result.className = "result text-red-500";
+      allCorrect = false;
+      return;
+    }
+
+    if (selected.value === correctOption) {
+      result.textContent = "✅ Correct!";
+      result.className = "result text-green-600";
+    } else {
+      result.textContent = "❌ Retry!";
+      result.className = "result text-red-600";
+      allCorrect = false;
+    }
+  });
+
+  if (allCorrect) {
+    successModal.classList.remove("hidden");
+    successModal.classList.add("flex");
+  }
+});
+
+// ✅ Modal button actions
+cancelNextBtn.addEventListener("click", () => {
+  successModal.classList.add("hidden");
+});
+
+confirmNextBtn.addEventListener("click", () => {
+  successModal.classList.add("hidden");
+  window.location.href = nextLessonLink;
+});
+</script>
+  
+  
+  
+  
+  <!--<script>
     // ===== Menu Toggle =====
     const menuToggle = document.getElementById("menuToggle");
     const menuPanel = document.getElementById("menuPanel");
@@ -356,6 +465,6 @@
     });
 
     loadLesson();
-  </script>
+  </script>-->
 </body>
 </html>
