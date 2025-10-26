@@ -152,5 +152,472 @@
     "question": "A computer monitor shows ____.",
     "options": ["Text and pictures", "Water", "Clothes"],
     "answer": "Text and pictures"
+  },
+  {
+    "lessonId": "6",
+    "question": "What is a computer?",
+    "options": ["A device that processes information", "A type of food", "A kind of car"],
+    "answer": "A device that processes information"
+  },
+  {
+    "lessonId": "6",
+    "question": "Which of these can a computer do?",
+    "options": ["Cook rice", "Store information", "Grow plants"],
+    "answer": "Store information"
+  },
+  {
+    "lessonId": "6",
+    "question": "A computer helps us to ____.",
+    "options": ["Sleep", "Play games", "Eat food"],
+    "answer": "Play games"
+  },
+  {
+    "lessonId": "6",
+    "question": "A computer is an electronic ____.",
+    "options": ["Machine", "Animal", "Book"],
+    "answer": "Machine"
+  },
+  {
+    "lessonId": "6",
+    "question": "Which of these best describes a computer?",
+    "options": ["It can think on its own", "It follows instructions", "It runs by magic"],
+    "answer": "It follows instructions"
+  },
+
+  {
+    "lessonId": "7",
+    "question": "The physical parts of a computer are called ____.",
+    "options": ["Hardware", "Software", "Wetware"],
+    "answer": "Hardware"
+  },
+  {
+    "lessonId": "7",
+    "question": "Programs that make a computer work are called ____.",
+    "options": ["Hardware", "Software", "Chips"],
+    "answer": "Software"
+  },
+  {
+    "lessonId": "7",
+    "question": "Which of the following is software?",
+    "options": ["MS Word", "Monitor", "Keyboard"],
+    "answer": "MS Word"
+  },
+  {
+    "lessonId": "7",
+    "question": "The monitor and keyboard are examples of ____.",
+    "options": ["Hardware", "Software", "Folders"],
+    "answer": "Hardware"
+  },
+  {
+    "lessonId": "7",
+    "question": "Software tells the computer what to ____.",
+    "options": ["Eat", "Do", "Wear"],
+    "answer": "Do"
+  },
+
+  {
+    "lessonId": "8",
+    "question": "A mouse is an example of an ____ device.",
+    "options": ["Input", "Output", "Storage"],
+    "answer": "Input"
+  },
+  {
+    "lessonId": "8",
+    "question": "A printer is an example of an ____ device.",
+    "options": ["Output", "Input", "Storage"],
+    "answer": "Output"
+  },
+  {
+    "lessonId": "8",
+    "question": "A flash drive is used for ____.",
+    "options": ["Storing data", "Cooking food", "Washing clothes"],
+    "answer": "Storing data"
+  },
+  {
+    "lessonId": "8",
+    "question": "Which of these is an input device?",
+    "options": ["Keyboard", "Speaker", "Monitor"],
+    "answer": "Keyboard"
+  },
+  {
+    "lessonId": "8",
+    "question": "Which of the following shows information from the computer?",
+    "options": ["Monitor", "Mouse", "Scanner"],
+    "answer": "Monitor"
+  },
+
+  {
+    "lessonId": "9",
+    "question": "Before using a computer, you must ____ it.",
+    "options": ["Start", "Break", "Shake"],
+    "answer": "Start"
+  },
+  {
+    "lessonId": "9",
+    "question": "The button used to turn on a computer is called the ____ button.",
+    "options": ["Power", "Play", "Stop"],
+    "answer": "Power"
+  },
+  {
+    "lessonId": "9",
+    "question": "After using a computer, we must ____ it down.",
+    "options": ["Shut", "Wash", "Paint"],
+    "answer": "Shut"
+  },
+  {
+    "lessonId": "9",
+    "question": "Starting and shutting down properly helps to ____ the computer.",
+    "options": ["Protect", "Destroy", "Spoil"],
+    "answer": "Protect"
+  },
+  {
+    "lessonId": "9",
+    "question": "Which of these steps comes first when using a computer?",
+    "options": ["Switch on the power", "Open programs", "Type letters"],
+    "answer": "Switch on the power"
+  },
+
+  {
+    "lessonId": "10",
+    "question": "Keeping the computer clean helps it to ____.",
+    "options": ["Work well", "Get dirty", "Spoil fast"],
+    "answer": "Work well"
+  },
+  {
+    "lessonId": "10",
+    "question": "We should not eat or drink near a ____.",
+    "options": ["Computer", "Table", "Book"],
+    "answer": "Computer"
+  },
+  {
+    "lessonId": "10",
+    "question": "Which of these is good computer care?",
+    "options": ["Switching off properly", "Dropping it", "Hitting the keyboard"],
+    "answer": "Switching off properly"
+  },
+  {
+    "lessonId": "10",
+    "question": "Dusting the computer regularly keeps it ____.",
+    "options": ["Clean", "Hot", "Noisy"],
+    "answer": "Clean"
+  },
+  {
+    "lessonId": "10",
+    "question": "We should keep computer cables ____.",
+    "options": ["Tidy and safe", "Tangling", "Cut"],
+    "answer": "Tidy and safe"
+  },
+
+  {
+    "lessonId": "11",
+    "question": "Which part of the computer is used for typing letters?",
+    "options": ["Keyboard", "Mouse", "Monitor"],
+    "answer": "Keyboard"
+  },
+  {
+    "lessonId": "11",
+    "question": "The mouse helps to ____ on items on the screen.",
+    "options": ["Click", "Eat", "Draw"],
+    "answer": "Click"
+  },
+  {
+    "lessonId": "11",
+    "question": "Which key is used to space words while typing?",
+    "options": ["Spacebar", "Enter", "Shift"],
+    "answer": "Spacebar"
+  },
+  {
+    "lessonId": "11",
+    "question": "To move the pointer on the screen, we use the ____.",
+    "options": ["Mouse", "Keyboard", "Printer"],
+    "answer": "Mouse"
+  },
+  {
+    "lessonId": "11",
+    "question": "The mouse has ____ buttons.",
+    "options": ["Two", "One", "Five"],
+    "answer": "Two"
+  },
+
+  {
+    "lessonId": "12",
+    "question": "The background area seen on the computer screen is called the ____.",
+    "options": ["Desktop", "Folder", "Keyboard"],
+    "answer": "Desktop"
+  },
+  {
+    "lessonId": "12",
+    "question": "Small pictures on the desktop are called ____.",
+    "options": ["Icons", "Windows", "Files"],
+    "answer": "Icons"
+  },
+  {
+    "lessonId": "12",
+    "question": "Which icon opens a file or folder?",
+    "options": ["Double-click", "Press Spacebar", "Right-click and drag"],
+    "answer": "Double-click"
+  },
+  {
+    "lessonId": "12",
+    "question": "Icons help users to ____ programs.",
+    "options": ["Open", "Hide", "Lock"],
+    "answer": "Open"
+  },
+  {
+    "lessonId": "12",
+    "question": "The desktop appears after the computer has ____.",
+    "options": ["Started", "Stopped", "Crashed"],
+    "answer": "Started"
+  },
+
+  {
+    "lessonId": "13",
+    "question": "A file is used to store ____.",
+    "options": ["Data and information", "Shoes", "Food"],
+    "answer": "Data and information"
+  },
+  {
+    "lessonId": "13",
+    "question": "To create a new file, click on ____.",
+    "options": ["New", "Open", "Exit"],
+    "answer": "New"
+  },
+  {
+    "lessonId": "13",
+    "question": "To keep a file for future use, we must ____ it.",
+    "options": ["Save", "Close", "Delete"],
+    "answer": "Save"
+  },
+  {
+    "lessonId": "13",
+    "question": "To open a saved file, click on ____.",
+    "options": ["Open", "Exit", "New"],
+    "answer": "Open"
+  },
+  {
+    "lessonId": "13",
+    "question": "Files are saved inside a ____.",
+    "options": ["Folder", "Book", "Keyboard"],
+    "answer": "Folder"
+  },
+
+  {
+    "lessonId": "14",
+    "question": "Which program is used for drawing on a computer?",
+    "options": ["Paint", "Excel", "Notepad"],
+    "answer": "Paint"
+  },
+  {
+    "lessonId": "14",
+    "question": "Notepad is used for ____.",
+    "options": ["Typing text", "Drawing", "Playing music"],
+    "answer": "Typing text"
+  },
+  {
+    "lessonId": "14",
+    "question": "Which program allows you to make simple pictures?",
+    "options": ["Paint", "WordPad", "Calculator"],
+    "answer": "Paint"
+  },
+  {
+    "lessonId": "14",
+    "question": "In Paint, we can use the brush tool to ____.",
+    "options": ["Draw lines", "Watch movies", "Type letters"],
+    "answer": "Draw lines"
+  },
+  {
+    "lessonId": "14",
+    "question": "Which of these can be used to type short notes?",
+    "options": ["Notepad", "Camera", "Game app"],
+    "answer": "Notepad"
+  },
+
+  {
+    "lessonId": "15",
+    "question": "Why should we shut down a computer properly?",
+    "options": ["To protect it", "To spoil it", "To make noise"],
+    "answer": "To protect it"
+  },
+  {
+    "lessonId": "15",
+    "question": "Shutting down properly prevents ____.",
+    "options": ["Data loss", "Rain", "Dust"],
+    "answer": "Data loss"
+  },
+  {
+    "lessonId": "15",
+    "question": "Before shutting down, you must first ____ all programs.",
+    "options": ["Close", "Hide", "Rename"],
+    "answer": "Close"
+  },
+  {
+    "lessonId": "15",
+    "question": "To shut down, click on the ____ button.",
+    "options": ["Start", "Pause", "Save"],
+    "answer": "Start"
+  },
+  {
+    "lessonId": "15",
+    "question": "When the screen goes off, it means the computer is ____.",
+    "options": ["Off", "Hot", "Working"],
+    "answer": "Off"
+  },
+
+  {
+    "lessonId": "16",
+    "question": "The Internet is a network that connects ____.",
+    "options": ["Many computers", "Only one computer", "Televisions only"],
+    "answer": "Many computers"
+  },
+  {
+    "lessonId": "16",
+    "question": "The Internet helps people to ____.",
+    "options": ["Share information", "Cook food", "Play football"],
+    "answer": "Share information"
+  },
+  {
+    "lessonId": "16",
+    "question": "Which device do we need to connect to the Internet?",
+    "options": ["Modem", "Broom", "Chalk"],
+    "answer": "Modem"
+  },
+  {
+    "lessonId": "16",
+    "question": "The Internet can be used for ____.",
+    "options": ["Learning and communication", "Sleeping", "Dancing"],
+    "answer": "Learning and communication"
+  },
+  {
+    "lessonId": "16",
+    "question": "The Internet connects computers all over the ____.",
+    "options": ["World", "School", "Classroom only"],
+    "answer": "World"
+  },
+
+  {
+    "lessonId": "17",
+    "question": "A web browser is used to ____ websites.",
+    "options": ["Open", "Close computer", "Draw pictures"],
+    "answer": "Open"
+  },
+  {
+    "lessonId": "17",
+    "question": "Which of these is a web browser?",
+    "options": ["Google Chrome", "MS Word", "Calculator"],
+    "answer": "Google Chrome"
+  },
+  {
+    "lessonId": "17",
+    "question": "A website is a collection of related ____.",
+    "options": ["Web pages", "Chairs", "Computers"],
+    "answer": "Web pages"
+  },
+  {
+    "lessonId": "17",
+    "question": "The address of a website starts with ____.",
+    "options": ["http:// or https://", "www", "file:///"],
+    "answer": "http:// or https://"
+  },
+  {
+    "lessonId": "17",
+    "question": "A web page is displayed inside a ____.",
+    "options": ["Browser window", "Keyboard", "Printer"],
+    "answer": "Browser window"
+  },
+
+  {
+    "lessonId": "18",
+    "question": "Which of the following is a use of the Internet?",
+    "options": ["Watching videos", "Cooking", "Sweeping"],
+    "answer": "Watching videos"
+  },
+  {
+    "lessonId": "18",
+    "question": "Students use the Internet to ____.",
+    "options": ["Do research", "Sleep", "Play outside"],
+    "answer": "Do research"
+  },
+  {
+    "lessonId": "18",
+    "question": "Businesses use the Internet to ____.",
+    "options": ["Advertise products", "Make noise", "Wash cars"],
+    "answer": "Advertise products"
+  },
+  {
+    "lessonId": "18",
+    "question": "The Internet helps people to ____ with others.",
+    "options": ["Communicate", "Fight", "Hide"],
+    "answer": "Communicate"
+  },
+  {
+    "lessonId": "18",
+    "question": "We can use the Internet to send and receive ____.",
+    "options": ["Emails", "Shoes", "Books"],
+    "answer": "Emails"
+  },
+
+  {
+    "lessonId": "19",
+    "question": "One way to browse safely is to avoid ____ websites.",
+    "options": ["Unknown", "Educational", "School"],
+    "answer": "Unknown"
+  },
+  {
+    "lessonId": "19",
+    "question": "Never share your ____ with strangers online.",
+    "options": ["Password", "Pen", "Book"],
+    "answer": "Password"
+  },
+  {
+    "lessonId": "19",
+    "question": "When using the Internet, you should ask ____ for help.",
+    "options": ["An adult", "A stranger", "A robot"],
+    "answer": "An adult"
+  },
+  {
+    "lessonId": "19",
+    "question": "Do not click on ____ links in emails.",
+    "options": ["Suspicious", "Safe", "School"],
+    "answer": "Suspicious"
+  },
+  {
+    "lessonId": "19",
+    "question": "To stay safe online, we must visit only ____ websites.",
+    "options": ["Trusted", "Dangerous", "Unknown"],
+    "answer": "Trusted"
+  },
+
+  {
+    "lessonId": "20",
+    "question": "Email means ____.",
+    "options": ["Electronic mail", "Express mail", "Every mail"],
+    "answer": "Electronic mail"
+  },
+  {
+    "lessonId": "20",
+    "question": "Which of the following is an example of social media?",
+    "options": ["Facebook", "Microsoft Word", "Notepad"],
+    "answer": "Facebook"
+  },
+  {
+    "lessonId": "20",
+    "question": "An email can be used to send ____.",
+    "options": ["Messages and pictures", "Food", "Furniture"],
+    "answer": "Messages and pictures"
+  },
+  {
+    "lessonId": "20",
+    "question": "Social media helps people to ____.",
+    "options": ["Chat and share", "Fight", "Sleep"],
+    "answer": "Chat and share"
+  },
+  {
+    "lessonId": "20",
+    "question": "Which tool is needed to send an email?",
+    "options": ["Computer or phone with Internet", "Ruler", "Cup"],
+    "answer": "Computer or phone with Internet"
   }
 ]
+
+  
+  
