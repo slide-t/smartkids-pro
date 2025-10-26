@@ -262,9 +262,97 @@
       #lesson-title { font-size: 20px; }
       .accordion-header { font-size: 16px; }
     }
+
+    /* additional css*/
+.page-header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.header-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #2563eb;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #2563eb;
+  border-radius: 2px;
+}
+
+/* --- Mobile --- */
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 0;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-menu.show {
+    display: flex;
+  }
+}
+    
   </style>
 </head>
 <body>
+
+
+  <!--
   <header>
     <h1>ICT Lesson</h1>
     <button id="menuToggle">
@@ -277,7 +365,22 @@
       <button id="refreshBtn" onclick="setActive(this)">🔄 Refresh</button>
     </div>
   </header>
+-->
+<header class="page-header">
+  <div class="header-container">
+    <h2 class="page-title">ICT Lessons</h2>
+    <button id="menuToggle" class="menu-toggle">
+      <span class="menu-icon">☰</span>
+    </button>
+    <nav id="headerMenu" class="header-menu">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="ict_lessons.html" class="nav-link">Back</a>
+      <a href="#" id="refreshPage" class="nav-link">Refresh</a>
+    </nav>
+  </div>
+</header>
 
+  
   <main id="lesson-container">
     <h2 id="lesson-title">Loading lesson...</h2>
     <article id="lesson-content"></article>
@@ -304,13 +407,13 @@
   </div>
 
   <script>
-    // ===== Menu Toggle =====
+    /*// ===== Menu Toggle =====
     const menuToggle = document.getElementById("menuToggle");
     const menuPanel = document.getElementById("menuPanel");
     menuToggle.addEventListener("click", () => {
       menuToggle.classList.toggle("active");
       menuPanel.classList.toggle("show");
-    });
+    });*/
 
     // ===== Active Link Highlight =====
     function setActive(btn) {
@@ -436,5 +539,39 @@
 
     loadLesson();
   </script>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const headerMenu = document.getElementById('headerMenu');
+const refreshPage = document.getElementById('refreshPage');
+const links = document.querySelectorAll('.nav-link');
+
+// Toggle menu visibility
+menuToggle.addEventListener('click', () => {
+  headerMenu.classList.toggle('show');
+  menuToggle.querySelector('.menu-icon').textContent =
+    headerMenu.classList.contains('show') ? '✖' : '☰';
+});
+
+// Close menu on link click (mobile only)
+links.forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth < 768) {
+      headerMenu.classList.remove('show');
+      menuToggle.querySelector('.menu-icon').textContent = '☰';
+    }
+
+    // Mark active link
+    links.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// Refresh button
+refreshPage.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.location.reload();
+});
+</script>
+  
 </body>
 </html>
