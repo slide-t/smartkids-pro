@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ICT Lesson Details</title>
-
+  <link rel="stylesheet" href="styles.css" />
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -13,6 +13,7 @@
       padding: 0;
     }
 
+    /* ===== HEADER ===== */
     header {
       display: flex;
       justify-content: space-between;
@@ -31,7 +32,7 @@
       color: #1e3a8a;
     }
 
-    /* --- Menu Button --- */
+    /* ===== MENU BUTTON ===== */
     #menuToggle {
       display: flex;
       flex-direction: column;
@@ -64,13 +65,13 @@
       transform: rotate(-45deg) translateY(-8px);
     }
 
-    /* --- Slide Menu --- */
+    /* ===== MENU PANEL ===== */
     .nav-buttons {
       position: absolute;
       top: 60px;
       right: 16px;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       border-radius: 10px;
       padding: 10px;
       display: none;
@@ -84,17 +85,22 @@
     }
 
     .nav-buttons button {
-      background: #1e3a8a;
-      color: #fff;
+      background: none;
       border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
+      color: #1e3a8a;
       font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding: 8px 10px;
+    }
+
+    .nav-buttons button.active {
+      border-bottom: 2px solid #1e3a8a;
     }
 
     .nav-buttons button:hover {
-      background: #312e81;
+      color: #312e81;
     }
 
     @keyframes fadeIn {
@@ -102,29 +108,56 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ===== DESKTOP NAV ===== */
+    @media (min-width: 768px) {
+      #menuToggle { display: none; }
+
+      .nav-buttons {
+        position: static;
+        display: flex !important;
+        flex-direction: row;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        gap: 16px;
+      }
+
+      .nav-buttons button {
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-size: 15px;
+      }
+
+      .nav-buttons button.active {
+        border-bottom: 3px solid #1e3a8a;
+      }
+    }
+
+    /* ===== LESSON SECTION ===== */
     #lesson-container {
       padding: 20px;
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
     }
 
     #lesson-title {
-      font-size: 22px;
+      font-size: 24px;
       color: #111827;
       margin-bottom: 10px;
+      font-weight: 700;
     }
 
     #lesson-content {
-      line-height: 1.6;
+      line-height: 1.7;
       color: #374151;
+      font-size: 16px;
     }
 
-    /* Accordion Styling */
+    /* ===== ACCORDION ===== */
     .accordion {
       margin-top: 24px;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
-      overflow: hidden;
       background: #fff;
     }
 
@@ -143,9 +176,7 @@
       transition: background 0.3s ease;
     }
 
-    .accordion-header:hover {
-      background: #e0e7ff;
-    }
+    .accordion-header:hover { background: #e0e7ff; }
 
     .accordion-body {
       max-height: 0;
@@ -160,7 +191,7 @@
       padding: 16px;
     }
 
-    /* Quiz */
+    /* ===== QUIZ ===== */
     .quiz-question { margin-bottom: 20px; }
 
     .quiz-options label {
@@ -197,50 +228,59 @@
     }
 
     .btn.hidden { display: none; }
+
     .btn:hover { background: #312e81; }
 
-    /* === Success Modal === */
-    #successModal {
-      display: none;
+    /* ===== MODAL ===== */
+    .modal {
       position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
       justify-content: center;
       align-items: center;
-      z-index: 999;
-      animation: fadeIn 0.3s ease;
+      z-index: 200;
     }
 
-    #successModal.show {
-      display: flex;
-    }
+    .modal.show { display: flex; }
 
     .modal-content {
       background: #fff;
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 10px;
       text-align: center;
-      width: 300px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      animation: popIn 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
 
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    .modal-content h3 { margin-bottom: 10px; color: #1e3a8a; }
+
+    .modal-content p { margin-bottom: 20px; }
+
+    .modal-content button {
+      margin: 0 8px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
     }
+
+    .modal-content .next { background: #1e3a8a; color: white; }
+    .modal-content .cancel { background: #e5e7eb; }
   </style>
 </head>
-
 <body>
   <header>
     <h1>ICT Lesson</h1>
     <button id="menuToggle"><span></span><span></span><span></span></button>
 
     <div class="nav-buttons" id="menuPanel">
-      <button onclick="window.location.href='index.html'">Home</button>
-      <button onclick="window.location.href='ict_lessons.html'">Back</button>
-      <button id="refreshBtn">🔄 Refresh</button>
+      <button id="homeBtn" onclick="window.location.href='index.html'">Home</button>
+      <button id="backBtn" onclick="window.location.href='ict_lessons.html'">Back</button>
+      <button id="refreshBtn" class="active">Refresh</button>
     </div>
   </header>
 
@@ -259,34 +299,41 @@
     </div>
   </main>
 
-  <!-- ✅ Success Modal -->
-  <div id="successModal">
+  <!-- ===== SUCCESS MODAL ===== -->
+  <div class="modal" id="successModal">
     <div class="modal-content">
-      <h2 style="color:#1e3a8a;">🎉 Congratulations!</h2>
-      <p>You did very well! Would you like to go to the next lesson?</p>
-      <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-        <button id="cancelNextBtn" class="btn" style="background:#9ca3af;">Cancel</button>
-        <button id="confirmNextBtn" class="btn">Next →</button>
-      </div>
+      <h3>🎉 Congratulations!</h3>
+      <p>You did well! Would you like to go to the next lesson?</p>
+      <button class="next" id="nextLessonConfirm">Next</button>
+      <button class="cancel" id="cancelBtn">Cancel</button>
     </div>
   </div>
 
   <script>
-    // ===== Menu Toggle =====
+    // ===== MENU TOGGLE =====
     const menuToggle = document.getElementById("menuToggle");
     const menuPanel = document.getElementById("menuPanel");
+    const navButtons = menuPanel.querySelectorAll("button");
+
     menuToggle.addEventListener("click", () => {
       menuToggle.classList.toggle("active");
       menuPanel.classList.toggle("show");
     });
 
-    // ===== Refresh Button =====
+    navButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        navButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // ===== REFRESH =====
     document.getElementById("refreshBtn").addEventListener("click", () => {
       caches.keys().then(names => names.forEach(name => caches.delete(name)));
       location.reload(true);
     });
 
-    // ===== Lesson + Quiz Fetching =====
+    // ===== LOAD LESSON =====
     const params = new URLSearchParams(window.location.search);
     const lessonId = params.get("id");
     const lessonTitle = document.getElementById("lesson-title");
@@ -295,57 +342,42 @@
     const checkBtn = document.getElementById("checkAnswersBtn");
 
     async function loadLesson() {
-      try {
-        const res = await fetch("json-files/ict_detail-notes.json");
-        const data = await res.json();
-        const lesson = data.find(item => item.id == lessonId);
-
-        if (lesson) {
-          lessonTitle.textContent = lesson.title;
-          lessonContent.innerHTML = lesson.content;
-        }
-
-        loadQuiz(lessonId);
-      } catch (err) {
-        lessonContent.textContent = "❌ Failed to load lesson.";
+      const res = await fetch("json-files/ict_detail-notes.json");
+      const data = await res.json();
+      const lesson = data.find(item => item.id == lessonId);
+      if (lesson) {
+        lessonTitle.textContent = lesson.title;
+        lessonContent.innerHTML = lesson.content;
       }
+      loadQuiz(lessonId);
     }
 
     async function loadQuiz(lessonId) {
-      try {
-        const res = await fetch("json-files/lesson-quiz.json");
-        const data = await res.json();
-        const quizzes = data.filter(q => q.lessonId == lessonId);
-
-        if (!quizzes.length) {
-          quizContainer.innerHTML = "<p>No quizzes available for this lesson.</p>";
-          return;
-        }
-
-        const correctAnswers = quizzes.map(q => q.answer);
-        sessionStorage.setItem("lessonQuizCorrectAnswers", JSON.stringify(correctAnswers));
-
-        quizContainer.innerHTML = quizzes.map((q, index) => `
-          <div class="quiz-question" data-index="${index}">
-            <p><strong>${index + 1}. ${q.question}</strong></p>
-            <div class="quiz-options">
-              ${q.options.map(opt => `
-                <label>
-                  <input type="radio" name="q${index}" value="${opt}" /> ${opt}
-                </label>
-              `).join('')}
-            </div>
-            <div class="feedback" id="feedback${index}"></div>
-          </div>
-        `).join('');
-
-        checkBtn.classList.remove("hidden");
-      } catch {
-        quizContainer.textContent = "❌ Failed to load quiz.";
+      const res = await fetch("json-files/lesson-quiz.json");
+      const data = await res.json();
+      const quizzes = data.filter(q => q.lessonId == lessonId);
+      if (!quizzes.length) {
+        quizContainer.innerHTML = "<p>No quizzes available for this lesson.</p>";
+        return;
       }
+
+      const correctAnswers = quizzes.map(q => q.answer);
+      sessionStorage.setItem("lessonQuizCorrectAnswers", JSON.stringify(correctAnswers));
+
+      quizContainer.innerHTML = quizzes.map((q, index) => `
+        <div class="quiz-question" data-index="${index}">
+          <p><strong>${index + 1}. ${q.question}</strong></p>
+          <div class="quiz-options">
+            ${q.options.map(opt => `
+              <label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label>
+            `).join('')}
+          </div>
+          <div class="feedback" id="feedback${index}"></div>
+        </div>
+      `).join('');
+      checkBtn.classList.remove("hidden");
     }
 
-    // ===== Quiz Checking =====
     checkBtn.addEventListener("click", () => {
       const correctAnswers = JSON.parse(sessionStorage.getItem("lessonQuizCorrectAnswers")) || [];
       const questions = document.querySelectorAll(".quiz-question");
@@ -376,17 +408,16 @@
       }
     });
 
-    // ===== Modal Buttons =====
-    document.getElementById("cancelNextBtn").addEventListener("click", () => {
-      document.getElementById("successModal").classList.remove("show");
-    });
-
-    document.getElementById("confirmNextBtn").addEventListener("click", () => {
+    document.getElementById("nextLessonConfirm").addEventListener("click", () => {
       const nextId = parseInt(lessonId) + 1;
       window.location.href = `ict_detail-notes.html?id=${nextId}`;
     });
 
-    // ===== Accordion =====
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+      document.getElementById("successModal").classList.remove("show");
+    });
+
+    // ===== ACCORDION =====
     const accordionBtn = document.getElementById("quizAccordionBtn");
     const accordionContent = document.getElementById("quizAccordionContent");
     accordionBtn.addEventListener("click", () => {
