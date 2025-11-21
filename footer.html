@@ -1,26 +1,39 @@
 <div class="footer-nav">
-  <a href="#" class="nav-item">
+  <a href="/index.html" class="nav-item" data-page="home">
     <i class="icon-home"></i>
     <span>Home</span>
   </a>
 
-  <a href="#" class="nav-item">
+  <a href="/lessons.html" class="nav-item" data-page="lessons">
     <i class="icon-lessons"></i>
     <span>Lessons</span>
   </a>
 
-  <a href="#" class="nav-item">
+  <a href="/progress.html" class="nav-item" data-page="progress">
     <i class="icon-progress"></i>
     <span>Progress</span>
   </a>
 
-  <a href="#" class="nav-item">
+  <a href="/faqs.html" class="nav-item" data-page="faqs">
     <i class="icon-faq"></i>
     <span>FAQs</span>
   </a>
 
-  <a href="#" class="nav-item">
+  <a href="/me.html" class="nav-item" data-page="me">
     <i class="icon-me"></i>
     <span>Me</span>
   </a>
 </div>
+
+<script>
+  // Auto-highlight current page
+  const currentPath = window.location.pathname.toLowerCase();
+
+  document.querySelectorAll('.footer-nav .nav-item').forEach(item => {
+    const page = item.getAttribute("data-page");
+
+    if (currentPath.includes(page)) {
+      item.classList.add("active");
+    }
+  });
+</script>
