@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
   <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
+<script src="https://unpkg.com/heroicons@2.0.18/24/solid/index.js"></script>
   <style>
 /* Floating icon animation */
 @keyframes float {
@@ -117,7 +118,7 @@
   transform: rotate(180deg);
   filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.5));
 }
-/* New Footer css*/
+/* New Footer css*
 .footer-nav {
   position: fixed;
   bottom: 0;
@@ -146,14 +147,14 @@
   margin-bottom: 3px;
 }
 
-/* Example icon placeholders (replace with real icons or SVGs) */
+ Example icon placeholders (replace with real icons or SVGs) 
 .icon-home::before { content: "🏠"; }
 .icon-lessons::before { content: "📘"; }
 .icon-progress::before { content: "📊"; }
 .icon-faq::before { content: "❓"; }
 .icon-me::before { content: "👤"; }
     
-    
+    */
     
   </style>
 </head>
@@ -383,31 +384,54 @@
   }
 </script>
   <!-- FOOTER -->
+<style>
+  .nav-item svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* inactive */
+  .nav-item {
+    @apply flex flex-col items-center text-gray-500;
+  }
+
+  /* active */
+  .nav-item.active {
+    @apply text-black font-semibold;
+  }
+</style>
+
 <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50">
   <nav class="flex justify-between items-center px-6 py-2">
 
-    <a href="/home.html" class="flex flex-col items-center text-gray-700">
-      <svg class="w-6 h-6"><use href="#home"></use></svg>
+    <!-- HOME -->
+    <a href="/home.html" class="nav-item active">
+      <!-- filled when active -->
+      <svg class="icon-active"><use href="#home"></use></svg>
       <span class="text-xs mt-1">Home</span>
     </a>
 
-    <a href="/lessons.html" class="flex flex-col items-center text-gray-700">
-      <svg class="w-6 h-6"><use href="#book-open"></use></svg>
+    <!-- LESSONS -->
+    <a href="/lessons.html" class="nav-item">
+      <svg><use href="#book-open"></use></svg>
       <span class="text-xs mt-1">Lessons</span>
     </a>
 
-    <a href="/progress.html" class="flex flex-col items-center text-gray-700">
-      <svg class="w-6 h-6"><use href="#chart-bar"></use></svg>
+    <!-- PROGRESS -->
+    <a href="/progress.html" class="nav-item">
+      <svg><use href="#chart-bar"></use></svg>
       <span class="text-xs mt-1">Progress</span>
     </a>
 
-    <a href="/faqs.html" class="flex flex-col items-center text-gray-700">
-      <svg class="w-6 h-6"><use href="#question-mark-circle"></use></svg>
+    <!-- FAQ -->
+    <a href="/faqs.html" class="nav-item">
+      <svg><use href="#question-mark-circle"></use></svg>
       <span class="text-xs mt-1">FAQs</span>
     </a>
 
-    <a href="/me.html" class="flex flex-col items-center text-gray-700">
-      <svg class="w-6 h-6"><use href="#user"></use></svg>
+    <!-- ME -->
+    <a href="/me.html" class="nav-item">
+      <svg><use href="#user"></use></svg>
       <span class="text-xs mt-1">Me</span>
     </a>
 
@@ -560,6 +584,19 @@ function createManualCheckButton(reg) {
   });
   document.body.appendChild(btn);
 }
+</script>
+
+  <script>
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const svg = item.querySelector('svg');
+    const icon = svg.querySelector('use').getAttribute('href');
+
+    if (item.classList.contains('active')) {
+      svg.querySelector('use').setAttribute('href', icon + "-solid");
+    } else {
+      svg.querySelector('use').setAttribute('href', icon);
+    }
+  });
 </script>
 </body>
 </html>
