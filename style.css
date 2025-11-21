@@ -1,0 +1,27 @@
+.icon-wrapper {
+  @apply p-2 rounded-full transition-all duration-200;
+}
+
+.nav-item {
+  @apply text-gray-300;
+}
+
+.nav-item:hover .icon-wrapper {
+  @apply bg-blue-600 bg-opacity-20;
+}
+
+.nav-item:hover svg {
+  @apply text-blue-400;
+}
+
+.nav-item.active .icon-wrapper {
+  @apply bg-blue-600 bg-opacity-30;
+}
+
+.nav-item.active svg {
+  @apply text-blue-400;
+}
+
+.nav-item.active span {
+  @apply text-blue-400 font-semibold;
+}
