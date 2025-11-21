@@ -21,3 +21,10 @@
 .footer-nav .nav-item.active i {
     @apply text-blue-400 font-semibold;
 }
+.footer-nav .nav-item {
+    @apply flex flex-col items-center text-gray-300 transition-all duration-200;
+}
+
+.footer-nav .nav-item i {
+    @apply text-xl mb-1 text-gray-300;
+}
