@@ -10,6 +10,8 @@ const APP_SHELL = [
   "/json-files/ict_lessons.json",
   "/mouse.html",
   "/keyboard.html",
+  "/footer.html",
+  "/footer-loader.html",
   "/images/logo.png"
 ];
 
