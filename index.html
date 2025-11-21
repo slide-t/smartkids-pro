@@ -6,6 +6,7 @@
   <title>SmartKids-Pro | Learn ICT the Fun Way!</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
+  <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
   <style>
 /* Floating icon animation */
 @keyframes float {
@@ -382,32 +383,37 @@
   }
 </script>
   <!-- FOOTER -->
-  <div class="footer-nav">
-  <a href="#" class="nav-item">
-    <i class="icon-home"></i>
-    <span>Home</span>
-  </a>
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50">
+  <nav class="flex justify-between items-center px-6 py-2">
 
-  <a href="#" class="nav-item">
-    <i class="icon-lessons"></i>
-    <span>Lessons</span>
-  </a>
+    <a href="/home.html" class="flex flex-col items-center text-gray-700">
+      <svg class="w-6 h-6"><use href="#home"></use></svg>
+      <span class="text-xs mt-1">Home</span>
+    </a>
 
-  <a href="#" class="nav-item">
-    <i class="icon-progress"></i>
-    <span>Progress</span>
-  </a>
+    <a href="/lessons.html" class="flex flex-col items-center text-gray-700">
+      <svg class="w-6 h-6"><use href="#book-open"></use></svg>
+      <span class="text-xs mt-1">Lessons</span>
+    </a>
 
-  <a href="#" class="nav-item">
-    <i class="icon-faq"></i>
-    <span>FAQs</span>
-  </a>
+    <a href="/progress.html" class="flex flex-col items-center text-gray-700">
+      <svg class="w-6 h-6"><use href="#chart-bar"></use></svg>
+      <span class="text-xs mt-1">Progress</span>
+    </a>
 
-  <a href="#" class="nav-item">
-    <i class="icon-me"></i>
-    <span>Me</span>
-  </a>
+    <a href="/faqs.html" class="flex flex-col items-center text-gray-700">
+      <svg class="w-6 h-6"><use href="#question-mark-circle"></use></svg>
+      <span class="text-xs mt-1">FAQs</span>
+    </a>
+
+    <a href="/me.html" class="flex flex-col items-center text-gray-700">
+      <svg class="w-6 h-6"><use href="#user"></use></svg>
+      <span class="text-xs mt-1">Me</span>
+    </a>
+
+  </nav>
 </div>
+
 
   <!-- JS -->
   <script>
