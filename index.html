@@ -307,7 +307,6 @@
           </div>
         </div>
       </div>
-
       <!-- Keyboard Tutor -->
       <div class="border rounded-lg bg-white shadow">
         <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
@@ -324,7 +323,6 @@
           </div>
         </div>
       </div>
-
       <!-- Lessons -->
       <div class="border rounded-lg bg-white shadow">
         <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
@@ -341,7 +339,6 @@
           </div>
         </div>
       </div>
-
       <!-- Quiz Section -->
       <div class="border rounded-lg bg-white shadow">
         <button class="w-full flex justify-between items-center p-4 text-left font-semibold text-lg text-blue-700 hover:bg-blue-50 transition"
@@ -392,62 +389,6 @@
       document.getElementById("footer-placeholder").innerHTML = html;
     });
 </script>
-
-  <!--
-<style>
-  .nav-item svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  /* inactive */
-  .nav-item {
-    @apply flex flex-col items-center text-gray-500;
-  }
-
-  /* active */
-  .nav-item.active {
-    @apply text-black font-semibold;
-  }
-</style>
-
-<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50">
-  <nav class="flex justify-between items-center px-6 py-2">
-
-    <!-- HOME --
-    <a href="/home.html" class="nav-item active">
-      <!-- filled when active --
-      <svg class="icon-active"><use href="#home"></use></svg>
-      <span class="text-xs mt-1">Home</span>
-    </a>
-
-    <!-- LESSONS --
-    <a href="/lessons.html" class="nav-item">
-      <svg><use href="#book-open"></use></svg>
-      <span class="text-xs mt-1">Lessons</span>
-    </a>
-
-    <!-- PROGRESS --
-    <a href="/progress.html" class="nav-item">
-      <svg><use href="#chart-bar"></use></svg>
-      <span class="text-xs mt-1">Progress</span>
-    </a>
-
-    <!-- FAQ --
-    <a href="/faqs.html" class="nav-item">
-      <svg><use href="#question-mark-circle"></use></svg>
-      <span class="text-xs mt-1">FAQs</span>
-    </a>
-
-    <!-- ME --
-    <a href="/me.html" class="nav-item">
-      <svg><use href="#user"></use></svg>
-      <span class="text-xs mt-1">Me</span>
-    </a>
-
-  </nav>
-</div>
-
 
   <!-- JS -->
   <script>
@@ -596,7 +537,7 @@ function createManualCheckButton(reg) {
 }
 </script>
 
- <!-- <script>
+ <script>
   document.querySelectorAll('.nav-item').forEach(item => {
     const svg = item.querySelector('svg');
     const icon = svg.querySelector('use').getAttribute('href');
@@ -607,6 +548,6 @@ function createManualCheckButton(reg) {
       svg.querySelector('use').setAttribute('href', icon);
     }
   });
-</script>-->
+</script>
 </body>
 </html>
