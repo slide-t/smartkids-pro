@@ -4,13 +4,13 @@
     text-align: center;
 }
 
-/* Base nav item: icon above text */
+/* Stack icon above text */
 .footer-nav .nav-item {
     @apply flex flex-col items-center justify-center 
            text-gray-300 transition-all duration-200;
 }
 
-/* Icon */
+/* Icon styling */
 .footer-nav .nav-item i {
     @apply text-xl mb-1 text-gray-300;
 }
@@ -21,7 +21,7 @@
     @apply text-blue-400;
 }
 
-/* Active tab highlight */
+/* Active page highlight */
 .footer-nav .nav-item.active,
 .footer-nav .nav-item.active i {
     @apply text-blue-400 font-semibold;
