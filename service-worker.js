@@ -12,6 +12,7 @@ const APP_SHELL = [
   "/keyboard.html",
   "/footer.html",
   "/footer-loader.html",
+  "/style.css",
   "/images/logo.png"
 ];
 
