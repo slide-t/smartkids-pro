@@ -4,15 +4,23 @@
     text-align: center;
 }
 
-/* Stack icon above text */
+/* Stack icon ABOVE text — forced */
 .footer-nav .nav-item {
-    @apply flex flex-col items-center justify-center 
-           text-gray-300 transition-all duration-200;
+    @apply text-gray-300 transition-all duration-200;
+    display: flex !important;              /* force flexbox */
+    flex-direction: column !important;     /* icon above text */
+    align-items: center !important;        /* center horizontally */
+    justify-content: center !important;    /* center vertically */
+    padding-top: 10px !important;          /* added spacing */
+    padding-bottom: 6px !important;
+    gap: 3px !important;                   /* space between icon & text */
 }
 
 /* Icon styling */
 .footer-nav .nav-item i {
-    @apply text-xl mb-1 text-gray-300;
+    @apply text-xl text-gray-300;
+    margin-bottom: 2px !important;         /* extra icon spacing */
+    display: block;
 }
 
 /* Hover effect */
