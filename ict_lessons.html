@@ -223,6 +223,94 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
+<!-- SMARTKIDS PRO WELCOME MODAL (PASTE INTO YOUR EXISTING PAGE) --><!-- MODAL STRUCTURE --><div id="smartkidsModal" class="sk-modal">
+  <div class="sk-modal-content">
+    <h2>Welcome to SmartKids Pro 🎓</h2>
+    <p>
+      This page contains <strong>ICT lessons</strong> designed according to class topics.<br><br>
+      👉 Use the <strong>search bar</strong> at the top of the page to find any topic.<br>
+      👉 Each lesson contains <strong>5 quizzes</strong> to test understanding.<br><br>
+      Please enter the pupil details below to continue.
+    </p><input type="text" id="skPupilName" placeholder="Pupil Name" />
+<input type="text" id="skSchoolName" placeholder="School Name" />
 
+<button onclick="skStartLessons()">Start Lessons</button>
+
+  </div>
+</div><!-- MODAL STYLES --><style>
+.sk-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.sk-modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  width: 90%;
+  max-width: 420px;
+  padding: 25px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.sk-modal-content h2 {
+  margin-bottom: 10px;
+  color: #1f4fd8;
+}
+
+.sk-modal-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.sk-modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.sk-modal-content button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: #1f4fd8;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.sk-modal-content button:hover {
+  background: #163db1;
+}
+</style><!-- MODAL SCRIPT --><script>
+function skStartLessons() {
+  const pupilName = document.getElementById('skPupilName').value.trim();
+  const schoolName = document.getElementById('skSchoolName').value.trim();
+
+  if (!pupilName || !schoolName) {
+    alert('Please enter pupil name and school name');
+    return;
+  }
+
+  // Hide modal
+  document.getElementById('smartkidsModal').style.display = 'none';
+
+  // WhatsApp notification
+  const phone = '2349046464822'; // CHANGE IF NEEDED
+  const message = `SmartKids Pro Entry:%0AName: ${pupilName}%0ASchool: ${schoolName}`;
+
+  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+}
+</script><!-- END OF SMARTKIDS PRO MODAL -->
 </body>  
 </html>
