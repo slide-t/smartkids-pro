@@ -223,76 +223,100 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
-<!-- SMARTKIDS PRO WELCOME MODAL (PASTE INTO YOUR EXISTING PAGE) --><!-- MODAL STRUCTURE --><div id="smartkidsModal" class="sk-modal">
+<!-- SMARTKIDS PRO WELCOME MODAL (UPDATED BASED ON FEEDBACK) --><!-- MODAL STRUCTURE --><div id="smartkidsModal" class="sk-modal">
   <div class="sk-modal-content">
-    <h2>Welcome to SmartKids Pro 🎓</h2>
-    <p>
-      This page contains <strong>ICT lessons</strong> designed according to class topics.<br><br>
-      👉 Use the <strong>search bar</strong> at the top of the page to find any topic.<br>
-      👉 Each lesson contains <strong>5 quizzes</strong> to test understanding.<br><br>
-      Please enter the pupil details below to continue.
-    </p><input type="text" id="skPupilName" placeholder="Pupil Name" />
+    <h2>Welcome to SmartKids Pro</h2><p class="intro-text">
+  Welcome to the <strong>SmartKids Pro ICT Lessons Page</strong>.
+  These lessons are carefully organised according to <strong>class-based topics</strong>.
+  <br><br>
+  • Use the <strong>search bar</strong> at the top of the page to find topics easily.<br>
+  • Each lesson contains <strong>5 quizzes</strong> to test understanding.<br>
+  • Lessons should be taken <strong>in the correct class order</strong>.
+  <br><br>
+  Kindly enter the pupil details below to continue.
+</p>
+
+<input type="text" id="skPupilName" placeholder="Pupil Name" />
 <input type="text" id="skSchoolName" placeholder="School Name" />
 
-<button onclick="skStartLessons()">Start Lessons</button>
+<button onclick="skStartLessons()">Proceed to Lessons</button>
 
   </div>
 </div><!-- MODAL STYLES --><style>
+/* WATER-TRANSPARENT OVERLAY */
 .sk-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 120, 200, 0.18); /* water-like transparent blue */
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
+/* MODAL BOX */
 .sk-modal-content {
-  background: rgba(255, 255, 255, 0.95);
-  width: 90%;
-  max-width: 420px;
-  padding: 25px 20px;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.97);
+  width: 92%;
+  max-width: 520px;
+  min-height: 420px; /* taller modal */
+  padding: 30px 25px;
+  border-radius: 14px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .sk-modal-content h2 {
-  margin-bottom: 10px;
-  color: #1f4fd8;
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #1446b8;
 }
 
-.sk-modal-content p {
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 15px;
+.intro-text {
+  font-size: 16px; /* bigger text */
+  line-height: 1.8;
+  margin-bottom: 20px;
 }
 
 .sk-modal-content input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
 }
 
 .sk-modal-content button {
-  margin-top: 12px;
+  margin-top: 15px;
   width: 100%;
-  padding: 11px;
+  padding: 14px;
   border: none;
-  border-radius: 6px;
-  background: #1f4fd8;
+  border-radius: 8px;
+  background: #1446b8;
   color: #fff;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .sk-modal-content button:hover {
-  background: #163db1;
+  background: #0f3490;
 }
 </style><!-- MODAL SCRIPT --><script>
+/*
+IMPORTANT NOTE (TECHNICAL LIMITATION):
+JavaScript CANNOT send WhatsApp messages silently in the background.
+WhatsApp always requires a user-triggered action.
+
+BEST SILENT OPTION (RECOMMENDED):
+Use EmailJS or Google Forms endpoint to send data invisibly.
+Below is a SAFE, SILENT Google Form-style POST example.
+*/
+
 function skStartLessons() {
   const pupilName = document.getElementById('skPupilName').value.trim();
   const schoolName = document.getElementById('skSchoolName').value.trim();
@@ -302,15 +326,20 @@ function skStartLessons() {
     return;
   }
 
-  // Hide modal
+  // Hide modal immediately
   document.getElementById('smartkidsModal').style.display = 'none';
 
-  // WhatsApp notification
-  const phone = '2349046464822'; // CHANGE IF NEEDED
-  const message = `SmartKids Pro Entry:%0AName: ${pupilName}%0ASchool: ${schoolName}`;
+  /* SILENT DATA SEND (NO USER NOTICE) */
+  fetch('https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `entry.1111111111=${encodeURIComponent(pupilName)}&entry.2222222222=${encodeURIComponent(schoolName)}`
+  });
 
-  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+  /* Lesson page continues normally */
 }
-</script><!-- END OF SMARTKIDS PRO MODAL -->
+</script><!-- END SMARTKIDS PRO MODAL -->
+  
 </body>  
 </html>
