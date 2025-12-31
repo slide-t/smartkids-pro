@@ -494,7 +494,10 @@ function createManualCheckButton(reg) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 <!-- Footer Auto Loader -->
 <script src="footer-loader.js"></script>
-<script>
+
+  
+  
+  <!--<script>
 /* SMARTKIDS GLOBAL CONFIG */
 const SMARTKIDS_TERM = {
   termId: "2025_TERM_2",
@@ -508,7 +511,7 @@ const SMARTKIDS_TERM = {
   ]
 };
 </script>
-  
+  -->
   <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -565,7 +568,176 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
   <script>
+ /* =====================================================
+   SMARTKIDS PRO – LICENSE, DEVICE & TERM CONTROL SYSTEM
+   -----------------------------------------------------
+   ✔ Per‑school license key
+   ✔ Per‑school device limit
+   ✔ Optional per‑school expiry date
+   ✔ Admin bypass
+   ✔ Mobile‑safe
+   ✔ No backend / No Google Sheets
+   ===================================================== */
+
+(function () {
+  "use strict";
+
+  /* ================= ADMIN BYPASS ================= */
+  const ADMIN_KEY = "sk-admin-2025"; // change & keep secret
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("admin") === ADMIN_KEY) return;
+
+  /* ================= LICENSE DATABASE ================= */
+  const LICENSES = {
+    "BF-2025-AX92": {
+      school: "Bright Future School",
+      limit: 20,
+      expiry: "2026-04-10" // YYYY-MM-DD
+    },
+    "RS-2025-QP11": {
+      school: "Royal Stars College",
+      limit: 20,
+      expiry: "2026-04-10"
+    },
+    "SK-DEMO-999": {
+      school: "SmartKids Demo",
+      limit: 999,
+      expiry: "2027-01-01"
+    }
+  };
+
+  /* ================= DEVICE ID ================= */
+  function getDeviceId() {
+    let id = localStorage.getItem("sk_device_id");
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("sk_device_id", id);
+    }
+    return id;
+  }
+
+  /* ================= LICENSE STORAGE ================= */
+  const ACTIVE_LICENSE_KEY = "sk_active_license";
+
+  function getActiveLicense() {
+    return localStorage.getItem(ACTIVE_LICENSE_KEY);
+  }
+
+  function setActiveLicense(key) {
+    localStorage.setItem(ACTIVE_LICENSE_KEY, key);
+  }
+
+  /* ================= EXPIRY CHECK ================= */
+  function isExpired(expiryDate) {
+    if (!expiryDate) return false;
+    const today = new Date();
+    const expiry = new Date(expiryDate + "T23:59:59");
+    return today > expiry;
+  }
+
+  /* ================= DEVICE REGISTRATION ================= */
+  function registerDevice(licenseKey) {
+    const deviceId = getDeviceId();
+    const storeKey = `sk_devices_${licenseKey}`;
+    const devices = JSON.parse(localStorage.getItem(storeKey)) || [];
+
+    if (!devices.includes(deviceId)) {
+      devices.push(deviceId);
+      localStorage.setItem(storeKey, JSON.stringify(devices));
+    }
+
+    return devices.length;
+  }
+
+  /* ================= ACCESS CHECK ================= */
+  function validateAccess(licenseKey) {
+    const license = LICENSES[licenseKey];
+    if (!license) return "INVALID";
+
+    if (isExpired(license.expiry)) return "EXPIRED";
+
+    const used = registerDevice(licenseKey);
+    if (used > license.limit) return "LIMIT";
+
+    return "OK";
+  }
+
+  /* ================= LICENSE MODAL ================= */
+  function showLicenseModal(message) {
+    const modal = document.createElement("div");
+    modal.style.cssText = `
+      position: fixed; inset: 0; z-index: 99999;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      font-family: system-ui, sans-serif;
+    `;
+
+    modal.innerHTML = `
+      <div style="
+        background: rgba(255,255,255,0.92);
+        max-width: 420px; width: 92%;
+        padding: 22px; border-radius: 14px;
+        text-align: center;
+      ">
+        <h2 style="margin:0 0 10px;font-size:22px;">SmartKids Pro Access</h2>
+        <p style="font-size:15px;line-height:1.5;">${message}</p>
+        <input id="sk_license_input" placeholder="Enter School License Key"
+          style="width:100%;padding:12px;font-size:16px;margin-top:10px;border-radius:8px;border:1px solid #ccc" />
+        <button id="sk_submit" style="
+          margin-top:12px;width:100%;padding:12px;font-size:16px;
+          border:none;border-radius:10px;background:#2563eb;color:#fff;
+        ">Continue</button>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById("sk_submit").onclick = function () {
+      const key = document.getElementById("sk_license_input").value.trim();
+      const result = validateAccess(key);
+
+      if (result === "OK") {
+        setActiveLicense(key);
+        modal.remove();
+        location.reload();
+      } else if (result === "EXPIRED") {
+        alert("This school's access has expired.");
+      } else if (result === "LIMIT") {
+        alert("Device limit reached. Contact SmartKids Admin.");
+      } else {
+        alert("Invalid license key.");
+      }
+    };
+  }
+
+  /* ================= BOOTSTRAP ================= */
+  const activeKey = getActiveLicense();
+
+  if (!activeKey) {
+    showLicenseModal(
+      "Please enter your school license key to access SmartKids Pro lessons."
+    );
+    return;
+  }
+
+  const status = validateAccess(activeKey);
+  if (status !== "OK") {
+    localStorage.removeItem(ACTIVE_LICENSE_KEY);
+
+    let msg = "Access problem detected.";
+    if (status === "EXPIRED") msg = "Your school's access period has ended.";
+    if (status === "LIMIT") msg = "Your school has reached its device limit.";
+
+    showLicenseModal(msg);
+  }
+})();
+</script>
+  
+  
+  <!--<script>
     /* ===================================================== SMARTKIDS TECH SKILLS – REMAINING ACCESS & PROTECTION LOGIC (Modal removed – paste AFTER modal script) ===================================================== */
 
 /******************** 1️⃣ CONFIG ********************/ const SMARTKIDS_TERM = { termId: "2025_TERM_2", expiryDate: new Date("2026-04-10T23:59:00"),
@@ -631,9 +803,7 @@ Example usage inside your license validation logic:
 
 sendSilentEmail({ school: license.school, licenseKey: key, deviceCount: used, deviceLimit: license.limit }); */
   </script>
-
-
-
+-->
 <script>
 /* ================= BASIC CONTENT PROTECTION ================= */
 
