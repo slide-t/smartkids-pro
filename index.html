@@ -495,5 +495,82 @@ function createManualCheckButton(reg) {
 <!-- Footer Auto Loader -->
 <script src="footer-loader.js"></script>
 
+  <!-- SMARTKIDS PRO – TERM ACCESS EXPIRY SCRIPT --><script>
+/*
+  TERM ACCESS CONTROL
+  -------------------
+  This script disables ALL navigation (links, forms, JS redirects)
+  after the specified expiry date & time.
+
+  👉 To reopen access, change ONLY the expiryDate value below.
+*/
+
+// 🔴 SET TERM EXPIRY DATE & TIME (YYYY-MM-DDTHH:MM:SS)
+const expiryDate = new Date('2026-04-06T23:59:00'); // CHANGE THIS DATE WHEN NEEDED
+
+(function enforceTermExpiry() {
+  const now = new Date();
+
+  // If term is still active, do nothing
+  if (now < expiryDate) return;
+
+  // 🔒 Block all link clicks
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a');
+    if (link) {
+      e.preventDefault();
+      showExpiryOverlay();
+    }
+  }, true);
+
+  // 🔒 Block form submissions
+  document.addEventListener('submit', function (e) {
+    e.preventDefault();
+    showExpiryOverlay();
+  }, true);
+
+  // 🔒 Block JavaScript-based navigation
+  window.location.assign = function () { showExpiryOverlay(); };
+  window.location.replace = function () { showExpiryOverlay(); };
+
+  // 🔒 Block browser back/forward navigation
+  window.addEventListener('popstate', showExpiryOverlay);
+
+  // Show overlay immediately
+  showExpiryOverlay();
+})();
+
+function showExpiryOverlay() {
+  if (document.getElementById('sk-term-expired')) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'sk-term-expired';
+  overlay.innerHTML = `
+    <div style="
+      position:fixed; inset:0; z-index:10000;
+      background:rgba(0,0,0,0.75);
+      display:flex; align-items:center; justify-content:center;
+      font-family:system-ui, sans-serif;
+    ">
+      <div style="
+        background:#ffffff;
+        width:90%; max-width:420px;
+        padding:26px; border-radius:14px;
+        text-align:center;
+        box-shadow:0 20px 50px rgba(0,0,0,0.4);
+      ">
+        <h2 style="color:#b91c1c; font-size:22px; margin-bottom:12px;">Access Closed</h2>
+        <p style="font-size:15px; line-height:1.6;">
+          The school term has ended.<br><br>
+          Access to <strong>SmartKids Pro</strong> is temporarily disabled.
+          Please contact the school administrator for renewal or next-term activation.
+        </p>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+</script><!-- END TERM ACCESS EXPIRY SCRIPT -->
 </body>
 </html>
