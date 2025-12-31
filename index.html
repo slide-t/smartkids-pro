@@ -495,23 +495,6 @@ function createManualCheckButton(reg) {
 <!-- Footer Auto Loader -->
 <script src="footer-loader.js"></script>
 
-  
-  
-  <!--<script>
-/* SMARTKIDS GLOBAL CONFIG */
-const SMARTKIDS_TERM = {
-  termId: "2025_TERM_2",
-  expiryDate: new Date("2026-04-10T23:59:00"),
-
-  adminKey: "sk-admin-2025",
-  schoolWhitelist: [
-    "Bright Future School",
-    "SmartKids Academy",
-    "Royal Stars College"
-  ]
-};
-</script>
-  -->
   <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -736,74 +719,6 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 </script>
   
-  
-  <!--<script>
-    /* ===================================================== SMARTKIDS TECH SKILLS – REMAINING ACCESS & PROTECTION LOGIC (Modal removed – paste AFTER modal script) ===================================================== */
-
-/******************** 1️⃣ CONFIG ********************/ const SMARTKIDS_TERM = { termId: "2025_TERM_2", expiryDate: new Date("2026-04-10T23:59:00"),
-
-// 🔑 ADMIN SECRET (KEEP PRIVATE) adminKey: "sk-admin-2025",
-
-// 🏫 FULL-SESSION SCHOOLS (exact names) schoolWhitelist: [ "Bright Future School", "SmartKids Academy", "Royal Stars College" ] };
-
-/******************** 2️⃣ HELPER CHECKS ********************/ function isAdminBypass() { const params = new URLSearchParams(window.location.search); return params.get("admin") === SMARTKIDS_TERM.adminKey; }
-
-function isWhitelistedSchool() { const savedSchool = localStorage.getItem("sk_school_name"); if (!savedSchool) return false;
-
-return SMARTKIDS_TERM.schoolWhitelist .map(s => s.toLowerCase()) .includes(savedSchool.toLowerCase()); }
-
-/******************** 3️⃣ TERM EXPIRY LOCK ********************/ (function termExpiryLock() { if (isAdminBypass()) return; if (isWhitelistedSchool()) return; if (new Date() < SMARTKIDS_TERM.expiryDate) return;
-
-document.body.innerHTML = <div style=" display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center; font-family:system-ui,sans-serif; background:#f8fafc; "> <h1 style="font-size:24px;">🔒 Term Access Closed</h1> <p style="max-width:420px; line-height:1.6; font-size:15px;"> This SmartKids Tech Skills application has been closed because the academic term has ended.<br><br> Please contact your school administrator. </p> </div>; })();
-
-/******************** 4️⃣ DISABLE RIGHT-CLICK & HOTKEYS ********************/ document.addEventListener("contextmenu", e => e.preventDefault());
-
-document.addEventListener("keydown", e => { if ((e.ctrlKey || e.metaKey) && ["u","s","c","x","v","p"].includes(e.key.toLowerCase())) e.preventDefault(); if (e.key === "F12") e.preventDefault(); if ((e.ctrlKey || e.metaKey) && e.shiftKey && ["i","j","c"].includes(e.key.toLowerCase())) e.preventDefault(); });
-
-/******************** 5️⃣ BASIC DEVTOOLS DETECTION ********************/ (function detectDevTools() { let open = false; const threshold = 160;
-
-setInterval(() => { const widthDiff = window.outerWidth - window.innerWidth; const heightDiff = window.outerHeight - window.innerHeight;
-
-if (widthDiff > threshold || heightDiff > threshold) {
-  if (!open) {
-    open = true;
-    document.body.innerHTML = `
-      <div style="
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        height:100vh;
-        background:#000;
-        color:#fff;
-        font-family:system-ui,sans-serif;
-        text-align:center;
-      ">
-        <div>
-          <h2>⚠️ Developer Tools Detected</h2>
-          <p>For security reasons, this application is locked.</p>
-        </div>
-      </div>
-    `;
-  }
-}
-
-}, 1000); })();
-
-    /* ===================================================== SMARTKIDS – SILENT EMAIL NOTIFICATION (NO USER NOTICE)
-
-✔ Sends background email on license activation ✔ No popup, no redirect, no WhatsApp window ✔ Uses Formspree (recommended for simplicity) ===================================================== */
-
-/* ================= CONFIG ================= */ const SMARTKIDS_EMAIL_ENDPOINT = "https://formspree.io/f/xbjnzqor"; // replace with YOUR Formspree endpoint
-
-/* ================= SEND EMAIL FUNCTION ================= */ function sendSilentEmail({ school, licenseKey, deviceCount, deviceLimit }) { try { fetch(SMARTKIDS_EMAIL_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify({ subject: "SmartKids – New Device Access", school: school, license_key: licenseKey, devices_used: ${deviceCount} / ${deviceLimit}, time: new Date().toLocaleString() }) }); } catch (e) { console.warn("Silent email failed", e); } }
-
-/* ================= INTEGRATION POINT ================= / / CALL THIS AFTER A DEVICE IS SUCCESSFULLY REGISTERED
-
-Example usage inside your license validation logic:
-
-sendSilentEmail({ school: license.school, licenseKey: key, deviceCount: used, deviceLimit: license.limit }); */
-  </script>
--->
 <script>
 /* ================= BASIC CONTENT PROTECTION ================= */
 
