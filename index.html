@@ -616,10 +616,71 @@ if (widthDiff > threshold || heightDiff > threshold) {
 }
 
 }, 1000); })();
+
+    /* ===================================================== SMARTKIDS – SILENT EMAIL NOTIFICATION (NO USER NOTICE)
+
+✔ Sends background email on license activation ✔ No popup, no redirect, no WhatsApp window ✔ Uses Formspree (recommended for simplicity) ===================================================== */
+
+/* ================= CONFIG ================= */ const SMARTKIDS_EMAIL_ENDPOINT = "https://formspree.io/f/xbjnzqor"; // replace with YOUR Formspree endpoint
+
+/* ================= SEND EMAIL FUNCTION ================= */ function sendSilentEmail({ school, licenseKey, deviceCount, deviceLimit }) { try { fetch(SMARTKIDS_EMAIL_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify({ subject: "SmartKids – New Device Access", school: school, license_key: licenseKey, devices_used: ${deviceCount} / ${deviceLimit}, time: new Date().toLocaleString() }) }); } catch (e) { console.warn("Silent email failed", e); } }
+
+/* ================= INTEGRATION POINT ================= / / CALL THIS AFTER A DEVICE IS SUCCESSFULLY REGISTERED
+
+Example usage inside your license validation logic:
+
+sendSilentEmail({ school: license.school, licenseKey: key, deviceCount: used, deviceLimit: license.limit }); */
   </script>
 
 
 
+<script>
+/* ================= BASIC CONTENT PROTECTION ================= */
 
+// Disable right-click
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// Disable common inspect shortcuts
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key)) ||
+    (e.ctrlKey && e.key === "U")
+  ) {
+    e.preventDefault();
+  }
+});
+
+// DevTools detection (simple but effective)
+(function detectDevTools() {
+  let threshold = 160;
+  setInterval(() => {
+    if (
+      window.outerWidth - window.innerWidth > threshold ||
+      window.outerHeight - window.innerHeight > threshold
+    ) {
+      document.body.innerHTML = `
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          height:100vh;
+          font-family:sans-serif;
+          background:#0f172a;
+          color:#fff;
+          text-align:center;
+          padding:20px;
+        ">
+          <div>
+            <h2>Access Restricted</h2>
+            <p>Unauthorized inspection detected.<br>
+            SmartKids Tech Skills Platform</p>
+          </div>
+        </div>
+      `;
+    }
+  }, 1000);
+})();
+</script>
 </body>
 </html>
