@@ -253,67 +253,18 @@
       margin: 0 auto;
     }
   }
-
-  
-  /* Header Styles *
-  .header-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(90deg, #0078ff, #00c4ff);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
-    font-family: 'Poppins', sans-serif;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-
-  .header-bar h1 {
-    font-size: 20px;
-    margin: 0;
-    font-weight: 600;
-  }
-
-  .home-btn {
-    background: white;
-    color: #0078ff;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  .home-btn:hover {
-    background: #0078ff;
-    color: white;
-    box-shadow: 0 0 8px rgba(255,255,255,0.6);
-  }
-
-  /* Add top padding to main section so header doesn't overlap *
-  body {
-    padding-top: 65px;
-  }*/
 </style>
   
 </head>
 
 <body>
-
-
 <!-- 🌟 HEADER SECTION -->
 <header class="header-bar">
   <h1 class="header-title">Keyboard Lessons</h1>
   <a href="index.html" class="home-btn">🏠 Home</a>
 </header>
 
-
-  
-  <!-- Background bubbles -->
+ <!-- Background bubbles -->
   <div class="bubbles">
     <div class="bubble" style="left:10%; animation-duration:14s; width:15px; height:15px;"></div>
     <div class="bubble" style="left:30%; animation-duration:18s; width:20px; height:20px;"></div>
@@ -358,6 +309,31 @@
     </div>
   </div>
 
+  <!-- Mandatory Basic Practice Modal -->
+<div id="basicGate" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+  <div class="bg-white rounded-xl p-6 max-w-sm text-center">
+    <h2 class="text-xl font-bold mb-2">⌨️ Start Here First</h2>
+    <p class="text-gray-600 mb-4">
+      You must complete the <b>Basic Keyboard Practice</b> before using this section.
+    </p>
+    <button
+      onclick="goToBasics()"
+      class="px-5 py-2 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600"
+    >
+      Go to Basic Practice ➜
+    </button>
+  </div>
+</div><!--END OF MODAL -->
+
+  <script>
+  function goToBasics() {
+    window.location.href = 'keyboardbasics.html';
+  }
+
+  // Optional future upgrade:
+  // Check if basics completed (localStorage flag)
+  // For now, everyone must go through basics
+</script> 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("startBtn");
