@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Keyboard Practice for Kids</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-sky-50 min-h-screen p-4">  <div class="max-w-3xl mx-auto bg-white rounded-xl shadow p-6">
+    <h1 class="text-2xl font-bold text-center mb-2">⌨️ Keyboard Practice for Kids</h1>
+    <p class="text-center text-gray-600 mb-6">
+      Learn typing step by step using the correct fingers. Practice, score, and unlock the next level.
+    </p><!-- Level Info -->
+<div id="levelInfo" class="text-center mb-4 text-lg font-semibold text-blue-600"></div>
+
+<!-- Alphabet Container -->
+<div id="practiceArea" class="flex flex-wrap justify-center gap-3 min-h-[120px]"></div>
+
+<!-- Score -->
+<div class="mt-6 text-center">
+  <p class="text-lg">Score: <span id="score" class="font-bold">0</span></p>
+  <p class="text-sm text-gray-500">Correct: <span id="correct">0</span> | Wrong: <span id="wrong">0</span></p>
+</div>
+
+<!-- Controls -->
+<div class="mt-6 flex justify-center gap-4">
+  <button id="retryBtn" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+    Retry Level
+  </button>
+  <button id="nextBtn" class="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 hidden">
+    Next Level 🔓
+  </button>
+</div>
+
+<!-- Replay Option -->
+<p class="text-center text-sm text-gray-500 mt-4">
+  You can replay any unlocked level anytime 👍
+</p>
+
+  </div>  <script>
+    // Levels definition
+    const levels = [
+      {
+        name: "Home Keys (ASDF JKL;)",
+        keys: ["a","s","d","f","j","k","l",";"],
+        passScore: 6
+      },
+      {
+        name: "Top Row Keys (QWERTY UIOP)",
+        keys: ["q","w","e","r","t","y","u","i","o","p"],
+        passScore: 8
+      },
+      {
+        name: "Bottom Row Keys (ZXCVBNM)",
+        keys: ["z","x","c","v","b","n","m"],
+        passScore: 5
+      },
+      {
+        name: "Space Bar Practice",
+        keys: ["space"],
+        passScore: 5
+      }
+    ];
+
+    let currentLevel = 0;
+    let currentKey = "";
+    let score = 0;
+    let correct = 0;
+    let wrong = 0;
+
+    const practiceArea = document.getElementById("practiceArea");
+    const levelInfo = document.getElementById("levelInfo");
+    const scoreEl = document.getElementById("score");
+    const correctEl = document.getElementById("correct");
+    const wrongEl = document.getElementById("wrong");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function randomBg() {
+      const colors = [
+        "bg-blue-200",
+        "bg-yellow-200",
+        "bg-pink-200",
+        "bg-purple-200",
+        "bg-orange-200",
+        "bg-teal-200"
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function loadLevel(levelIndex) {
+      score = 0;
+      correct = 0;
+      wrong = 0;
+      nextBtn.classList.add("hidden");
+      updateScore();
+      practiceArea.innerHTML = "";
+
+      const level = levels[levelIndex];
+      levelInfo.textContent = `Level ${levelIndex + 1}: ${level.name}`;
+
+      spawnKey();
+    }
+
+    function spawnKey() {
+      practiceArea.innerHTML = "";
+      const level = levels[currentLevel];
+      currentKey = level.keys[Math.floor(Math.random() * level.keys.length)];
+
+      const box = document.createElement("div");
+      box.className = `w-16 h-16 flex items-center justify-center text-2xl font-bold rounded-md border ${randomBg()} animate-bounce`;
+      box.textContent = currentKey === "space" ? "␣" : currentKey.toUpperCase();
+      practiceArea.appendChild(box);
+    }
+
+    function updateScore() {
+      scoreEl.textContent = score;
+      correctEl.textContent = correct;
+      wrongEl.textContent = wrong;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const pressed = e.key === " " ? "space" : e.key.toLowerCase();
+      const box = practiceArea.firstChild;
+      if (!box) return;
+
+      if (pressed === currentKey) {
+        box.classList.remove("animate-bounce");
+        box.classList.add("bg-green-400");
+        correct++;
+        score++;
+      } else {
+        box.classList.remove("animate-bounce");
+        box.classList.add("bg-red-400");
+        wrong++;
+      }
+
+      updateScore();
+
+      setTimeout(() => {
+        const level = levels[currentLevel];
+        if (score >= level.passScore) {
+          nextBtn.classList.remove("hidden");
+        } else {
+          spawnKey();
+        }
+      }, 600);
+    });
+
+    document.getElementById("retryBtn").addEventListener("click", () => {
+      loadLevel(currentLevel);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentLevel < levels.length - 1) {
+        currentLevel++;
+        loadLevel(currentLevel);
+      }
+    });
+
+    // Init
+    loadLevel(currentLevel);
+  </script></body>
+</html>
