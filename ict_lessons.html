@@ -308,6 +308,51 @@ function skStartLessons() {
 }
 </script>
 
+<!-- FLOATING SIGN OUT BUTTON -->
+<div
+  id="skFloatingBtn"
+  class="fixed right-4 top-1/2 z-[9999] flex h-12 w-12 cursor-pointer items-center overflow-hidden rounded-full bg-[#1446b8] text-white shadow-lg transition-all duration-300"
+  onclick="skSignOut()"
+>
+  <span class="ml-4 whitespace-nowrap text-sm font-medium">
+    Sign out here
+  </span>
+</div>
+
+<script>
+let skExpandTimer;
+
+function showFloatingSignOut() {
+  const btn = document.getElementById('skFloatingBtn');
+  if (!btn) return;
+
+  shrinkBtn();
+
+  skExpandTimer = setInterval(() => {
+    expandBtn();
+    setTimeout(shrinkBtn, 3000);
+  }, 15000);
+}
+
+function expandBtn() {
+  const btn = document.getElementById('skFloatingBtn');
+  btn.classList.remove('w-12');
+  btn.classList.add('w-40');
+}
+
+function shrinkBtn() {
+  const btn = document.getElementById('skFloatingBtn');
+  btn.classList.remove('w-40');
+  btn.classList.add('w-12');
+}
+
+function skSignOut() {
+  sessionStorage.clear();
+  clearInterval(skExpandTimer);
+  location.reload();
+}
+</script>
+
   
 <!-- SMARTKIDS PRO WELCOME MODAL (UPDATED BASED ON FEEDBACK) --<!-- MODAL STRUCTURE ><div id="smartkidsModal" class="sk-modal">
   <div class="sk-modal-content">
