@@ -223,7 +223,93 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
-<!-- SMARTKIDS PRO WELCOME MODAL (UPDATED BASED ON FEEDBACK) --><!-- MODAL STRUCTURE --><div id="smartkidsModal" class="sk-modal">
+<!-- SMARTKIDS PRO WELCOME MODAL -->
+<div
+  id="smartkidsModal"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur"
+>
+  <div
+    class="flex min-h-[420px] w-[92%] max-w-[520px] flex-col justify-center rounded-[14px] bg-[rgba(255,255,255,0.97)] px-6 py-8 text-center shadow-[0_15px_40px_rgba(0,0,0,0.25)]"
+  >
+    <h2 class="mb-4 text-2xl font-semibold text-[#1446b8]">
+      Welcome to SmartKids Pro
+    </h2>
+
+    <p class="mb-5 text-base leading-[1.8]">
+      Welcome to the <strong>SmartKids Pro ICT Lessons Page</strong>.
+      These lessons are carefully organised according to
+      <strong>class-based topics</strong>.
+      <br><br>
+      • Use the <strong>search bar</strong> at the top of the page to find topics easily.<br>
+      • Each lesson contains <strong>5 quizzes</strong> to test understanding.<br>
+      • Lessons should be taken <strong>in the correct class order</strong>.
+      <br><br>
+      Kindly enter the pupil details below to continue.
+    </p>
+
+    <input
+      type="text"
+      id="skPupilName"
+      placeholder="Pupil Name"
+      class="mb-3 w-full rounded-lg border border-gray-400 px-3 py-3 text-[15px]"
+    />
+
+    <input
+      type="text"
+      id="skSchoolName"
+      placeholder="School Name"
+      class="mb-4 w-full rounded-lg border border-gray-400 px-3 py-3 text-[15px]"
+    />
+
+    <button
+      onclick="skStartLessons()"
+      class="mt-2 w-full rounded-lg bg-[#1446b8] py-3.5 text-base font-medium text-white hover:bg-[#0f3490]"
+    >
+      Proceed to Lessons
+    </button>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+/* Prevent modal reopening after registration */
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('sk_registered') === 'yes') {
+    document.getElementById('smartkidsModal')?.remove();
+    showFloatingSignOut();
+  }
+});
+
+function skStartLessons() {
+  const pupilName = document.getElementById('skPupilName').value.trim();
+  const schoolName = document.getElementById('skSchoolName').value.trim();
+
+  if (!pupilName || !schoolName) {
+    alert('Please enter pupil name and school name');
+    return;
+  }
+
+  /* Save session (shared-system safe) */
+  sessionStorage.setItem('sk_registered', 'yes');
+  sessionStorage.setItem('sk_pupil', pupilName);
+  sessionStorage.setItem('sk_school', schoolName);
+
+  /* Silent Google Form beacon */
+  const beaconUrl =
+    'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
+    '?entry.1396559970=' + encodeURIComponent(pupilName) +
+    '&entry.111488908=' + encodeURIComponent(schoolName);
+
+  const img = new Image();
+  img.src = beaconUrl;
+
+  document.getElementById('smartkidsModal').remove();
+  showFloatingSignOut();
+}
+</script>
+
+  
+<!-- SMARTKIDS PRO WELCOME MODAL (UPDATED BASED ON FEEDBACK) --<!-- MODAL STRUCTURE ><div id="smartkidsModal" class="sk-modal">
   <div class="sk-modal-content">
     <h2>Welcome to SmartKids Pro</h2><p class="intro-text">
   Welcome to the <strong>SmartKids Pro ICT Lessons Page</strong>.
@@ -242,7 +328,7 @@ function createManualCheckButton(reg) {
 <button onclick="skStartLessons()">Proceed to Lessons</button>
 
   </div>
-</div><!-- MODAL STYLES --><style>
+</div><!-- MODAL STYLES -><style>
 /* WATER-TRANSPARENT OVERLAY */
 .sk-modal {
   position: fixed;
@@ -306,7 +392,7 @@ function createManualCheckButton(reg) {
 .sk-modal-content button:hover {
   background: #0f3490;
 }
-</style><!-- MODAL SCRIPT --><script>
+</style><!-- MODAL SCRIPT --<script>
 /*
 IMPORTANT NOTE (TECHNICAL LIMITATION):
 JavaScript CANNOT send WhatsApp messages silently in the background.
