@@ -10,6 +10,7 @@ const APP_SHELL = [
   "/json-files/ict_lessons.json",
   "/mouse.html",
   "/keyboard.html",
+  "/keyboardbasics.html",
   "/footer.html",
   "/footer-loader.html",
   "/style.css",
