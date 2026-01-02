@@ -44,45 +44,20 @@
 </p>
 
   </div>  <script>
+  document.addEventListener('DOMContentLoaded', () => {
     // Levels definition
     const levels = [
-      // passAccuracy = % , passWPM = minimum speed
-      {
-        name: "Home Keys (ASDF JKL;)",
-        keys: ["a","s","d","f","j","k","l",";"],
-        passScore: 6,
-        passAccuracy: 80,
-        passWPM: 10
-      },
-      {
-        name: "Top Row Keys (QWERTY UIOP)",
-        keys: ["q","w","e","r","t","y","u","i","o","p"],
-        passScore: 8,
-        passAccuracy: 80,
-        passWPM: 12
-      },
-      {
-        name: "Bottom Row Keys (ZXCVBNM)",
-        keys: ["z","x","c","v","b","n","m"],
-        passScore: 5,
-        passAccuracy: 80,
-        passWPM: 10
-      },
-      {
-        name: "Space Bar Practice",
-        keys: ["space"],
-        passScore: 5
-      }
+      { name: "Home Keys (ASDF JKL;)", keys: ["a","s","d","f","j","k","l",";"], passScore: 6, passAccuracy: 80, passWPM: 10 },
+      { name: "Top Row Keys (QWERTY UIOP)", keys: ["q","w","e","r","t","y","u","i","o","p"], passScore: 8, passAccuracy: 80, passWPM: 12 },
+      { name: "Bottom Row Keys (ZXCVBNM)", keys: ["z","x","c","v","b","n","m"], passScore: 5, passAccuracy: 80, passWPM: 10 },
+      { name: "Space Bar Practice", keys: ["space"], passScore: 5, passAccuracy: 90, passWPM: 15 }
     ];
 
     let currentLevel = 0;
-    let started = false;
     let currentKey = "";
-    let startTime = null;
-    let totalAttempts = 0;
-    let score = 0;
-    let correct = 0;
-    let wrong = 0;
+    let score = 0, correct = 0, wrong = 0;
+    let startTime = null, totalAttempts = 0;
+    let started = false;
 
     const practiceArea = document.getElementById("practiceArea");
     const levelInfo = document.getElementById("levelInfo");
@@ -90,49 +65,11 @@
     const correctEl = document.getElementById("correct");
     const wrongEl = document.getElementById("wrong");
     const nextBtn = document.getElementById("nextBtn");
+    const startBtn = document.getElementById("startBtn");
 
     function randomBg() {
-      const colors = [
-        "bg-blue-200",
-        "bg-yellow-200",
-        "bg-pink-200",
-        "bg-purple-200",
-        "bg-orange-200",
-        "bg-teal-200"
-      ];
+      const colors = ["bg-blue-200","bg-yellow-200","bg-pink-200","bg-purple-200","bg-orange-200","bg-teal-200"];
       return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function loadLevel(levelIndex) {
-      score = 0;
-      correct = 0;
-      wrong = 0;
-      totalAttempts = 0;
-      startTime = null;
-      nextBtn.classList.add("hidden");
-      updateScore();
-      practiceArea.innerHTML = "";
-
-      const level = levels[levelIndex];
-      levelInfo.textContent = `Level ${levelIndex + 1}: ${level.name}`;
-
-      spawnKey();
-    }
-    }
-
-    function spawnKey() {
-      practiceArea.innerHTML = "";
-      const level = levels[currentLevel];
-      currentKey = level.keys[Math.floor(Math.random() * level.keys.length)];
-
-      const box = document.createElement("div");
-      box.className = `w-20 h-20 flex items-center justify-center text-3xl font-bold rounded-md border-2 border-gray-300 ${randomBg()} animate-bounce`;
-      box.textContent = currentKey === "space" ? "␣" : currentKey.toUpperCase();
-
-      practiceArea.appendChild(box);
-    } animate-bounce`;
-      box.textContent = currentKey === "space" ? "␣" : currentKey.toUpperCase();
-      practiceArea.appendChild(box);
     }
 
     function updateScore() {
@@ -145,58 +82,74 @@
       wrongEl.textContent = wrong;
       document.getElementById('accuracy').textContent = accuracy + '%';
       document.getElementById('wpm').textContent = wpm;
-    }
+
+      const level = levels[currentLevel];
+      if (score >= level.passScore && accuracy >= level.passAccuracy && wpm >= level.passWPM) {
+        nextBtn.classList.remove('hidden');
+      }
     }
 
-    document.addEventListener("keydown", (e) => {
-      if (!started) return;, (e) => {
+    function spawnKey() {
+      practiceArea.innerHTML = "";
+      const level = levels[currentLevel];
+      currentKey = level.keys[Math.floor(Math.random() * level.keys.length)];
+
+      const box = document.createElement('div');
+      box.className = `w-20 h-20 flex items-center justify-center text-3xl font-bold rounded-md border-2 border-gray-300 ${randomBg()} animate-bounce`;
+      box.textContent = currentKey === 'space' ? '␣' : currentKey.toUpperCase();
+      practiceArea.appendChild(box);
+    }
+
+    function loadLevel(levelIndex) {
+      score = correct = wrong = totalAttempts = 0;
+      startTime = null;
+      nextBtn.classList.add('hidden');
+      updateScore();
+
+      const level = levels[levelIndex];
+      levelInfo.textContent = `Level ${levelIndex + 1}: ${level.name}`;
+      spawnKey();
+    }
+
+    startBtn.addEventListener('click', () => {
+      started = true;
+      loadLevel(currentLevel);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!started) return;
+
       if (!startTime) startTime = Date.now();
-      totalAttempts++;, (e) => {
-      const pressed = e.key === " " ? "space" : e.key.toLowerCase();
+      totalAttempts++;
+
+      const pressed = e.key === ' ' ? 'space' : e.key.toLowerCase();
       const box = practiceArea.firstChild;
       if (!box) return;
 
       if (pressed === currentKey) {
-        box.classList.remove("animate-bounce");
-        box.classList.add("bg-green-400");
-        correct++;
-        score++;
+        box.classList.remove('animate-bounce');
+        box.classList.add('bg-green-400');
+        correct++; score++;
       } else {
-        box.classList.remove("animate-bounce");
-        box.classList.add("bg-red-400");
+        box.classList.remove('animate-bounce');
+        box.classList.add('bg-red-400');
         wrong++;
       }
 
       updateScore();
-
-      setTimeout(() => {
-        const level = levels[currentLevel];
-        if (score >= level.passScore) {
-          nextBtn.classList.remove("hidden");
-        } else {
-          spawnKey();
-        }
-      }, 600);
+      setTimeout(spawnKey, 600);
     });
 
-    document.getElementById("retryBtn").addEventListener("click", () => {
-      // wait for Get Started
-    document.getElementById('startBtn').addEventListener('click', () => {
-      started = true;
-      loadLevel(currentLevel);
-    });
-    });
+    document.getElementById('retryBtn').addEventListener('click', () => loadLevel(currentLevel));
 
-    nextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener('click', () => {
       if (currentLevel < levels.length - 1) {
         currentLevel++;
         loadLevel(currentLevel);
       }
     });
-
-    // Init
-    loadLevel(currentLevel);
-  </script>  <!-- Completion Modal -->  <div id="completionModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  });
+</script>  <!-- Completion Modal -->  <div id="completionModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
     <div class="bg-white rounded-xl p-6 max-w-sm text-center">
       <h2 class="text-xl font-bold mb-2">🎉 Great Job!</h2>
       <p class="text-gray-600 mb-4">You have completed all basic keyboard practices.</p>
