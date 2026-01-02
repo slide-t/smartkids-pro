@@ -574,7 +574,82 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
-<!-- HARD BLOCK OVERLAY (ESCAPES ALL LAYOUTS) -->
+
+<!-- HARD BLOCK OVERLAY -->
+<div id="basicGateOverlay">
+  <div id="basicGateModal">
+    <h2>⌨️ Start Here First</h2>
+    <p>
+      You must complete the <b>Basic Keyboard Practice</b> before continuing.
+    </p>
+    <button onclick="goToBasics()">Go to Basic Practice →</button>
+  </div>
+</div>
+
+<style>
+  /* Overlay */
+  #basicGateOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* PERFECT CENTERING */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Modal */
+  #basicGateModal {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  #basicGateModal h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  #basicGateModal p {
+    color: #555;
+    margin-bottom: 16px;
+  }
+
+  #basicGateModal button {
+    background: #2563eb;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  #basicGateModal button:hover {
+    background: #1e40af;
+  }
+</style>
+
+<script>
+  // Lock background completely
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+
+  function goToBasics() {
+    window.location.href = 'keyboardbasics.html';
+  }
+</script>
+  
+<!-- HARD BLOCK OVERLAY (ESCAPES ALL LAYOUTS) ->
 <div id="basicGateOverlay"></div>
 
 <style>
@@ -636,7 +711,7 @@ function createManualCheckButton(reg) {
   function goToBasics() {
     window.location.href = 'keyboardbasics.html';
   }
-  </script>
+  </script>-->
 </body>
 </html>
 
