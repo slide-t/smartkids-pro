@@ -78,7 +78,15 @@
     const correctEl = document.getElementById("correct");
     const wrongEl = document.getElementById("wrong");
     const nextBtn = document.getElementById("nextBtn");
-    const startBtn = document.getElementById("startBtn");
+    const startBtn = const startBtn = document.getElementById("startBtn");
+
+if (startBtn) {
+  startBtn.addEventListener("click", () => {
+    introSection.classList.add("hidden");
+    practiceSection.classList.remove("hidden");
+    startPractice();
+  });
+}
 
     function randomBg() {
       const colors = ["bg-blue-200","bg-yellow-200","bg-pink-200","bg-purple-200","bg-orange-200","bg-teal-200"];
