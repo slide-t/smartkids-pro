@@ -57,7 +57,47 @@
         <button id="advanceBtn" class="px-4 py-2 rounded-lg bg-green-500 text-white">Go to Advanced ⏭️</button>
       </div>
     </div>
-  </div>  <script>
+  </div>
+  <!-- Floating Hamburger Menu -->
+<div class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
+  <!-- Hamburger Button -->
+  <button id="menuBtn"
+    class="w-12 h-12 rounded-full bg-blue-600 text-white text-2xl font-bold shadow-lg hover:bg-blue-700 transition">
+    ☰
+  </button>
+</div>
+
+<!-- Slide-out Menu Panel -->
+<div id="menuPanel"
+  class="fixed top-0 left-0 h-full w-64 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 z-40">
+
+  <div class="p-6">
+    <h2 class="text-lg font-bold text-blue-600 mb-6">📘 Smart Learning</h2>
+
+    <nav class="space-y-4 text-lg">
+      <a href="ict-lessons.html"
+         class="block px-4 py-2 rounded-lg hover:bg-blue-100 transition">
+        📚 Lessons
+      </a>
+
+      <a href="mouse.html"
+         class="block px-4 py-2 rounded-lg hover:bg-blue-100 transition">
+        🖱️ Mouse Practices
+      </a>
+
+      <a href="quiz.html"
+         class="block px-4 py-2 rounded-lg hover:bg-blue-100 transition">
+        📝 Quiz
+      </a>
+    </nav>
+  </div>
+</div>
+
+<!-- Background Overlay -->
+<div id="menuOverlay"
+  class="fixed inset-0 bg-black/40 hidden z-30"></div>
+  
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const levels = [
         { name: "Home Keys (ASDF JKL;)", keys: ["a","s","d","f","j","k","l",";"], passScore: 6, passAccuracy: 80, passWPM: 10 },
@@ -204,5 +244,21 @@
         window.location.href = 'keyboard.html';
       });
     });
-  </script></body>
+  </script>
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuPanel = document.getElementById('menuPanel');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuPanel.classList.toggle('-translate-x-full');
+    menuOverlay.classList.toggle('hidden');
+  });
+
+  menuOverlay.addEventListener('click', () => {
+    menuPanel.classList.add('-translate-x-full');
+    menuOverlay.classList.add('hidden');
+  });
+</script>
+</body>
 </html>
