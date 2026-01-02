@@ -260,5 +260,125 @@
     menuOverlay.classList.add('hidden');
   });
 </script>
+
+  <!-- Session Timer -->
+<div id="sessionBox"
+  class="fixed top-4 right-4 bg-white shadow-lg rounded-xl p-4 w-64 text-center z-50">
+
+  <h3 class="font-bold text-blue-600 mb-1">⏱ Pupil Session</h3>
+
+  <p class="text-sm">
+    Time Left:
+    <span id="timeLeft" class="font-bold text-lg text-red-600">05:00</span>
+  </p>
+
+  <p class="text-xs text-gray-500 mt-1">
+    Pupil <span id="pupilCount">1</span>
+  </p>
+
+  <button id="nextPupilBtn"
+    class="hidden mt-3 w-full py-2 rounded-lg bg-green-500 text-white font-semibold">
+    ▶ Start Next Pupil
+  </button>
+</div>
+
+<!-- Lock Screen -->
+<div id="lockScreen"
+  class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl p-6 text-center max-w-sm">
+    <h2 class="text-xl font-bold mb-2">⛔ Time Up</h2>
+    <p class="text-gray-600 mb-4">
+      This pupil’s time is over.<br>
+      Please allow the next pupil.
+    </p>
+    <button id="unlockBtn"
+      class="px-6 py-2 rounded-lg bg-blue-600 text-white font-bold">
+      Start Next Pupil
+    </button>
+  </div>
+</div>
+
+  <script>
+/* ==============================
+   SESSION CONFIG (REUSABLE)
+============================== */
+const TOTAL_SESSION_MINUTES = 45;
+const PER_PUPIL_MINUTES = 5;
+const MAX_PUPILS = 5; // hard limit
+
+/* ==============================
+   SESSION STATE
+============================== */
+let currentPupil = 1;
+let remainingSeconds = PER_PUPIL_MINUTES * 60;
+let timerInterval = null;
+
+/* ==============================
+   ELEMENTS
+============================== */
+const timeLeftEl = document.getElementById('timeLeft');
+const pupilCountEl = document.getElementById('pupilCount');
+const lockScreen = document.getElementById('lockScreen');
+const nextPupilBtn = document.getElementById('nextPupilBtn');
+const unlockBtn = document.getElementById('unlockBtn');
+
+/* ==============================
+   TIMER FUNCTIONS
+============================== */
+function formatTime(sec) {
+  const m = String(Math.floor(sec / 60)).padStart(2, '0');
+  const s = String(sec % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function startPupilTimer() {
+  clearInterval(timerInterval);
+  remainingSeconds = PER_PUPIL_MINUTES * 60;
+
+  pupilCountEl.textContent = currentPupil;
+  timeLeftEl.textContent = formatTime(remainingSeconds);
+
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+    timeLeftEl.textContent = formatTime(remainingSeconds);
+
+    if (remainingSeconds <= 0) {
+      endPupilSession();
+    }
+  }, 1000);
+}
+
+function endPupilSession() {
+  clearInterval(timerInterval);
+  lockScreen.classList.remove('hidden');
+  lockScreen.classList.add('flex');
+}
+
+/* ==============================
+   NEXT PUPIL
+============================== */
+function nextPupil() {
+  lockScreen.classList.add('hidden');
+
+  if (currentPupil >= MAX_PUPILS) {
+    alert("✅ Daily session completed.");
+    return;
+  }
+
+  currentPupil++;
+  startPupilTimer();
+}
+
+/* ==============================
+   EVENTS
+============================== */
+unlockBtn.addEventListener('click', nextPupil);
+nextPupilBtn?.addEventListener('click', nextPupil);
+
+/* ==============================
+   START FIRST PUPIL
+============================== */
+startPupilTimer();
+</script>
 </body>
 </html>
