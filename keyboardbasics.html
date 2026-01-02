@@ -101,6 +101,8 @@
       score = 0;
       correct = 0;
       wrong = 0;
+      totalAttempts = 0;
+      startTime = null;
       nextBtn.classList.add("hidden");
       updateScore();
       practiceArea.innerHTML = "";
@@ -110,6 +112,7 @@
 
       spawnKey();
     }
+    }
 
     function spawnKey() {
       practiceArea.innerHTML = "";
@@ -117,7 +120,11 @@
       currentKey = level.keys[Math.floor(Math.random() * level.keys.length)];
 
       const box = document.createElement("div");
-      box.className = `w-16 h-16 flex items-center justify-center text-2xl font-bold rounded-md border ${randomBg()} animate-bounce`;
+      box.className = `w-20 h-20 flex items-center justify-center text-3xl font-bold rounded-md border-2 border-gray-300 ${randomBg()} animate-bounce`;
+      box.textContent = currentKey === "space" ? "␣" : currentKey.toUpperCase();
+
+      practiceArea.appendChild(box);
+    } animate-bounce`;
       box.textContent = currentKey === "space" ? "␣" : currentKey.toUpperCase();
       practiceArea.appendChild(box);
     }
