@@ -263,7 +263,7 @@
 
   <!-- Session Timer -->
 <div id="sessionBox"
-  class="fixed top-24 right-4 bg-white shadow-lg rounded-xl p-4 w-64 text-center z-50">
+  class="fixed top-100 right-4 bg-white shadow-lg rounded-xl p-4 w-64 text-center z-50">
 
   <h3 class="font-bold text-blue-600 mb-1">⏱ Pupil Session</h3>
 
@@ -379,6 +379,33 @@ nextPupilBtn?.addEventListener('click', nextPupil);
    START FIRST PUPIL
 ============================== */
 startPupilTimer();
+</script>
+  <script>
+function registerPupil() {
+  const name = document.getElementById("pupilName").value.trim();
+  const school = document.getElementById("schoolName").value.trim();
+
+  if (!name || !school) {
+    alert("Please enter your name and school");
+    return;
+  }
+
+  const pupilData = {
+    name,
+    school,
+    time: Date.now()
+  };
+
+  localStorage.setItem("smartkids_pupil", JSON.stringify(pupilData));
+
+  // Track pupils per school
+  const schools = JSON.parse(localStorage.getItem("smartkids_schools")) || {};
+  schools[school] = (schools[school] || 0) + 1;
+  localStorage.setItem("smartkids_schools", JSON.stringify(schools));
+
+  // Go to keyboard practice
+  window.location.replace("keyboard.html");
+}
 </script>
 </body>
 </html>
