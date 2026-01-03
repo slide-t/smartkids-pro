@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SmartKids Pro: Keyboard Tutor</title>
 <link rel="stylesheet" href="style.css"/>
-<style>
+<script>
+(function () {
+  const s = JSON.parse(localStorage.getItem("sk_session"));
+  if (!s) {
+    location.replace("index.html");
+    return;
+  }
+
+  if (Date.now() > s.expiresAt) {
+    localStorage.removeItem("sk_session");
+    location.replace("index.html");
+  }
+})();
+</script>
+  <style>
   body {
     font-family: 'Poppins', sans-serif;
     background: #0f172a;
