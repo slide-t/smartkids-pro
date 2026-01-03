@@ -6,7 +6,21 @@
   <title>SmartKids-Pro | ICT Lessons</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
-<link rel="stylesheet" href="style.css" />
+<script>
+(function () {
+  const s = JSON.parse(localStorage.getItem("sk_session"));
+  if (!s) {
+    location.replace("index.html");
+    return;
+  }
+
+  if (Date.now() > s.expiresAt) {
+    localStorage.removeItem("sk_session");
+    location.replace("index.html");
+  }
+})();
+</script>
+  <link rel="stylesheet" href="style.css" />
   <style>
     /* Accordion animation */
     .accordion-content {
@@ -223,7 +237,7 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
-<!-- SMARTKIDS PRO WELCOME MODAL -->
+<!-- SMARTKIDS PRO WELCOME MODAL ->
 <div
   id="smartkidsModal"
   class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur"
@@ -270,7 +284,7 @@ function createManualCheckButton(reg) {
   </div>
 </div>
 
-<!-- SCRIPT -->
+<!-- SCRIPT ->
 <script>
 /* Prevent modal reopening after registration */
 document.addEventListener('DOMContentLoaded', () => {
@@ -309,7 +323,7 @@ function skStartLessons() {
 </script>
 
   
-<!-- FLOATING SIGN OUT BUTTON -->
+<!-- FLOATING SIGN OUT BUTTON --
 <div
   id="skFloatingBtn"
   class="fixed right-4 top-1/2 z-[9999]
