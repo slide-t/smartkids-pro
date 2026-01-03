@@ -618,10 +618,19 @@ function skStartLessons() {
     return;
   }
 
-  /* Save session (shared-system safe) */
-  sessionStorage.setItem('sk_registered', 'yes');
+  /* Save localStorage (shared-system safe) */
+ const SESSION_MINUTES = 5; // adjustable by teacher
+
+localStorage.setItem('sk_session', JSON.stringify({
+  pupil: pupilName,
+  school: schoolName,
+  license: localStorage.getItem("sk_active_license"),
+  expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
+}));
+  
+  /*sessionStorage.setItem('sk_registered', 'yes');
   sessionStorage.setItem('sk_pupil', pupilName);
-  sessionStorage.setItem('sk_school', schoolName);
+  sessionStorage.setItem('sk_school', schoolName);*/
 
   /* Silent Google Form beacon */
   const beaconUrl =
