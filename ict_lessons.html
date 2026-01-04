@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+(function () {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+
+  if (!session) {
+    location.replace("index.html");
+    return;
+  }
+
+  if (Date.now() > session.expiresAt) {
+    localStorage.removeItem("sk_session");
+    location.replace("index.html");
+  }
+})();
+</script>
   <title>SmartKids-Pro | ICT Lessons</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
