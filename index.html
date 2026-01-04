@@ -600,7 +600,13 @@ document.addEventListener("DOMContentLoaded", function () {
       placeholder="School Name"
       class="mb-4 w-full rounded-lg border border-gray-400 px-3 py-3 text-[15px]"
     />
-
+<input
+  type="text"
+  id="schoolCode"
+  placeholder="Enter School Code"
+  required
+  class="w-full px-4 py-2 border rounded-md"
+/>
     <button
       onclick="skStartLessons()"
       class="mt-2 w-full rounded-lg bg-[#1446b8] py-3.5 text-base font-medium text-white hover:bg-[#0f3490]"
@@ -639,10 +645,6 @@ localStorage.setItem('sk_session', JSON.stringify({
   expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
 }));
   
-  /*sessionStorage.setItem('sk_registered', 'yes');
-  sessionStorage.setItem('sk_pupil', pupilName);
-  sessionStorage.setItem('sk_school', schoolName);*/
-
   /* Silent Google Form beacon */
   const beaconUrl =
     'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
