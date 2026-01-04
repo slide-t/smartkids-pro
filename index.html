@@ -657,8 +657,146 @@ if (!pupilName || !schoolName || !schoolCode) {
   showFloatingSignOut();
 }
 </script>
+<script>
+/* =====================================================
+   SMARTKIDS PRO – LICENSE, DEVICE & TERM CONTROL SYSTEM
+   ===================================================== */
 
-  <script>
+(function () {
+  "use strict";
+
+  /* ================= ADMIN BYPASS ================= */
+  const ADMIN_KEY = "sk-admin-2025";
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("admin") === ADMIN_KEY) {
+    sessionStorage.setItem("sk_license_ok", "yes");
+    return;
+  }
+
+  /* ================= LICENSE DATABASE ================= */
+  const LICENSES = {
+    "BF-2025-AX92": { school: "Bright Future School", limit: 20, expiry: "2026-04-10" },
+    "RS-2025-QP11": { school: "Royal Stars College", limit: 20, expiry: "2026-04-10" },
+    "SK-DEMO-999":  { school: "SmartKids Demo", limit: 999, expiry: "2027-01-01" }
+  };
+
+  /* ================= STORAGE KEYS ================= */
+  const ACTIVE_LICENSE_KEY = "sk_active_license";
+  const DEVICE_ID_KEY = "sk_device_id";
+
+  /* ================= DEVICE ID ================= */
+  function getDeviceId() {
+    let id = localStorage.getItem(DEVICE_ID_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem(DEVICE_ID_KEY, id);
+    }
+    return id;
+  }
+
+  /* ================= DATE CHECK ================= */
+  function isExpired(dateStr) {
+    if (!dateStr) return false;
+    return new Date() > new Date(dateStr + "T23:59:59");
+  }
+
+  /* ================= REGISTER DEVICE ================= */
+  function registerDeviceOnce(licenseKey) {
+    const deviceId = getDeviceId();
+    const storeKey = `sk_devices_${licenseKey}`;
+    const devices = JSON.parse(localStorage.getItem(storeKey)) || [];
+
+    if (!devices.includes(deviceId)) {
+      devices.push(deviceId);
+      localStorage.setItem(storeKey, JSON.stringify(devices));
+    }
+
+    return devices.length;
+  }
+
+  /* ================= VALIDATE ================= */
+  function validateLicense(key) {
+    const lic = LICENSES[key];
+    if (!lic) return "INVALID";
+    if (isExpired(lic.expiry)) return "EXPIRED";
+
+    const count = registerDeviceOnce(key);
+    if (count > lic.limit) return "LIMIT";
+
+    return "OK";
+  }
+
+  /* ================= LICENSE MODAL ================= */
+  function showLicenseModal(message) {
+    const modal = document.createElement("div");
+    modal.style.cssText = `
+      position:fixed; inset:0; z-index:99999;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center;
+      font-family:system-ui,sans-serif;
+    `;
+
+    modal.innerHTML = `
+      <div style="background:#fff;max-width:420px;width:92%;
+        padding:22px;border-radius:14px;text-align:center">
+        <h2 style="font-size:22px;margin-bottom:10px">SmartKids Pro Access</h2>
+        <p style="font-size:15px">${message}</p>
+        <input id="sk_license_input"
+          placeholder="Enter School License Code"
+          style="width:100%;padding:12px;margin-top:12px;border-radius:8px;border:1px solid #ccc">
+        <button id="sk_license_btn"
+          style="margin-top:12px;width:100%;padding:12px;
+          border:none;border-radius:10px;background:#2563eb;color:#fff">
+          Continue
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById("sk_license_btn").onclick = () => {
+      const key = document.getElementById("sk_license_input").value.trim();
+      const result = validateLicense(key);
+
+      if (result === "OK") {
+        localStorage.setItem(ACTIVE_LICENSE_KEY, key);
+        sessionStorage.setItem("sk_license_ok", "yes");
+        modal.remove();
+        return;
+      }
+
+      alert(
+        result === "EXPIRED" ? "School access expired." :
+        result === "LIMIT"   ? "Device limit reached." :
+                               "Invalid school license."
+      );
+    };
+  }
+
+  /* ================= BOOT ================= */
+  const activeKey = localStorage.getItem(ACTIVE_LICENSE_KEY);
+
+  if (!activeKey) {
+    showLicenseModal("Please enter your school license code.");
+    return;
+  }
+
+  const status = validateLicense(activeKey);
+  if (status !== "OK") {
+    localStorage.removeItem(ACTIVE_LICENSE_KEY);
+    showLicenseModal(
+      status === "EXPIRED" ? "School license expired." :
+      status === "LIMIT"   ? "Device limit reached." :
+                             "License problem detected."
+    );
+    return;
+  }
+
+  sessionStorage.setItem("sk_license_ok", "yes");
+})();
+</script>
+ <!-- <script>
  /* =====================================================
    SMARTKIDS PRO – LICENSE, DEVICE & TERM CONTROL SYSTEM
    -----------------------------------------------------
@@ -823,7 +961,7 @@ if (!pupilName || !schoolName || !schoolCode) {
     showLicenseModal(msg);
   }
 })();
-</script>
+</script>-->
   
 <script>
 /* ================= BASIC CONTENT PROTECTION ================= */
