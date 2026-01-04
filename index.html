@@ -641,7 +641,121 @@ document.addEventListener("DOMContentLoaded", function () {
   </div>
 </div>
 
+<!-- SMARTKIDS PRO MODAL (2-in-1) -->
+<div id="smartkidsModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
+  <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[520px] p-6">
+    
+    <!-- Tabs -->
+    <div class="flex justify-between mb-4 border-b">
+      <button id="tabPupil" class="w-1/2 py-2 border-b-2 border-blue-600 font-semibold">Pupil</button>
+      <button id="tabAdmin" class="w-1/2 py-2 border-b-2 border-transparent font-semibold hover:border-blue-600">Admin</button>
+    </div>
+
+    <!-- Pupil Registration -->
+    <div id="pupilTab" class="flex flex-col gap-3">
+      <input type="text" id="skPupilName" placeholder="Pupil Name" class="border rounded-md px-3 py-2 w-full" />
+      <input type="text" id="skSchoolName" placeholder="School Name" class="border rounded-md px-3 py-2 w-full" />
+      <input type="text" id="skSchoolCode" placeholder="School Code" class="border rounded-md px-3 py-2 w-full" />
+      <button onclick="startPupilSession()" class="bg-blue-600 text-white py-2 rounded-md mt-2 hover:bg-blue-700">Proceed</button>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminTab" class="hidden flex flex-col gap-3">
+      <input type="text" id="adminUsername" placeholder="Admin Username" class="border rounded-md px-3 py-2 w-full" />
+      <input type="password" id="adminPassword" placeholder="Admin Password" class="border rounded-md px-3 py-2 w-full" />
+      <button onclick="adminLogin()" class="bg-green-600 text-white py-2 rounded-md mt-2 hover:bg-green-700">Login</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ================== TAB SWITCH ================== */
+const pupilTabBtn = document.getElementById("tabPupil");
+const adminTabBtn = document.getElementById("tabAdmin");
+const pupilTab = document.getElementById("pupilTab");
+const adminTab = document.getElementById("adminTab");
+
+pupilTabBtn.onclick = () => {
+  pupilTab.classList.remove("hidden");
+  adminTab.classList.add("hidden");
+  pupilTabBtn.classList.add("border-blue-600");
+  adminTabBtn.classList.remove("border-blue-600");
+};
+adminTabBtn.onclick = () => {
+  adminTab.classList.remove("hidden");
+  pupilTab.classList.add("hidden");
+  adminTabBtn.classList.add("border-blue-600");
+  pupilTabBtn.classList.remove("border-blue-600");
+};
+
+/* ================== PUPIL SESSION ================== */
+function startPupilSession() {
+  const pupil = document.getElementById("skPupilName").value.trim();
+  const school = document.getElementById("skSchoolName").value.trim();
+  const code = document.getElementById("skSchoolCode").value.trim();
+  const SESSION_MINUTES = 5;
+
+  if (!pupil || !school || !code) {
+    alert("Please fill all pupil fields");
+    return;
+  }
+
+  const sessionData = {
+    pupil,
+    school,
+    schoolCode: code,
+    license: localStorage.getItem("sk_active_license"),
+    expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
+  };
+
+  localStorage.setItem("sk_session", JSON.stringify(sessionData));
+  sessionStorage.setItem("sk_registered", "yes");
+
+  document.getElementById("smartkidsModal").remove();
+  showFloatingSignOut(); // your existing floating button function
+}
+
+/* ================== ADMIN LOGIN ================== */
+function adminLogin() {
+  const username = document.getElementById("adminUsername").value.trim();
+  const password = document.getElementById("adminPassword").value.trim();
+  const ADMIN_USER = "admin";
+  const ADMIN_PASS = "sk-admin-2025";
+
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    alert("Admin login successful");
+    sessionStorage.setItem("sk_admin", "yes");
+    document.getElementById("smartkidsModal").remove();
+  } else {
+    alert("Invalid admin credentials");
+  }
+}
+
+/* ================== SHOW MODAL IF NOT REGISTERED ================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+  if (!session || Date.now() > session.expiresAt) {
+    localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
+    document.getElementById("smartkidsModal").classList.remove("hidden");
+  } else {
+    document.getElementById("smartkidsModal")?.remove();
+    showFloatingSignOut();
+  }
+});
+
+/* ================== SESSION ENFORCEMENT ON OTHER PAGES ================== */
+(function() {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+  if ((!session || Date.now() > session.expiresAt) && !window.location.href.includes("index.html")) {
+    localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
+    location.replace("index.html");
+  }
+})();
+</script>
+  
+<!--<script>
 /* =====================================================
    TAB SWITCHING
 ===================================================== */
@@ -731,7 +845,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeAccessModal();
   }
 });
-</script>
+</script>-->
 
 <script>
 /* =====================================================
