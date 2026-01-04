@@ -649,10 +649,16 @@ if (!pupilName || !schoolName || !schoolCode) {
 }));
 
   /* Silent Google Form beacon */
+
   const beaconUrl =
+  'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
+  '?entry.1396559970=' + encodeURIComponent(pupilName) +
+  '&entry.111488908=' + encodeURIComponent(schoolName) +
+  '&entry.1234567890=' + encodeURIComponent(schoolCode);
+  /*const beaconUrl =
     'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
     '?entry.1396559970=' + encodeURIComponent(pupilName) +
-    '&entry.111488908=' + encodeURIComponent(schoolName);
+    '&entry.111488908=' + encodeURIComponent(schoolName);*/
 
   const img = new Image();
   img.src = beaconUrl;
