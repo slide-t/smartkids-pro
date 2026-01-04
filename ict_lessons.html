@@ -63,6 +63,12 @@
 </head>
 
 <body class="font-sans bg-gray-50 text-gray-800">
+ <div id="sk_pupil_info" class="fixed top-0 left-0 w-full bg-[#1446b8] text-white py-2 px-4 text-sm font-medium flex justify-between items-center hidden">
+  <span id="sk_pupil_name"></span>
+  <span id="sk_school_name"></span>
+  <span id="sk_school_code"></span>
+</div>
+
   <!-- HEADER -->
   <header class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -252,6 +258,24 @@ function createManualCheckButton(reg) {
   document.body.appendChild(btn);
 }
 </script>
+<script>
+(function() {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
 
+  // If no session or expired → hide info bar
+  if (!session || Date.now() > session.expiresAt) {
+    document.getElementById('sk_pupil_info')?.classList.add('hidden');
+    return;
+  }
+
+  // Populate info bar
+  document.getElementById('sk_pupil_name').textContent = "Pupil: " + session.pupil;
+  document.getElementById('sk_school_name').textContent = "School: " + session.school;
+  document.getElementById('sk_school_code').textContent = "Code: " + session.schoolCode;
+
+  // Show info bar
+  document.getElementById('sk_pupil_info')?.classList.remove('hidden');
+})();
+</script>
 </body>  
 </html>
