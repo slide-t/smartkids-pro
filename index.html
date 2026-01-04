@@ -9,17 +9,7 @@
   <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
 <script src="https://unpkg.com/heroicons@2.0.18/24/solid/index.js"></script>
   <link rel="stylesheet" href="style.css"/>
- <script>
-(function () {
-  const s = JSON.parse(localStorage.getItem("sk_session"));
-  if (!s) return;
-
-  if (Date.now() > s.expiresAt) {
-    localStorage.removeItem("sk_session");
-    location.replace("index.html");
-  }
-})();
-</script>
+ 
   <style>
 /* Floating icon animation */
 @keyframes float {
