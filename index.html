@@ -640,13 +640,14 @@ if (!pupilName || !schoolName || !schoolCode) {
   /* Save localStorage (shared-system safe) */
  const SESSION_MINUTES = 5; // adjustable by teacher
 
-localStorage.setItem('sk_session', JSON.stringify({
+  localStorage.setItem('sk_session', JSON.stringify({
   pupil: pupilName,
   school: schoolName,
+  schoolCode: schoolCode,
   license: localStorage.getItem("sk_active_license"),
   expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
 }));
-  
+
   /* Silent Google Form beacon */
   const beaconUrl =
     'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
