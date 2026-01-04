@@ -282,25 +282,7 @@
   <span id="sk_school_name"></span>
   <span id="sk_school_code"></span>
 </div>
-<script>
-(function() {
-  const session = JSON.parse(localStorage.getItem("sk_session"));
 
-  // If no session or expired → hide info bar
-  if (!session || Date.now() > session.expiresAt) {
-    document.getElementById('sk_pupil_info')?.classList.add('hidden');
-    return;
-  }
-
-  // Populate info bar
-  document.getElementById('sk_pupil_name').textContent = "Pupil: " + session.pupil;
-  document.getElementById('sk_school_name').textContent = "School: " + session.school;
-  document.getElementById('sk_school_code').textContent = "Code: " + session.schoolCode;
-
-  // Show info bar
-  document.getElementById('sk_pupil_info')?.classList.remove('hidden');
-})();
-</script>
 <!-- 🌟 HEADER SECTION -->
 <header class="header-bar">
   <h1 class="header-title">Keyboard Lessons</h1>
@@ -691,7 +673,25 @@ function createManualCheckButton(reg) {
     window.location.href = 'keyboardbasics.html';
   }
 </script>
+<script>
+(function() {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
 
+  // If no session or expired → hide info bar
+  if (!session || Date.now() > session.expiresAt) {
+    document.getElementById('sk_pupil_info')?.classList.add('hidden');
+    return;
+  }
+
+  // Populate info bar
+  document.getElementById('sk_pupil_name').textContent = "Pupil: " + session.pupil;
+  document.getElementById('sk_school_name').textContent = "School: " + session.school;
+  document.getElementById('sk_school_code').textContent = "Code: " + session.schoolCode;
+
+  // Show info bar
+  document.getElementById('sk_pupil_info')?.classList.remove('hidden');
+})();
+</script>
 </body>
 </html>
 
