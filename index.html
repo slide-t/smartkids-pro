@@ -3,6 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <script>
+(function() {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+
+  // No session → show modal normally
+  if (!session) return;
+
+  // Check if session expired
+  if (Date.now() > session.expiresAt) {
+    localStorage.removeItem("sk_session");   // clear previous session
+    sessionStorage.removeItem("sk_registered"); // reset registration
+    location.reload(); // reload page to trigger modal again
+    return;
+  }
+
+  // Session still valid → mark as registered
+  sessionStorage.setItem("sk_registered", "yes");
+})();
+</script>
   <title>SmartKids-Pro | Learn ICT the Fun Way!</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
