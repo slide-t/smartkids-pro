@@ -627,13 +627,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function skStartLessons() {
-  const pupilName = document.getElementById('skPupilName').value.trim();
-  const schoolName = document.getElementById('skSchoolName').value.trim();
 
-  if (!pupilName || !schoolName) {
-    alert('Please enter pupil name and school name');
-    return;
-  }
+  const pupilName = document.getElementById('skPupilName').value.trim();
+const schoolName = document.getElementById('skSchoolName').value.trim();
+const schoolCode = document.getElementById('skSchoolCode').value.trim();
+
+if (!pupilName || !schoolName || !schoolCode) {
+  alert('Please enter pupil name, school name, and school code');
+  return;
+}
 
   /* Save localStorage (shared-system safe) */
  const SESSION_MINUTES = 5; // adjustable by teacher
