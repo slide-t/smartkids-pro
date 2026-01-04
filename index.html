@@ -640,9 +640,9 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   </div>
 </div>
-
-<!-- SMARTKIDS PRO MODAL (2-in-1) -->
-<div id="smartkidsModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
+  
+<!-- SMARTKIDS PRO ACCESS MODAL -->
+<div id="skAccessModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
   <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[520px] p-6">
     
     <!-- Tabs -->
@@ -651,7 +651,126 @@ document.addEventListener("DOMContentLoaded", function () {
       <button id="tabAdmin" class="w-1/2 py-2 border-b-2 border-transparent font-semibold hover:border-blue-600">Admin</button>
     </div>
 
-    <!-- Pupil Registration -->
+    <!-- Pupil Panel -->
+    <div id="pupilPanel" class="flex flex-col gap-3">
+      <input type="text" id="skPupilName" placeholder="Pupil Name" class="border rounded-md px-3 py-2 w-full" />
+      <input type="text" id="skSchoolName" placeholder="School Name" class="border rounded-md px-3 py-2 w-full" />
+      <input type="text" id="skSchoolCode" placeholder="School Code" class="border rounded-md px-3 py-2 w-full" />
+      <button onclick="skRegisterPupil()" class="bg-blue-600 text-white py-2 rounded-md mt-2 hover:bg-blue-700">Proceed</button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden flex flex-col gap-3">
+      <input type="password" id="skAdminKey" placeholder="Admin Key" class="border rounded-md px-3 py-2 w-full" />
+      <button onclick="skAdminLogin()" class="bg-green-600 text-white py-2 rounded-md mt-2 hover:bg-green-700">Login</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================== TAB SWITCH ================== */
+const tabPupil = document.getElementById("tabPupil");
+const tabAdmin = document.getElementById("tabAdmin");
+const pupilPanel = document.getElementById("pupilPanel");
+const adminPanel = document.getElementById("adminPanel");
+
+tabPupil.onclick = () => {
+  pupilPanel.classList.remove("hidden");
+  adminPanel.classList.add("hidden");
+  tabPupil.classList.add("border-blue-600", "text-blue-600");
+  tabAdmin.classList.remove("border-blue-600", "text-blue-600");
+};
+
+tabAdmin.onclick = () => {
+  adminPanel.classList.remove("hidden");
+  pupilPanel.classList.add("hidden");
+  tabAdmin.classList.add("border-blue-600", "text-blue-600");
+  tabPupil.classList.remove("border-blue-600", "text-blue-600");
+};
+
+/* ================== PUPIL REGISTRATION ================== */
+function skRegisterPupil() {
+  const pupil = document.getElementById("skPupilName").value.trim();
+  const school = document.getElementById("skSchoolName").value.trim();
+  const code = document.getElementById("skSchoolCode").value.trim();
+  const SESSION_MINUTES = 5;
+
+  if (!pupil || !school || !code) {
+    alert("All fields are required.");
+    return;
+  }
+
+  const sessionData = {
+    pupil,
+    school,
+    schoolCode: code,
+    expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
+  };
+
+  localStorage.setItem("sk_session", JSON.stringify(sessionData));
+  sessionStorage.setItem("sk_registered", "yes");
+
+  // Silent logging to Google Form (optional)
+  const img = new Image();
+  img.src = `https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse?entry.1396559970=${encodeURIComponent(pupil)}&entry.111488908=${encodeURIComponent(school)}&entry.1234567890=${encodeURIComponent(code)}`;
+
+  closeAccessModal();
+}
+
+/* ================== ADMIN LOGIN ================== */
+function skAdminLogin() {
+  const key = document.getElementById("skAdminKey").value.trim();
+  const ADMIN_KEY = "sk-admin-2025";
+
+  if (key !== ADMIN_KEY) {
+    alert("Invalid admin key");
+    return;
+  }
+
+  sessionStorage.setItem("sk_admin", "yes");
+  sessionStorage.setItem("sk_registered", "yes");
+  closeAccessModal();
+}
+
+/* ================== CLOSE MODAL ================== */
+function closeAccessModal() {
+  document.getElementById("skAccessModal")?.remove();
+}
+
+/* ================== AUTO-CHECK SESSION ================== */
+document.addEventListener("DOMContentLoaded", () => {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+  if (session && Date.now() < session.expiresAt) {
+    // session valid
+    closeAccessModal();
+  } else {
+    localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
+    document.getElementById("skAccessModal").classList.remove("hidden");
+  }
+});
+
+/* ================== SESSION ENFORCEMENT ON OTHER PAGES ================== */
+(function() {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+  if ((!session || Date.now() > session.expiresAt) && !window.location.href.includes("index.html")) {
+    localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
+    location.replace("index.html");
+  }
+})();
+</script>
+<!-- SMARTKIDS PRO MODAL (2-in-1) --
+<div id="smartkidsModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
+  <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[520px] p-6">
+    
+    <!-- Tabs --
+    <div class="flex justify-between mb-4 border-b">
+      <button id="tabPupil" class="w-1/2 py-2 border-b-2 border-blue-600 font-semibold">Pupil</button>
+      <button id="tabAdmin" class="w-1/2 py-2 border-b-2 border-transparent font-semibold hover:border-blue-600">Admin</button>
+    </div>
+
+    <!-- Pupil Registration --
     <div id="pupilTab" class="flex flex-col gap-3">
       <input type="text" id="skPupilName" placeholder="Pupil Name" class="border rounded-md px-3 py-2 w-full" />
       <input type="text" id="skSchoolName" placeholder="School Name" class="border rounded-md px-3 py-2 w-full" />
@@ -659,7 +778,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <button onclick="startPupilSession()" class="bg-blue-600 text-white py-2 rounded-md mt-2 hover:bg-blue-700">Proceed</button>
     </div>
 
-    <!-- Admin Login -->
+    <!-- Admin Login --
     <div id="adminTab" class="hidden flex flex-col gap-3">
       <input type="text" id="adminUsername" placeholder="Admin Username" class="border rounded-md px-3 py-2 w-full" />
       <input type="password" id="adminPassword" placeholder="Admin Password" class="border rounded-md px-3 py-2 w-full" />
