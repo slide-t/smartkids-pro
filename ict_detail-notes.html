@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
 (function () {
+  const isAdmin = sessionStorage.getItem("sk_admin") === "yes";
   const session = JSON.parse(localStorage.getItem("sk_session"));
 
-  if (!session) {
-    location.replace("index.html");
-    return;
-  }
+  // Admin can navigate freely
+  if (isAdmin) return;
 
-  if (Date.now() > session.expiresAt) {
+  // Pupils must have a valid session
+  if (!session || Date.now() > session.expiresAt) {
     localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
     location.replace("index.html");
   }
 })();
