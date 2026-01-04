@@ -553,110 +553,167 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-  <!-- SMARTKIDS PRO WELCOME MODAL -->
-<div
-  id="smartkidsModal"
-  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur"
->
-  <div
-    class="flex min-h-[420px] w-[92%] max-w-[520px] flex-col justify-center rounded-[14px] bg-[rgba(255,255,255,0.97)] px-6 py-8 text-center shadow-[0_15px_40px_rgba(0,0,0,0.25)]"
-  >
-    <h2 class="mb-4 text-2xl font-semibold text-[#1446b8]">
-      Welcome to SmartKids Pro
-    </h2>
+  <!-- SMARTKIDS PRO – 2-IN-1 ACCESS MODAL -->
+<div id="skAccessModal"
+  class="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur">
 
-    <p class="mb-5 text-base leading-[1.8]">
-      Welcome to the <strong>SmartKids Pro ICT Lessons Page</strong>.
-      These lessons are carefully organised according to
-      <strong>class-based topics</strong>.
-      <br><br>
-      • Use the <strong>search bar</strong> at the top of the page to find topics easily.<br>
-      • Each lesson contains <strong>5 quizzes</strong> to test understanding.<br>
-      • Lessons should be taken <strong>in the correct class order</strong>.
-      <br><br>
-      Kindly enter the pupil details below to continue.
-    </p>
+  <div class="w-[95%] max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden">
 
-    <input
-      type="text"
-      id="skPupilName"
-      placeholder="Pupil Name"
-      class="mb-3 w-full rounded-lg border border-gray-400 px-3 py-3 text-[15px]"
-    />
+    <!-- Tabs -->
+    <div class="grid grid-cols-2 text-center border-b">
+      <button id="tabPupil"
+        class="py-4 font-semibold text-blue-600 border-b-4 border-blue-600">
+        👧 Pupil Access
+      </button>
+      <button id="tabAdmin"
+        class="py-4 font-semibold text-gray-500 hover:text-blue-600">
+        🛠 Admin Login
+      </button>
+    </div>
 
-    <input
-      type="text"
-      id="skSchoolName"
-      placeholder="School Name"
-      class="mb-4 w-full rounded-lg border border-gray-400 px-3 py-3 text-[15px]"
-    />
-<input
-  type="text"
-  id="schoolCode"
-  placeholder="Enter School Code"
-  required
-  class="w-full px-4 py-2 border rounded-md"
-/>
-    <button
-      onclick="skStartLessons()"
-      class="mt-2 w-full rounded-lg bg-[#1446b8] py-3.5 text-base font-medium text-white hover:bg-[#0f3490]"
-    >
-      Proceed to Lessons
-    </button>
+    <!-- Content -->
+    <div class="grid md:grid-cols-2 gap-6 p-6">
+
+      <!-- ================= PUPIL REGISTRATION ================= -->
+      <div id="pupilPanel">
+        <h2 class="text-xl font-bold text-blue-700 mb-3">
+          Pupil Registration
+        </h2>
+
+        <p class="text-sm text-gray-600 mb-4">
+          Enter your details to start learning on SmartKids Pro.
+        </p>
+
+        <input id="skPupilName" placeholder="Pupil Name"
+          class="w-full mb-3 px-4 py-3 border rounded-lg">
+
+        <input id="skSchoolName" placeholder="School Name"
+          class="w-full mb-3 px-4 py-3 border rounded-lg">
+
+        <input id="skSchoolCode" placeholder="School Code"
+          class="w-full mb-4 px-4 py-3 border rounded-lg">
+
+        <button onclick="skRegisterPupil()"
+          class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+          ▶ Start Learning
+        </button>
+      </div>
+
+      <!-- ================= ADMIN LOGIN ================= -->
+      <div id="adminPanel" class="hidden">
+        <h2 class="text-xl font-bold text-purple-700 mb-3">
+          Admin / Teacher Access
+        </h2>
+
+        <p class="text-sm text-gray-600 mb-4">
+          Admin access allows time extension, testing, and supervision.
+        </p>
+
+        <input id="skAdminKey" placeholder="Admin Access Key"
+          class="w-full mb-4 px-4 py-3 border rounded-lg">
+
+        <button onclick="skAdminLogin()"
+          class="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700">
+          🔓 Enter as Admin
+        </button>
+      </div>
+
+    </div>
   </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
-/* Prevent modal reopening after registration */
-document.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('sk_registered') === 'yes') {
-    document.getElementById('smartkidsModal')?.remove();
-    showFloatingSignOut();
+/* =====================================================
+   TAB SWITCHING
+===================================================== */
+const tabPupil = document.getElementById("tabPupil");
+const tabAdmin = document.getElementById("tabAdmin");
+const pupilPanel = document.getElementById("pupilPanel");
+const adminPanel = document.getElementById("adminPanel");
+
+tabPupil.onclick = () => {
+  tabPupil.classList.add("border-blue-600", "text-blue-600");
+  tabAdmin.classList.remove("border-blue-600", "text-blue-600");
+  pupilPanel.classList.remove("hidden");
+  adminPanel.classList.add("hidden");
+};
+
+tabAdmin.onclick = () => {
+  tabAdmin.classList.add("border-blue-600", "text-blue-600");
+  tabPupil.classList.remove("border-blue-600", "text-blue-600");
+  adminPanel.classList.remove("hidden");
+  pupilPanel.classList.add("hidden");
+};
+
+/* =====================================================
+   PUPIL REGISTRATION
+===================================================== */
+function skRegisterPupil() {
+  const pupil = skPupilName.value.trim();
+  const school = skSchoolName.value.trim();
+  const code = skSchoolCode.value.trim();
+
+  if (!pupil || !school || !code) {
+    alert("All fields are required.");
+    return;
+  }
+
+  const SESSION_MINUTES = 5;
+
+  localStorage.setItem("sk_session", JSON.stringify({
+    pupil,
+    school,
+    schoolCode: code,
+    expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
+  }));
+
+  sessionStorage.setItem("sk_registered", "yes");
+
+  // Optional silent logging
+  const img = new Image();
+  img.src =
+    "https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse" +
+    "?entry.1396559970=" + encodeURIComponent(pupil) +
+    "&entry.111488908=" + encodeURIComponent(school) +
+    "&entry.1234567890=" + encodeURIComponent(code);
+
+  closeAccessModal();
+}
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+function skAdminLogin() {
+  const key = document.getElementById("skAdminKey").value.trim();
+  const ADMIN_KEY = "sk-admin-2025";
+
+  if (key !== ADMIN_KEY) {
+    alert("Invalid admin key");
+    return;
+  }
+
+  sessionStorage.setItem("sk_admin", "yes");
+  sessionStorage.setItem("sk_registered", "yes");
+  closeAccessModal();
+}
+
+/* =====================================================
+   MODAL CONTROL
+===================================================== */
+function closeAccessModal() {
+  document.getElementById("skAccessModal").remove();
+}
+
+/* =====================================================
+   AUTO CHECK (NO CHEATING)
+===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  if (sessionStorage.getItem("sk_registered") === "yes") {
+    closeAccessModal();
   }
 });
-
-function skStartLessons() {
-
-  const pupilName = document.getElementById('skPupilName').value.trim();
-const schoolName = document.getElementById('skSchoolName').value.trim();
-const schoolCode = document.getElementById('skSchoolCode').value.trim();
-
-if (!pupilName || !schoolName || !schoolCode) {
-  alert('Please enter pupil name, school name, and school code');
-  return;
-}
-
-  /* Save localStorage (shared-system safe) */
- const SESSION_MINUTES = 5; // adjustable by teacher
-
-  localStorage.setItem('sk_session', JSON.stringify({
-  pupil: pupilName,
-  school: schoolName,
-  schoolCode: schoolCode,
-  license: localStorage.getItem("sk_active_license"),
-  expiresAt: Date.now() + SESSION_MINUTES * 60 * 1000
-}));
-
-  /* Silent Google Form beacon */
-
-  const beaconUrl =
-  'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
-  '?entry.1396559970=' + encodeURIComponent(pupilName) +
-  '&entry.111488908=' + encodeURIComponent(schoolName) +
-  '&entry.1234567890=' + encodeURIComponent(schoolCode);
-  /*const beaconUrl =
-    'https://docs.google.com/forms/d/e/1FAIpQLSfTkMRzZQHHQD8pQwNU41VHVL2ZjrDQncy4HIRFbtqot-5ZtQ/formResponse' +
-    '?entry.1396559970=' + encodeURIComponent(pupilName) +
-    '&entry.111488908=' + encodeURIComponent(schoolName);*/
-
-  const img = new Image();
-  img.src = beaconUrl;
-
-  document.getElementById('smartkidsModal').remove();
-  showFloatingSignOut();
-}
 </script>
+
 <script>
 /* =====================================================
    SMARTKIDS PRO – LICENSE, DEVICE & TERM CONTROL SYSTEM
