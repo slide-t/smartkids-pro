@@ -206,6 +206,36 @@ button {
 .level-btn:last-child {
   background: #8e24aa;
 }
+
+.modal-content {
+  width: 90%;
+  max-width: 420px;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.modal-content select {
+  background: #fff;
+  cursor: pointer;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 15px;
+}   
 </style>
 </head>
 
@@ -232,9 +262,27 @@ button {
     <input id="studentName" placeholder="Full Name">
     <br><br>
 
-    <input id="studentClass" placeholder="Class (e.g. Primary 5)">
-    <br><br>
+    <select id="studentClass" class="modal-select">
+  <option value="">-- Select Class --</option>
 
+  <optgroup label="Primary">
+    <option>Primary 1</option>
+    <option>Primary 2</option>
+    <option>Primary 3</option>
+    <option>Primary 4</option>
+    <option>Primary 5</option>
+    <option>Primary 6</option>
+  </optgroup>
+
+  <optgroup label="Secondary">
+    <option>JSS 1</option>
+    <option>JSS 2</option>
+    <option>JSS 3</option>
+    <option>SSS 1</option>
+    <option>SSS 2</option>
+    <option>SSS 3</option>
+  </optgroup>
+</select>
     <button onclick="saveStudent()">Continue</button>
   </div>
 </div>
@@ -496,6 +544,10 @@ function saveStudent() {
   document.getElementById("levelModal").style.display = "none";
 };  
 
+function detectLevel(cls) {
+  return cls.startsWith("Primary") ? "primary" : "secondary";
+}
+   
    /*==== Prevent  page refresh === Later use===*/
   /* sessionStorage.setItem("studentInfo", JSON.stringify(student));
 </script>
