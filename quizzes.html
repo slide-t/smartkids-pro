@@ -368,7 +368,22 @@ function restartQuiz() {
 }
 </script>
   <script>
-let quizTime = 10 * 60; // 10 minutes (change per level)
+
+    function loadQuiz(jsonPath) {
+  fetch(jsonPath)
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = data.questions;
+      shuffle(allQuestions);
+      loadNextSet();
+      startTimer(); // ✅ START TIMER HERE
+    })
+    .catch(err => {
+      console.error("Quiz JSON failed to load:", err);
+      alert("Quiz failed to load. Contact admin.");
+    });
+}
+/*let quizTime = 10 * 60; // 10 minutes (change per level)
 let timerInterval;
 
 function startTimer() {
@@ -386,7 +401,7 @@ function startTimer() {
     }
     quizTime--;
   }, 1000);
-}
+}*/
 </script>
 
 <!-- 
