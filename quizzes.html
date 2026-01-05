@@ -338,18 +338,7 @@ function startTimer() {
     quizTime--;
   }, 1000);
 }
-/* ===============================
-   ANTI-CHEAT
-================================ *
-let tabSwitches = 0;
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    tabSwitches++;
-    if (tabSwitches >= 3) {
-      endQuiz();
-    }
-  }
-});
+
 
 /* Prevent back navigation */
 history.pushState(null, null, location.href);
