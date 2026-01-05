@@ -141,32 +141,6 @@ button {
 .modal-content button:hover {
   background: #1565c0;
 }
-   
-   /*.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 350px;
-}
-
-.level-btn {
-  margin: 10px 0;
-  animation: shake 1s infinite;
-}*/
-   
-
 /* Dancing animation */
 @keyframes shake {
   0% { transform: translateX(0); }
@@ -485,6 +459,26 @@ let student = {};
 
 function saveStudent() {
   const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  student = { name, class: studentClass };
+
+  // Close student modal
+  document.getElementById("studentModal").style.display = "none";
+
+  // Open level modal
+  document.getElementById("levelModal").style.display = "flex";
+}
+   
+  /* let student = {};
+
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
   const cls = document.getElementById("studentClass").value.trim();
 
   if (!name || !cls) {
@@ -497,7 +491,7 @@ function saveStudent() {
 
   document.getElementById("studentModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
-}
+}*/
 
 
   /*=======modal capture top =====*/ 
