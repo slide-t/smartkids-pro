@@ -351,6 +351,27 @@ document.getElementById("submitBtn").onclick = () => {
 function endQuiz() {
   clearInterval(timerInterval);
 
+  const TOTAL_QUESTIONS = MAX_SETS * 5; // 25
+  const result = getGrade(totalScore, TOTAL_QUESTIONS);
+
+  const message =
+    `Score: ${totalScore} / ${TOTAL_QUESTIONS}\n` +
+    `Percentage: ${result.percent}%\n` +
+    `Grade: ${result.grade}`;
+
+  if (totalScore < 23) {
+    document.getElementById("finalScore").innerText =
+      message + "\n\nPlease try again.";
+    document.getElementById("failModal").style.display = "flex";
+  } else {
+    alert("Excellent!\n\n" + message);
+    restartQuiz();
+  }
+}
+   
+   /*function endQuiz() {
+  clearInterval(timerInterval);
+
   if (totalScore < 23) {
     document.getElementById("finalScore").textContent =
       `Your score is ${totalScore}/25. Please try again.`;
@@ -359,8 +380,23 @@ function endQuiz() {
     alert(`Excellent! You scored ${totalScore}/25`);
     restartQuiz();
   }
-}
+}*/
+   
+/* ===============================
+   CBT GRADING SYSTEM (PERCENTAGE)
+================================ */
 
+function getGrade(score, totalQuestions) {
+  const percent = Math.round((score / totalQuestions) * 100);
+
+  let grade = "F";
+  if (percent >= 80) grade = "A";
+  else if (percent >= 65) grade = "B";
+  else if (percent >= 50) grade = "C";
+  else if (percent >= 40) grade = "D";
+
+  return { grade, percent };
+}
 /* ===============================
    RESTART
 ================================ */
