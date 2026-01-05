@@ -333,6 +333,42 @@ function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
 </script>
+<script>
+/* ===============================
+   ANTI-CHEAT TAB CONTROL
+================================ */
 
+let cheatCount = 0;
+const MAX_CHEAT = 2;
+
+/* Detect tab change / minimize */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    handleCheat();
+  }
+});
+
+/* Detect window blur (desktop & mobile) */
+window.addEventListener("blur", () => {
+  handleCheat();
+});
+
+function handleCheat() {
+  cheatCount++;
+
+  if (cheatCount === 1) {
+    alert(
+      "⚠ WARNING!\n\n" +
+      "You are not allowed to leave the quiz screen.\n" +
+      "Next attempt will submit your quiz automatically."
+    );
+  } else if (cheatCount >= MAX_CHEAT) {
+    alert(
+      "❌ Quiz submitted due to repeated tab switching."
+    );
+    document.getElementById("submitBtn").click();
+  }
+}
+</script>
 </body>
 </html>
