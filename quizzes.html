@@ -302,9 +302,85 @@ button {
   </div>
 </div>
 <script>
+
+/* ===============================
+   CBT GRADING SYSTEM (PERCENTAGE)
+================================ */
+function getGrade(score, totalQuestions) {
+  const percent = Math.round((score / totalQuestions) * 100);
+
+  let grade = "F";
+  if (percent >= 80) grade = "A";
+  else if (percent >= 65) grade = "B";
+  else if (percent >= 50) grade = "C";
+  else if (percent >= 40) grade = "D";
+
+  return { grade, percent };
+}
+
+/* ===============================
+   RESTART
+================================ */
+function restartQuiz() {
+  location.reload();
+}
+
+/* ===============================
+   PROPER SHUFFLE (Fisher–Yates)
+================================ */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* ===============================
+   STUDENT CAPTURE
+================================ */
+let student = {};
+
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  student = { name, class: studentClass };
+
+  document.getElementById("studentModal").style.display = "none";
+  document.getElementById("levelModal").style.display = "flex";
+}
+
+/* ===============================
+   MODAL INIT (SAFE)
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("studentModal").style.display = "flex";
+  document.getElementById("levelModal").style.display = "none";
+});
+
+/* ===============================
+   OPTIONAL LEVEL DETECTOR
+================================ */
+function detectLevel(cls) {
+  return cls.startsWith("Primary") ? "primary" : "secondary";
+}
+
+/* ===============================
+   FUTURE USE (SAFE COMMENT)
+================================ */
+/*
+sessionStorage.setItem("studentInfo", JSON.stringify(student));
+*/
+   
 /* ===============================
    SAFE CBT QUIZ ENGINE
-================================ */
+================================ *
 let allQuestions = [];
 let currentSet = [];
 let totalScore = 0;
@@ -316,7 +392,7 @@ const QUESTIONS_PER_SET = 5;
 
 /* ===============================
    TIMER
-================================ */
+================================ *
 let quizTime = 10 * 60;
 let timerInterval;
 let timerStarted = false;
@@ -340,11 +416,11 @@ function startTimer() {
 }
 
 
-/* Prevent back navigation */
+/* Prevent back navigation *
 history.pushState(null, null, location.href);
 window.onpopstate = () => history.pushState(null, null, location.href);
 
-/* Disable backspace */
+/* Disable backspace *
 document.addEventListener("keydown", e => {
   if (e.key === "Backspace" && !e.target.matches("input, textarea")) {
     e.preventDefault();
@@ -353,7 +429,7 @@ document.addEventListener("keydown", e => {
 
 /* ===============================
    START QUIZ
-================================ */
+================================ *
 function startQuiz(level) {
   quizFile =
     level === "primary"
@@ -380,7 +456,7 @@ function startQuiz(level) {
 
 /* ===============================
    LOAD SET
-================================ */
+================================ *
 function loadSet() {
   document.getElementById("score").textContent = totalScore;
   document.getElementById("setCount").textContent = currentSetNumber;
@@ -410,7 +486,7 @@ function loadSet() {
 
 /* ===============================
    SUBMIT
-================================ */
+================================ *
 document.getElementById("submitBtn").onclick = () => {
   let setScore = 0;
 
@@ -433,7 +509,7 @@ document.getElementById("submitBtn").onclick = () => {
 
 /* ===============================
    END QUIZ
-================================ */
+================================ *
 function endQuiz() {
   clearInterval(timerInterval);
 
@@ -474,7 +550,7 @@ function endQuiz() {
    
 /* ===============================
    CBT GRADING SYSTEM (PERCENTAGE)
-================================ */
+================================ *
 
 function getGrade(score, totalQuestions) {
   const percent = Math.round((score / totalQuestions) * 100);
@@ -489,14 +565,14 @@ function getGrade(score, totalQuestions) {
 }
 /* ===============================
    RESTART
-================================ */
+================================ *
 function restartQuiz() {
   location.reload();
 }
 
 /* ===============================
    SHUFFLE
-================================ */
+================================ *
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
@@ -520,7 +596,7 @@ function saveStudent() {
   document.getElementById("levelModal").style.display = "flex";
 }
 
-  /*=======modal capture top =====*/ 
+  /*=======modal capture top =====*
  window.onload = () => {
   document.getElementById("studentModal").style.display = "flex";
   document.getElementById("levelModal").style.display = "none";
