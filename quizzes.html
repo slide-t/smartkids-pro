@@ -285,9 +285,7 @@ button {
 </select>
     <button onclick="saveStudent()">Continue</button>
   </div>
-</div>
-   
-   
+</div>  
 <!-- LEVEL MODAL -->
 <div class="modal" id="levelModal">
   <div class="modal-content">
@@ -296,7 +294,6 @@ button {
     <button class="level-btn" onclick="startQuiz('secondary')">Secondary</button>
   </div>
 </div>
-
 <!-- FAIL MODAL -->
 <div class="modal" id="failModal" style="display:none">
   <div class="modal-content">
@@ -304,12 +301,10 @@ button {
     <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
-
 <script>
 /* ===============================
    SAFE CBT QUIZ ENGINE
 ================================ */
-
 let allQuestions = [];
 let currentSet = [];
 let totalScore = 0;
@@ -343,10 +338,9 @@ function startTimer() {
     quizTime--;
   }, 1000);
 }
-
 /* ===============================
    ANTI-CHEAT
-================================ */
+================================ *
 let tabSwitches = 0;
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
@@ -488,7 +482,6 @@ function endQuiz() {
     restartQuiz();
   }
 }
-  
    
 /* ===============================
    CBT GRADING SYSTEM (PERCENTAGE)
