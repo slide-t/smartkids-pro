@@ -1,222 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quiz Hub | SmartKids Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Quiz Hub CBT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 0 10px;
-    }
+<style>
+/* ===============================
+   GLOBAL
+================================ */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
 
-    /* ===============================
-       QUIZ HEADER + TIMER
-    ================================ */
-    .quiz-topbar {
-      position: sticky; 
-      top: 0;
-      background: #f1f5f9; 
-      z-index: 1000;
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #cbd5e1;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .quiz-topbar h2 {
-      margin: 0;
-      font-size: 20px;
-      text-align: left;
-    }
-    #cbt-timer {
-      background: #0f172a;
-      color: #fff;
-      font-weight: bold;
-      padding: 6px 14px;
-      border-radius: 8px;
-      min-width: 100px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      font-size: 16px;
-    }
-    @media (max-width: 480px) {
-      .quiz-topbar h2 { font-size: 16px; }
-      #cbt-timer { font-size: 14px; padding: 4px 10px; }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    #cbt-timer.active { animation: pulse 1s infinite; }
+h2 {
+  position: sticky;
+  top: 0;
+  background: #003366;
+  color: #fff;
+  padding: 12px;
+  text-align: center;
+  z-index: 10;
+}
 
-    /* ===============================
-       QUIZ AREA
-    ================================ */
-    #quizArea {
-      margin-top: 16px;
-    }
-    .question-box { 
-      margin-bottom: 12px;
-      padding: 10px;
-      background: #fff;
-      border-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-    .option { 
-      display: block; 
-      margin: 6px 0; 
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .option:active { 
-      animation: shake 0.3s;
-    }
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-4px); }
-      50% { transform: translateX(4px); }
-      75% { transform: translateX(-4px); }
-      100% { transform: translateX(0); }
-    }
+/* ===============================
+   HEADER BAR
+================================ */
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #e9eef3;
+  font-size: 14px;
+}
 
-    /* ===============================
-       SCOREBOARD
-    ================================ */
-    #scoreboard {
-      margin: 12px 0;
-      background: #0f172a;
-      color: #fff;
-      padding: 8px;
-      border-radius: 6px;
-      font-weight: bold;
-      text-align: center;
-    }
+.score-box {
+  font-weight: bold;
+}
 
-    /* ===============================
-       SUBMIT BUTTON
-    ================================ */
-    #submitBtn {
-      width: 100%;
-      padding: 10px;
-      background: #1e40af;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 16px;
-    }
+/* ===============================
+   TIMER
+================================ */
+.timer {
+  width: 100%;
+  background: #003366;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-size: 16px;
+}
 
-    /* ===============================
-       LEVEL MODAL
-    ================================ */
-    #levelModal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-    #levelModal > div {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      max-width: 300px;
-      width: 90%;
-    }
-    #levelModal button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #levelModal button.primary { background: #1e40af; }
-    #levelModal button.secondary { background: #0f766e; }
+/* ===============================
+   QUIZ AREA
+================================ */
+#quizArea {
+  padding: 15px;
+}
 
-    /* ===============================
-       FAILURE MODAL
-    ================================ */
-    #failModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 3000;
-      display: flex;
-    }
-    #failModal > div {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      max-width: 300px;
-    }
-    #failModal button {
-      background: #1e40af;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+.question-box {
+  background: #fff;
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.option {
+  display: block;
+  padding: 6px 0;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+button {
+  width: 90%;
+  max-width: 400px;
+  margin: 15px auto;
+  display: block;
+  padding: 12px;
+  font-size: 16px;
+  background: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===============================
+   MODALS
+================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 350px;
+}
+
+.level-btn {
+  margin: 10px 0;
+  animation: shake 1s infinite;
+}
+
+/* Dancing animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+</style>
 </head>
+
 <body>
 
-<!-- QUIZ HEADER + TIMER -->
-<div class="quiz-topbar">
-  <h2>Quiz Hub</h2>
-  <div id="cbt-timer">⏱ <span id="time">10:00</span></div>
+<h2>Quiz Hub CBT</h2>
+
+<div class="header-bar">
+  <div>Set: <span id="setCount">1</span>/5</div>
+  <div class="score-box">Score: <span id="score">0</span></div>
 </div>
 
-<!-- QUIZ AREA -->
+<div class="timer">Time Left: <span id="time">00:00</span></div>
+
 <div id="quizArea"></div>
 
-<!-- SCOREBOARD -->
-<div id="scoreboard">
-  Score: <span id="score">0</span> | Set: <span id="setCount">1</span> / 5
-</div>
-
-<!-- SUBMIT BUTTON -->
 <button id="submitBtn">Submit</button>
 
-<!-- LEVEL SELECTION MODAL -->
-<div id="levelModal">
-  <div>
-    <h3>Select Your Level</h3>
-    <p>This helps us give you the right questions</p>
-    <button class="primary" onclick="startQuiz('primary')">Primary</button>
-    <button class="secondary" onclick="startQuiz('secondary')">Secondary</button>
+<!-- LEVEL MODAL -->
+<div class="modal" id="levelModal">
+  <div class="modal-content">
+    <h3>Select Level</h3>
+    <button class="level-btn" onclick="startQuiz('primary')">Primary</button>
+    <button class="level-btn" onclick="startQuiz('secondary')">Secondary</button>
   </div>
 </div>
 
-<!-- FAILURE MODAL -->
-<div id="failModal">
-  <div>
-    <h3>Quiz Completed</h3>
+<!-- FAIL MODAL -->
+<div class="modal" id="failModal" style="display:none">
+  <div class="modal-content">
     <p id="finalScore"></p>
-    <button onclick="restartQuiz()">OK</button>
+    <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
 
 <script>
 /* ===============================
-   INTEGRATED SAFE CBT + TIMER
+   SAFE CBT QUIZ ENGINE
 ================================ */
 
 let allQuestions = [];
@@ -224,106 +170,130 @@ let currentSet = [];
 let totalScore = 0;
 let currentSetNumber = 1;
 let quizFile = "";
-const MAX_SETS = 5;
 
-let quizTime = 10 * 60; // default 10 min
+const MAX_SETS = 5;
+const QUESTIONS_PER_SET = 5;
+
+/* ===============================
+   TIMER
+================================ */
+let quizTime = 10 * 60;
 let timerInterval;
 let timerStarted = false;
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+
+  timerInterval = setInterval(() => {
+    const min = Math.floor(quizTime / 60);
+    const sec = quizTime % 60;
+    document.getElementById("time").textContent =
+      `${min}:${sec.toString().padStart(2,"0")}`;
+
+    if (quizTime <= 0) {
+      clearInterval(timerInterval);
+      endQuiz();
+    }
+    quizTime--;
+  }, 1000);
+}
+
+/* ===============================
+   ANTI-CHEAT
+================================ */
+let tabSwitches = 0;
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    tabSwitches++;
+    if (tabSwitches >= 3) {
+      endQuiz();
+    }
+  }
+});
 
 /* Prevent back navigation */
 history.pushState(null, null, location.href);
 window.onpopstate = () => history.pushState(null, null, location.href);
 
-/* Disable backspace navigation */
+/* Disable backspace */
 document.addEventListener("keydown", e => {
   if (e.key === "Backspace" && !e.target.matches("input, textarea")) {
     e.preventDefault();
   }
 });
 
-/* START QUIZ ON LEVEL SELECT */
+/* ===============================
+   START QUIZ
+================================ */
 function startQuiz(level) {
-  quizTime = 10 * 60; // ✅ RESET TIMER (10 minutes)
-
   quizFile =
     level === "primary"
       ? "json-files/quiz-hub/quiz-prim.json"
       : "json-files/quiz-hub/quiz-sec.json";
 
   document.getElementById("levelModal").style.display = "none";
+
   totalScore = 0;
   currentSetNumber = 1;
+  quizTime = 10 * 60;
   timerStarted = false;
+  tabSwitches = 0;
 
   fetch(quizFile)
-    .then(res => {
-      if (!res.ok) throw new Error("JSON not found");
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
       allQuestions = shuffle([...data.questions]);
       loadSet();
-      startTimer(); // ✅ Timer starts AFTER JSON loads
+      startTimer();
     })
-    .catch(err => {
-      alert("Quiz failed to load. Check JSON path.");
-      console.error(err);
-    });
-}
-  
-/* SHUFFLE ARRAY */
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
+    .catch(() => alert("Quiz JSON failed to load"));
 }
 
-/* LOAD 5 QUESTIONS */
+/* ===============================
+   LOAD SET
+================================ */
 function loadSet() {
   document.getElementById("score").textContent = totalScore;
   document.getElementById("setCount").textContent = currentSetNumber;
 
-  const quizArea = document.getElementById("quizArea");
-  quizArea.innerHTML = "";
+  const area = document.getElementById("quizArea");
+  area.innerHTML = "";
 
-  if (allQuestions.length < 5) {
-    alert("Not enough questions in JSON file.");
-    return;
-  }
-
-  currentSet = allQuestions.splice(0, 5);
+  currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
 
   currentSet.forEach((q, i) => {
-    const box = document.createElement("div");
-    box.className = "question-box";
+    const div = document.createElement("div");
+    div.className = "question-box";
 
-    let html = `<h4>${i + 1}. ${q.question}</h4>`;
-
-    q.options.forEach((opt, idx) => {
+    let html = `<h4>${i+1}. ${q.question}</h4>`;
+    shuffle(q.options).forEach((opt, idx) => {
       html += `
         <label class="option">
-          <input type="radio" name="q${i}" value="${idx}">
+          <input type="radio" name="q${i}" value="${opt}">
           ${opt}
-        </label>
-      `;
+        </label>`;
     });
 
-    box.innerHTML = html;
-    quizArea.appendChild(box);
+    div.innerHTML = html;
+    area.appendChild(div);
   });
 }
 
-/* SUBMIT LOGIC */
-document.getElementById("submitBtn").addEventListener("click", () => {
+/* ===============================
+   SUBMIT
+================================ */
+document.getElementById("submitBtn").onclick = () => {
   let setScore = 0;
 
   currentSet.forEach((q, i) => {
-    const selected = document.querySelector(`input[name="q${i}"]:checked`);
-    if (selected && Number(selected.value) === q.answer) {
+    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
+    if (chosen && chosen.value === q.options[q.answer]) {
       setScore++;
     }
   });
 
   totalScore += setScore;
-  document.getElementById("score").textContent = totalScore;
 
   if (currentSetNumber < MAX_SETS) {
     currentSetNumber++;
@@ -331,49 +301,36 @@ document.getElementById("submitBtn").addEventListener("click", () => {
   } else {
     endQuiz();
   }
-});
+};
 
-/* END QUIZ */
+/* ===============================
+   END QUIZ
+================================ */
 function endQuiz() {
-  clearInterval(timerInterval); // Stop timer
+  clearInterval(timerInterval);
+
   if (totalScore < 23) {
     document.getElementById("finalScore").textContent =
-      `Your score is ${totalScore} / 25. Please try again.`;
+      `Your score is ${totalScore}/25. Please try again.`;
     document.getElementById("failModal").style.display = "flex";
   } else {
-    alert(`Excellent! You scored ${totalScore} / 25`);
+    alert(`Excellent! You scored ${totalScore}/25`);
     restartQuiz();
   }
 }
 
-/* RESTART QUIZ */
+/* ===============================
+   RESTART
+================================ */
 function restartQuiz() {
-  document.getElementById("failModal").style.display = "none";
-  document.getElementById("levelModal").style.display = "flex";
+  location.reload();
 }
 
-/* ======================
-   CBT TIMER
-====================== */
-function startTimer() {
-  if (timerStarted) return; // prevent multiple timers
-  timerStarted = true;
-
-  document.getElementById("cbt-timer").classList.add("active");
-
-  timerInterval = setInterval(() => {
-    const minutes = Math.floor(quizTime / 60);
-    const seconds = quizTime % 60;
-    document.getElementById("time").textContent =
-      `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-    if (quizTime <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById("submitBtn").click(); // auto submit
-    }
-
-    quizTime--;
-  }, 1000);
+/* ===============================
+   SHUFFLE
+================================ */
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
 }
 </script>
 
