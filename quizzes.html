@@ -243,28 +243,8 @@ document.addEventListener("keydown", e => {
 
 /* START QUIZ ON LEVEL SELECT */
 function startQuiz(level) {
-  quizTime = 10 * 60; // ✅ RESET TIMER
+  quizTime = 10 * 60; // ✅ RESET TIMER (10 minutes)
 
-  quizFile =
-    level === "primary"
-      ? "json-files/quiz-hub/quiz-prim.json"
-      : "json-files/quiz-hub/quiz-sec.json";
-
-  document.getElementById("levelModal").style.display = "none";
-  totalScore = 0;
-  currentSetNumber = 1;
-  timerStarted = false;
-
-  fetch(quizFile)
-    .then(res => res.json())
-    .then(data => {
-      allQuestions = shuffle([...data.questions]);
-      loadSet();
-      startTimer();
-    });
-}
-  
-  /*function startQuiz(level) {
   quizFile =
     level === "primary"
       ? "json-files/quiz-hub/quiz-prim.json"
@@ -283,14 +263,14 @@ function startQuiz(level) {
     .then(data => {
       allQuestions = shuffle([...data.questions]);
       loadSet();
-      startTimer(); // ✅ Timer starts after JSON loads
+      startTimer(); // ✅ Timer starts AFTER JSON loads
     })
     .catch(err => {
       alert("Quiz failed to load. Check JSON path.");
       console.error(err);
     });
-}*/
-
+}
+  
 /* SHUFFLE ARRAY */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
