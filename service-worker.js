@@ -8,12 +8,15 @@ const APP_SHELL = [
   "/ict_lessons.html",
   "/ict_detail-notes.html",
   "/json-files/ict_lessons.json",
+  "/json-files/quiz-hub/quiz-prim.json",
+  "/json-files/quiz-hub/sec-quiz.json",
   "/mouse.html",
   "/keyboard.html",
   "/keyboardbasics.html",
   "/footer.html",
   "/footer-loader.html",
   "/style.css",
+  "/quizzes.html",
   "/images/logo.png"
 ];
 
