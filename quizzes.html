@@ -204,6 +204,144 @@
 </div>
 <script>
 /* ===============================
+   SAFE CBT QUIZ ENGINE
+================================ */
+
+let allQuestions = [];
+let currentSet = [];
+let totalScore = 0;
+let currentSetNumber = 1;
+let quizFile = "";
+const MAX_SETS = 5;
+
+/* Prevent back navigation */
+history.pushState(null, null, location.href);
+window.onpopstate = () => history.pushState(null, null, location.href);
+
+/* Disable backspace navigation */
+document.addEventListener("keydown", e => {
+  if (e.key === "Backspace" && !e.target.matches("input, textarea")) {
+    e.preventDefault();
+  }
+});
+
+/* START QUIZ */
+function startQuiz(level) {
+  quizFile =
+    level === "primary"
+      ? "json-files/quiz-prim.json"
+      : "json-files/quiz-sec.json";
+
+  document.getElementById("levelModal").style.display = "none";
+  resetQuiz();
+}
+
+/* RESET & LOAD */
+function resetQuiz() {
+  totalScore = 0;
+  currentSetNumber = 1;
+
+  fetch(quizFile)
+    .then(res => {
+      if (!res.ok) throw new Error("JSON not found");
+      return res.json();
+    })
+    .then(data => {
+      allQuestions = shuffle([...data.questions]);
+      loadSet();
+    })
+    .catch(err => {
+      alert("Quiz failed to load. Check JSON path.");
+      console.error(err);
+    });
+}
+
+/* SHUFFLE */
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+/* LOAD 5 QUESTIONS */
+function loadSet() {
+  document.getElementById("score").textContent = totalScore;
+  document.getElementById("setCount").textContent = currentSetNumber;
+
+  const quizArea = document.getElementById("quizArea");
+  quizArea.innerHTML = "";
+
+  if (allQuestions.length < 5) {
+    alert("Not enough questions in JSON file.");
+    return;
+  }
+
+  currentSet = allQuestions.splice(0, 5);
+
+  currentSet.forEach((q, i) => {
+    const box = document.createElement("div");
+    box.className = "question-box";
+
+    let html = `<h4>${i + 1}. ${q.question}</h4>`;
+
+    q.options.forEach((opt, idx) => {
+      html += `
+        <label class="option">
+          <input type="radio" name="q${i}" value="${idx}">
+          ${opt}
+        </label>
+      `;
+    });
+
+    box.innerHTML = html;
+    quizArea.appendChild(box);
+  });
+}
+
+/* SUBMIT */
+document.getElementById("submitBtn").addEventListener("click", () => {
+  let setScore = 0;
+
+  currentSet.forEach((q, i) => {
+    const selected = document.querySelector(
+      `input[name="q${i}"]:checked`
+    );
+    if (selected && Number(selected.value) === q.answer) {
+      setScore++;
+    }
+  });
+
+  totalScore += setScore;
+  document.getElementById("score").textContent = totalScore;
+
+  if (currentSetNumber < MAX_SETS) {
+    currentSetNumber++;
+    loadSet();
+  } else {
+    endQuiz();
+  }
+});
+
+/* END QUIZ */
+function endQuiz() {
+  if (totalScore < 23) {
+    document.getElementById("finalScore").textContent =
+      `Your score is ${totalScore} / 25. Please try again.`;
+    document.getElementById("failModal").style.display = "flex";
+  } else {
+    alert(`Excellent! You scored ${totalScore} / 25`);
+    restartQuiz();
+  }
+}
+
+/* RESTART */
+function restartQuiz() {
+  document.getElementById("failModal").style.display = "none";
+  document.getElementById("levelModal").style.display = "flex";
+}
+</script>
+
+ <!-- 
+<script>
+/* ===============================
    LEVEL-AWARE CBT QUIZ ENGINE
 ================================ */
 
@@ -323,7 +461,7 @@ function restartQuiz() {
   document.getElementById("failModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
 }
-</script>
+</script>-->
 
 
 </body>
