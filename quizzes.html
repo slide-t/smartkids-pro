@@ -112,6 +112,16 @@
       font-weight: bold;
       margin-top: 15px;
     }
+    #cbt-timer {
+  position: sticky;
+  top: 45px;
+  background: #0f172a;
+  color: #fff;
+  padding: 6px 12px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 99;
+}
   </style>
 </head>
 
@@ -120,8 +130,9 @@
   <div class="quiz-header">
   <h2>Quiz Hub</h2>
 </div>
-
-
+<!--Timer-->
+  
+<div id="cbt-timer">Time Left: <span id="time">00:00</span></div>
   <!-- QUIZ AREA -->
   <div id="quizArea" class="quiz-area">
     <!-- Questions will be injected here -->
@@ -354,6 +365,27 @@ function endQuiz() {
 function restartQuiz() {
   document.getElementById("failModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
+}
+</script>
+  <script>
+let quizTime = 10 * 60; // 10 minutes (change per level)
+let timerInterval;
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(quizTime / 60);
+    const seconds = quizTime % 60;
+
+    document.getElementById("time").textContent =
+      `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+    if (quizTime <= 0) {
+      clearInterval(timerInterval);
+      alert("Time up! Quiz submitted.");
+      submitQuiz();
+    }
+    quizTime--;
+  }, 1000);
 }
 </script>
 
