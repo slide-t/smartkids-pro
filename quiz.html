@@ -117,14 +117,161 @@
   <!-- RESULT -->
   <div id="result" class="result"></div>
 
-  <!-- JS WILL COME NEXT -->
+  <div id="scoreBoard" style="
+  background:#0f172a;
+  color:#fff;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:12px;
+  text-align:center;
+  font-weight:bold;
+">
+  Score: <span id="score">0</span> / 25 |
+  Set: <span id="setCount">1</span> / 5
+</div>
+<!--Failure Moodal-->
+<div id="failModal" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    text-align:center;
+    max-width:300px;
+  ">
+    <h3>Quiz Completed</h3>
+    <p id="finalScore"></p>
+    <button onclick="restartQuiz()" style="
+      background:#1e40af;
+      color:#fff;
+      border:none;
+      padding:10px 20px;
+      border-radius:6px;
+      cursor:pointer;
+    ">OK</button>
+  </div>
+</div>
+  
   <script>
-    /*
-      Placeholder only.
-      Next step: fetch('/json-files/quiz-hub.json')
-      and render 5 random questions
-    */
-  </script>
+/* ===============================
+   CBT QUIZ ENGINE
+================================ */
+
+let allQuestions = [];
+let currentSet = [];
+let totalScore = 0;
+let currentSetNumber = 1;
+const MAX_SETS = 5;
+
+/* Disable back navigation */
+history.pushState(null, null, location.href);
+window.onpopstate = () => history.pushState(null, null, location.href);
+
+/* Disable backspace navigation */
+document.addEventListener("keydown", e => {
+  if (e.key === "Backspace" && !e.target.matches("input, textarea")) {
+    e.preventDefault();
+  }
+});
+
+/* Load quiz JSON */
+fetch("/json-files/quiz-hub.json")
+  .then(res => res.json())
+  .then(data => {
+    allQuestions = shuffle([...data.questions]);
+    loadSet();
+  });
+
+/* Shuffle utility */
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+/* Load 5 questions */
+function loadSet() {
+  document.getElementById("setCount").textContent = currentSetNumber;
+  document.getElementById("score").textContent = totalScore;
+
+  const quizArea = document.getElementById("quizArea");
+  quizArea.innerHTML = "";
+
+  currentSet = allQuestions.splice(0, 5);
+
+  currentSet.forEach((q, i) => {
+    const box = document.createElement("div");
+    box.className = "question-box";
+
+    let html = `<h4>${i + 1}. ${q.question}</h4>`;
+
+    q.options.forEach((opt, idx) => {
+      html += `
+        <label class="option">
+          <input type="radio" name="q${i}" value="${idx}">
+          ${opt}
+        </label>
+      `;
+    });
+
+    box.innerHTML = html;
+    quizArea.appendChild(box);
+  });
+}
+
+/* Submit logic */
+document.getElementById("submitBtn").onclick = () => {
+  let setScore = 0;
+
+  currentSet.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (selected && Number(selected.value) === q.answer) {
+      setScore++;
+    }
+  });
+
+  totalScore += setScore;
+  document.getElementById("score").textContent = totalScore;
+
+  if (currentSetNumber < MAX_SETS) {
+    currentSetNumber++;
+    loadSet();
+  } else {
+    endQuiz();
+  }
+};
+
+/* End quiz */
+function endQuiz() {
+  if (totalScore < 23) {
+    document.getElementById("finalScore").textContent =
+      `Your score is ${totalScore} / 25. Please try again.`;
+    document.getElementById("failModal").style.display = "flex";
+  } else {
+    alert(`Excellent! You scored ${totalScore} / 25`);
+    restartQuiz();
+  }
+}
+
+/* Restart quiz */
+function restartQuiz() {
+  totalScore = 0;
+  currentSetNumber = 1;
+  document.getElementById("failModal").style.display = "none";
+
+  fetch("/json-files/quiz-hub.json")
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle([...data.questions]);
+      loadSet();
+    });
+}
+</script>
 
 </body>
 </html>
