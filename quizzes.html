@@ -104,22 +104,6 @@
 <!-- SUBMIT BUTTON -->
 <button id="submitBtn">Submit</button>
  
-  
-  <!--<div class="quiz-header">
-  <h2>Quiz Hub</h2>
-</div>
-<!--Timer--
-  <div id="cbt-timer">⏱ <span id="time">10:00</span></div>
-  
-<!--<div id="cbt-timer">Time Left: <span id="time">00:00</span></div>-->
-  <!-- QUIZ AREA --
-  <div id="quizArea" class="quiz-area">
-    <!-- Questions will be injected here ->
-  </div>
-
-  <!-- SUBMIT --
-  <button class="submit-btn" id="submitBtn">Submit</button>
-
 <!-- LEVEL SELECTION MODAL -->
 <div id="levelModal" style="
   position:fixed;
@@ -369,28 +353,6 @@ function startTimer() {
   }, 1000);
 }
     
-  
-    
-  /*function startTimer() {
-  if (timerStarted) return; // prevent multiple timers
-  timerStarted = true;
-
-  timerInterval = setInterval(() => {
-    const minutes = Math.floor(quizTime / 60);
-    const seconds = quizTime % 60;
-    document.getElementById("time").textContent =
-      `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-    if (quizTime <= 0) {
-      clearInterval(timerInterval);
-      alert("Time up! Quiz submitted.");
-      document.getElementById("submitBtn").click(); // auto submit
-    }
-
-    quizTime--;
-  }, 1000);
-}
-    document.getElementById("cbt-timer").classList.add("active");
 </script>
  
 </body>
