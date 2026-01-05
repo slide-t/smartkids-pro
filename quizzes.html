@@ -191,6 +191,21 @@ button {
 .option.shake {
   animation: shake 0.25s ease-in-out;
 }
+   .level-btn {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background: #43a047;
+  color: white;
+  cursor: pointer;
+}
+
+.level-btn:last-child {
+  background: #8e24aa;
+}
 </style>
 </head>
 
@@ -474,25 +489,6 @@ function saveStudent() {
   // Open level modal
   document.getElementById("levelModal").style.display = "flex";
 }
-   
-  /* let student = {};
-
-function saveStudent() {
-  const name = document.getElementById("studentName").value.trim();
-  const cls = document.getElementById("studentClass").value.trim();
-
-  if (!name || !cls) {
-    alert("Please enter student name and class");
-    return;
-  }
-
-  student.name = name;
-  student.class = cls;
-
-  document.getElementById("studentModal").style.display = "none";
-  document.getElementById("levelModal").style.display = "flex";
-}*/
-
 
   /*=======modal capture top =====*/ 
  window.onload = () => {
