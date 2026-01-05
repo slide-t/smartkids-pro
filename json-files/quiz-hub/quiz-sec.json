@@ -1,1 +1,70 @@
-
+{
+  "level": "Secondary",
+  "questions": [
+    {
+      "question": "What does CPU stand for?",
+      "options": [
+        "Central Processing Unit",
+        "Computer Power Unit",
+        "Central Program Unit",
+        "Control Processing Unit"
+      ],
+      "answer": 0
+    },
+    {
+      "question": "Which unit performs calculations?",
+      "options": ["Control Unit", "Memory Unit", "ALU", "Input Unit"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is not an input device?",
+      "options": ["Keyboard", "Mouse", "Monitor", "Scanner"],
+      "answer": 2
+    },
+    {
+      "question": "Which storage device is permanent?",
+      "options": ["RAM", "ROM", "Cache", "Register"],
+      "answer": 1
+    },
+    {
+      "question": "What is software?",
+      "options": [
+        "Physical parts of a computer",
+        "Programs that tell the computer what to do",
+        "Electric cables",
+        "Input devices"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is system software?",
+      "options": ["Microsoft Word", "Windows OS", "Excel", "PowerPoint"],
+      "answer": 1
+    },
+    {
+      "question": "What is the full meaning of ICT?",
+      "options": [
+        "Information and Communication Technology",
+        "Internet Communication Tool",
+        "Information Control Technology",
+        "Integrated Computer Technique"
+      ],
+      "answer": 0
+    },
+    {
+      "question": "Which device connects a computer to the internet?",
+      "options": ["Printer", "Router", "Speaker", "UPS"],
+      "answer": 1
+    },
+    {
+      "question": "Which memory is volatile?",
+      "options": ["ROM", "Hard Disk", "Flash Drive", "RAM"],
+      "answer": 3
+    },
+    {
+      "question": "Which of these is an example of application software?",
+      "options": ["Linux", "Windows", "Microsoft Excel", "BIOS"],
+      "answer": 2
+    }
+  ]
+}
