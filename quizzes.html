@@ -243,6 +243,28 @@ document.addEventListener("keydown", e => {
 
 /* START QUIZ ON LEVEL SELECT */
 function startQuiz(level) {
+  quizTime = 10 * 60; // ✅ RESET TIMER
+
+  quizFile =
+    level === "primary"
+      ? "json-files/quiz-hub/quiz-prim.json"
+      : "json-files/quiz-hub/quiz-sec.json";
+
+  document.getElementById("levelModal").style.display = "none";
+  totalScore = 0;
+  currentSetNumber = 1;
+  timerStarted = false;
+
+  fetch(quizFile)
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle([...data.questions]);
+      loadSet();
+      startTimer();
+    });
+}
+  
+  /*function startQuiz(level) {
   quizFile =
     level === "primary"
       ? "json-files/quiz-hub/quiz-prim.json"
@@ -267,7 +289,7 @@ function startQuiz(level) {
       alert("Quiz failed to load. Check JSON path.");
       console.error(err);
     });
-}
+}*/
 
 /* SHUFFLE ARRAY */
 function shuffle(arr) {
