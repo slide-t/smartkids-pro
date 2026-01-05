@@ -204,7 +204,7 @@
 </div>
 
   
-  <!--<script>
+  <script>
 /* ===============================
    SAFE CBT QUIZ ENGINE
 ================================ */
@@ -231,8 +231,8 @@ document.addEventListener("keydown", e => {
 function startQuiz(level) {
   quizFile =
     level === "primary"
-      ? "json-files/quiz-prim.json"
-      : "json-files/quiz-sec.json";
+      ? "json-files/quiz-hub/quiz-prim.json"
+      : "json-files/quiz-hub/quiz-sec.json";
 
   document.getElementById("levelModal").style.display = "none";
   resetQuiz();
@@ -339,9 +339,9 @@ function restartQuiz() {
   document.getElementById("failModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
 }
-</script>-->
+</script>
 
- 
+<!-- 
 <script>
 /* ===============================
    LEVEL-AWARE CBT QUIZ ENGINE
@@ -463,7 +463,7 @@ function restartQuiz() {
   document.getElementById("failModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
 }
-</script>
+</script>-->
   
 
 
