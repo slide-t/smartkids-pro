@@ -10,83 +10,174 @@
       font-family: Arial, sans-serif;
       background: #f1f5f9;
       margin: 0;
-      padding: 10px;
+      padding: 0 10px;
     }
-    .quiz-header {
-  position: sticky;
-  top: 0;
-  background: #f1f5f9;
-  z-index: 100;
-  padding: 10px 0;
-  border-bottom: 1px solid #cbd5e1;
-}
-
-.quiz-header h2 {
-  margin: 0;
-  text-align: center;
-}
 
     /* ===============================
-   QUIZ HEADER + TIMER COMBINED
-=============================== */
-.quiz-topbar {
-  position: sticky;       /* Stays at top */
-  top: 0;
-  background: #f1f5f9;    /* Light CBT-style header */
-  z-index: 1000;
-  padding: 8px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #cbd5e1;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
+       QUIZ HEADER + TIMER
+    ================================ */
+    .quiz-topbar {
+      position: sticky; 
+      top: 0;
+      background: #f1f5f9; 
+      z-index: 1000;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #cbd5e1;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .quiz-topbar h2 {
+      margin: 0;
+      font-size: 20px;
+      text-align: left;
+    }
+    #cbt-timer {
+      background: #0f172a;
+      color: #fff;
+      font-weight: bold;
+      padding: 6px 14px;
+      border-radius: 8px;
+      min-width: 100px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      font-size: 16px;
+    }
+    @media (max-width: 480px) {
+      .quiz-topbar h2 { font-size: 16px; }
+      #cbt-timer { font-size: 14px; padding: 4px 10px; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    #cbt-timer.active { animation: pulse 1s infinite; }
 
-/* Header text */
-.quiz-topbar h2 {
-  margin: 0;
-  font-size: 20px;
-  text-align: left;
-}
+    /* ===============================
+       QUIZ AREA
+    ================================ */
+    #quizArea {
+      margin-top: 16px;
+    }
+    .question-box { 
+      margin-bottom: 12px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .option { 
+      display: block; 
+      margin: 6px 0; 
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .option:active { 
+      animation: shake 0.3s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
 
-/* Timer styling */
-#cbt-timer {
-  background: #0f172a;
-  color: #fff;
-  font-weight: bold;
-  padding: 6px 14px;
-  border-radius: 8px;
-  min-width: 100px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  font-size: 16px;
-}
+    /* ===============================
+       SCOREBOARD
+    ================================ */
+    #scoreboard {
+      margin: 12px 0;
+      background: #0f172a;
+      color: #fff;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+    }
 
-/* Mobile adjustments */
-@media (max-width: 480px) {
-  .quiz-topbar h2 {
-    font-size: 16px;
-  }
-  #cbt-timer {
-    font-size: 14px;
-    padding: 4px 10px;
-  }
-}
+    /* ===============================
+       SUBMIT BUTTON
+    ================================ */
+    #submitBtn {
+      width: 100%;
+      padding: 10px;
+      background: #1e40af;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
 
-/* Optional subtle pulse animation for timer */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
+    /* ===============================
+       LEVEL MODAL
+    ================================ */
+    #levelModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    #levelModal > div {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 300px;
+      width: 90%;
+    }
+    #levelModal button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #levelModal button.primary { background: #1e40af; }
+    #levelModal button.secondary { background: #0f766e; }
 
-#cbt-timer.active {
-  animation: pulse 1s infinite;
-}
+    /* ===============================
+       FAILURE MODAL
+    ================================ */
+    #failModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      display: flex;
+    }
+    #failModal > div {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 300px;
+    }
+    #failModal button {
+      background: #1e40af;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
-
 <body>
+
 <!-- QUIZ HEADER + TIMER -->
 <div class="quiz-topbar">
   <h2>Quiz Hub</h2>
@@ -98,112 +189,32 @@
 
 <!-- SCOREBOARD -->
 <div id="scoreboard">
-  Score: <span id="score">0</span> | Set: <span id="setCount">1</span>
+  Score: <span id="score">0</span> | Set: <span id="setCount">1</span> / 5
 </div>
 
 <!-- SUBMIT BUTTON -->
 <button id="submitBtn">Submit</button>
- 
+
 <!-- LEVEL SELECTION MODAL -->
-<div id="levelModal" style="
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:2000; /* increase above header & timer */
-">
-  
-<!--<div id="levelModal" style="
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
-">-->
-  <div style="
-    background:#fff;
-    padding:20px;
-    border-radius:8px;
-    text-align:center;
-    max-width:300px;
-    width:90%;
-  ">
+<div id="levelModal">
+  <div>
     <h3>Select Your Level</h3>
     <p>This helps us give you the right questions</p>
-
-    <button onclick="startQuiz('primary')" style="
-      width:100%;
-      padding:10px;
-      margin-bottom:10px;
-      background:#1e40af;
-      color:#fff;
-      border:none;
-      border-radius:6px;
-      font-size:16px;
-    ">Primary</button>
-
-    <button onclick="startQuiz('secondary')" style="
-      width:100%;
-      padding:10px;
-      background:#0f766e;
-      color:#fff;
-      border:none;
-      border-radius:6px;
-      font-size:16px;
-    ">Secondary</button>
+    <button class="primary" onclick="startQuiz('primary')">Primary</button>
+    <button class="secondary" onclick="startQuiz('secondary')">Secondary</button>
   </div>
 </div>
-  
-  <!-- RESULT -->
-  <div id="result" class="result"></div>
 
-  <div id="scoreBoard" style="
-  background:#0f172a;
-  color:#fff;
-  padding:10px;
-  border-radius:6px;
-  margin-bottom:12px;
-  text-align:center;
-  font-weight:bold;
-">
-  Score: <span id="score">0</span> / 25 |
-  Set: <span id="setCount">1</span> / 5
-</div>
-<!--Failure Moodal-->
-<div id="failModal" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-">
-  <div style="
-    background:#fff;
-    padding:20px;
-    border-radius:8px;
-    text-align:center;
-    max-width:300px;
-  ">
+<!-- FAILURE MODAL -->
+<div id="failModal">
+  <div>
     <h3>Quiz Completed</h3>
     <p id="finalScore"></p>
-    <button onclick="restartQuiz()" style="
-      background:#1e40af;
-      color:#fff;
-      border:none;
-      padding:10px 20px;
-      border-radius:6px;
-      cursor:pointer;
-    ">OK</button>
+    <button onclick="restartQuiz()">OK</button>
   </div>
 </div>
 
-  <script>
+<script>
 /* ===============================
    INTEGRATED SAFE CBT + TIMER
 ================================ */
@@ -362,8 +373,7 @@ function startTimer() {
     quizTime--;
   }, 1000);
 }
-    
 </script>
- 
+
 </body>
 </html>
