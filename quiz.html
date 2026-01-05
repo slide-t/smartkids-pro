@@ -114,6 +114,50 @@
   <!-- SUBMIT -->
   <button class="submit-btn" id="submitBtn">Submit</button>
 
+<!-- LEVEL SELECTION MODAL -->
+<div id="levelModal" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+">
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    text-align:center;
+    max-width:300px;
+    width:90%;
+  ">
+    <h3>Select Your Level</h3>
+    <p>This helps us give you the right questions</p>
+
+    <button onclick="startQuiz('primary')" style="
+      width:100%;
+      padding:10px;
+      margin-bottom:10px;
+      background:#1e40af;
+      color:#fff;
+      border:none;
+      border-radius:6px;
+      font-size:16px;
+    ">Primary</button>
+
+    <button onclick="startQuiz('secondary')" style="
+      width:100%;
+      padding:10px;
+      background:#0f766e;
+      color:#fff;
+      border:none;
+      border-radius:6px;
+      font-size:16px;
+    ">Secondary</button>
+  </div>
+</div>
+  
   <!-- RESULT -->
   <div id="result" class="result"></div>
 
@@ -158,19 +202,19 @@
     ">OK</button>
   </div>
 </div>
-  
-  <script>
+<script>
 /* ===============================
-   CBT QUIZ ENGINE
+   LEVEL-AWARE CBT QUIZ ENGINE
 ================================ */
 
 let allQuestions = [];
 let currentSet = [];
 let totalScore = 0;
 let currentSetNumber = 1;
+let quizFile = "";
 const MAX_SETS = 5;
 
-/* Disable back navigation */
+/* Prevent back navigation */
 history.pushState(null, null, location.href);
 window.onpopstate = () => history.pushState(null, null, location.href);
 
@@ -181,13 +225,29 @@ document.addEventListener("keydown", e => {
   }
 });
 
-/* Load quiz JSON */
-fetch("/json-files/quiz-hub.json")
-  .then(res => res.json())
-  .then(data => {
-    allQuestions = shuffle([...data.questions]);
-    loadSet();
-  });
+/* Start quiz based on level */
+function startQuiz(level) {
+  quizFile =
+    level === "primary"
+      ? "/json-files/quiz-prim.json"
+      : "/json-files/quiz-sec.json";
+
+  document.getElementById("levelModal").style.display = "none";
+  resetQuiz();
+}
+
+/* Load and reset quiz */
+function resetQuiz() {
+  totalScore = 0;
+  currentSetNumber = 1;
+
+  fetch(quizFile)
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle([...data.questions]);
+      loadSet();
+    });
+}
 
 /* Shuffle utility */
 function shuffle(arr) {
@@ -196,8 +256,8 @@ function shuffle(arr) {
 
 /* Load 5 questions */
 function loadSet() {
-  document.getElementById("setCount").textContent = currentSetNumber;
   document.getElementById("score").textContent = totalScore;
+  document.getElementById("setCount").textContent = currentSetNumber;
 
   const quizArea = document.getElementById("quizArea");
   quizArea.innerHTML = "";
@@ -258,20 +318,13 @@ function endQuiz() {
   }
 }
 
-/* Restart quiz */
+/* Restart */
 function restartQuiz() {
-  totalScore = 0;
-  currentSetNumber = 1;
   document.getElementById("failModal").style.display = "none";
-
-  fetch("/json-files/quiz-hub.json")
-    .then(res => res.json())
-    .then(data => {
-      allQuestions = shuffle([...data.questions]);
-      loadSet();
-    });
+  document.getElementById("levelModal").style.display = "flex";
 }
 </script>
+
 
 </body>
 </html>
