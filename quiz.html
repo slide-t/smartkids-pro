@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Hub | SmartKids Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    /* QUIZ GRID */
+    .quiz-area {
+      display: grid;
+      gap: 15px;
+    }
+
+    /* Desktop: 5 by 2 */
+    @media (min-width: 768px) {
+      .quiz-area {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .question-box {
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .question-box h4 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    /* OPTIONS */
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .option:hover {
+      background: #eef2ff;
+    }
+
+    /* RADIO */
+    .option input[type="radio"] {
+      accent-color: #1e40af;
+    }
+
+    /* SHAKE / DANCE ANIMATION */
+    .option:active {
+      animation: shake 0.35s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      25%  { transform: translateX(-3px); }
+      50%  { transform: translateX(3px); }
+      75%  { transform: translateX(-2px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* SUBMIT */
+    .submit-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #1e40af;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .result {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Quiz Hub</h2>
+
+  <!-- QUIZ AREA -->
+  <div id="quizArea" class="quiz-area">
+    <!-- Questions will be injected here -->
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="submit-btn" id="submitBtn">Submit</button>
+
+  <!-- RESULT -->
+  <div id="result" class="result"></div>
+
+  <!-- JS WILL COME NEXT -->
+  <script>
+    /*
+      Placeholder only.
+      Next step: fetch('/json-files/quiz-hub.json')
+      and render 5 random questions
+    */
+  </script>
+
+</body>
+</html>
