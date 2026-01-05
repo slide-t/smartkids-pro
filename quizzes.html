@@ -230,10 +230,9 @@
   </div>
 </div>
 
-  
   <script>
 /* ===============================
-   SAFE CBT QUIZ ENGINE
+   INTEGRATED SAFE CBT + TIMER
 ================================ */
 
 let allQuestions = [];
@@ -242,6 +241,10 @@ let totalScore = 0;
 let currentSetNumber = 1;
 let quizFile = "";
 const MAX_SETS = 5;
+
+let quizTime = 10 * 60; // default 10 min
+let timerInterval;
+let timerStarted = false;
 
 /* Prevent back navigation */
 history.pushState(null, null, location.href);
@@ -254,7 +257,7 @@ document.addEventListener("keydown", e => {
   }
 });
 
-/* START QUIZ */
+/* START QUIZ ON LEVEL SELECT */
 function startQuiz(level) {
   quizFile =
     level === "primary"
@@ -262,13 +265,9 @@ function startQuiz(level) {
       : "json-files/quiz-hub/quiz-sec.json";
 
   document.getElementById("levelModal").style.display = "none";
-  resetQuiz();
-}
-
-/* RESET & LOAD */
-function resetQuiz() {
   totalScore = 0;
   currentSetNumber = 1;
+  timerStarted = false;
 
   fetch(quizFile)
     .then(res => {
@@ -278,6 +277,7 @@ function resetQuiz() {
     .then(data => {
       allQuestions = shuffle([...data.questions]);
       loadSet();
+      startTimer(); // ✅ Timer starts after JSON loads
     })
     .catch(err => {
       alert("Quiz failed to load. Check JSON path.");
@@ -285,7 +285,7 @@ function resetQuiz() {
     });
 }
 
-/* SHUFFLE */
+/* SHUFFLE ARRAY */
 function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
@@ -325,170 +325,8 @@ function loadSet() {
   });
 }
 
-/* SUBMIT */
+/* SUBMIT LOGIC */
 document.getElementById("submitBtn").addEventListener("click", () => {
-  let setScore = 0;
-
-  currentSet.forEach((q, i) => {
-    const selected = document.querySelector(
-      `input[name="q${i}"]:checked`
-    );
-    if (selected && Number(selected.value) === q.answer) {
-      setScore++;
-    }
-  });
-
-  totalScore += setScore;
-  document.getElementById("score").textContent = totalScore;
-
-  if (currentSetNumber < MAX_SETS) {
-    currentSetNumber++;
-    loadSet();
-  } else {
-    endQuiz();
-  }
-});
-
-/* END QUIZ */
-function endQuiz() {
-  if (totalScore < 23) {
-    document.getElementById("finalScore").textContent =
-      `Your score is ${totalScore} / 25. Please try again.`;
-    document.getElementById("failModal").style.display = "flex";
-  } else {
-    alert(`Excellent! You scored ${totalScore} / 25`);
-    restartQuiz();
-  }
-}
-
-/* RESTART */
-function restartQuiz() {
-  document.getElementById("failModal").style.display = "none";
-  document.getElementById("levelModal").style.display = "flex";
-}
-</script>
-  <script>
-
-    function loadQuiz(jsonPath) {
-  fetch(jsonPath)
-    .then(res => res.json())
-    .then(data => {
-      allQuestions = data.questions;
-      shuffle(allQuestions);
-      loadNextSet();
-      startTimer(); // ✅ START TIMER HERE
-    })
-    .catch(err => {
-      console.error("Quiz JSON failed to load:", err);
-      alert("Quiz failed to load. Contact admin.");
-    });
-}
-/*let quizTime = 10 * 60; // 10 minutes (change per level)
-let timerInterval;
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    const minutes = Math.floor(quizTime / 60);
-    const seconds = quizTime % 60;
-
-    document.getElementById("time").textContent =
-      `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-    if (quizTime <= 0) {
-      clearInterval(timerInterval);
-      alert("Time up! Quiz submitted.");
-      submitQuiz();
-    }
-    quizTime--;
-  }, 1000);
-}*/
-</script>
-
-<!-- 
-<script>
-/* ===============================
-   LEVEL-AWARE CBT QUIZ ENGINE
-================================ */
-
-let allQuestions = [];
-let currentSet = [];
-let totalScore = 0;
-let currentSetNumber = 1;
-let quizFile = "";
-const MAX_SETS = 5;
-
-/* Prevent back navigation */
-history.pushState(null, null, location.href);
-window.onpopstate = () => history.pushState(null, null, location.href);
-
-/* Disable backspace navigation */
-document.addEventListener("keydown", e => {
-  if (e.key === "Backspace" && !e.target.matches("input, textarea")) {
-    e.preventDefault();
-  }
-});
-
-/* Start quiz based on level */
-function startQuiz(level) {
-  quizFile =
-    level === "primary"
-      ? "/json-files/quiz-prim.json"
-      : "/json-files/quiz-sec.json";
-
-  document.getElementById("levelModal").style.display = "none";
-  resetQuiz();
-}
-
-/* Load and reset quiz */
-function resetQuiz() {
-  totalScore = 0;
-  currentSetNumber = 1;
-
-  fetch(quizFile)
-    .then(res => res.json())
-    .then(data => {
-      allQuestions = shuffle([...data.questions]);
-      loadSet();
-    });
-}
-
-/* Shuffle utility */
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
-}
-
-/* Load 5 questions */
-function loadSet() {
-  document.getElementById("score").textContent = totalScore;
-  document.getElementById("setCount").textContent = currentSetNumber;
-
-  const quizArea = document.getElementById("quizArea");
-  quizArea.innerHTML = "";
-
-  currentSet = allQuestions.splice(0, 5);
-
-  currentSet.forEach((q, i) => {
-    const box = document.createElement("div");
-    box.className = "question-box";
-
-    let html = `<h4>${i + 1}. ${q.question}</h4>`;
-
-    q.options.forEach((opt, idx) => {
-      html += `
-        <label class="option">
-          <input type="radio" name="q${i}" value="${idx}">
-          ${opt}
-        </label>
-      `;
-    });
-
-    box.innerHTML = html;
-    quizArea.appendChild(box);
-  });
-}
-
-/* Submit logic */
-document.getElementById("submitBtn").onclick = () => {
   let setScore = 0;
 
   currentSet.forEach((q, i) => {
@@ -507,10 +345,11 @@ document.getElementById("submitBtn").onclick = () => {
   } else {
     endQuiz();
   }
-};
+});
 
-/* End quiz */
+/* END QUIZ */
 function endQuiz() {
+  clearInterval(timerInterval); // Stop timer
   if (totalScore < 23) {
     document.getElementById("finalScore").textContent =
       `Your score is ${totalScore} / 25. Please try again.`;
@@ -521,14 +360,35 @@ function endQuiz() {
   }
 }
 
-/* Restart */
+/* RESTART QUIZ */
 function restartQuiz() {
   document.getElementById("failModal").style.display = "none";
   document.getElementById("levelModal").style.display = "flex";
 }
-</script>-->
-  
 
+/* ======================
+   CBT TIMER
+====================== */
+function startTimer() {
+  if (timerStarted) return; // prevent multiple timers
+  timerStarted = true;
 
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(quizTime / 60);
+    const seconds = quizTime % 60;
+    document.getElementById("time").textContent =
+      `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+    if (quizTime <= 0) {
+      clearInterval(timerInterval);
+      alert("Time up! Quiz submitted.");
+      document.getElementById("submitBtn").click(); // auto submit
+    }
+
+    quizTime--;
+  }, 1000);
+}
+</script>
+ 
 </body>
 </html>
