@@ -364,6 +364,9 @@ document.getElementById("submitBtn").onclick = () => {
 /* ===============================
    END QUIZ
 ================================ */
+/* ===============================
+   END QUIZ
+================================ */
 function endQuiz() {
   clearInterval(timerInterval);
 
@@ -375,7 +378,24 @@ function endQuiz() {
     `Percentage: ${result.percent}%\n` +
     `Grade: ${result.grade}`;
 
-  if (totalScore < 23) {
+  // ✅ SAFE student data (prevents crash)
+  const resultData = {
+    school: sessionStorage.getItem("schoolName") || "Unknown School",
+    student: student?.name || "Unknown Student",
+    class: student?.class || "Unknown Class",
+    score: totalScore,
+    percent: result.percent,
+    grade: result.grade,
+    date: new Date().toLocaleString()
+  };
+
+  // Save result locally (device-based)
+  localStorage.setItem("lastCBTResult", JSON.stringify(resultData));
+
+  // Pass mark (can be admin-controlled later)
+  const PASS_MARK = 23;
+
+  if (totalScore < PASS_MARK) {
     document.getElementById("finalScore").innerText =
       message + "\n\nPlease try again.";
     document.getElementById("failModal").style.display = "flex";
@@ -385,18 +405,6 @@ function endQuiz() {
   }
 }
    
-   /*function endQuiz() {
-  clearInterval(timerInterval);
-
-  if (totalScore < 23) {
-    document.getElementById("finalScore").textContent =
-      `Your score is ${totalScore}/25. Please try again.`;
-    document.getElementById("failModal").style.display = "flex";
-  } else {
-    alert(`Excellent! You scored ${totalScore}/25`);
-    restartQuiz();
-  }
-}*/
    
 /* ===============================
    CBT GRADING SYSTEM (PERCENTAGE)
