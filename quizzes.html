@@ -125,6 +125,48 @@ button {
   75% { transform: translateX(-2px); }
   100% { transform: translateX(0); }
 }
+   
+   /* ===============================
+   CBT OPTION ANIMATION
+================================ */
+
+.option {
+  display: block;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.2s, border 0.2s;
+}
+
+.option:hover {
+  background: #f8fafc;
+}
+
+.option input {
+  margin-right: 8px;
+}
+
+/* Selected option */
+.option.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+.option.shake {
+  animation: shake 0.25s ease-in-out;
+}
 </style>
 </head>
 
