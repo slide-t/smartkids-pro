@@ -186,39 +186,56 @@ function loadSet() {
 
 /* SUBMIT */
 submitBtn.onclick = () => {
-  let unanswered = [];
+  let unansweredIndexes = [];
 
+  // Remove previous highlights
+  document.querySelectorAll(".question-box").forEach(box => {
+    box.style.border = "1px solid #ddd";
+    box.style.background = "#fff";
+  });
+
+  // Check unanswered
   currentSet.forEach((q, i) => {
     const chosen = document.querySelector(`input[name="q${i}"]:checked`);
     if (!chosen) {
-      unanswered.push(i + 1);
+      unansweredIndexes.push(i);
     }
   });
 
-  // 🚫 Block submission if any question is unanswered
-  if (unanswered.length > 0) {
+  // 🚫 Block submit if unanswered
+  if (unansweredIndexes.length > 0) {
+    unansweredIndexes.forEach(i => {
+      const box = document.querySelectorAll(".question-box")[i];
+      box.style.border = "2px solid red";
+      box.style.background = "#fff5f5";
+    });
+
     alert(
       "⚠ Please answer all questions before submitting.\n\n" +
-      "Unanswered question(s): " + unanswered.join(", ")
+      "Highlighted in red."
     );
     return;
   }
 
-  // ✅ Grade only after validation
+  // ✅ Grade answers
   currentSet.forEach((q, i) => {
     const chosen = document.querySelector(`input[name="q${i}"]:checked`);
-    if (chosen && q.options[chosen.value].isCorrect) {
+    if (chosen && chosen.value === q.options[q.answer]) {
       totalScore++;
     }
   });
 
+  // Next set or end
   if (++currentSetNumber <= MAX_SETS) {
     loadSet();
+
+    // ⬆ AUTO SCROLL TO TOP
+    window.scrollTo({ top: 0, behavior: "smooth" });
   } else {
     endQuiz();
   }
 };
-
+  
 /* END */
 function endQuiz(){
   clearInterval(timerInterval);
