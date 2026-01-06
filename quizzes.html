@@ -186,10 +186,27 @@ function loadSet() {
 
 /* SUBMIT */
 submitBtn.onclick = () => {
+  let unanswered = [];
+
   currentSet.forEach((q, i) => {
     const chosen = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!chosen) {
+      unanswered.push(i + 1);
+    }
+  });
 
-    // ✅ Correct, safe grading
+  // 🚫 Block submission if any question is unanswered
+  if (unanswered.length > 0) {
+    alert(
+      "⚠ Please answer all questions before submitting.\n\n" +
+      "Unanswered question(s): " + unanswered.join(", ")
+    );
+    return;
+  }
+
+  // ✅ Grade only after validation
+  currentSet.forEach((q, i) => {
+    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
     if (chosen && q.options[chosen.value].isCorrect) {
       totalScore++;
     }
