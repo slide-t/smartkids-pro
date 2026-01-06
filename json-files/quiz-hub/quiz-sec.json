@@ -2,69 +2,544 @@
   "level": "Secondary",
   "questions": [
     {
+      "question": "Which of the following is a type of software?",
+      "options": ["Application", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to connect a computer to a network?",
+      "options": ["Network Interface Card", "Printer", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of the following is an output device?",
+      "options": ["Printer", "Keyboard", "Mouse", "Scanner"],
+      "answer": 0
+    },
+    {
       "question": "What does CPU stand for?",
-      "options": [
-        "Central Processing Unit",
-        "Computer Power Unit",
-        "Central Program Unit",
-        "Control Processing Unit"
-      ],
+      "options": ["Central Processing Unit", "Computer Personal Unit", "Central Print Unit", "Control Processing Unit"],
       "answer": 0
     },
     {
-      "question": "Which unit performs calculations?",
-      "options": ["Control Unit", "Memory Unit", "ALU", "Input Unit"],
-      "answer": 2
-    },
-    {
-      "question": "Which of these is not an input device?",
-      "options": ["Keyboard", "Mouse", "Monitor", "Scanner"],
-      "answer": 2
-    },
-    {
-      "question": "Which storage device is permanent?",
-      "options": ["RAM", "ROM", "Cache", "Register"],
-      "answer": 1
-    },
-    {
-      "question": "What is software?",
-      "options": [
-        "Physical parts of a computer",
-        "Programs that tell the computer what to do",
-        "Electric cables",
-        "Input devices"
-      ],
-      "answer": 1
-    },
-    {
-      "question": "Which of these is system software?",
-      "options": ["Microsoft Word", "Windows OS", "Excel", "PowerPoint"],
-      "answer": 1
-    },
-    {
-      "question": "What is the full meaning of ICT?",
-      "options": [
-        "Information and Communication Technology",
-        "Internet Communication Tool",
-        "Information Control Technology",
-        "Integrated Computer Technique"
-      ],
+      "question": "Which device is used to input graphical data?",
+      "options": ["Scanner", "Monitor", "Printer", "Keyboard"],
       "answer": 0
     },
     {
-      "question": "Which device connects a computer to the internet?",
-      "options": ["Printer", "Router", "Speaker", "UPS"],
-      "answer": 1
+      "question": "Which of these is a search engine?",
+      "options": ["Google", "Windows", "Excel", "PowerPoint"],
+      "answer": 0
     },
     {
-      "question": "Which memory is volatile?",
-      "options": ["ROM", "Hard Disk", "Flash Drive", "RAM"],
-      "answer": 3
+      "question": "Which software is used to create spreadsheets?",
+      "options": ["Excel", "Word", "Paint", "PowerPoint"],
+      "answer": 0
     },
     {
-      "question": "Which of these is an example of application software?",
-      "options": ["Linux", "Windows", "Microsoft Excel", "BIOS"],
-      "answer": 2
+      "question": "Which part of the computer temporarily stores data?",
+      "options": ["RAM", "Hard Disk", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a non-volatile storage?",
+      "options": ["Hard Disk", "RAM", "Cache", "Registers"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an operating system?",
+      "options": ["Windows", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used to send emails?",
+      "options": ["SMTP", "HTTP", "FTP", "TCP"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts digital signals to analog?",
+      "options": ["Modem", "Monitor", "Keyboard", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to copy data?",
+      "options": ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + P"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of network covers a small area like a school?",
+      "options": ["LAN", "WAN", "MAN", "VPN"],
+      "answer": 0
+    },
+    {
+      "question": "Which device connects multiple networks together?",
+      "options": ["Router", "Switch", "Hub", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which device forwards data packets within a LAN?",
+      "options": ["Switch", "Router", "Hub", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these stores BIOS permanently?",
+      "options": ["ROM", "RAM", "Hard Disk", "Cache"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to design presentations?",
+      "options": ["PowerPoint", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an input device?",
+      "options": ["Keyboard", "Monitor", "Printer", "Speaker"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a computer language?",
+      "options": ["Python", "Windows", "Excel", "Word"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used to browse the web?",
+      "options": ["HTTP", "SMTP", "FTP", "POP3"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these helps prevent malware?",
+      "options": ["Antivirus", "Monitor", "Keyboard", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to undo?",
+      "options": ["Ctrl + Z", "Ctrl + Y", "Ctrl + X", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a graphical interface element?",
+      "options": ["Window", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to read magnetic cards?",
+      "options": ["Card Reader", "Printer", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to compress files?",
+      "options": ["WinZip", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an example of cloud storage?",
+      "options": ["Google Drive", "CD-ROM", "Hard Disk", "USB"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to enter commands in command prompt?",
+      "options": ["Enter", "Shift", "Ctrl", "Alt"],
+      "answer": 0
+    },
+    {
+      "question": "Which device translates programming code to machine code?",
+      "options": ["Compiler", "Monitor", "Printer", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to take screenshots?",
+      "options": ["Print Screen", "Alt + F4", "Ctrl + Z", "Shift"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to browse websites?",
+      "options": ["Browser", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these stores data temporarily?",
+      "options": ["RAM", "ROM", "Hard Disk", "Floppy Disk"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to capitalize all letters?",
+      "options": ["Caps Lock", "Shift", "Ctrl", "Alt"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to project images on a screen?",
+      "options": ["Projector", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps visually impaired users?",
+      "options": ["Screen Reader", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to paste data?",
+      "options": ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for video editing?",
+      "options": ["Video Editor", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which network connects devices across cities?",
+      "options": ["WAN", "LAN", "PAN", "MAN"],
+      "answer": 0
+    },
+    {
+      "question": "Which device measures internet speed?",
+      "options": ["Network Tester", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to capture moving images?",
+      "options": ["Webcam", "Mouse", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to manage databases?",
+      "options": ["MS Access", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to save a document?",
+      "options": ["Ctrl + S", "Ctrl + P", "Ctrl + Z", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to connect computers to a printer?",
+      "options": ["USB Cable", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows wireless printing?",
+      "options": ["Wi-Fi Printer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination closes a program?",
+      "options": ["Alt + F4", "Ctrl + W", "Ctrl + F4", "Alt + Esc"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used for coding?",
+      "options": ["IDE", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a secondary storage device?",
+      "options": ["DVD", "RAM", "Cache", "Registers"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these allows cloud computing?",
+      "options": ["Internet", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to redo an action?",
+      "options": ["Ctrl + Y", "Ctrl + Z", "Ctrl + X", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to digitize documents?",
+      "options": ["Scanner", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these protects computers from power surges?",
+      "options": ["UPS", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+
+    
+    {
+      "question": "Which key combination opens the Task Manager?",
+      "options": ["Ctrl + Shift + Esc", "Ctrl + Alt + Del", "Alt + F4", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software is used to protect against viruses?",
+      "options": ["Antivirus", "Browser", "IDE", "Word Processor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts digital signals to sound?",
+      "options": ["Speaker", "Printer", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a wireless networking standard?",
+      "options": ["Wi-Fi", "USB", "HDMI", "VGA"],
+      "answer": 0
+    },
+    {
+      "question": "Which of the following is used for video conferencing?",
+      "options": ["Zoom", "Excel", "Paint", "Word"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to create documents?",
+      "options": ["Word Processor", "Spreadsheet", "Browser", "Compiler"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a peripheral device?",
+      "options": ["Mouse", "CPU", "RAM", "ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which part of the computer performs calculations?",
+      "options": ["CPU", "RAM", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to delete text backwards?",
+      "options": ["Backspace", "Delete", "Enter", "Shift"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used to transfer files over the internet?",
+      "options": ["FTP", "HTTP", "SMTP", "DNS"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a type of malware?",
+      "options": ["Trojan", "Monitor", "Keyboard", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows touch input?",
+      "options": ["Touchscreen", "Monitor", "Printer", "Scanner"],
+      "answer": 0
+    },
+    {
+      "question": "Which software can be used to make diagrams?",
+      "options": ["MS Visio", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination selects all text?",
+      "options": ["Ctrl + A", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which storage device is portable and uses flash memory?",
+      "options": ["USB Drive", "RAM", "Hard Disk", "ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which device measures temperature in computer labs?",
+      "options": ["Thermometer", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device provides tactile feedback to users?",
+      "options": ["Vibration Motor", "Monitor", "Printer", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which software can be used to edit images?",
+      "options": ["Photoshop", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which network device amplifies signals over long distances?",
+      "options": ["Repeater", "Router", "Switch", "Hub"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an example of open-source software?",
+      "options": ["Linux", "Windows", "MS Office", "MacOS"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used for web development?",
+      "options": ["JavaScript", "C", "Python", "Java"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a storage device used in laptops?",
+      "options": ["SSD", "RAM", "ROM", "Cache"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to backup data in bulk?",
+      "options": ["External Hard Disk", "RAM", "ROM", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an input/output device?",
+      "options": ["Touchscreen", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used for creating databases?",
+      "options": ["MS Access", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to print a document?",
+      "options": ["Ctrl + P", "Ctrl + S", "Ctrl + C", "Ctrl + V"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of memory is volatile?",
+      "options": ["RAM", "ROM", "SSD", "DVD"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to protect data from power loss?",
+      "options": ["UPS", "RAM", "CPU", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an internet browser?",
+      "options": ["Chrome", "Windows", "Excel", "Word"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts sound into digital signals?",
+      "options": ["Microphone", "Speaker", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a vector graphics editor?",
+      "options": ["CorelDRAW", "Paint", "Word", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination closes the current tab in a browser?",
+      "options": ["Ctrl + W", "Ctrl + C", "Ctrl + S", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of network uses satellites?",
+      "options": ["WAN", "LAN", "PAN", "MAN"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these devices can store large amounts of data?",
+      "options": ["External Hard Drive", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used for secure web browsing?",
+      "options": ["HTTPS", "HTTP", "FTP", "SMTP"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to edit videos professionally?",
+      "options": ["Adobe Premiere", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a social media platform?",
+      "options": ["Facebook", "Windows", "Linux", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps blind users read text?",
+      "options": ["Screen Reader", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to encrypt data?",
+      "options": ["Encryption Software", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is mostly used for AI?",
+      "options": ["Python", "Java", "C++", "HTML"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination refreshes a webpage?",
+      "options": ["F5", "Ctrl + R", "Ctrl + F5", "Alt + R"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps in 3D printing?",
+      "options": ["3D Printer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a hardware firewall?",
+      "options": ["Router", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows remote control of a computer?",
+      "options": ["Remote Desktop", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these stores the operating system?",
+      "options": ["Hard Disk", "RAM", "Cache", "ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a collaborative tool for teams?",
+      "options": ["Microsoft Teams", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to detect network intrusions?",
+      "options": ["IDS (Intrusion Detection System)", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for online payments?",
+      "options": ["PayPal", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device captures physical documents into digital format?",
+      "options": ["Scanner", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination opens a new tab in a browser?",
+      "options": ["Ctrl + T", "Ctrl + N", "Ctrl + W", "Ctrl + R"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to test computer knowledge online?",
+      "options": ["CBT Software", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to read barcodes?",
+      "options": ["Barcode Scanner", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a computer networking device?",
+      "options": ["Hub", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software helps in making flowcharts?",
+      "options": ["Flowchart Maker", "Excel", "Word", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to detect phishing emails?",
+      "options": ["Email Filter", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows multiple computers to share internet?",
+      "options": ["Router", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
     }
   ]
 }
+
+
+    
