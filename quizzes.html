@@ -121,6 +121,216 @@ button {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
    <script>
+/* ===============================
+   GLOBAL STATE
+================================ */
+let student = {};
+let selectedLevel = "";
+let allQuestions = [];
+let currentSet = [];
+let totalScore = 0;
+let currentSetNumber = 1;
+
+const MAX_SETS = 5;
+const QUESTIONS_PER_SET = 5;
+
+/* ===============================
+   TIMER
+================================ */
+let quizTime = 10 * 60;
+let timerInterval;
+let timerStarted = false;
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+
+  timerInterval = setInterval(() => {
+    const min = Math.floor(quizTime / 60);
+    const sec = quizTime % 60;
+    document.getElementById("time").textContent =
+      `${min}:${sec.toString().padStart(2, "0")}`;
+
+    if (quizTime <= 0) {
+      clearInterval(timerInterval);
+      endQuiz();
+    }
+    quizTime--;
+  }, 1000);
+}
+
+/* ===============================
+   PAGE LOAD
+================================ */
+window.onload = () => {
+  studentModal.style.display = "flex";
+};
+
+/* ===============================
+   SAVE STUDENT
+================================ */
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  student = { name, class: studentClass };
+
+  // Reset previous session
+  sessionStorage.removeItem("quizCompleted");
+  sessionStorage.removeItem("quizLevel");
+
+  studentModal.style.display = "none";
+  levelModal.style.display = "flex";
+}
+
+/* ===============================
+   START QUIZ (LEVEL LOCK)
+================================ */
+function startQuiz(level) {
+  const cls = student.class.toLowerCase();
+
+  const isPrimaryClass =
+    cls.includes("primary") || cls.includes("pri");
+  const isSecondaryClass =
+    cls.includes("jss") || cls.includes("sss") || cls.includes("secondary");
+
+  if (isPrimaryClass && level === "secondary") {
+    alert("Primary pupils cannot take Secondary quiz.");
+    return;
+  }
+
+  if (isSecondaryClass && level === "primary") {
+    alert("Secondary students cannot take Primary quiz.");
+    return;
+  }
+
+  selectedLevel = level;
+  sessionStorage.setItem("quizLevel", level);
+
+  levelModal.style.display = "none";
+
+  fetch(level === "primary"
+    ? "json-files/quiz-hub/quiz-prim.json"
+    : "json-files/quiz-hub/quiz-sec.json"
+  )
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle(
+        data.questions.map(q => ({
+          question: q.question,
+          options: shuffle(
+            q.options.map((text, i) => ({
+              text,
+              isCorrect: i === q.answer
+            }))
+          )
+        }))
+      );
+
+      totalScore = 0;
+      currentSetNumber = 1;
+      quizTime = 10 * 60;
+      timerStarted = false;
+
+      loadSet();
+      startTimer();
+    })
+    .catch(() => alert("Quiz failed to load"));
+}
+
+/* ===============================
+   LOAD QUESTIONS
+================================ */
+function loadSet() {
+  document.getElementById("score").textContent = totalScore;
+  document.getElementById("setCount").textContent = currentSetNumber;
+
+  const quizArea = document.getElementById("quizArea");
+  quizArea.innerHTML = "";
+
+  currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
+
+  currentSet.forEach((q, i) => {
+    quizArea.innerHTML += `
+      <div class="question-box">
+        <h4>${i + 1}. ${q.question}</h4>
+        ${q.options.map((opt, idx) => `
+          <label class="option">
+            <input type="radio" name="q${i}" value="${idx}">
+            ${opt.text}
+          </label>
+        `).join("")}
+      </div>
+    `;
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ===============================
+   SUBMIT
+================================ */
+document.getElementById("submitBtn").onclick = () => {
+  for (let i = 0; i < currentSet.length; i++) {
+    if (!document.querySelector(`input[name=q${i}]:checked`)) {
+      alert("Answer all questions!");
+      return;
+    }
+  }
+
+  currentSet.forEach((q, i) => {
+    document.querySelectorAll(`input[name=q${i}]`).forEach((input, idx) => {
+      if (q.options[idx].isCorrect) {
+        input.parentElement.style.background = "#c8f7c5";
+      } else if (input.checked) {
+        input.parentElement.style.background = "#f7c5c5";
+      }
+    });
+  });
+
+  currentSet.forEach((q, i) => {
+    const chosen = document.querySelector(`input[name=q${i}]:checked`);
+    if (chosen && q.options[chosen.value].isCorrect) totalScore++;
+  });
+
+  if (currentSetNumber < MAX_SETS) {
+    currentSetNumber++;
+    loadSet();
+  } else {
+    endQuiz();
+  }
+};
+
+/* ===============================
+   END QUIZ
+================================ */
+function endQuiz() {
+  clearInterval(timerInterval);
+
+  sessionStorage.setItem("quizCompleted", "true");
+
+  document.getElementById("finalScore").textContent =
+    `${student.name} (${student.class})\nScore: ${totalScore}`;
+
+  resultModal.style.display = "flex";
+}
+
+/* ===============================
+   SHUFFLE
+================================ */
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+</script>
+   
+   
+   
+   <!--<script>
 let student = {};
 let allQuestions = [];
 let currentSet = [];
