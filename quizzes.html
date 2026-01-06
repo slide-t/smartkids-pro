@@ -237,18 +237,37 @@ submitBtn.onclick = () => {
 };
   
 /* END */
-function endQuiz(){
+function endQuiz() {
   clearInterval(timerInterval);
-  const total=MAX_SETS*QUESTIONS_PER_SET;
-  const pass=Math.ceil(total*0.5);
-  finalScore.textContent=
-    `${student.name} (${student.class})\nScore: ${totalScore}/${total}`;
-  failModal.style.display="flex";
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const passMark = Math.ceil(total * 0.5);
+  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
+
+  const resultText =
+    `STUDENT RESULT\n\n` +
+    `Name: ${student.name}\n` +
+    `Class: ${student.class}\n\n` +
+    `Score: ${totalScore} / ${total}\n` +
+    `Status: ${status}\n\n` +
+    `Date: ${new Date().toLocaleString()}`;
+
+  finalScore.textContent = resultText;
+  failModal.style.display = "flex";
 }
 
-function restartQuiz(){ location.reload(); }
-function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
-window.onload=()=>studentModal.style.display="flex";
+function restartQuiz() {
+  location.reload();
+}
+
+function shuffle(a) {
+  return a.sort(() => Math.random() - 0.5);
+}
+
+window.onload = () => {
+  studentModal.style.display = "flex";
+};
+  
 </script>
 
 </body>
