@@ -117,7 +117,9 @@ button {
 </div>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
+
+  
+  <!--<script>
 let allQuestions = [];
 let currentSet = [];
 let totalScore = 0;
@@ -271,6 +273,10 @@ document.getElementById("submitBtn").onclick = () => {
 // ===============================
 function endQuiz() {
   clearInterval(timerInterval);
+
+  // Auto scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
   const total = MAX_SETS * QUESTIONS_PER_SET;
   const passMark = Math.ceil(total * 0.5);
   const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
@@ -283,8 +289,11 @@ function endQuiz() {
     `Status: ${status}\n\n` +
     `Date: ${new Date().toLocaleString()}`;
 
+  // Update modal content
   document.getElementById("finalScore").textContent = resultText;
-  failModal.style.display = "flex";
+
+  // Show unified result modal
+  document.getElementById("resultModal").style.display = "flex";
 }
 
 // ===============================
@@ -346,11 +355,7 @@ document.addEventListener("visibilitychange", () => {
     }
   }
 });
-</script>
-
-  
-
-  
+</script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
