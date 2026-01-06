@@ -240,18 +240,28 @@ document.getElementById("submitBtn").onclick=()=>{
 /* ===============================
    END QUIZ
 ================================ */
-function endQuiz(){
+function endQuiz() {
   clearInterval(timerInterval);
-  const total=MAX_SETS*QUESTIONS_PER_SET;
-  const pass=Math.ceil(total*0.5);
-  const status=totalScore>=pass?"PASS ✅":"FAIL ❌";
-  const resultText=
-    `STUDENT RESULT\n\nName: ${student.name}\nClass: ${student.class}\n\nScore: ${totalScore} / ${total}\nStatus: ${status}\n\nDate: ${new Date().toLocaleString()}`;
-  document.getElementById("finalScore").textContent=resultText;
-  resultModal.style.display="flex";
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const pass = Math.ceil(total * 0.5);
+  const status = totalScore >= pass ? "PASS ✅" : "FAIL ❌";
+
+  const resultText =
+    `STUDENT RESULT\n\n` +
+    `Name: ${student.name}\n` +
+    `Class: ${student.class}\n\n` +
+    `Score: ${totalScore} / ${total}\n` +
+    `Status: ${status}\n\n` +
+    `Date: ${new Date().toLocaleString()}`;
+
+  document.getElementById("finalScore").textContent = resultText;
+  resultModal.style.display = "flex";
+
+  // ✅ Mark quiz as completed
+  sessionStorage.setItem("quizCompleted", "true");
 }
-sessionStorage.setItem("quizCompleted", "true");
-/* ===============================
+   /* ===============================
    RESTART QUIZ
 ================================ */
 function restartQuiz(){ location.reload(); }
