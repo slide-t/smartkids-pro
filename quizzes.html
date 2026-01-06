@@ -156,6 +156,40 @@ function startTimer() {
    CHECK IF QUIZ ALREADY DONE
 ================================ */
 window.onload = () => {
+  studentModal.style.display = "flex";
+};
+
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  // Check if same student has completed quiz
+  const lastStudent = JSON.parse(sessionStorage.getItem("lastStudent") || "{}");
+  if (lastStudent.name === name && lastStudent.class === studentClass &&
+      sessionStorage.getItem("quizCompleted")) {
+    alert("This student has already completed the quiz!");
+    resultModal.style.display = "flex";
+    studentModal.style.display = "none";
+    return;
+  }
+
+  student = { name, class: studentClass };
+
+  // Save current student for future reference
+  sessionStorage.setItem("lastStudent", JSON.stringify(student));
+
+  // Close student modal and open level selection
+  studentModal.style.display = "none";
+  levelModal.style.display = "flex";
+}
+      
+      
+      /*window.onload = () => {
   if(sessionStorage.getItem("quizCompleted")) {
     alert("Quiz already completed! You cannot retake it.");
     studentModal.style.display = "none";
