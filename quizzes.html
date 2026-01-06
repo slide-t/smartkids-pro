@@ -160,23 +160,27 @@ function startQuiz(level){
 })
 }
   /* LOAD */
-function loadSet(){
-  score.textContent=totalScore;
-  setCount.textContent=currentSetNumber;
-  quizArea.innerHTML="";
-  currentSet=allQuestions.splice(0,QUESTIONS_PER_SET);
+function loadSet() {
+  score.textContent = totalScore;
+  setCount.textContent = currentSetNumber;
+  quizArea.innerHTML = "";
 
-  currentSet.forEach((q,i)=>{
-    const opts=[...q.options];
-    shuffle(opts);
-    quizArea.innerHTML+=`
+  currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
+
+  currentSet.forEach((q, i) => {
+    quizArea.innerHTML += `
       <div class="question-box">
-        <h4>${i+1}. ${q.question}</h4>
-        ${opts.map(o=>`
+        <h4>${i + 1}. ${q.question}</h4>
+
+        ${q.options.map((opt, idx) => `
           <label class="option">
-            <input type="radio" name="q${i}" value="${o}"> ${o}
-          </label>`).join("")}
-      </div>`;
+            <input type="radio" name="q${i}" value="${idx}">
+            ${opt.text}
+          </label>
+        `).join("")}
+
+      </div>
+    `;
   });
 }
 
