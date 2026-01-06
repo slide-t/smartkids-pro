@@ -143,13 +143,23 @@ function startQuiz(level){
   fetch(level==="primary"?
     "json-files/quiz-hub/quiz-prim.json":
     "json-files/quiz-hub/quiz-sec.json"
-  ).then(r=>r.json()).then(d=>{
-    allQuestions=shuffle([...d.questions]);
-    loadSet(); startTimer();
-  });
+  ).then(data => {
+  allQuestions = shuffle(
+    data.questions.map(q => ({
+      question: q.question,
+      options: shuffle(
+        q.options.map((text, index) => ({
+          text,
+          isCorrect: index === q.answer
+        }))
+      )
+    }))
+  );
+  loadSet();
+  startTimer();
+})
 }
-
-/* LOAD */
+  /* LOAD */
 function loadSet(){
   score.textContent=totalScore;
   setCount.textContent=currentSetNumber;
