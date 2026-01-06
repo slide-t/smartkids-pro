@@ -185,12 +185,21 @@ function loadSet() {
 }
 
 /* SUBMIT */
-submitBtn.onclick=()=>{
-  currentSet.forEach((q,i)=>{
-    const c=document.querySelector(`input[name=q${i}]:checked`);
-    if(c && c.value===q.options[q.answer]) totalScore++;
+submitBtn.onclick = () => {
+  currentSet.forEach((q, i) => {
+    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
+
+    // ✅ Correct, safe grading
+    if (chosen && q.options[chosen.value].isCorrect) {
+      totalScore++;
+    }
   });
-  if(++currentSetNumber<=MAX_SETS) loadSet(); else endQuiz();
+
+  if (++currentSetNumber <= MAX_SETS) {
+    loadSet();
+  } else {
+    endQuiz();
+  }
 };
 
 /* END */
