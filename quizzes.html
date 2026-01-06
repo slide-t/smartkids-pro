@@ -100,10 +100,21 @@ button {
     <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
+<!-- RESULT MODAL -->
+<div class="modal" id="failModal" style="display:none">
+  <div class="modal-content">
+    <p id="finalScore"></p>
 
-  <!--<button onclick="window.print()">Print Result</button>-->
-<button onclick="exportResultPDF()">Download PDF</button>
-<button onclick="restartQuiz()">Ok</button>
+    <!-- Existing print button -->
+    <button onclick="window.print()">Print Result</button>
+
+    <!-- Optional PDF export -->
+    <button onclick="exportResultPDF()">Download Result (PDF)</button>
+
+    <!-- Existing restart button -->
+    <button onclick="restartQuiz()">Ok</button>
+  </div>
+</div>
   
 <script>
 let student = {};
