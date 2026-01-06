@@ -100,6 +100,7 @@ button {
     <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
+  
 <!-- RESULT MODAL -->
 <div class="modal" id="failModal" style="display:none">
   <div class="modal-content">
@@ -251,7 +252,7 @@ submitBtn.onclick = () => {
   }
 };
   
-/* END */
+/* END *
 function endQuiz() {
   clearInterval(timerInterval);
 
@@ -282,8 +283,75 @@ function shuffle(a) {
 window.onload = () => {
   studentModal.style.display = "flex";
 };
+<!-- RESULT / FAIL MODAL -->
+<div class="modal" id="failModal" style="display:none">
+  <div class="modal-content">
+    <pre id="finalScore" style="text-align:left; white-space:pre-wrap;"></pre>
+    <button onclick="window.print()">Print Result</button>
+    <button onclick="exportResultPDF()">Download Result (PDF)</button>
+    <button onclick="restartQuiz()">Ok</button>
+  </div>
+</div>
+
+<script>
+function endQuiz() {
+  clearInterval(timerInterval);
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const passMark = Math.ceil(total * 0.5);
+  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
+
+  const resultText =
+    `STUDENT RESULT\n\n` +
+    `Name: ${student.name}\n` +
+    `Class: ${student.class}\n\n` +
+    `Score: ${totalScore} / ${total}\n` +
+    `Status: ${status}\n\n` +
+    `Date: ${new Date().toLocaleString()}`;
+
+  finalScore.textContent = resultText;
+
+  // Scroll modal to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Show modal
+  failModal.style.display = "flex";
+}
+
+/* ===============================
+   EXPORT RESULT AS PDF
+================================ */
+function exportResultPDF() {
+  const pdfContent = document.getElementById("finalScore").textContent;
+
+  const pdfWindow = window.open("", "_blank");
+  pdfWindow.document.write("<pre>" + pdfContent + "</pre>");
+  pdfWindow.document.close();
+  pdfWindow.print();
+}
+
+/* ===============================
+   RESTART
+================================ */
+function restartQuiz() {
+  location.reload();
+}
+
+/* ===============================
+   SHUFFLE UTILITY
+================================ */
+function shuffle(a) {
+  return a.sort(() => Math.random() - 0.5);
+}
+
+window.onload = () => {
+  studentModal.style.display = "flex";
+};
+</script>
+
+  
   </script>
-  <script>
+  <!--<script>
 function exportResultPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -318,7 +386,7 @@ function exportResultPDF() {
 
   doc.save(fileName);
 }
-</script>
+</script>-->
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
