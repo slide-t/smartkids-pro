@@ -116,7 +116,6 @@ button {
     <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 let allQuestions = [];
@@ -129,6 +128,7 @@ let quizTime = 10 * 60;
 let timerInterval;
 let timerStarted = false;
 let student = {};
+let tabSwitches = 0;
 
 // ===============================
 // TIMER
@@ -136,11 +136,12 @@ let student = {};
 function startTimer() {
   if (timerStarted) return;
   timerStarted = true;
+
   timerInterval = setInterval(() => {
     const min = Math.floor(quizTime / 60);
     const sec = quizTime % 60;
     document.getElementById("time").textContent =
-      `${min}:${sec.toString().padStart(2, "0")}`;
+      `${min}:${sec.toString().padStart(2,"0")}`;
 
     if (quizTime <= 0) {
       clearInterval(timerInterval);
@@ -151,68 +152,88 @@ function startTimer() {
 }
 
 // ===============================
+// SAVE STUDENT DETAILS
+// ===============================
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  student = { name, class: studentClass };
+  studentModal.style.display = "none";
+  levelModal.style.display = "flex";
+}
+
+// ===============================
 // START QUIZ
 // ===============================
 function startQuiz(level) {
   levelModal.style.display = "none";
+  totalScore = 0;
+  currentSetNumber = 1;
+  quizTime = 10 * 60;
+  timerStarted = false;
+  tabSwitches = 0;
 
-  fetch(level === "primary" ?
-    "json-files/quiz-hub/quiz-prim.json" :
-    "json-files/quiz-hub/quiz-sec.json"
-  )
-  .then(res => res.json())
-  .then(data => {
-    allQuestions = shuffle(
-      data.questions.map(q => ({
-        question: q.question,
-        options: shuffle(
-          q.options.map((text, index) => ({
-            text,
-            isCorrect: index === q.answer
-          }))
-        )
-      }))
-    );
-    totalScore = 0;
-    currentSetNumber = 1;
-    loadSet();
-    startTimer();
-  })
-  .catch(err => {
-    alert("Failed to load quiz. Check JSON path.");
-    console.error(err);
-  });
+  const quizFile = level === "primary"
+    ? "json-files/quiz-hub/quiz-prim.json"
+    : "json-files/quiz-hub/quiz-sec.json";
+
+  fetch(quizFile)
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle(
+        data.questions.map(q => ({
+          question: q.question,
+          options: shuffle(
+            q.options.map((text,index)=>({
+              text,
+              isCorrect: index === q.answer
+            }))
+          )
+        }))
+      );
+      loadSet();
+      startTimer();
+    })
+    .catch(err => {
+      alert("Failed to load quiz. Check JSON path.");
+      console.error(err);
+    });
 }
 
 // ===============================
 // LOAD SET
 // ===============================
 function loadSet() {
-  window.scrollTo(0, 0); // scroll to top
+  window.scrollTo(0,0);
   document.getElementById("score").textContent = totalScore;
   document.getElementById("setCount").textContent = currentSetNumber;
 
   const quizArea = document.getElementById("quizArea");
   quizArea.innerHTML = "";
-
   currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
 
   currentSet.forEach((q, i) => {
     quizArea.innerHTML += `
       <div class="question-box">
-        <h4>${i + 1}. ${q.question}</h4>
-        ${q.options.map((opt, idx) => `
+        <h4>${i+1}. ${q.question}</h4>
+        ${q.options.map((opt, idx)=>`
           <label class="option">
             <input type="radio" name="q${i}" value="${idx}">
             ${opt.text}
           </label>
-        `).join("")}
+        `).join("") }
       </div>
     `;
   });
 
-  // Option highlighting
-  document.querySelectorAll(".option input").forEach(input => {
+  // Highlight selected option
+  quizArea.querySelectorAll(".option input").forEach(input => {
     input.addEventListener("change", e => {
       const parent = e.target.closest(".question-box");
       parent.querySelectorAll(".option").forEach(l => l.classList.remove("selected"));
@@ -225,21 +246,20 @@ function loadSet() {
 // SUBMIT
 // ===============================
 document.getElementById("submitBtn").onclick = () => {
-  // Force all answers
-  const unanswered = currentSet.some((q, i) => !document.querySelector(`input[name="q${i}"]:checked`));
+  const unanswered = currentSet.some((q,i)=>!document.querySelector(`input[name=q${i}]:checked`));
   if (unanswered) {
     alert("Please answer all questions before submitting!");
     return;
   }
 
-  currentSet.forEach((q, i) => {
-    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
-    if (chosen && q.options[parseInt(chosen.value)].isCorrect) {
+  currentSet.forEach((q,i)=>{
+    const chosen = document.querySelector(`input[name=q${i}]:checked`);
+    if(chosen && q.options[parseInt(chosen.value)].isCorrect){
       totalScore++;
     }
   });
 
-  if (++currentSetNumber <= MAX_SETS) {
+  if(++currentSetNumber <= MAX_SETS){
     loadSet();
   } else {
     endQuiz();
@@ -263,40 +283,38 @@ function endQuiz() {
     `Status: ${status}\n\n` +
     `Date: ${new Date().toLocaleString()}`;
 
-  finalScore.textContent = resultText;
+  document.getElementById("finalScore").textContent = resultText;
   failModal.style.display = "flex";
 }
 
 // ===============================
-// EXPORT PDF
+// EXPORT RESULT PDF
 // ===============================
 function exportResultPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const total = MAX_SETS * QUESTIONS_PER_SET;
   const passMark = Math.ceil(total * 0.5);
-  const status = totalScore >= passMark ? "PASS" : "FAIL";
+  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
 
   let y = 20;
   doc.setFontSize(16);
   doc.text("QUIZ HUB CBT RESULT", 105, y, { align: "center" });
-  y += 15;
+  y+=15;
   doc.setFontSize(12);
-  doc.text(`Student Name: ${student.name}`, 20, y); y += 8;
-  doc.text(`Class: ${student.class}`, 20, y); y += 8;
-  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y += 8;
-  doc.text(`Status: ${status}`, 20, y); y += 8;
+  doc.text(`Student Name: ${student.name}`, 20, y); y+=8;
+  doc.text(`Class: ${student.class}`, 20, y); y+=8;
+  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y+=8;
+  doc.text(`Status: ${status}`, 20, y); y+=8;
   doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
-  y += 15;
+  y+=15;
   doc.setFontSize(10);
   doc.text(
     "This result was generated electronically by Quiz Hub CBT.\nNo signature required.",
     20,
     y
   );
-
-  const fileName = `${student.name.replace(/\s+/g, "_")}_CBT_Result.pdf`;
-  doc.save(fileName);
+  doc.save(`${student.name.replace(/\s+/g,"_")}_CBT_Result.pdf`);
 }
 
 // ===============================
@@ -307,304 +325,31 @@ function restartQuiz() { location.reload(); }
 // ===============================
 // SHUFFLE
 // ===============================
-function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+function shuffle(arr) { return arr.sort(()=>Math.random()-0.5); }
 
 // ===============================
 // MODAL ONLOAD
 // ===============================
-window.onload = () => {
-  studentModal.style.display = "flex";
-};
-</script>
-  <!--
-<script>
-let student = {};
-let allQuestions=[], currentSet=[], totalScore=0, currentSetNumber=1;
-const MAX_SETS=5, QUESTIONS_PER_SET=5;
-let quizTime=600, timerInterval, timerStarted=false;
-let cheatCount=0;
+window.onload = () => { studentModal.style.display = "flex"; };
 
-/* STUDENT */
-function saveStudent(){
-  const name=studentName.value.trim();
-  const cls=studentClass.value;
-  if(!name||!cls) return alert("Enter name and class");
-  student={name, class:cls};
-  studentModal.style.display="none";
-  levelModal.style.display="flex";
-}
-
-/* TIMER */
-function startTimer(){
-  if(timerStarted) return;
-  timerStarted=true;
-  timerInterval=setInterval(()=>{
-    time.textContent=
-      Math.floor(quizTime/60)+":"+String(quizTime%60).padStart(2,"0");
-    if(quizTime--<=0) endQuiz();
-  },1000);
-}
-
-/* ANTI-CHEAT */
-document.addEventListener("visibilitychange",()=>{
-  if(document.hidden && ++cheatCount>=2){
-    alert("Quiz submitted due to tab switching");
-    endQuiz();
+// ===============================
+// ANTI-CHEAT: detect tab switch
+// ===============================
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden){
+    tabSwitches++;
+    if(tabSwitches >= 2){
+      alert("Quiz submitted due to tab switching!");
+      document.getElementById("submitBtn").click();
+    } else {
+      alert("⚠ Warning: Do not switch tabs! Next attempt will auto-submit the quiz.");
+    }
   }
 });
-
-/* START */
-function startQuiz(level){
-  levelModal.style.display="none";
-  fetch(level==="primary"?
-    "json-files/quiz-hub/quiz-prim.json":
-    "json-files/quiz-hub/quiz-sec.json"
-  ).then(data => {
-  allQuestions = shuffle(
-    data.questions.map(q => ({
-      question: q.question,
-      options: shuffle(
-        q.options.map((text, index) => ({
-          text,
-          isCorrect: index === q.answer
-        }))
-      )
-    }))
-  );
-  loadSet();
-  startTimer();
-})
-}
-  /* LOAD */
-function loadSet() {
-  score.textContent = totalScore;
-  setCount.textContent = currentSetNumber;
-  quizArea.innerHTML = "";
-
-  currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
-
-  currentSet.forEach((q, i) => {
-    quizArea.innerHTML += `
-      <div class="question-box">
-        <h4>${i + 1}. ${q.question}</h4>
-
-        ${q.options.map((opt, idx) => `
-          <label class="option">
-            <input type="radio" name="q${i}" value="${idx}">
-            ${opt.text}
-          </label>
-        `).join("")}
-
-      </div>
-    `;
-  });
-}
-
-/* SUBMIT */
-submitBtn.onclick = () => {
-  let unansweredIndexes = [];
-
-  // Remove previous highlights
-  document.querySelectorAll(".question-box").forEach(box => {
-    box.style.border = "1px solid #ddd";
-    box.style.background = "#fff";
-  });
-
-  // Check unanswered
-  currentSet.forEach((q, i) => {
-    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
-    if (!chosen) {
-      unansweredIndexes.push(i);
-    }
-  });
-
-  // 🚫 Block submit if unanswered
-  if (unansweredIndexes.length > 0) {
-    unansweredIndexes.forEach(i => {
-      const box = document.querySelectorAll(".question-box")[i];
-      box.style.border = "2px solid red";
-      box.style.background = "#fff5f5";
-    });
-
-    alert(
-      "⚠ Please answer all questions before submitting.\n\n" +
-      "Highlighted in red."
-    );
-    return;
-  }
-
-  // ✅ Grade answers
-  currentSet.forEach((q, i) => {
-    const chosen = document.querySelector(`input[name="q${i}"]:checked`);
-    if (chosen && chosen.value === q.options[q.answer]) {
-      totalScore++;
-    }
-  });
-
-  // Next set or end
-  if (++currentSetNumber <= MAX_SETS) {
-    loadSet();
-
-    // ⬆ AUTO SCROLL TO TOP
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    endQuiz();
-  }
-};
-  
-/* END *
-function endQuiz() {
-  clearInterval(timerInterval);
-
-  const total = MAX_SETS * QUESTIONS_PER_SET;
-  const passMark = Math.ceil(total * 0.5);
-  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
-
-  const resultText =
-    `STUDENT RESULT\n\n` +
-    `Name: ${student.name}\n` +
-    `Class: ${student.class}\n\n` +
-    `Score: ${totalScore} / ${total}\n` +
-    `Status: ${status}\n\n` +
-    `Date: ${new Date().toLocaleString()}`;
-
-  finalScore.textContent = resultText;
-  failModal.style.display = "flex";
-}
-
-function restartQuiz() {
-  location.reload();
-}
-
-function shuffle(a) {
-  return a.sort(() => Math.random() - 0.5);
-}
-
-window.onload = () => {
-  studentModal.style.display = "flex";
-};
-<!-- 
-
-<script>
-function endQuiz() {
-  clearInterval(timerInterval);
-
-  const total = MAX_SETS * QUESTIONS_PER_SET;
-  const passMark = Math.ceil(total * 0.5);
-  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
-
-  const resultText =
-    `STUDENT RESULT\n\n` +
-    `Name: ${student.name}\n` +
-    `Class: ${student.class}\n\n` +
-    `Score: ${totalScore} / ${total}\n` +
-    `Status: ${status}\n\n` +
-    `Date: ${new Date().toLocaleString()}`;
-
-  finalScore.textContent = resultText;
-
-  // Scroll modal to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Show modal
-  failModal.style.display = "flex";
-}
-
-/* ===============================
-   EXPORT RESULT AS PDF
-================================ */
-function exportResultPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  const total = MAX_SETS * QUESTIONS_PER_SET;
-  const passMark = Math.ceil(total * 0.5);
-  const status = totalScore >= passMark ? "PASS" : "FAIL";
-
-  let y = 20;
-
-  doc.setFontSize(16);
-  doc.text("QUIZ HUB CBT RESULT", 105, y, { align: "center" });
-  y += 15;
-
-  doc.setFontSize(12);
-  doc.text(`Student Name: ${student.name}`, 20, y); y += 8;
-  doc.text(`Class: ${student.class}`, 20, y); y += 8;
-  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y += 8;
-  doc.text(`Status: ${status}`, 20, y); y += 8;
-  doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
-
-  y += 15;
-  doc.setFontSize(10);
-  doc.text(
-    "This result was generated electronically by Quiz Hub CBT.\nNo signature required.",
-    20,
-    y
-  );
-
-  const fileName =
-    `${student.name.replace(/\s+/g, "_")}_CBT_Result.pdf`;
-
-  doc.save(fileName);
-}
-
-/* ===============================
-   RESTART
-================================ */
-function restartQuiz() {
-  location.reload();
-}
-
-/* ===============================
-   SHUFFLE UTILITY
-================================ */
-function shuffle(a) {
-  return a.sort(() => Math.random() - 0.5);
-}
-
-window.onload = () => {
-  studentModal.style.display = "flex";
-};
 </script>
 
   
-  
-  <!--<script>
-function exportResultPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
 
-  const total = MAX_SETS * QUESTIONS_PER_SET;
-  const passMark = Math.ceil(total * 0.5);
-  const status = totalScore >= passMark ? "PASS" : "FAIL";
-
-  let y = 20;
-
-  doc.setFontSize(16);
-  doc.text("QUIZ HUB CBT RESULT", 105, y, { align: "center" });
-  y += 15;
-
-  doc.setFontSize(12);
-  doc.text(`Student Name: ${student.name}`, 20, y); y += 8;
-  doc.text(`Class: ${student.class}`, 20, y); y += 8;
-  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y += 8;
-  doc.text(`Status: ${status}`, 20, y); y += 8;
-  doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
-
-  y += 15;
-  doc.setFontSize(10);
-  doc.text(
-    "This result was generated electronically by Quiz Hub CBT.\nNo signature required.",
-    20,
-    y
-  );
-
-  const fileName =
-    `${student.name.replace(/\s+/g, "_")}_CBT_Result.pdf`;
-
-  doc.save(fileName);
-}
-</script>-->
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
