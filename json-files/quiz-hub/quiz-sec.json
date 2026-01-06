@@ -537,6 +537,280 @@
       "question": "Which device allows multiple computers to share internet?",
       "options": ["Router", "Monitor", "Keyboard", "Mouse"],
       "answer": 0
+    },
+
+
+
+    
+    {
+      "question": "Which type of network connects computers within a building?",
+      "options": ["LAN", "WAN", "MAN", "PAN"],
+      "answer": 0
+    },
+    {
+      "question": "Which device forwards data packets between networks?",
+      "options": ["Router", "Switch", "Hub", "Repeater"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to manage network traffic?",
+      "options": ["Switch", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of memory retains data when power is off?",
+      "options": ["ROM", "RAM", "Cache", "Register"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a cloud storage service?",
+      "options": ["Google Drive", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to extend a network's signal?",
+      "options": ["Repeater", "Router", "Switch", "Hub"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used to build Android apps?",
+      "options": ["Java", "C#", "Python", "HTML"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an IDE for programming?",
+      "options": ["Visual Studio", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an input device?",
+      "options": ["Scanner", "Monitor", "Speaker", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination undoes the last action?",
+      "options": ["Ctrl + Z", "Ctrl + Y", "Ctrl + C", "Ctrl + X"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a database management system?",
+      "options": ["MySQL", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used for wireless internet access?",
+      "options": ["Wi-Fi Router", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these stores temporary data?",
+      "options": ["RAM", "ROM", "SSD", "CD-ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used to send emails?",
+      "options": ["SMTP", "FTP", "HTTP", "DNS"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a command-line interface?",
+      "options": ["CMD", "Windows Explorer", "Word", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to compress files?",
+      "options": ["WinRAR", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an e-learning platform?",
+      "options": ["Moodle", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device prints images and documents?",
+      "options": ["Printer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination copies selected text?",
+      "options": ["Ctrl + C", "Ctrl + X", "Ctrl + V", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software is used to make slideshows?",
+      "options": ["PowerPoint", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used for iOS apps?",
+      "options": ["Swift", "Java", "Python", "C++"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to monitor network activity?",
+      "options": ["Network Analyzer", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps in 3D scanning?",
+      "options": ["3D Scanner", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a type of web server?",
+      "options": ["Apache", "Windows", "Excel", "Word"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts digital signals to analog signals?",
+      "options": ["Modem", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these protects a computer from power surges?",
+      "options": ["Surge Protector", "RAM", "CPU", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software edits audio?",
+      "options": ["Audacity", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a digital assistant?",
+      "options": ["Siri", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores BIOS firmware?",
+      "options": ["ROM Chip", "RAM", "SSD", "CPU"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for video streaming?",
+      "options": ["YouTube", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used for machine learning?",
+      "options": ["Python", "C", "Java", "HTML"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a multi-core processor?",
+      "options": ["CPU with multiple cores", "RAM", "ROM", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to connect multiple network devices?",
+      "options": ["Switch", "Router", "Hub", "Repeater"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an optical storage device?",
+      "options": ["CD", "RAM", "SSD", "ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used for file transfer securely?",
+      "options": ["SFTP", "FTP", "HTTP", "SMTP"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts scanned documents to digital format?",
+      "options": ["Scanner", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination pastes copied text?",
+      "options": ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows voice input?",
+      "options": ["Microphone", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a programming paradigm?",
+      "options": ["Object-Oriented", "Procedural", "Functional", "All of the above"],
+      "answer": 3
+    },
+    {
+      "question": "Which device measures light intensity?",
+      "options": ["Light Sensor", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to detect errors in code?",
+      "options": ["Debugger", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to schedule tasks automatically?",
+      "options": ["Task Scheduler", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device projects images onto a screen?",
+      "options": ["Projector", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software monitors employee activities?",
+      "options": ["Monitoring Software", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a web-based application?",
+      "options": ["Google Docs", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device reads magnetic stripes?",
+      "options": ["Card Reader", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to create animations?",
+      "options": ["Adobe Animate", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to detect hardware failures?",
+      "options": ["Diagnostic Software", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device connects computers wirelessly?",
+      "options": ["Wireless Router", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of printer uses powder toner?",
+      "options": ["Laser Printer", "Inkjet Printer", "Dot Matrix", "3D Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which device displays 3D images?",
+      "options": ["3D Monitor", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a text-based programming language?",
+      "options": ["Python", "Scratch", "Blockly", "Alice"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to cool computer components?",
+      "options": ["Fan", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for digital drawing?",
+      "options": ["Graphics Tablet", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
     }
   ]
 }
