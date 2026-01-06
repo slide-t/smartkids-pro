@@ -116,7 +116,11 @@ button {
     <button onclick="restartQuiz()">Restart Quiz</button>
   </div>
 </div>
-
+<div class="result-actions">
+  <button onclick="window.print()">🖨 Print Result</button>
+  <button onclick="exportResultPDF()">📄 Download PDF</button>
+  <button onclick="nextPupil()" class="next-pupil">👤 Next Pupil</button>
+</div>
 <!-- JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
