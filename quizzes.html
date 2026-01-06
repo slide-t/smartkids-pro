@@ -100,22 +100,22 @@ button {
     <button onclick="restartQuiz()">Ok</button>
   </div>
 </div>
-  
-<!-- RESULT MODAL -->
-<div class="modal" id="failModal" style="display:none">
+  <!-- RESULT MODAL -->
+<div class="modal" id="resultModal" style="display:none">
   <div class="modal-content">
     <p id="finalScore"></p>
 
-    <!-- Existing print button -->
+    <!-- Print button -->
     <button onclick="window.print()">Print Result</button>
 
-    <!-- Optional PDF export -->
+    <!-- PDF export button -->
     <button onclick="exportResultPDF()">Download Result (PDF)</button>
 
-    <!-- Existing restart button -->
-    <button onclick="restartQuiz()">Ok</button>
+    <!-- Restart button -->
+    <button onclick="restartQuiz()">Restart Quiz</button>
   </div>
 </div>
+  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 let allQuestions = [];
