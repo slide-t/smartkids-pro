@@ -250,7 +250,7 @@ function endQuiz(){
   document.getElementById("finalScore").textContent=resultText;
   resultModal.style.display="flex";
 }
-
+sessionStorage.setItem("quizCompleted", "true");
 /* ===============================
    RESTART QUIZ
 ================================ */
