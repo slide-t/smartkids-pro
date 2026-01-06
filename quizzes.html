@@ -101,7 +101,10 @@ button {
   </div>
 </div>
 
-  <button onclick="window.print()">Print Result</button>
+  <!--<button onclick="window.print()">Print Result</button>-->
+<button onclick="exportResultPDF()">Download PDF</button>
+<button onclick="restartQuiz()">Ok</button>
+  
 <script>
 let student = {};
 let allQuestions=[], currentSet=[], totalScore=0, currentSetNumber=1;
