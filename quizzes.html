@@ -268,8 +268,44 @@ function shuffle(a) {
 window.onload = () => {
   studentModal.style.display = "flex";
 };
-  
+  </script>
+  <script>
+function exportResultPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const passMark = Math.ceil(total * 0.5);
+  const status = totalScore >= passMark ? "PASS" : "FAIL";
+
+  let y = 20;
+
+  doc.setFontSize(16);
+  doc.text("QUIZ HUB CBT RESULT", 105, y, { align: "center" });
+  y += 15;
+
+  doc.setFontSize(12);
+  doc.text(`Student Name: ${student.name}`, 20, y); y += 8;
+  doc.text(`Class: ${student.class}`, 20, y); y += 8;
+  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y += 8;
+  doc.text(`Status: ${status}`, 20, y); y += 8;
+  doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
+
+  y += 15;
+  doc.setFontSize(10);
+  doc.text(
+    "This result was generated electronically by Quiz Hub CBT.\nNo signature required.",
+    20,
+    y
+  );
+
+  const fileName =
+    `${student.name.replace(/\s+/g, "_")}_CBT_Result.pdf`;
+
+  doc.save(fileName);
+}
 </script>
+  
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
