@@ -811,6 +811,310 @@
       "question": "Which of these is used for digital drawing?",
       "options": ["Graphics Tablet", "Monitor", "Keyboard", "Mouse"],
       "answer": 0
+    },
+
+
+
+    
+    {
+      "question": "Which device converts digital signals into sound?",
+      "options": ["Speaker", "Microphone", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an operating system?",
+      "options": ["Windows", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software prevents malware attacks?",
+      "options": ["Antivirus", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to create spreadsheets?",
+      "options": ["Excel", "Word", "PowerPoint", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a web browser?",
+      "options": ["Chrome", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to read barcodes?",
+      "options": ["Barcode Scanner", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for video conferencing?",
+      "options": ["Zoom", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software edits images?",
+      "options": ["Photoshop", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores data permanently?",
+      "options": ["Hard Disk", "RAM", "Cache", "Register"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to create websites?",
+      "options": ["HTML", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device reads optical discs?",
+      "options": ["CD-ROM Drive", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used in web development?",
+      "options": ["JavaScript", "C#", "Python", "C++"],
+      "answer": 0
+    },
+    {
+      "question": "Which device measures temperature in a computer lab?",
+      "options": ["Thermometer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used for secure web browsing?",
+      "options": ["HTTPS", "HTTP", "FTP", "SMTP"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to connect to a Wi-Fi network?",
+      "options": ["Wireless Adapter", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts analog sound to digital?",
+      "options": ["Microphone", "Speaker", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of network covers a large geographic area?",
+      "options": ["WAN", "LAN", "MAN", "PAN"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to measure voltage?",
+      "options": ["Voltmeter", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of memory is volatile?",
+      "options": ["RAM", "ROM", "SSD", "CD-ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which programming language is used in AI?",
+      "options": ["Python", "Word", "Excel", "C++"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores temporary instructions for CPU?",
+      "options": ["Cache Memory", "Hard Disk", "ROM", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of cable is used for high-speed internet?",
+      "options": ["Fiber Optic", "Coaxial", "Twisted Pair", "HDMI"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps in virtual reality experience?",
+      "options": ["VR Headset", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to track computer performance?",
+      "options": ["Task Manager", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used for biometric authentication?",
+      "options": ["Fingerprint Scanner", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a free and open-source OS?",
+      "options": ["Linux", "Windows", "MacOS", "ChromeOS"],
+      "answer": 0
+    },
+    {
+      "question": "Which device projects interactive images?",
+      "options": ["Interactive Projector", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination saves a file quickly?",
+      "options": ["Ctrl + S", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of printer sprays ink droplets?",
+      "options": ["Inkjet Printer", "Laser Printer", "Dot Matrix", "3D Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which device records video input?",
+      "options": ["Webcam", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for presentations?",
+      "options": ["PowerPoint", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to visualize data?",
+      "options": ["Chart/Graph", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores firmware for booting?",
+      "options": ["ROM Chip", "RAM", "CPU", "SSD"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these allows online collaboration?",
+      "options": ["Google Docs", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts electrical signals to digital data?",
+      "options": ["ADC (Analog to Digital Converter)", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a programming concept in OOP?",
+      "options": ["Inheritance", "Polymorphism", "Encapsulation", "All of the above"],
+      "answer": 3
+    },
+    {
+      "question": "Which device detects motion in a room?",
+      "options": ["Motion Sensor", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to secure wireless networks?",
+      "options": ["WPA2 Encryption", "Firewall", "Antivirus", "VPN"],
+      "answer": 0
+    },
+    {
+      "question": "Which device measures distance using laser?",
+      "options": ["Laser Rangefinder", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a network troubleshooting tool?",
+      "options": ["Ping Command", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows multiple USB connections?",
+      "options": ["USB Hub", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to design logos?",
+      "options": ["Adobe Illustrator", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these helps in version control?",
+      "options": ["Git", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device detects environmental light changes?",
+      "options": ["Light Sensor", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which protocol is used for domain name resolution?",
+      "options": ["DNS", "HTTP", "FTP", "SMTP"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a vector graphics editor?",
+      "options": ["CorelDRAW", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device amplifies audio signals?",
+      "options": ["Amplifier", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to simulate circuits?",
+      "options": ["Proteus", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device detects touch on a screen?",
+      "options": ["Touchscreen", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which type of software is used to manage projects?",
+      "options": ["Project Management Software", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts text to speech?",
+      "options": ["Text-to-Speech Device", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for 3D modeling?",
+      "options": ["AutoCAD", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a programming workflow tool?",
+      "options": ["Jira", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device records temperature automatically?",
+      "options": ["Digital Thermometer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these allows real-time messaging online?",
+      "options": ["Slack", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device converts motion into electrical signals?",
+      "options": ["Accelerometer", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to measure network speed?",
+      "options": ["Speed Test Tool", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores data for quick retrieval?",
+      "options": ["Cache Memory", "RAM", "Hard Disk", "ROM"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to automate repetitive tasks?",
+      "options": ["Macros", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device monitors biometric data?",
+      "options": ["Fitness Tracker", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
     }
   ]
 }
