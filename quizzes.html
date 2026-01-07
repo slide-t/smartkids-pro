@@ -303,35 +303,53 @@ function loadSet() {
 /* ===============================
    SUBMIT
 ================================ */
-document.getElementById("submitBtn").onclick = () => {
+submitBtn.onclick = () => {
+
+  // 1. Force all answers
   for (let i = 0; i < currentSet.length; i++) {
     if (!document.querySelector(`input[name=q${i}]:checked`)) {
-      alert("Answer all questions!");
+      alert("Please answer all questions before submitting!");
       return;
     }
   }
 
+  // 2. Disable submit during feedback
+  submitBtn.disabled = true;
+
+  // 3. Blink feedback
   currentSet.forEach((q, i) => {
     document.querySelectorAll(`input[name=q${i}]`).forEach((input, idx) => {
+      const label = input.parentElement;
+
       if (q.options[idx].isCorrect) {
-        input.parentElement.style.background = "#c8f7c5";
-      } else if (input.checked) {
-        input.parentElement.style.background = "#f7c5c5";
+        label.classList.add("correct");
+      }
+
+      if (input.checked && !q.options[idx].isCorrect) {
+        label.classList.add("wrong");
       }
     });
   });
 
+  // 4. Calculate score
   currentSet.forEach((q, i) => {
     const chosen = document.querySelector(`input[name=q${i}]:checked`);
-    if (chosen && q.options[chosen.value].isCorrect) totalScore++;
+    if (chosen && q.options[parseInt(chosen.value)].isCorrect) {
+      totalScore++;
+    }
   });
 
-  if (currentSetNumber < MAX_SETS) {
-    currentSetNumber++;
-    loadSet();
-  } else {
-    endQuiz();
-  }
+  // 5. Move on after delay
+  setTimeout(() => {
+    submitBtn.disabled = false;
+
+    if (currentSetNumber < MAX_SETS) {
+      currentSetNumber++;
+      loadSet();   // colors auto-clear
+    } else {
+      endQuiz();
+    }
+  }, 1200);
 };
 
 /* ===============================
