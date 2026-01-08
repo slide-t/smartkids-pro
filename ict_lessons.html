@@ -22,20 +22,7 @@
   <title>SmartKids-Pro | ICT Lessons</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="theme-color" content="#4f46e5" />
-<script>
-(function () {
-  const s = JSON.parse(localStorage.getItem("sk_session"));
-  if (!s) {
-    location.replace("index.html");
-    return;
-  }
 
-  if (Date.now() > s.expiresAt) {
-    localStorage.removeItem("sk_session");
-    location.replace("index.html");
-  }
-})();
-</script>
   <link rel="stylesheet" href="style.css" />
   <style>
     /* Accordion animation */
