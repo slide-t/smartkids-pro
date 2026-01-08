@@ -2,22 +2,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-(function () {
-  const isAdmin = sessionStorage.getItem("sk_admin") === "yes";
-  const session = JSON.parse(localStorage.getItem("sk_session"));
-
-  // Admin can navigate freely
-  if (isAdmin) return;
-
-  // Pupils must have a valid session
-  if (!session || Date.now() > session.expiresAt) {
-    localStorage.removeItem("sk_session");
-    sessionStorage.removeItem("sk_registered");
-    location.replace("index.html");
-  }
-})();
-</script>
   <title>Basic Keyboard Practice for Kids</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
