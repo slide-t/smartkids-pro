@@ -571,17 +571,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-  <!-- SMARTKIDS PRO ACCESS MODAL -->
+  <!-- SMARTKIDS PRO ACCESS MODAL --
 <div id="skAccessModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
   <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[520px] p-6">
     
-    <!-- Tabs -->
+    <!-- Tabs --
     <div class="flex justify-between mb-4 border-b">
       <button id="tabPupil" class="w-1/2 py-2 border-b-2 border-blue-600 font-semibold">Pupil</button>
       <button id="tabAdmin" class="w-1/2 py-2 border-b-2 border-transparent font-semibold hover:border-blue-600">Admin</button>
     </div>
 
-    <!-- Pupil Panel -->
+    <!-- Pupil Panel --
     <div id="pupilPanel" class="flex flex-col gap-3">
       <input type="text" id="skPupilName" placeholder="Pupil Name" class="border rounded-md px-3 py-2 w-full" />
       <input type="text" id="skSchoolName" placeholder="School Name" class="border rounded-md px-3 py-2 w-full" />
@@ -589,13 +589,13 @@ document.addEventListener("DOMContentLoaded", function () {
       <button onclick="skRegisterPupil()" class="bg-blue-600 text-white py-2 rounded-md mt-2 hover:bg-blue-700">Proceed</button>
     </div>
 
-    <!-- Admin Panel -->
+    <!-- Admin Panel --
     <div id="adminPanel" class="hidden flex flex-col gap-3">
       <input type="password" id="skAdminKey" placeholder="Admin Key" class="border rounded-md px-3 py-2 w-full" />
       <button onclick="skAdminLogin()" class="bg-green-600 text-white py-2 rounded-md mt-2 hover:bg-green-700">Login</button>
     </div>
   </div>
-</div>
+</div>-->
 
 <script>
 /* ================== LICENSE DATABASE ================== */
@@ -747,16 +747,6 @@ document.addEventListener("DOMContentLoaded", () => {
     location.replace("index.html");
   }
 })();
-
-  
-/*(function() {
-  const session = JSON.parse(localStorage.getItem("sk_session"));
-  if ((!session || Date.now() > session.expiresAt) && !window.location.href.includes("index.html")) {
-    localStorage.removeItem("sk_session");
-    sessionStorage.removeItem("sk_registered");
-    location.replace("index.html");
-  }
-})();*/
 </script>
 
   <script>
