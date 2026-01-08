@@ -518,8 +518,15 @@ function createManualCheckButton(reg) {
   <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-  const key = `sk_notice_seen_${SMARTKIDS_TERM.termId}`;
-  if (localStorage.getItem(key)) return;
+
+  const termId =
+  typeof SMARTKIDS_TERM !== "undefined" && SMARTKIDS_TERM.termId
+    ? SMARTKIDS_TERM.termId
+    : "default";
+
+const key = `sk_notice_seen_${termId}`;
+  /* const key = `sk_notice_seen_${SMARTKIDS_TERM.termId}`;
+  if (localStorage.getItem(key)) return;*/
 
   const overlay = document.createElement("div");
   overlay.style.cssText = `
