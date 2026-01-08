@@ -374,7 +374,97 @@ function shuffle(arr) {
 }
 </script>
    
-   
+   <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").then(reg => {
+      console.log("✅ Service Worker registered:", reg.scope);
+
+      // Auto-detect update
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            showUpdateBanner(reg);
+          }
+        });
+      });
+
+      // Manual update check button
+      createManualCheckButton(reg);
+    }).catch(err => console.error("SW registration failed:", err));
+  });
+}
+
+// ✅ Banner that appears when new version available
+function showUpdateBanner(reg) {
+  const banner = document.createElement("div");
+  banner.innerHTML = `
+    <div style="
+      position:fixed; bottom:20px; right:20px; z-index:9999;
+      background:rgba(255,255,255,0.95); color:#111;
+      border:1px solid #ccc; border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      padding:10px 16px; font-family:sans-serif;
+    ">
+      <strong>New version available</strong>
+      <button id="refreshBtn" style="
+        background:#2563eb; color:#fff; border:none;
+        padding:6px 10px; border-radius:6px;
+        margin-left:8px; cursor:pointer;
+      ">Refresh</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById("refreshBtn").addEventListener("click", () => {
+    reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    reg.waiting.addEventListener("statechange", e => {
+      if (e.target.state === "activated") window.location.reload();
+    });
+  });
+}
+
+// ✅ Small floating button to manually check for updates
+function createManualCheckButton(reg) {
+  const btn = document.createElement("button");
+  btn.textContent = "↻ Check for Updates";
+  btn.style = `
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 9999;
+  `;
+  btn.addEventListener("click", async () => {
+    btn.textContent = "🔄 Checking...";
+    try {
+      const newReg = await reg.update();
+      btn.textContent = "✅ Up to date";
+      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
+    } catch (err) {
+      console.error("Error checking updates:", err);
+      btn.textContent = "⚠️ Error";
+      setTimeout(() => (btn.textContent = "↻ Check for Updates"), 2500);
+    }
+  });
+  document.body.appendChild(btn);
+}
+</script>
+  
+  <!-- FOOTER -->
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+<!-- Footer Auto Loader -->
+<script src="footer-loader.js"></script>
+
    
    <!--<script>
 let student = {};
