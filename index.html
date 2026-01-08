@@ -571,77 +571,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-  
-  <!--<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-
-  const termId =
-  typeof SMARTKIDS_TERM !== "undefined" && SMARTKIDS_TERM.termId
-    ? SMARTKIDS_TERM.termId
-    : "default";
-
-const key = `sk_notice_seen_${termId}`;
-  /* const key = `sk_notice_seen_${SMARTKIDS_TERM.termId}`;
-  if (localStorage.getItem(key)) return;*/
-
-  const overlay = document.createElement("div");
-  overlay.style.cssText = `
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.65);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:10000;
-  `;
-
-  const modal = document.createElement("div");
-  modal.style.cssText = `
-    background:#fff;
-    max-width:420px;
-    width:90%;
-    padding:24px;
-    border-radius:10px;
-    text-align:center;
-    font-family:system-ui,sans-serif;
-  `;
-
-  modal.innerHTML = `
-    <h2 style="font-size:18px;margin-bottom:12px;">📢 Important Notice</h2>
-    <p style="font-size:15px;line-height:1.6;">
-      Please, make use of your time with <b>SmartKids Tech Skills</b> web applications.<br><br>
-      This website <b>closes as the term ends</b>.<br><br>
-      Thank you.
-    </p>
-    <button id="skNoticeBtn" style="
-      margin-top:18px;
-      background:#2563eb;
-      color:#fff;
-      border:none;
-      padding:10px 18px;
-      border-radius:6px;
-      cursor:pointer;
-    ">I Understand</button>
-  `;
-
-  overlay.appendChild(modal);
-  document.body.appendChild(overlay);
-
- /* document.getElementById("skNoticeBtn").addEventListener("click", () => {
-    localStorage.setItem(key, "yes");
-    overlay.remove();
-  });
-
-});*/
-document.getElementById("skNoticeBtn").addEventListener("click", () => {
-  localStorage.setItem(key, "yes");
-  overlay.style.pointerEvents = "none";
-  overlay.remove();
-});
-    
-</script>-->
-
   <!-- SMARTKIDS PRO ACCESS MODAL -->
 <div id="skAccessModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,120,200,0.18)] backdrop-blur">
   <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[520px] p-6">
@@ -803,14 +732,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Redirect if session expired on other pages
-(function() {
+
+(function () {
+  const session = JSON.parse(localStorage.getItem("sk_session"));
+  const publicPages = ["index.html", "about.html", "help.html"];
+
+  const isPublic = publicPages.some(p =>
+    window.location.pathname.endsWith(p)
+  );
+
+  if (!isPublic && (!session || Date.now() > session.expiresAt)) {
+    localStorage.removeItem("sk_session");
+    sessionStorage.removeItem("sk_registered");
+    location.replace("index.html");
+  }
+})();
+
+  
+/*(function() {
   const session = JSON.parse(localStorage.getItem("sk_session"));
   if ((!session || Date.now() > session.expiresAt) && !window.location.href.includes("index.html")) {
     localStorage.removeItem("sk_session");
     sessionStorage.removeItem("sk_registered");
     location.replace("index.html");
   }
-})();
+})();*/
 </script>
 
   <script>
