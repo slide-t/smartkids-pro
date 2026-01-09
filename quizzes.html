@@ -92,40 +92,15 @@ function registerStudent(){
   loadQuestionsForClass();
 }
 
-async function loadQuestionsForClass() {
-  // Normalize class name safely
-  const fileName =
-    student.studentClass
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, '_') + '.json';
-
-  const path = `json-files/quiz-hub/${fileName}`;
-
-  try {
-    const res = await fetch(path);
-
-    if (!res.ok) {
-      throw new Error(`Quiz file not found: ${path}`);
-    }
-
-    questions = await res.json();
-
-    if (!Array.isArray(questions)) {
-      throw new Error("Invalid JSON format (expected array)");
-    }
-
-    currentSet = 0;
+async function loadQuestionsForClass(){
+  const fileName = student.studentClass.toLowerCase().replace(' ','_')+'.json';
+  const path = `/json-files/quiz-hub/${fileName}`;
+  try{
+    const res=await fetch(path);
+    questions=await res.json();
+    currentSet=0;
     loadSet();
-
-  } catch (err) {
-    alert(
-      "Unable to load quiz questions.\n" +
-      "Please check class selection or file name.\n\n" +
-      err.message
-    );
-    console.error(err);
-  }
+  }catch(err){alert('Error loading questions: '+err);}
 }
 
 function loadSet(){
