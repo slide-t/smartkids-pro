@@ -6,193 +6,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #eef1f7;
+      background: #f4f6fb;
     }
 
-    header {
-      background: #4b5cff;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
-    }
-
-    main {
-      padding: 30px 15px;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* ===== WELCOME BOX ===== */
-    .welcome-box {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 520px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      display: none;
-    }
-
-    .welcome-box h2 {
-      margin-top: 0;
-      color: #333;
-    }
-
-    .welcome-box p {
-      margin: 6px 0;
-      font-size: 16px;
-    }
-
-    .welcome-box button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background: #4b5cff;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* ===== MODAL ===== */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      display: none;
+      background: rgba(0,0,0,0.6);
+      display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      padding: 15px;
     }
 
-    .modal-content {
+    .modal-box {
       background: #fff;
-      width: 100%;
+      width: 90%;
       max-width: 420px;
-      padding: 25px 22px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
     }
 
-    .modal-content h2 {
+    h2 {
       margin-top: 0;
       text-align: center;
-      color: #333;
     }
 
-    .modal-content p {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 15px;
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
     }
 
-    .modal-content input,
-    .modal-content select {
+    input, select, button {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
+      padding: 10px;
+      margin-top: 6px;
       font-size: 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
     }
 
-    .modal-content button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background: #4b5cff;
+    button {
+      background: #5b4bdb;
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
+      margin-top: 18px;
     }
 
-    @media (min-width: 768px) {
-      .modal-content {
-        padding: 30px;
-      }
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .welcome {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .welcome h1 {
+      color: #5b4bdb;
+    }
+
+    .restart {
+      background: #e74c3c;
+      margin-top: 25px;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>SmartKids Learning – Quiz Portal</h1>
-</header>
-
-<main>
-  <div class="welcome-box" id="welcomeBox">
-    <h2 id="welcomeName"></h2>
-    <p id="welcomeSchool"></p>
-    <p id="welcomeClass"></p>
-
-    <button onclick="goToDashboard()">Go to My Quiz Board</button>
-  </div>
-</main>
-
-<!-- REGISTRATION MODAL -->
-<div class="modal" id="studentModal">
-  <div class="modal-content">
+<!-- MODAL 1: REGISTRATION -->
+<div class="modal" id="registerModal">
+  <div class="modal-box">
     <h2>Student Registration</h2>
-    <p>Please enter correct details to continue</p>
 
-    <input type="text" id="schoolName" placeholder="School Name">
+    <label>School Name</label>
+    <input type="text" id="schoolName" placeholder="Enter school name" required>
 
-    <input type="text" id="fullName" placeholder="Student Full Name">
+    <label>Student Full Name</label>
+    <input type="text" id="fullName" placeholder="Surname Firstname" required>
 
-    <select id="studentClass">
-      <option value="">Select Class</option>
-
-      <optgroup label="Primary">
-        <option value="primary3">Primary 3</option>
-        <option value="primary4">Primary 4</option>
-        <option value="primary5">Primary 5</option>
-        <option value="primary6">Primary 6</option>
-      </optgroup>
-
-      <optgroup label="Junior Secondary">
-        <option value="jss1">JSS 1</option>
-        <option value="jss2">JSS 2</option>
-        <option value="jss3">JSS 3</option>
-      </optgroup>
-
-      <optgroup label="Senior Secondary">
-        <option value="sss1">SSS 1</option>
-        <option value="sss2">SSS 2</option>
-      </optgroup>
+    <label>Class</label>
+    <select id="studentClass" required>
+      <option value="">-- Select Class --</option>
+      <option>Primary 3</option>
+      <option>Primary 4</option>
+      <option>Primary 5</option>
+      <option>Primary 6</option>
+      <option>JSS 1</option>
+      <option>JSS 2</option>
+      <option>JSS 3</option>
+      <option>SSS 1</option>
+      <option>SSS 2</option>
+      <option>SSS 3</option>
     </select>
 
-    <button onclick="registerStudent()">Start Quiz</button>
+    <button onclick="registerStudent()">Continue</button>
   </div>
 </div>
 
+<!-- MAIN CONTENT -->
+<div class="welcome hidden" id="welcomeScreen">
+  <h1>Welcome, <span id="firstName"></span> 👋</h1>
+  <p><strong>School:</strong> <span id="schoolDisplay"></span></p>
+  <p><strong>Class:</strong> <span id="classDisplay"></span></p>
+
+  <button onclick="startQuiz()">Start Quiz</button>
+  <button class="restart" onclick="restart()">Change Student</button>
+</div>
+
 <script>
-  const modal = document.getElementById("studentModal");
-  const welcomeBox = document.getElementById("welcomeBox");
-
-  const welcomeName = document.getElementById("welcomeName");
-  const welcomeSchool = document.getElementById("welcomeSchool");
-  const welcomeClass = document.getElementById("welcomeClass");
-
-  window.onload = () => {
-    const student = JSON.parse(localStorage.getItem("sk_student"));
-    if (!student) {
-      modal.style.display = "flex";
-    } else {
-      showWelcome(student);
-    }
-  };
+  // Always start clean on refresh
+  sessionStorage.clear();
 
   function registerStudent() {
     const school = document.getElementById("schoolName").value.trim();
@@ -200,39 +133,41 @@
     const studentClass = document.getElementById("studentClass").value;
 
     if (!school || !fullName || !studentClass) {
-      alert("Please fill in all fields.");
+      alert("Please fill all fields");
       return;
     }
 
     const firstName = fullName.split(" ")[0];
 
-    const studentData = {
-      school: school,
-      fullName: fullName,
-      firstName: firstName,
-      class: studentClass,
-      registeredAt: new Date().toISOString()
-    };
+    sessionStorage.setItem("student", JSON.stringify({
+      school,
+      fullName,
+      firstName,
+      studentClass
+    }));
 
-    localStorage.setItem("sk_student", JSON.stringify(studentData));
-    modal.style.display = "none";
-    showWelcome(studentData);
+    showWelcome();
   }
 
-  function showWelcome(student) {
-    welcomeName.textContent = `Welcome, ${student.firstName}`;
-    welcomeSchool.textContent = `School: ${student.school}`;
-    welcomeClass.textContent = `Class: ${formatClass(student.class)}`;
-    welcomeBox.style.display = "block";
+  function showWelcome() {
+    const data = JSON.parse(sessionStorage.getItem("student"));
+
+    document.getElementById("firstName").textContent = data.firstName;
+    document.getElementById("schoolDisplay").textContent = data.school;
+    document.getElementById("classDisplay").textContent = data.studentClass;
+
+    document.getElementById("registerModal").classList.add("hidden");
+    document.getElementById("welcomeScreen").classList.remove("hidden");
   }
 
-  function goToDashboard() {
-    const student = JSON.parse(localStorage.getItem("sk_student"));
-    window.location.href = `/quiz/${student.class}/dashboard.html`;
+  function startQuiz() {
+    alert("Redirect to quiz board for " + JSON.parse(sessionStorage.getItem("student")).studentClass);
+    // location.href = `quiz.html?class=${encodeURIComponent(...)}`;
   }
 
-  function formatClass(cls) {
-    return cls.replace(/(\D+)(\d+)/, "$1 $2").toUpperCase();
+  function restart() {
+    sessionStorage.clear();
+    location.reload();
   }
 </script>
 
