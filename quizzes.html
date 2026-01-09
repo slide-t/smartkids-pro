@@ -1,1 +1,257 @@
 
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartKids Secure CBT Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6fb; }
+
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quiz-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 15px;
+    }
+
+    .question {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .option {
+      background: #eef2ff;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option.selected {
+      animation: shake 0.3s;
+      background: #c7d2fe;
+    }
+
+    .option.correct {
+      background: #86efac !important;
+      animation: blink 0.6s ease 2;
+    }
+
+    @keyframes shake {
+      0%{transform:translateX(0);}25%{transform:translateX(-5px);}50%{transform:translateX(5px);}75%{transform:translateX(-5px);}100%{transform:translateX(0);} }
+
+    @keyframes blink {
+      0%{opacity:1;}50%{opacity:0.3;}100%{opacity:1;} }
+
+    .submit-area { text-align: center; margin: 25px 0; }
+    button { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #4f46e5; color: white; cursor: pointer; }
+    button:disabled { background: #999; }
+
+    /* MODAL */
+    .modal { position: fixed; inset:0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index:1000; padding:15px; }
+    .modal-box { background: #fff; width: 100%; max-width: 420px; padding: 20px; border-radius: 10px; }
+    .modal-box label { font-weight:bold; display:block; margin-top:12px; }
+    .modal-box input, .modal-box select, .modal-box button { width:100%; padding:10px; margin-top:6px; }
+
+    .hidden { display:none; }
+
+    .timer { font-weight:bold; }
+
+    @media(max-width:768px){ .quiz-container{ grid-template-columns:1fr; } }
+  </style></head>
+<body><header>
+  <div>SmartKids CBT</div>
+  <div>
+    <span id="studentInfo"></span> | <span class="timer" id="timer"></span>
+  </div>
+</header><!-- REGISTRATION MODAL --><div class="modal" id="registerModal">
+  <div class="modal-box">
+    <h2>Student Registration</h2>
+    <label>School Name</label>
+    <input type="text" id="schoolName" required>
+    <label>Full Name</label>
+    <input type="text" id="fullName" required>
+    <label>Class</label>
+    <select id="studentClass" required>
+      <option value="">Select Class</option>
+      <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
+      <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+      <option>JSS 1</option><option>JSS 2</option><option>JSS 3</option>
+      <option>SSS 1</option><option>SSS 2</option>
+    </select>
+    <button onclick="registerStudent()">Start Quiz</button>
+  </div>
+</div><div class="quiz-container" id="quizContainer"></div>
+<div class="submit-area"><button id="submitBtn" onclick="submitSet()">Submit</button></div><script>
+// BASIC SECURITY
+if (!sessionStorage.getItem('student')) {
+  // allow modal
+}
+history.pushState(null,null,location.href);
+window.onpopstate = ()=>history.pushState(null,null,location.href);
+document.addEventListener('keydown', e=>{ if(e.key==='Backspace') e.preventDefault(); });
+
+let student, questions=[], currentSet=0, timerInterval;
+const isMobile = window.innerWidth<768;
+const QUESTIONS_PER_SET = isMobile?5:10;
+const TIME_PER_SET = 5 * 60; // seconds
+
+const modal=document.getElementById('registerModal');
+const quizContainer=document.getElementById('quizContainer');
+const submitBtn=document.getElementById('submitBtn');
+const studentInfo=document.getElementById('studentInfo');
+const timerDisplay=document.getElementById('timer');
+
+function registerStudent(){
+  const school=schoolName.value.trim();
+  const full=fullName.value.trim();
+  const cls=studentClass.value.trim();
+  if(!school||!full||!cls){ alert('Fill all fields'); return; }
+
+  student={
+    school,
+    fullName:full,
+    firstName:full.split(' ')[0],
+    studentClass:cls
+  };
+
+  sessionStorage.setItem('student',JSON.stringify(student));
+  modal.classList.add('hidden');
+  studentInfo.textContent=`${student.firstName} (${student.studentClass})`;
+
+  requestFullscreen();
+  loadQuestionsForClass();
+}
+
+// FULLSCREEN ENFORCEMENT
+function requestFullscreen(){
+  const el=document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen();
+}
+
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement){
+    alert('Fullscreen exited. Quiz will submit.');
+    submitSet(true);
+  }
+});
+
+// TAB / FOCUS DETECTION
+let blurCount=0;
+window.addEventListener('blur',()=>{
+  blurCount++;
+  if(blurCount>=2){
+    alert('Tab switching detected. Quiz submitted.');
+    submitSet(true);
+  } else {
+    alert('Warning: Do not leave the quiz page');
+  }
+});
+
+async function loadQuestionsForClass(){
+  const fileName = student.studentClass.toLowerCase().trim().replace(/\s+/g,'_') + '.json';
+  const path = `json-files/quiz-hub/${fileName}`;
+
+  try{
+    const res=await fetch(path);
+    if(!res.ok) throw new Error('Quiz file not found');
+    questions=await res.json();
+    currentSet=0;
+    loadSet();
+  }catch(err){ alert(err.message); }
+}
+
+function loadSet(){
+  quizContainer.innerHTML='';
+  startTimer(TIME_PER_SET);
+
+  const start=currentSet*QUESTIONS_PER_SET;
+  const setQs=questions.slice(start,start+QUESTIONS_PER_SET);
+
+  setQs.forEach((q,i)=>{
+    const qDiv=document.createElement('div');
+    qDiv.className='question';
+    qDiv.innerHTML=`<h3>${start+i+1}. ${q.q}</h3>`;
+    q.options.forEach((opt,index)=>{
+      const o=document.createElement('div');
+      o.className='option';
+      o.textContent=opt;
+      o.onclick=()=>selectOption(qDiv,o,index,q.answer);
+      qDiv.appendChild(o);
+    });
+    quizContainer.appendChild(qDiv);
+  });
+}
+
+function selectOption(qDiv,o,index,answer){
+  [...qDiv.querySelectorAll('.option')].forEach(x=>x.classList.remove('selected'));
+  o.classList.add('selected');
+  qDiv.dataset.selected=index;
+  qDiv.dataset.answer=answer;
+}
+
+function startTimer(seconds){
+  clearInterval(timerInterval);
+  let time=seconds;
+  timerDisplay.textContent=formatTime(time);
+  timerInterval=setInterval(()=>{
+    time--;
+    timerDisplay.textContent=formatTime(time);
+    if(time<=0){ submitSet(true); }
+  },1000);
+}
+
+function formatTime(sec){
+  const m=Math.floor(sec/60);
+  const s=sec%60;
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function submitSet(force=false){
+  clearInterval(timerInterval);
+
+  document.querySelectorAll('.question').forEach(q=>{
+    const a=q.dataset.answer;
+    if(a!==undefined){ q.querySelectorAll('.option')[a].classList.add('correct'); }
+  });
+
+  submitBtn.disabled=true;
+
+  setTimeout(()=>{
+    currentSet++;
+    if(currentSet*QUESTIONS_PER_SET>=questions.length || force){
+      alert('Quiz finished');
+      sessionStorage.clear();
+      location.reload();
+    } else {
+      submitBtn.disabled=false;
+      loadSet();
+    }
+  },1200);
+}
+
+window.onload=()=>{
+  student=JSON.parse(sessionStorage.getItem('student'));
+  if(student){
+    modal.classList.add('hidden');
+    studentInfo.textContent=`${student.firstName} (${student.studentClass})`;
+    requestFullscreen();
+    loadQuestionsForClass();
+  }
+};
+</script></body>
+</html>
