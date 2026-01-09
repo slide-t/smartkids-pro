@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartKids Quiz Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6fb;
+    }
+
+    header {
+      background: #4b5cff;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 10px;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 15px;
+    }
+
+    .modal-content button {
+      width: 100%;
+      padding: 12px;
+      background: #4b5cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .welcome-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 20px auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>SmartKids Learning – Quiz Portal</h1>
+</header>
+
+<main>
+
+  <!-- WELCOME SECTION -->
+  <div id="welcomeSection" class="welcome-box hidden">
+    <h2 id="welcomeName"></h2>
+    <p id="welcomeClass"></p>
+
+    <button onclick="goToDashboard()">Go to My Quiz Board</button>
+  </div>
+
+</main>
+
+<!-- REGISTRATION MODAL -->
+<div id="studentModal" class="modal">
+  <div class="modal-content">
+    <h2>Student Registration</h2>
+    <p>Enter your details to begin</p>
+
+    <input type="text" id="studentName" placeholder="Full Name">
+
+    <select id="studentClass">
+      <option value="">Select Class</option>
+      <option value="primary3">Primary 3</option>
+      <option value="primary4">Primary 4</option>
+      <option value="primary5">Primary 5</option>
+      <option value="primary6">Primary 6</option>
+      <option value="jss1">JSS 1</option>
+      <option value="jss2">JSS 2</option>
+      <option value="jss3">JSS 3</option>
+      <option value="sss1">SSS 1</option>
+      <option value="sss2">SSS 2</option>
+    </select>
+
+    <button onclick="registerStudent()">Start</button>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("studentModal");
+  const welcomeSection = document.getElementById("welcomeSection");
+
+  const welcomeName = document.getElementById("welcomeName");
+  const welcomeClass = document.getElementById("welcomeClass");
+
+  // On load
+  window.onload = () => {
+    const student = JSON.parse(localStorage.getItem("sk_student"));
+
+    if (!student) {
+      modal.style.display = "flex";
+    } else {
+      showWelcome(student);
+    }
+  };
+
+  function registerStudent() {
+    const name = document.getElementById("studentName").value.trim();
+    const studentClass = document.getElementById("studentClass").value;
+
+    if (!name || !studentClass) {
+      alert("Please enter your name and select your class.");
+      return;
+    }
+
+    const studentData = {
+      name: name,
+      class: studentClass,
+      registeredAt: new Date().toISOString()
+    };
+
+    localStorage.setItem("sk_student", JSON.stringify(studentData));
+    modal.style.display = "none";
+
+    showWelcome(studentData);
+  }
+
+  function showWelcome(student) {
+    welcomeName.textContent = `Welcome, ${student.name}`;
+    welcomeClass.textContent = `Class: ${formatClass(student.class)}`;
+    welcomeSection.classList.remove("hidden");
+  }
+
+  function goToDashboard() {
+    const student = JSON.parse(localStorage.getItem("sk_student"));
+    window.location.href = `/quiz/${student.class}/dashboard.html`;
+  }
+
+  function formatClass(cls) {
+    return cls.replace(/(\D+)(\d+)/, "$1 $2").toUpperCase();
+  }
+</script>
+
+</body>
+</html>
