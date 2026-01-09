@@ -1,188 +1,165 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>SmartKids CBT Quiz Board</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6fb;
-    }
+  <meta charset="UTF-8">
+  <title>SmartKids CBT Quiz Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6fb; }header { background: #4f46e5; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
 
-    header {
-      background: #4f46e5;
-      color: white;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.quiz-container { max-width: 1200px; margin: auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 15px; }
 
-    .quiz-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 15px;
-    }
+.question { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.question h3 { margin-top: 0; }
 
-    .question {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+.option { background: #eef2ff; padding: 10px; margin-top: 8px; border-radius: 5px; cursor: pointer; transition: all 0.2s ease; }
+.option:hover { background: #e0e7ff; }
+.option.selected { animation: shake 0.3s; background: #c7d2fe; }
+.option.correct { background: #86efac !important; animation: blink 0.6s ease 2; }
 
-    .question h3 {
-      margin-top: 0;
-    }
+@keyframes shake { 0%{transform:translateX(0);}25%{transform:translateX(-5px);}50%{transform:translateX(5px);}75%{transform:translateX(-5px);}100%{transform:translateX(0);} }
+@keyframes blink { 0%{opacity:1;}50%{opacity:0.3;}100%{opacity:1;} }
 
-    .option {
-      background: #eef2ff;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
+.submit-area { text-align: center; margin: 25px 0; }
+button { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #4f46e5; color: white; cursor: pointer; }
+button:disabled { background: #999; }
 
-    .option:hover {
-      background: #e0e7ff;
-    }
+/* MODAL */
+.modal { position: fixed; inset:0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index:1000; padding:15px; }
+.modal-box { background: #fff; width: 100%; max-width: 420px; padding: 20px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+.modal-box h2 { margin-top:0; text-align:center; }
+.modal-box label { font-weight:bold; display:block; margin-top:12px; }
+.modal-box input, .modal-box select, .modal-box button { width:100%; padding:10px; margin-top:6px; font-size:15px; }
 
-    .option.selected {
-      animation: shake 0.3s;
-      background: #c7d2fe;
-    }
+.hidden { display:none; }
 
-    .option.correct {
-      background: #86efac !important;
-      animation: blink 0.6s ease 2;
-    }
+@media(max-width:768px){ .quiz-container{ grid-template-columns:1fr; } }
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
-
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
-
-    .submit-area {
-      text-align: center;
-      margin: 25px 0;
-    }
-
-    button {
-      padding: 12px 30px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background: #4f46e5;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background: #999;
-    }
-
-    @media (max-width: 768px) {
-      .quiz-container {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style></head>
+  </style>
+</head>
 <body><header>
   <div>SmartKids CBT</div>
   <div id="studentInfo"></div>
-</header><div class="quiz-container" id="quizContainer"></div><div class="submit-area">
+</header><!-- REGISTRATION MODAL --><div class="modal" id="registerModal">
+  <div class="modal-box">
+    <h2>Student Registration</h2>
+    <label>School Name</label>
+    <input type="text" id="schoolName" placeholder="Enter school name" required><label>Full Name</label>
+<input type="text" id="fullName" placeholder="Surname Firstname" required>
+
+<label>Class</label>
+<select id="studentClass" required>
+  <option value="">-- Select Class --</option>
+  <option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
+  <option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+  <option>JSS 1</option><option>JSS 2</option><option>JSS 3</option>
+  <option>SSS 1</option><option>SSS 2</option>
+</select>
+
+<button onclick="registerStudent()">Start Quiz</button>
+
+  </div>
+</div><!-- QUIZ CONTAINER --><div class="quiz-container" id="quizContainer"></div>
+<div class="submit-area">
   <button id="submitBtn" onclick="submitSet()">Submit</button>
 </div><script>
-  // SECURITY CONTROLS
-  history.pushState(null, null, location.href);
-  window.onpopstate = () => history.pushState(null, null, location.href);
-  document.addEventListener("keydown", e => {
-    if (e.key === "Backspace") e.preventDefault();
+// Prevent back/backspace
+history.pushState(null,null,location.href);
+window.onpopstate = ()=>history.pushState(null,null,location.href);
+document.addEventListener("keydown", e=>{ if(e.key=="Backspace") e.preventDefault(); });
+
+const modal = document.getElementById('registerModal');
+const quizContainer = document.getElementById('quizContainer');
+const submitBtn = document.getElementById('submitBtn');
+const studentInfo = document.getElementById('studentInfo');
+
+let student, questions=[], currentSet=0;
+const isMobile = window.innerWidth<768;
+const QUESTIONS_PER_SET = isMobile?5:10;
+
+// Registration
+function registerStudent(){
+  const school=document.getElementById('schoolName').value.trim();
+  const fullName=document.getElementById('fullName').value.trim();
+  const cls=document.getElementById('studentClass').value.trim();
+  if(!school||!fullName||!cls){alert('Please fill all fields'); return;}
+
+  const firstName=fullName.split(' ')[0];
+  student={school,fullName,firstName,studentClass:cls};
+  sessionStorage.setItem('student',JSON.stringify(student));
+  modal.style.display='none';
+  studentInfo.textContent=`${student.firstName} (${student.studentClass})`;
+  loadQuestionsForClass();
+}
+
+async function loadQuestionsForClass(){
+  const fileName = student.studentClass.toLowerCase().replace(' ','_')+'.json';
+  const path = `/json-files/quiz-hub/${fileName}`;
+  try{
+    const res=await fetch(path);
+    questions=await res.json();
+    currentSet=0;
+    loadSet();
+  }catch(err){alert('Error loading questions: '+err);}
+}
+
+function loadSet(){
+  quizContainer.innerHTML='';
+  const start=currentSet*QUESTIONS_PER_SET;
+  const setQs=questions.slice(start,start+QUESTIONS_PER_SET);
+  setQs.forEach((item,i)=>{
+    const qDiv=document.createElement('div');
+    qDiv.className='question';
+    qDiv.innerHTML=`<h3>${start+i+1}. ${item.q}</h3>`;
+    item.options.forEach((opt,index)=>{
+      const optDiv=document.createElement('div');
+      optDiv.className='option';
+      optDiv.textContent=opt;
+      optDiv.onclick=()=>selectOption(qDiv,optDiv,index,item.answer);
+      qDiv.appendChild(optDiv);
+    });
+    quizContainer.appendChild(qDiv);
   });
+}
 
-  const student = JSON.parse(sessionStorage.getItem("student")) || { firstName: "Student", studentClass: "" };
-  document.getElementById("studentInfo").textContent = `${student.firstName} (${student.studentClass})`;
+function selectOption(qDiv,optDiv,index,answer){
+  [...qDiv.querySelectorAll('.option')].forEach(o=>o.classList.remove('selected'));
+  optDiv.classList.add('selected');
+  qDiv.dataset.selected=index;
+  qDiv.dataset.answer=answer;
+}
 
-  const isMobile = window.innerWidth < 768;
-  const QUESTIONS_PER_SET = isMobile ? 5 : 10;
+function submitSet(){
+  document.querySelectorAll('.question').forEach(q=>{
+    const correctIndex=q.dataset.answer;
+    if(correctIndex!==undefined){
+      q.querySelectorAll('.option')[correctIndex].classList.add('correct');
+    }
+  });
+  submitBtn.disabled=true;
+  setTimeout(()=>{
+    currentSet++;
+    if(currentSet*QUESTIONS_PER_SET>=questions.length){
+      alert('Quiz completed!');
+      sessionStorage.clear();
+      location.reload();
+    }else{
+      submitBtn.disabled=false;
+      loadSet();
+    }
+  },1200);
+}
 
-  let currentSet = 0;
-
-  const questions = Array.from({ length: 30 }, (_, i) => ({
-    q: `Question ${i + 1}: Sample question text?`,
-    options: ["Option A", "Option B", "Option C", "Option D"],
-    answer: 1
-  }));
-
-  function loadSet() {
-    const container = document.getElementById("quizContainer");
-    container.innerHTML = "";
-
-    const start = currentSet * QUESTIONS_PER_SET;
-    const setQuestions = questions.slice(start, start + QUESTIONS_PER_SET);
-
-    setQuestions.forEach((item, index) => {
-      const qDiv = document.createElement("div");
-      qDiv.className = "question";
-
-      qDiv.innerHTML = `<h3>${start + index + 1}. ${item.q}</h3>`;
-
-      item.options.forEach((opt, i) => {
-        const optDiv = document.createElement("div");
-        optDiv.className = "option";
-        optDiv.textContent = opt;
-
-        optDiv.onclick = () => selectOption(qDiv, optDiv, i, item.answer);
-        qDiv.appendChild(optDiv);
-      });
-
-      container.appendChild(qDiv);
-    });
+// Init
+window.onload=()=>{
+  student=JSON.parse(sessionStorage.getItem('student'));
+  if(student){
+    modal.style.display='none';
+    studentInfo.textContent=`${student.firstName} (${student.studentClass})`;
+    loadQuestionsForClass();
+  }else{
+    modal.style.display='flex';
   }
-
-  function selectOption(qDiv, optDiv, index, answer) {
-    [...qDiv.querySelectorAll(".option")].forEach(o => o.classList.remove("selected"));
-    optDiv.classList.add("selected");
-    qDiv.dataset.selected = index;
-    qDiv.dataset.answer = answer;
-  }
-
-  function submitSet() {
-    document.querySelectorAll(".question").forEach(q => {
-      const correctIndex = q.dataset.answer;
-      if (correctIndex !== undefined) {
-        q.querySelectorAll(".option")[correctIndex].classList.add("correct");
-      }
-    });
-
-    document.getElementById("submitBtn").disabled = true;
-
-    setTimeout(() => {
-      currentSet++;
-      if (currentSet * QUESTIONS_PER_SET >= questions.length) {
-        alert("Quiz completed!");
-        sessionStorage.clear();
-        location.reload();
-      } else {
-        document.getElementById("submitBtn").disabled = false;
-        loadSet();
-      }
-    }, 1200);
-  }
-
-  loadSet();
+};
 </script></body>
 </html>
