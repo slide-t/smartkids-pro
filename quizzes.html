@@ -94,7 +94,7 @@ function registerStudent(){
 
 async function loadQuestionsForClass(){
   const fileName = student.studentClass.toLowerCase().replace(' ','_')+'.json';
-  const path = `/json-files/quiz-hub/${fileName}`;
+  const path = `json-files/quiz-hub/${fileName}`;
   try{
     const res=await fetch(path);
     questions=await res.json();
