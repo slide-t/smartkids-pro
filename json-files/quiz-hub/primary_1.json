@@ -1,1 +1,567 @@
 
+{
+  "level": "Primary",
+  "questions": [
+    {
+      "question": "What is a computer?",
+      "options": ["Television", "Radio", "Electronic machine", "Fan"],
+      "answer": 2
+    },
+    {
+      "question": "Which part of the computer is used to type?",
+      "options": ["Mouse", "Keyboard", "Monitor", "Speaker"],
+      "answer": 1
+    },
+    {
+      "question": "Which device is used to click?",
+      "options": ["Keyboard", "Printer", "Mouse", "Scanner"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these is an output device?",
+      "options": ["Mouse", "Keyboard", "Monitor", "CPU"],
+      "answer": 2
+    },
+    {
+      "question": "Which key is used to leave space while typing?",
+      "options": ["Enter", "Shift", "Spacebar", "Caps Lock"],
+      "answer": 2
+    },
+    {
+      "question": "What does a mouse help us do?",
+      "options": ["Type letters", "Move the pointer", "Print paper", "Hear sound"],
+      "answer": 1
+    },
+    {
+      "question": "Which of these is used to hear sound?",
+      "options": ["Monitor", "Speaker", "Keyboard", "CPU"],
+      "answer": 1
+    },
+    {
+      "question": "Which part shows what we type?",
+      "options": ["CPU", "Mouse", "Monitor", "Printer"],
+      "answer": 2
+    },
+    {
+      "question": "What is used to print on paper?",
+      "options": ["Scanner", "Printer", "Speaker", "Mouse"],
+      "answer": 1
+    },
+    {
+      "question": "Which one is a computer machine?",
+      "options": ["Radio", "Fan", "Laptop", "Bulb"],
+      "answer": 2
+    },
+    {
+      "question": "Which part of the computer stores data temporarily?",
+      "options": ["RAM", "CPU", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which part of the computer stores data permanently?",
+      "options": ["Hard Drive", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "What does CPU stand for?",
+      "options": ["Central Processing Unit", "Computer Power Unit", "Control Processing Unit", "Central Program Unit"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to scan documents?",
+      "options": ["Scanner", "Printer", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "What is an input device?",
+      "options": ["Device to send data to the computer", "Device to display data", "Device to print data", "Device to save data"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to display output?",
+      "options": ["Monitor", "Keyboard", "Mouse", "Scanner"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to type documents?",
+      "options": ["Word Processor", "Spreadsheet", "Browser", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used for calculations?",
+      "options": ["Spreadsheet", "Word Processor", "Paint", "Browser"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to connect to the internet?",
+      "options": ["Router", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "What is the function of an operating system?",
+      "options": ["Manage computer resources", "Type letters", "Print paper", "Click mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which part of the computer processes data?",
+      "options": ["CPU", "Keyboard", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to delete text?",
+      "options": ["Backspace", "Enter", "Shift", "Caps Lock"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to start a new line?",
+      "options": ["Enter", "Shift", "Spacebar", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "What does 'desktop' refer to?",
+      "options": ["Computer screen area", "Keyboard", "CPU", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "What is the main circuit board called?",
+      "options": ["Motherboard", "CPU", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an external storage device?",
+      "options": ["USB drive", "RAM", "CPU", "Motherboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to copy?",
+      "options": ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to paste?",
+      "options": ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to cut?",
+      "options": ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + Z"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to undo?",
+      "options": ["Ctrl + Z", "Ctrl + C", "Ctrl + V", "Ctrl + X"],
+      "answer": 0
+    },
+    {
+      "question": "What is the function of the spacebar?",
+      "options": ["Leave space between words", "Start new line", "Delete text", "Save document"],
+      "answer": 0
+    },
+    {
+      "question": "Which device do we use to hear sound from the computer?",
+      "options": ["Speaker", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which part of the computer helps to see output?",
+      "options": ["Monitor", "CPU", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a pointing device?",
+      "options": ["Mouse", "Keyboard", "Printer", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to type capital letters?",
+      "options": ["Shift", "Enter", "Caps Lock", "Spacebar"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is NOT a computer?",
+      "options": ["Laptop", "Tablet", "Television", "Desktop"],
+      "answer": 2
+    },
+    {
+      "question": "Which of these stores information temporarily?",
+      "options": ["RAM", "Hard Drive", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps to take photos digitally?",
+      "options": ["Camera", "Printer", "Scanner", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software do we use to browse websites?",
+      "options": ["Browser", "Word Processor", "Spreadsheet", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to type letters?",
+      "options": ["Keyboard", "Mouse", "Monitor", "CPU"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to store files externally?",
+      "options": ["USB drive", "RAM", "CPU", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to save work permanently?",
+      "options": ["Hard Drive", "RAM", "CPU", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to cancel an operation?",
+      "options": ["Esc", "Enter", "Shift", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which key do we press to select all?",
+      "options": ["Ctrl + A", "Ctrl + C", "Ctrl + V", "Ctrl + X"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to take screenshots?",
+      "options": ["PrtSc", "Ctrl", "Alt", "Shift"],
+      "answer": 0
+    },
+    {
+      "question": "Which part of the computer is called the brain?",
+      "options": ["CPU", "RAM", "Motherboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to play music?",
+      "options": ["Speaker", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to watch videos?",
+      "options": ["Monitor", "CPU", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for calculations?",
+      "options": ["Spreadsheet", "Word Processor", "Paint", "Browser"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to lock the computer?",
+      "options": ["Windows + L", "Ctrl + L", "Alt + L", "Shift + L"],
+      "answer": 0
+    },
+    {
+      "question": "Which part stores all the programs?",
+      "options": ["Hard Drive", "RAM", "CPU", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to draw pictures?",
+      "options": ["Paint", "Word Processor", "Spreadsheet", "Browser"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to search the internet?",
+      "options": ["Browser", "Paint", "Word Processor", "Spreadsheet"],
+      "answer": 0
+    },
+
+    {
+      "question": "Which of these is a storage device?",
+      "options": ["Keyboard", "Hard Disk", "Mouse", "Monitor"],
+      "answer": 1
+    },
+    {
+      "question": "Which device helps to connect computers together?",
+      "options": ["Router", "Printer", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to create presentations?",
+      "options": ["PowerPoint", "Word", "Excel", "Paint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to send emails?",
+      "options": ["Email client", "Scanner", "Printer", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "What does URL stand for?",
+      "options": ["Uniform Resource Locator", "User Resource Link", "Universal Resource Link", "Uniform Resource Link"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to capture images?",
+      "options": ["Camera", "Monitor", "Mouse", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to hear music?",
+      "options": ["Speaker", "CPU", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "What is the shortcut to save a document?",
+      "options": ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + P"],
+      "answer": 0
+    },
+    {
+      "question": "Which software can we use to draw?",
+      "options": ["Paint", "Excel", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to read CDs?",
+      "options": ["CD-ROM", "USB", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to cancel an action?",
+      "options": ["Esc", "Enter", "Shift", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps us to type numbers quickly?",
+      "options": ["Numeric keypad", "Mouse", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to record sound?",
+      "options": ["Microphone", "Speaker", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is a software for typing letters?",
+      "options": ["Word Processor", "Browser", "Paint", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps to print colored documents?",
+      "options": ["Color Printer", "Monitor", "Mouse", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to copy documents?",
+      "options": ["Photocopier", "Printer", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to switch between applications?",
+      "options": ["Alt + Tab", "Ctrl + Tab", "Shift + Tab", "Ctrl + Alt"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to store backup data externally?",
+      "options": ["External Hard Drive", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to calculate sums and charts?",
+      "options": ["Spreadsheet", "Paint", "Word", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps to zoom in and out of images?",
+      "options": ["Mouse", "Keyboard", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to type capital letters temporarily?",
+      "options": ["Shift", "Caps Lock", "Enter", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which device displays moving images?",
+      "options": ["Monitor", "Printer", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is an example of multimedia?",
+      "options": ["Text, video, and audio", "Keyboard and mouse", "Monitor and CPU", "Printer and scanner"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to browse the internet?",
+      "options": ["Web browser", "Word", "Paint", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps to point and click?",
+      "options": ["Mouse", "Keyboard", "Monitor", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to measure computer speed?",
+      "options": ["CPU", "Monitor", "Mouse", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which device allows wireless connection to the internet?",
+      "options": ["Wi-Fi Router", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination closes the current window?",
+      "options": ["Alt + F4", "Ctrl + W", "Ctrl + F4", "Alt + Esc"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to listen to recorded sounds?",
+      "options": ["Headphones", "Monitor", "Keyboard", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to refresh a page in the browser?",
+      "options": ["F5", "F1", "F2", "F3"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to connect to a projector?",
+      "options": ["HDMI Cable", "Mouse", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to scan barcodes?",
+      "options": ["Barcode Scanner", "Printer", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used for video conferencing?",
+      "options": ["Webcam", "Mouse", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to open a context menu?",
+      "options": ["Right Click", "Enter", "Shift", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to measure data speed?",
+      "options": ["Network Tester", "Monitor", "Mouse", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which software helps to manage files and folders?",
+      "options": ["File Explorer", "Word", "Paint", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device helps visually impaired users to read text?",
+      "options": ["Screen Reader", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to connect USB devices?",
+      "options": ["USB Port", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to pause a video?",
+      "options": ["Spacebar", "Enter", "Shift", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which device stores data magnetically?",
+      "options": ["Hard Disk", "Keyboard", "Monitor", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to project images on a wall?",
+      "options": ["Projector", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to play music?",
+      "options": ["Media Player", "Word", "Paint", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used for telecommunication over the internet?",
+      "options": ["Modem", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to undo typing?",
+      "options": ["Ctrl + Z", "Ctrl + X", "Ctrl + V", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used to edit photos?",
+      "options": ["Photo Editor", "Word", "Excel", "PowerPoint"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to store small files temporarily?",
+      "options": ["RAM", "Hard Disk", "Monitor", "Keyboard"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to play games with physical controls?",
+      "options": ["Joystick", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to cool the computer?",
+      "options": ["Fan", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which software is used for online meetings?",
+      "options": ["Zoom", "Word", "Paint", "Excel"],
+      "answer": 0
+    },
+    {
+      "question": "Which device can read memory cards?",
+      "options": ["Card Reader", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to print documents?",
+      "options": ["Ctrl + P", "Ctrl + S", "Ctrl + C", "Ctrl + V"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to write digitally on the screen?",
+      "options": ["Stylus", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key is used to lock/unlock Caps Lock?",
+      "options": ["Caps Lock", "Shift", "Enter", "Ctrl"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to watch movies on a computer?",
+      "options": ["Monitor", "Keyboard", "Mouse", "Printer"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these is used to make video calls?",
+      "options": ["Webcam", "Monitor", "Keyboard", "Mouse"],
+      "answer": 0
+    },
+    {
+      "question": "Which device is used to control volume?",
+      "options": ["Speaker Volume Knob", "Mouse", "Keyboard", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which key combination is used to redo an action?",
+      "options": ["Ctrl + Y", "Ctrl + Z", "Ctrl + X", "Ctrl + C"],
+      "answer": 0
+    },
+    {
+      "question": "Which of these helps to protect the computer from viruses?",
+      "options": ["Antivirus Software", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    },
+    {
+      "question": "Which device can connect multiple devices to the internet?",
+      "options": ["Router", "Keyboard", "Mouse", "Monitor"],
+      "answer": 0
+    }
+  ]
+}
