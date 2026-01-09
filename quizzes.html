@@ -1,116 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SmartKids Quiz Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>SmartKids Quiz Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f6fb;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-box {
-      background: #fff;
-      width: 90%;
-      max-width: 420px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
-    }
-
-    h2 {
-      margin-top: 0;
-      text-align: center;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 12px;
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      font-size: 15px;
-    }
-
-    button {
-      background: #5b4bdb;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 18px;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .welcome {
-      padding: 30px;
-      text-align: center;
-    }
-
-    .welcome h1 {
-      color: #5b4bdb;
-    }
-
-    .restart {
-      background: #e74c3c;
-      margin-top: 25px;
-    }
-  </style>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  margin:0;
+  background:#f4f6fb;
+}
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+.modal-box{
+  background:#fff;
+  width:90%;
+  max-width:420px;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+h2{text-align:center;margin-top:0;}
+label{font-weight:bold;margin-top:12px;display:block;}
+input,select,button{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  font-size:15px;
+}
+button{
+  background:#5b4bdb;
+  color:#fff;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  margin-top:18px;
+}
+button:hover{opacity:.9}
+.hidden{display:none}
+.welcome{text-align:center;padding:30px}
+.welcome h1{color:#5b4bdb}
+.restart{background:#e74c3c;margin-top:20px}
+</style>
 </head>
+
 <body>
 
-<!-- MODAL 1: REGISTRATION -->
+<!-- REGISTRATION MODAL -->
 <div class="modal" id="registerModal">
   <div class="modal-box">
     <h2>Student Registration</h2>
 
     <label>School Name</label>
-    <input type="text" id="schoolName" placeholder="Enter school name" required>
+    <input id="schoolName" placeholder="Enter school name">
 
     <label>Student Full Name</label>
-    <input type="text" id="fullName" placeholder="Surname Firstname" required>
+    <input id="fullName" placeholder="Surname Firstname">
 
     <label>Class</label>
-    <select id="studentClass" required>
+    <select id="studentClass">
       <option value="">-- Select Class --</option>
       <option>Primary 3</option>
       <option>Primary 4</option>
       <option>Primary 5</option>
       <option>Primary 6</option>
-      <option>JSS 1</option>
-      <option>JSS 2</option>
-      <option>JSS 3</option>
     </select>
 
     <button onclick="registerStudent()">Continue</button>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- WELCOME SCREEN -->
 <div class="welcome hidden" id="welcomeScreen">
   <h1>Welcome, <span id="firstName"></span> 👋</h1>
   <p><strong>School:</strong> <span id="schoolDisplay"></span></p>
@@ -121,51 +89,98 @@
 </div>
 
 <script>
-  // Always start clean on refresh
+/* ============================
+   SESSION RESTORE ON REFRESH
+============================ */
+const savedStudent = sessionStorage.getItem("student");
+if(savedStudent){
+  showWelcome();
+}
+
+/* ============================
+   CLASS → JSON MAP
+============================ */
+const classMap = {
+  "Primary 3": "primary_3.json",
+  "Primary 4": "primary_4.json",
+  "Primary 5": "primary_5.json",
+  "Primary 6": "primary_6.json"
+};
+
+/* ============================
+   REGISTER STUDENT
+============================ */
+function registerStudent(){
+  const school = schoolName.value.trim();
+  const fullName = fullName.value.trim();
+  const studentClass = studentClassSelect();
+
+  if(!school || !fullName || !studentClass){
+    alert("Please fill all fields");
+    return;
+  }
+
+  if(fullName.split(" ").length < 2){
+    alert("Enter Surname and Firstname");
+    return;
+  }
+
+  const firstName = fullName.split(" ")[1];
+
+  sessionStorage.setItem("student", JSON.stringify({
+    school,
+    fullName,
+    firstName,
+    studentClass,
+    quizFile: classMap[studentClass]
+  }));
+
+  showWelcome();
+}
+
+function studentClassSelect(){
+  return document.getElementById("studentClass").value;
+}
+
+/* ============================
+   SHOW WELCOME
+============================ */
+function showWelcome(){
+  const data = JSON.parse(sessionStorage.getItem("student"));
+  if(!data) return;
+
+  firstName.textContent = data.firstName;
+  schoolDisplay.textContent = data.school;
+  classDisplay.textContent = data.studentClass;
+
+  registerModal.classList.add("hidden");
+  welcomeScreen.classList.remove("hidden");
+}
+
+/* ============================
+   START QUIZ
+============================ */
+function startQuiz(){
+  const student = JSON.parse(sessionStorage.getItem("student"));
+  if(!student || !student.quizFile){
+    alert("Invalid class selection");
+    return;
+  }
+
+  // CBT LOCK
+  sessionStorage.setItem("quizLocked","yes");
+
+  // Redirect
+  location.href = `quizzes.html?file=${student.quizFile}`;
+}
+
+/* ============================
+   RESET
+============================ */
+function restart(){
   sessionStorage.clear();
-
-  function registerStudent() {
-    const school = document.getElementById("schoolName").value.trim();
-    const fullName = document.getElementById("fullName").value.trim();
-    const studentClass = document.getElementById("studentClass").value;
-
-    if (!school || !fullName || !studentClass) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const firstName = fullName.split(" ")[0];
-
-    sessionStorage.setItem("student", JSON.stringify({
-      school,
-      fullName,
-      firstName,
-      studentClass
-    }));
-
-    showWelcome();
-  }
-
-  function showWelcome() {
-    const data = JSON.parse(sessionStorage.getItem("student"));
-
-    document.getElementById("firstName").textContent = data.firstName;
-    document.getElementById("schoolDisplay").textContent = data.school;
-    document.getElementById("classDisplay").textContent = data.studentClass;
-
-    document.getElementById("registerModal").classList.add("hidden");
-    document.getElementById("welcomeScreen").classList.remove("hidden");
-  }
-
-  function startQuiz() {
-    alert("Redirect to quiz board for " + JSON.parse(sessionStorage.getItem("student")).studentClass);
-    // location.href = `quiz.html?class=${encodeURIComponent(...)}`;
-  }
-
-  function restart() {
-    sessionStorage.clear();
-    location.reload();
-  }
+  location.reload();
+}
 </script>
 
 </body>
