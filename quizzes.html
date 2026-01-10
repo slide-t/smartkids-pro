@@ -466,6 +466,21 @@ function endQuiz() {
 
   resultModal.style.display = "flex";
 }
+/*==========================
+   RESTART BUTTON 
+=====================≠======*/
+      
+      function restartQuiz() {
+  // Clear quiz-related data
+  localStorage.removeItem("sk_session");
+  localStorage.removeItem("sk_quiz_score");
+  localStorage.removeItem("sk_quiz_answers");
+
+  sessionStorage.removeItem("sk_registered");
+
+  // Redirect back to quizzes page
+  window.location.href = "quizzes.html";
+}
 
 /* ===============================
    SHUFFLE
