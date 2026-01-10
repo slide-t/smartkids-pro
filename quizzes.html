@@ -89,6 +89,125 @@ button:hover{opacity:.9}
 </div>
 
 <script>
+/* ==============================
+   CBT REGISTRATION & START LOGIC
+   ============================== */
+
+/* ---------- DOM READY ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ---- DOM REFERENCES ---- */
+  window.schoolInput = document.getElementById("schoolName");
+  window.fullNameInput = document.getElementById("fullName");
+  window.classSelect = document.getElementById("studentClass");
+
+  /* ---- CLASS → JSON MAP ---- */
+  window.classMap = {
+    "Primary 1": "primary_1.json",
+    "Primary 2": "primary_2.json",
+    "Primary 3": "primary_3.json",
+    "Primary 4": "primary_4.json",
+    "Primary 5": "primary_5.json",
+    "Primary 6": "primary_6.json"
+  };
+
+  /* ---- BASIC VALIDATION ---- */
+  if (!schoolInput || !fullNameInput || !classSelect) {
+    alert("CBT system error: form elements missing");
+    console.error("Form elements not found");
+  }
+});
+
+/* ==============================
+   REGISTER STUDENT
+   ============================== */
+function registerStudent() {
+
+  if (!schoolInput || !fullNameInput || !classSelect) {
+    alert("System not ready. Refresh page.");
+    return;
+  }
+
+  const school = schoolInput.value.trim();
+  const fullName = fullNameInput.value.trim();
+  const studentClass = classSelect.value;
+
+  if (!school || !fullName || !studentClass) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const nameParts = fullName.split(/\s+/);
+  if (nameParts.length < 2) {
+    alert("Enter Surname and Firstname");
+    return;
+  }
+
+  if (!classMap[studentClass]) {
+    alert("Invalid class selection");
+    return;
+  }
+
+  const firstName = nameParts[1];
+
+  /* ---- STORE SESSION ---- */
+  sessionStorage.setItem("student", JSON.stringify({
+    school,
+    fullName,
+    firstName,
+    studentClass,
+    quizFile: classMap[studentClass],
+    registeredAt: Date.now()
+  }));
+
+  showWelcome();
+}
+
+/* ==============================
+   SHOW WELCOME MODAL
+   ============================== */
+function showWelcome() {
+  const student = JSON.parse(sessionStorage.getItem("student"));
+  if (!student) {
+    alert("Session lost. Please register again.");
+    return;
+  }
+
+  document.getElementById("welcomeName").textContent = student.firstName;
+  document.getElementById("welcomeModal").classList.add("show");
+}
+
+/* ==============================
+   START QUIZ
+   ============================== */
+function startQuiz() {
+  const student = JSON.parse(sessionStorage.getItem("student"));
+
+  if (!student || !student.quizFile) {
+    alert("Invalid session. Please register again.");
+    return;
+  }
+
+  /* ---- LOCK CBT SESSION ---- */
+  sessionStorage.setItem("quizLocked", "yes");
+  sessionStorage.setItem("quizStartedAt", Date.now());
+
+  /* ---- REDIRECT ---- */
+  location.href = `quiz.html?file=${student.quizFile}`;
+}
+
+/* ==============================
+   ANTI-CHEATING (REGISTRATION)
+   ============================== */
+window.addEventListener("beforeunload", () => {
+  if (sessionStorage.getItem("quizLocked") === "yes") {
+    return "Exam in progress";
+  }
+});
+</script>
+  
+  
+  <!--<script>
 /* ============================
    DOM REFERENCES (SAFE)
 ============================ */
