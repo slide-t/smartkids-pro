@@ -70,7 +70,154 @@ button {
 /* TIMER */
 #time { font-weight:bold; color:#dc2626; }
 
-/* MODALS */
+/* ===============================
+   BUTTON SYSTEM
+================================ */
+button {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+}
+
+button:active {
+  transform: scale(.97);
+  box-shadow: 0 2px 6px rgba(0,0,0,.18);
+}
+
+/* SUBMIT BUTTON */
+#submitBtn {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  color: #fff;
+}
+
+#submitBtn:hover {
+  background: linear-gradient(135deg,#4338ca,#4f46e5);
+}
+
+#submitBtn:disabled {
+  background: #c7d2fe;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===============================
+   TIMER
+================================ */
+.timer {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+#time {
+  font-weight: 700;
+  color: #dc2626;
+  font-size: 18px;
+}
+
+/* ===============================
+   MODALS
+================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 10px;
+}
+
+.modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 22px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.25);
+  animation: modalPop .25s ease-out;
+}
+
+/* MODAL ENTRANCE */
+@keyframes modalPop {
+  from { transform: scale(.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* LEVEL BUTTONS */
+.level-btn {
+  width: 100%;
+  margin: 12px 0;
+  padding: 14px;
+  font-size: 16px;
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  color: #fff;
+}
+
+.level-btn:last-child {
+  background: linear-gradient(135deg,#2563eb,#1d4ed8);
+}
+
+.level-btn:hover {
+  filter: brightness(1.05);
+}
+
+/* ===============================
+   RESULT ACTIONS
+================================ */
+.result-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+  gap: 12px;
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 0 15px;
+}
+
+.result-actions button {
+  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  color: #fff;
+}
+
+.result-actions button:hover {
+  filter: brightness(1.07);
+}
+
+/* NEXT PUPIL HIGHLIGHT */
+.next-pupil {
+  background: linear-gradient(135deg,#0ea5e9,#0284c7) !important;
+}
+
+/* ===============================
+   MOBILE TUNING
+================================ */
+@media (max-width:480px){
+  button {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .modal-content {
+    padding: 20px 16px;
+  }
+}
+
+
+   
+
+/* MODALS *
 .modal {
   position:fixed; inset:0; background:rgba(0,0,0,.6);
   display:flex; justify-content:center; align-items:center; z-index:50; overflow:auto;
@@ -81,7 +228,7 @@ button {
 }
 .level-btn { margin:10px 0; animation: shake 1s infinite; }
 
-/* MODAL ANIMATION */
+/* MODAL ANIMATION *
 @keyframes shake {
   0% { transform:translateX(0);}
   25% { transform:translateX(-2px);}
@@ -90,7 +237,7 @@ button {
   100% { transform:translateX(0);}
 }
 
-/* RESULT ACTIONS */
+/* RESULT ACTIONS *
 .result-actions {
   display:flex;
   justify-content:center;
@@ -108,7 +255,7 @@ button {
 @media (max-width:480px){
   .modal-content { width:95%; padding:15px; }
   button { font-size:14px; padding:10px; }
-}
+}*/
 </style>
 </head>
 
