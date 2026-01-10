@@ -117,6 +117,12 @@ const classMap = {
    REGISTER STUDENT
 ============================ */
 function registerStudent(){
+  if(!schoolInput || !fullNameInput || !classSelect){
+    alert("System error: form not ready");
+    console.error("Form elements missing");
+    return;
+  }
+
   const school = schoolInput.value.trim();
   const fullName = fullNameInput.value.trim();
   const studentClass = classSelect.value;
@@ -126,9 +132,14 @@ function registerStudent(){
     return;
   }
 
-  const nameParts = fullName.split(" ");
+  const nameParts = fullName.split(/\s+/);
   if(nameParts.length < 2){
     alert("Enter Surname and Firstname");
+    return;
+  }
+
+  if(!classMap[studentClass]){
+    alert("Invalid class selected");
     return;
   }
 
