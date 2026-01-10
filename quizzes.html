@@ -90,6 +90,114 @@ button:hover{opacity:.9}
 
 <script>
 /* ============================
+   DOM REFERENCES (SAFE)
+============================ */
+const schoolInput = document.getElementById("schoolName");
+const fullNameInput = document.getElementById("fullName");
+const classSelect = document.getElementById("studentClass");
+
+const firstNameEl = document.getElementById("firstName");
+const schoolDisplayEl = document.getElementById("schoolDisplay");
+const classDisplayEl = document.getElementById("classDisplay");
+
+const registerModal = document.getElementById("registerModal");
+const welcomeScreen = document.getElementById("welcomeScreen");
+
+/* ============================
+   CLASS → JSON MAP
+============================ */
+const classMap = {
+  "Primary 3": "primary_3.json",
+  "Primary 4": "primary_4.json",
+  "Primary 5": "primary_5.json",
+  "Primary 6": "primary_6.json"
+};
+
+/* ============================
+   REGISTER STUDENT
+============================ */
+function registerStudent(){
+  const school = schoolInput.value.trim();
+  const fullName = fullNameInput.value.trim();
+  const studentClass = classSelect.value;
+
+  if(!school || !fullName || !studentClass){
+    alert("Please fill all fields");
+    return;
+  }
+
+  const nameParts = fullName.split(" ");
+  if(nameParts.length < 2){
+    alert("Enter Surname and Firstname");
+    return;
+  }
+
+  const firstName = nameParts[1];
+
+  sessionStorage.setItem("student", JSON.stringify({
+    school,
+    fullName,
+    firstName,
+    studentClass,
+    quizFile: classMap[studentClass]
+  }));
+
+  showWelcome();
+}
+
+/* ============================
+   SHOW WELCOME
+============================ */
+function showWelcome(){
+  const student = JSON.parse(sessionStorage.getItem("student"));
+  if(!student) return;
+
+  firstNameEl.textContent = student.firstName;
+  schoolDisplayEl.textContent = student.school;
+  classDisplayEl.textContent = student.studentClass;
+
+  registerModal.classList.add("hidden");
+  welcomeScreen.classList.remove("hidden");
+}
+
+/* ============================
+   START QUIZ
+============================ */
+function startQuiz(){
+  const student = JSON.parse(sessionStorage.getItem("student"));
+  if(!student || !student.quizFile){
+    alert("Invalid class selection");
+    return;
+  }
+
+  // Lock CBT session
+  sessionStorage.setItem("quizLocked", "yes");
+
+  // Redirect to quiz board
+  location.href = `quizzes.html?file=${student.quizFile}`;
+}
+
+/* ============================
+   RESET
+============================ */
+function restart(){
+  sessionStorage.clear();
+  location.reload();
+}
+
+/* ============================
+   RESTORE SESSION ON REFRESH
+============================ */
+window.addEventListener("load", () => {
+  if(sessionStorage.getItem("student")){
+    showWelcome();
+  }
+});
+</script>
+
+  <!--
+<script>
+/* ============================
    SESSION RESTORE ON REFRESH
 ============================ */
 const savedStudent = sessionStorage.getItem("student");
@@ -184,7 +292,7 @@ function restart(){
   sessionStorage.clear();
   location.reload();
 }
-</script>
+</script>-->
 
 </body>
 </html>
