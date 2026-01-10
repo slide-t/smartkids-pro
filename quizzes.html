@@ -665,9 +665,28 @@ function restartQuiz() {
    NEXT PUPIL
 ================================ */
 function nextPupil() {
-  restartQuiz();
+  // Clear previous quiz session
+  sessionStorage.removeItem("quizCompleted");
+  sessionStorage.removeItem("quizLevel");
+
+  // Reset in-memory values
+  totalScore = 0;
+  currentSetNumber = 1;
+  quizTime = 5 * 60;
+  timerStarted = false;
+  allQuestions = [];
+  currentSet = [];
+
+  // Hide result modal
+  resultModal.style.display = "none";
+
+  // Show student registration modal again
+  studentModal.style.display = "flex";
+
+  // Clear input fields
   document.getElementById("studentName").value = "";
   document.getElementById("studentClass").selectedIndex = 0;
+  document.getElementById("schoolName").value = "";
 }
 
 /* ===============================
