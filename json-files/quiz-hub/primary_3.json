@@ -1,7 +1,67 @@
 [
   {
-    "q": "What is a computer?",
-    "options": ["Television", "Computer", "Radio", "Fan"],
+    "q": "Which part of the computer is used to click and point?",
+    "options": ["Keyboard", "Mouse", "Monitor", "Printer"],
+    "answer": 1
+  },
+  {
+    "q": "Which device is used to type letters and numbers?",
+    "options": ["Mouse", "Speaker", "Keyboard", "Scanner"],
+    "answer": 2
+  },
+  {
+    "q": "Which of these is an output device?",
+    "options": ["Keyboard", "Mouse", "Monitor", "CPU"],
+    "answer": 2
+  },
+  {
+    "q": "What does a computer mouse help us to do?",
+    "options": [
+      "Type words",
+      "Move the pointer on the screen",
+      "Print documents",
+      "Listen to music"
+    ],
+    "answer": 1
+  },
+  {
+    "q": "Which key is used to create space between words?",
+    "options": ["Enter key", "Shift key", "Spacebar", "Backspace"],
+    "answer": 2
+  },
+  {
+    "q": "Which of these is NOT a computer?",
+    "options": ["Laptop", "Desktop", "Tablet", "Television"],
+    "answer": 3
+  },
+  {
+    "q": "What happens when you double-click the mouse?",
+    "options": [
+      "The computer shuts down",
+      "An item opens",
+      "The screen turns off",
+      "The printer starts"
+    ],
+    "answer": 1
+  },
+  {
+    "q": "Which key is used to erase a letter?",
+    "options": ["Enter", "Shift", "Backspace", "Ctrl"],
+    "answer": 2
+  },
+  {
+    "q": "Which of these is used to display pictures and text?",
+    "options": ["Keyboard", "Mouse", "Monitor", "CPU"],
+    "answer": 2
+  },
+  {
+    "q": "A computer is mainly used to _______.",
+    "options": [
+      "Cook food",
+      "Solve problems",
+      "Wash clothes",
+      "Play football"
+    ],
     "answer": 1
   }
 ]
