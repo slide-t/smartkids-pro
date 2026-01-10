@@ -167,7 +167,268 @@ button {
   </div>
 </div>
 
+<script>
+/* ===============================
+   GLOBAL STATE
+================================ */
+let student = {};
+let selectedLevel = "";
+let allQuestions = [];
+let currentSet = [];
+let totalScore = 0;
+let currentSetNumber = 1;
 
+const MAX_SETS = 5;
+const QUESTIONS_PER_SET = 5;
+
+/* ===============================
+   TIMER
+================================ */
+let quizTime = 5 * 60; // 5 minutes per set
+let timerInterval;
+let timerStarted = false;
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+
+  timerInterval = setInterval(() => {
+    const min = Math.floor(quizTime / 60);
+    const sec = quizTime % 60;
+    document.getElementById("time").textContent =
+      `${min}:${sec.toString().padStart(2, "0")}`;
+
+    if (quizTime <= 0) {
+      clearInterval(timerInterval);
+      endQuiz();
+    }
+    quizTime--;
+  }, 1000);
+}
+
+/* ===============================
+   PAGE LOAD
+================================ */
+window.onload = () => {
+  studentModal.style.display = "flex";
+};
+
+/* ===============================
+   SAVE STUDENT
+================================ */
+function saveStudent() {
+  const name = document.getElementById("studentName").value.trim();
+  const studentClass = document.getElementById("studentClass").value.trim();
+
+  if (!name || !studentClass) {
+    alert("Please enter your full name and class");
+    return;
+  }
+
+  student = { name, class: studentClass };
+
+  // Reset previous session
+  sessionStorage.removeItem("quizCompleted");
+  sessionStorage.removeItem("quizLevel");
+
+  studentModal.style.display = "none";
+  levelModal.style.display = "flex";
+}
+
+/* ===============================
+   START QUIZ
+================================ */
+function startQuiz(level) {
+  const cls = student.class.toLowerCase();
+  const isPrimary = cls.includes("primary") || cls.includes("pri");
+  const isSecondary = cls.includes("jss") || cls.includes("sss") || cls.includes("secondary");
+
+  if ((isPrimary && level === "secondary") || (isSecondary && level === "primary")) {
+    alert(`${student.class} cannot take ${level} quiz.`);
+    return;
+  }
+
+  selectedLevel = level;
+  sessionStorage.setItem("quizLevel", level);
+  levelModal.style.display = "none";
+
+  fetch(level === "primary"
+    ? "json-files/quiz-hub/quiz-prim.json"
+    : "json-files/quiz-hub/quiz-sec.json"
+  )
+    .then(res => res.json())
+    .then(data => {
+      allQuestions = shuffle(
+        data.questions.map(q => ({
+          question: q.question,
+          options: shuffle(
+            q.options.map((text, i) => ({ text, isCorrect: i === q.answer }))
+          )
+        }))
+      );
+
+      totalScore = 0;
+      currentSetNumber = 1;
+      quizTime = 5 * 60; // reset timer per set
+      timerStarted = false;
+
+      loadSet();
+      startTimer();
+    })
+    .catch(() => alert("Quiz failed to load"));
+}
+
+/* ===============================
+   LOAD QUESTIONS
+================================ */
+function loadSet() {
+  document.getElementById("score").textContent = totalScore;
+  document.getElementById("setCount").textContent = currentSetNumber;
+
+  const quizArea = document.getElementById("quizArea");
+  quizArea.innerHTML = "";
+
+  currentSet = allQuestions.splice(0, QUESTIONS_PER_SET);
+
+  currentSet.forEach((q, i) => {
+    quizArea.innerHTML += `
+      <div class="question-box">
+        <h4>${i + 1}. ${q.question}</h4>
+        ${q.options.map((opt, idx) => `
+          <label class="option">
+            <input type="radio" name="q${i}" value="${idx}">
+            ${opt.text}
+          </label>
+        `).join("")}
+      </div>
+    `;
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ===============================
+   SUBMIT ANSWERS
+================================ */
+submitBtn.onclick = () => {
+
+  // Force all questions answered
+  for (let i = 0; i < currentSet.length; i++) {
+    if (!document.querySelector(`input[name=q${i}]:checked`)) {
+      alert("Please answer all questions before submitting!");
+      return;
+    }
+  }
+
+  submitBtn.disabled = true;
+
+  // Feedback blink
+  currentSet.forEach((q, i) => {
+    document.querySelectorAll(`input[name=q${i}]`).forEach((input, idx) => {
+      const label = input.parentElement;
+      label.classList.remove("correct", "wrong");
+
+      if (q.options[idx].isCorrect) label.classList.add("correct");
+      if (input.checked && !q.options[idx].isCorrect) label.classList.add("wrong");
+    });
+  });
+
+  // Calculate score
+  currentSet.forEach((q, i) => {
+    const chosen = document.querySelector(`input[name=q${i}]:checked`);
+    if (chosen && q.options[parseInt(chosen.value)].isCorrect) totalScore++;
+  });
+
+  setTimeout(() => {
+    submitBtn.disabled = false;
+    if (currentSetNumber < MAX_SETS) {
+      currentSetNumber++;
+      loadSet();
+    } else {
+      endQuiz();
+    }
+  }, 1200);
+};
+
+/* ===============================
+   END QUIZ
+================================ */
+function endQuiz() {
+  clearInterval(timerInterval);
+  sessionStorage.setItem("quizCompleted", "true");
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const passMark = Math.ceil(total * 0.5);
+  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
+
+  document.getElementById("finalScore").textContent =
+    `STUDENT: ${student.name}\nCLASS: ${student.class}\nSCORE: ${totalScore}/${total}\nSTATUS: ${status}\nDATE: ${new Date().toLocaleString()}`;
+
+  resultModal.style.display = "flex";
+}
+
+/* ===============================
+   RESTART QUIZ
+================================ */
+function restartQuiz() {
+  sessionStorage.removeItem("quizCompleted");
+  sessionStorage.removeItem("quizLevel");
+  totalScore = 0;
+  currentSetNumber = 1;
+  allQuestions = [];
+  currentSet = [];
+
+  studentModal.style.display = "flex";
+  resultModal.style.display = "none";
+  levelModal.style.display = "none";
+  quizArea.innerHTML = "";
+  document.getElementById("time").textContent = "00:00";
+}
+
+/* ===============================
+   NEXT PUPIL
+================================ */
+function nextPupil() {
+  restartQuiz();
+  document.getElementById("studentName").value = "";
+  document.getElementById("studentClass").selectedIndex = 0;
+}
+
+/* ===============================
+   EXPORT PDF
+================================ */
+function exportResultPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const total = MAX_SETS * QUESTIONS_PER_SET;
+  const passMark = Math.ceil(total * 0.5);
+  const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
+
+  let y = 20;
+  doc.setFontSize(16);
+  doc.text("QUIZ HUB CBT RESULT", 105, y, { align: "center" });
+  y += 15;
+  doc.setFontSize(12);
+  doc.text(`Student: ${student.name}`, 20, y); y+=8;
+  doc.text(`Class: ${student.class}`, 20, y); y+=8;
+  doc.text(`Score: ${totalScore} / ${total}`, 20, y); y+=8;
+  doc.text(`Status: ${status}`, 20, y); y+=8;
+  doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
+  y+=15;
+  doc.setFontSize(10);
+  doc.text("Generated electronically by Quiz Hub CBT.", 20, y);
+
+  doc.save(`${student.name.replace(/\s+/g,"_")}_CBT_Result.pdf`);
+}
+
+/* ===============================
+   SHUFFLE QUESTIONS
+================================ */
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+</script>
    
   
   <!-- FOOTER -->
