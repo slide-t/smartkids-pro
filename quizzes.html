@@ -96,6 +96,9 @@ const savedStudent = sessionStorage.getItem("student");
 if(savedStudent){
   showWelcome();
 }
+  const firstNameEl = document.getElementById("firstName");
+const schoolDisplayEl = document.getElementById("schoolDisplay");
+const classDisplayEl = document.getElementById("classDisplay");
 
 /* ============================
    CLASS → JSON MAP
@@ -146,15 +149,15 @@ function studentClassSelect(){
    SHOW WELCOME
 ============================ */
 function showWelcome(){
-  const data = JSON.parse(sessionStorage.getItem("student"));
-  if(!data) return;
+  student = JSON.parse(sessionStorage.getItem("student"));
+  if(!student) return;
 
-  firstName.textContent = data.firstName;
-  schoolDisplay.textContent = data.school;
-  classDisplay.textContent = data.studentClass;
+  firstNameEl.textContent = student.firstName;
+  schoolDisplayEl.textContent = student.school;
+  classDisplayEl.textContent = student.studentClass;
 
-  registerModal.classList.add("hidden");
-  welcomeScreen.classList.remove("hidden");
+  document.getElementById("registerModal").classList.add("hidden");
+  document.getElementById("welcomeScreen").classList.remove("hidden");
 }
 
 /* ============================
