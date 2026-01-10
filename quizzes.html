@@ -273,7 +273,10 @@ button:active {
 #studentModal button:hover {
   filter: brightness(1.05);
 }
-
+#studentModal input,
+#studentModal select {
+  box-sizing: border-box;
+   }
 /* SMALL SCREEN TUNING */
 @media (max-width: 480px) {
   #studentModal .modal-content {
@@ -281,7 +284,32 @@ button:active {
   }
 }
 
-   
+   /* QUIZ AREA GRID for Responsive layout*/
+#quizArea {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 15px;
+}
+
+.question-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.question-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+@media (min-width: 768px) {
+  #quizArea {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
 
 </style>
