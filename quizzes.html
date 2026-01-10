@@ -610,7 +610,12 @@ submitBtn.onclick = () => {
 /* ===============================
    END QUIZ
 ================================ */
+let quizEnded = false;
+
 function endQuiz() {
+  if (quizEnded) return; // 🔒 prevent double execution
+  quizEnded = true;
+
   clearInterval(timerInterval);
   sessionStorage.setItem("quizCompleted", "true");
 
@@ -619,14 +624,28 @@ function endQuiz() {
   const status = totalScore >= passMark ? "PASS ✅" : "FAIL ❌";
 
   document.getElementById("finalScore").textContent =
-    `STUDENT: ${student.name}\nCLASS: ${student.class}\nSCORE: ${totalScore}/${total}\nSTATUS: ${status}\nDATE: ${new Date().toLocaleString()}`;
+    `STUDENT: ${student.name}
+CLASS: ${student.class}
+SCORE: ${totalScore}/${total}
+STATUS: ${status}
+DATE: ${new Date().toLocaleString()}`;
 
   resultModal.style.display = "flex";
 }
 
 /* ===============================
-   RESTART QUIZ
+   ANTI-TAB / ANTI-MINIMIZE
 ================================ */
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && !quizEnded) {
+    endQuiz();
+  }
+});
+   
+
+/* ===============================
+   RESTART QUIZ
+================================ *
 function restartQuiz() {
   sessionStorage.removeItem("quizCompleted");
   sessionStorage.removeItem("quizLevel");
@@ -688,16 +707,9 @@ function shuffle(arr) {
 </script>
    
   
-  <!-- FOOTER -->
-<!-- Font Awesome -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
-<!-- Footer Auto Loader -->
-<script src="footer-loader.js"></script>
+</body>
+</html>
 
-</body>
-</html>
-</body>
-</html>
 
 
 
