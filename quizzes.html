@@ -459,7 +459,7 @@ window.onload = () => {
 };
 
 /* ===============================
-   SAVE STUDENT
+   SAVE STUDENT (UPDATED)
 ================================ */
 function saveStudent() {
   const name = document.getElementById("studentName").value.trim();
@@ -470,16 +470,28 @@ function saveStudent() {
     return;
   }
 
-  student = { name, class: studentClass };
+  const today = new Date().toISOString().split("T")[0];
+  const attemptKey = `attempt_${name}_${studentClass}_${today}`;
 
-  // Reset previous session
-  sessionStorage.removeItem("quizCompleted");
-  sessionStorage.removeItem("quizLevel");
+  // One attempt per pupil per day
+  if (localStorage.getItem(attemptKey)) {
+    alert("This pupil has already taken the quiz today.");
+    return;
+  }
+
+  // Save student
+  student = { name, class: studentClass, date: today };
+
+  // Lock attempt
+  localStorage.setItem(attemptKey, "done");
+
+  // Reset previous session safely
+  sessionStorage.clear();
 
   studentModal.style.display = "none";
   levelModal.style.display = "flex";
 }
-
+   
 /* ===============================
    START QUIZ
 ================================ */
