@@ -164,17 +164,33 @@ function showWelcome(){
    START QUIZ
 ============================ */
 function startQuiz(){
-  const student = JSON.parse(sessionStorage.getItem("student"));
-  if(!student || !student.quizFile){
-    alert("Invalid class selection");
-    return;
+function startQuiz(){
+  try{
+    const studentRaw = sessionStorage.getItem("student");
+    if(!studentRaw){
+      alert("Student session not found. Please register again.");
+      return;
+    }
+
+    const student = JSON.parse(studentRaw);
+
+    if(!student.quizFile){
+      alert("Quiz file not linked to this class.");
+      return;
+    }
+
+    // Lock CBT session
+    sessionStorage.setItem("quizLocked", "yes");
+
+    // Small delay ensures sessionStorage is committed (important on some browsers)
+    setTimeout(() => {
+      window.location.assign(`quiz.html?file=${encodeURIComponent(student.quizFile)}`);
+    }, 50);
+
+  }catch(err){
+    alert("System error. Please inform the invigilator.");
+    console.error(err);
   }
-
-  // Lock CBT session
-  sessionStorage.setItem("quizLocked", "yes");
-
-  // Redirect to quiz board
-  location.href = `quiz.html?file=${student.quizFile}`;
 }
 
 /* ============================
